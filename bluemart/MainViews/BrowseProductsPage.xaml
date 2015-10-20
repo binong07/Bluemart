@@ -10,8 +10,9 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "5">
 		 		<Grid.RowDefinitions>
+					<RowDefinition/>
 					<RowDefinition/>
 					<RowDefinition/>
 				</Grid.RowDefinitions>
@@ -19,7 +20,11 @@
 					<ColumnDefinition/>		
 				</Grid.ColumnDefinitions>
                	<headers:TopNavigationBar x:Name = "NavigationBar" Grid.Row = "0" Grid.Column = "0"/>        
-               	<ScrollView Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+               	<ScrollView x:Name = "ScrollView1" Grid.Row = "1" Grid.Column = "0" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" BackgroundColor = "White">
+	               	<StackLayout x:Name = "SubCategoryStackLayout" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Spacing = "0">
+	               	</StackLayout>
+               	</ScrollView>
+               	<ScrollView Grid.Row = "2" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
 					<Grid x:Name="Grid2" HorizontalOptions = "FillAndExpand" VerticalOptions = "Fill">				
 					</Grid>						
 				</ScrollView>
