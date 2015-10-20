@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+			 xmlns:headers = "clr-namespace:bluemart.Common.Headers;assembly=bluemart"
+			 x:Class="bluemart.MainViews.BrowseSubCategoriesPage">
+	 <ContentPage.Padding>
+	        <OnPlatform x:TypeArguments="Thickness"
+	                    iOS="0, 20, 0, 0"
+	                    Android="0, 0, 0, 0"
+	                    WinPhone="0, 0, 0, 0" />
+  	</ContentPage.Padding>
+	<ContentPage.Content>
+		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+		 		<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>		
+				</Grid.ColumnDefinitions>
+               	<headers:TopNavigationBar x:Name = "NavigationBar" Grid.Row = "0" Grid.Column = "0"/>        
+               	<ScrollView x:Name="ScrollView1" Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" VerticalOptions="FillAndExpand"  >
+					<StackLayout x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Spacing = "10">
+					</StackLayout>						
+				</ScrollView>
+        </Grid>		
+	</ContentPage.Content>
+</ContentPage>

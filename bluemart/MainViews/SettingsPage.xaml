@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:headers = "clr-namespace:bluemart.Common.Headers;assembly=bluemart"
+			 x:Class="bluemart.MainViews.SettingsPage">
+	<ContentPage.Padding>
+	        <OnPlatform x:TypeArguments="Thickness"
+	                    iOS="0, 20, 0, 0"
+	                    Android="0, 0, 0, 0"
+	                    WinPhone="0, 0, 0, 0" />
+  	</ContentPage.Padding>
+	<ContentPage.Content>
+		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+		 		<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>		
+				</Grid.ColumnDefinitions>
+               	<headers:MainMenuHeader x:Name = "Header" Grid.Row = "0" Grid.Column = "0"/>           
+               	<StackLayout Grid.Row = "1" Grid.Column = "0" x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand">
+               		<Label x:Name = "NameLabel" Text = "Name:"></Label>
+					<Entry  TextColor = "Black" BackgroundColor = "White" x:Name = "NameEntry" VerticalOptions = "FillAndExpand" TextChanged = "OnNameTextChanged" Completed = "NameEntryCompleted"></Entry>
+					<Label x:Name = "SurNameLabel" Text = "SurName:"></Label>
+					<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "SurNameEntry" VerticalOptions = "FillAndExpand" TextChanged = "OnSurnameTextChanged" Completed = "SurNameEntryCompleted"></Entry>
+					<Label x:Name = "AddressLabel" Text = "Address:" ></Label>
+					<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "AddressEntry" VerticalOptions = "FillAndExpand" TextChanged = "OnAddressTextChanged" Completed = "AddressEntryCompleted"></Entry>
+					<Label x:Name = "PhoneLabel" Text = "Telephone:"></Label>
+					<Grid x:Name = "PhoneGrid" HorizontalOptions = "FillAndExpand" RowSpacing = "0" ColumnSpacing = "3" Padding = "0">
+						<Grid.RowDefinitions>
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Entry Grid.Row = "0" Grid.Column = "0" x:Name = "AreaCodeEntry" Text = "(+971)" BackgroundColor = "White" VerticalOptions = "FillAndExpand" IsEnabled = "false" HorizontalOptions = "Start"></Entry>
+						<Entry Grid.Row = "0" Grid.Column = "1" Keyboard="Telephone" BackgroundColor = "White" x:Name = "PhoneEntry" VerticalOptions = "FillAndExpand" TextChanged = "OnTelephoneTextChanged"></Entry>
+					</Grid>
+					<Button x:Name = "SubmitButton" HorizontalOptions = "End" Text = "Submit" BackgroundColor = "White" Clicked = "OnSubmitClicked" BorderWidth = "2" ></Button>
+				</StackLayout>
+        </Grid>
+	</ContentPage.Content>
+	<ContentPage.Content>
+		
+	</ContentPage.Content>
+</ContentPage>

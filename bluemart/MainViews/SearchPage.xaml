@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="bluemart.MainViews.SearchPage">
+	<ContentPage.Padding>
+	        <OnPlatform x:TypeArguments="Thickness"
+	                    iOS="0, 20, 0, 0"
+	                    Android="0, 0, 0, 0"
+	                    WinPhone="0, 0, 0, 0" />
+  	</ContentPage.Padding>
+	<ContentPage.Content>
+		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+		 		<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>		
+				</Grid.ColumnDefinitions>
+	               	<Grid Grid.Row = "0" Grid.Column = "0" x:Name = "SearchGrid" VerticalOptions = "Fill" BackgroundColor = "White">
+	               		<Grid.RowDefinitions>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>		
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Image x:Name="BackButton" Grid.Row = "0" Grid.Column = "0" Source="back" VerticalOptions = "Center"/>
+						<Entry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "1" BackgroundColor = "White"  VerticalOptions = "FillAndExpand" Completed = "SearchEntryCompleted" Focused = "SearchEntryFocused"></Entry>
+	               	</Grid>       
+	             <ScrollView Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+					<Grid x:Name="Grid2" HorizontalOptions = "FillAndExpand" VerticalOptions = "Fill">				
+					</Grid>						
+				</ScrollView>
+        </Grid>
+	</ContentPage.Content>
+</ContentPage>

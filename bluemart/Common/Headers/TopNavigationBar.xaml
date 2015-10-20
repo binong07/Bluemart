@@ -1,0 +1,34 @@
+﻿<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+     xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
+     x:Class="bluemart.Common.Headers.TopNavigationBar"
+     x:Name="Grid2"
+     BackgroundColor="White"
+     RowSpacing = "0"
+     ColumnSpacing = "0"
+     Padding = "0,0,0,0">
+	<Grid.RowDefinitions>
+		<RowDefinition/>
+	</Grid.RowDefinitions>
+	<Grid.ColumnDefinitions>
+		<ColumnDefinition/>
+		<ColumnDefinition/>
+		<ColumnDefinition/>
+		<ColumnDefinition/>
+	</Grid.ColumnDefinitions>
+
+	<Image x:Name="BackButton" Grid.Row = "0" Grid.Column = "0" Source = "back" VerticalOptions = "Center" HorizontalOptions = "Start"/>
+	<Label x:Name="NavigationTitle" Grid.Row = "0" Grid.Column = "1" VerticalOptions = "Center" HorizontalOptions = "Start"/>
+	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "2" Source="search" VerticalOptions = "Center" HorizontalOptions = "Start"/>
+	<Grid  x:Name="CartGrid"  Grid.Row = "0" Grid.Column = "3" BackgroundColor="White" Padding = "0,0,0,0" RowSpacing = "0">
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<Image x:Name="CartButton" Grid.Row = "0" Grid.Column = "0" Source="cart" VerticalOptions = "Start" HorizontalOptions = "Center"/>
+		<Label x:Name="PriceLabel" Grid.Row = "1" Grid.Column = "0" Text = "DH: 0" VerticalOptions = "End" HorizontalOptions = "CenterAndExpand"/>
+	</Grid>
+</Grid>
