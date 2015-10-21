@@ -14,12 +14,19 @@ namespace bluemart.MainViews
 		private int mRowCount;
 		public List<ProductCell> mProductCellList;
 		private List<BoxView> mBoxViewList;
+		private List<Button> mButtonList;
+		private BoxView mEnabledBoxView;
+		private List<int> mCategoryIndexList;
+		private double mPreviousScrollPositionY = 0;
+		private int mActiveButtonIndex = 0;
 
 		public BrowseProductsPage (Dictionary<string,List<Product>> productDictionary,Category category)
 		{						
 			InitializeComponent ();
 			mProductCellList = new List<ProductCell> ();
 			mBoxViewList = new List<BoxView> ();
+			mButtonList = new List<Button> ();
+			mCategoryIndexList = new List<int> ();
 			NavigationBar.NavigationText.Text = category.Name;
 			mProductDictionary = productDictionary;
 			int count = 0;
@@ -80,6 +87,11 @@ namespace bluemart.MainViews
 					FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label))
 				};
 
+				button.Clicked += (sender, e) => {
+					FocusSelectedButton(sender as Button);
+				};
+
+				mButtonList.Add (button);
 				BoxView boxView = new BoxView (){
 					HeightRequest = 3,
 					Color = Color.Olive,
@@ -96,18 +108,86 @@ namespace bluemart.MainViews
 						}),
 					Constraint.RelativeToView(button, (parent, sibling) =>
 						{
-							return sibling.Bounds.Bottom - 3;//sibling.Bounds.Bottom + 5;
+							return sibling.Bounds.Bottom - 3;
 						}),
 					Constraint.RelativeToView(button, (parent, sibling) =>
 						{
-							return sibling.Width - 10;//sibling.Bounds.Bottom + 5;
+							return sibling.Width - 10;
 						}));
-
+				
 				SubCategoryStackLayout.Children.Add (relativeLayout);
 			}
 
-			mBoxViewList [0].IsVisible = true;
-			//XLabs.Forms.Controls.ExtendedButton.
+			mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+			mBoxViewList [mActiveButtonIndex].IsVisible = true;
+		}
+
+		private void OnScrolled( Object sender, EventArgs e)
+		{
+			
+			if (DecideIfIsUpOrDown (sender as ScrollView) == "Down") {
+				if (mActiveButtonIndex + 1 != mCategoryIndexList.Count) {
+					int productCellIndex = mCategoryIndexList [mActiveButtonIndex + 1];
+					try{
+					double top = Grid2.Children.ElementAt (productCellIndex).Bounds.Top;					
+					if (ProductScrollView.ScrollY > top) {
+						mActiveButtonIndex += 1;
+						mEnabledBoxView.IsVisible = false;
+						mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+						mEnabledBoxView.IsVisible = true;
+						}
+					}
+					catch
+					{
+						System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");
+					}
+				}
+			}else {
+				if (mActiveButtonIndex != 0) {					
+					int productCellIndex = mCategoryIndexList [mActiveButtonIndex];
+					try{
+						double top = Grid2.Children.ElementAt (productCellIndex).Bounds.Top;
+						if (ProductScrollView.ScrollY < top) {
+							mActiveButtonIndex -= 1;
+							mEnabledBoxView.IsVisible = false;
+							mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+							mEnabledBoxView.IsVisible = true;
+						}
+					}
+					catch{
+						System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");	
+					}
+				
+			}}		
+		}
+
+		private string DecideIfIsUpOrDown(ScrollView scrollView)
+		{
+			string rotation = "";
+			if (scrollView.ScrollY >= mPreviousScrollPositionY)
+				rotation = "Down";
+			else
+				rotation = "Up";
+
+			mPreviousScrollPositionY = scrollView.ScrollY;
+
+			return rotation;
+		}
+
+		private void FocusSelectedButton(Button selectedButton)
+		{
+			mEnabledBoxView.IsVisible = false;
+			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);
+			int productCellIndex = mCategoryIndexList [mActiveButtonIndex];
+			try
+			{
+				ProductScrollView.ScrollToAsync (Grid2.Children.ElementAt (productCellIndex), ScrollToPosition.Start, true);
+			}
+			catch{
+				System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");
+			}
+				mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+				mEnabledBoxView.IsVisible = true;
 		}
 
 		private void PopulateGrid()
@@ -119,7 +199,9 @@ namespace bluemart.MainViews
 			//To be able to define product index
 			var valueList = mProductDictionary.Values.Cast<List<Product>> ().ToList();
 			var tempProductList = new List<Product> ();
+
 			foreach (var products in valueList) {
+				mCategoryIndexList.Add (tempProductList.Count);
 				foreach (var tempProduct in products) {
 					tempProductList.Add (tempProduct);	
 				}
@@ -131,23 +213,11 @@ namespace bluemart.MainViews
 				foreach (var product in productList) {
 					ProductCell productCell = new ProductCell (Grid2, product, this);
 					int productIndex = tempProductList.IndexOf(product);
-
+					mProductCellList.Add (productCell);
+					double a = productCell.RenderHeight;
 					Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);
 				}					
 			}
-
-			/*for (int row = 0; row < mRowCount; row++) 
-			{
-				for (int col = 0; col < 2; col++) 
-				{
-					ProductCell productCell = new ProductCell (Grid2,[counter++],this );	
-					mProductCellList.Add (productCell);
-					Grid2.Children.Add (productCell.View, col, row);
-
-					if ( counter == mProducts.Count)
-						break;
-				}
-			}*/
 		}
 
 		private void SetGrid2Definitions()

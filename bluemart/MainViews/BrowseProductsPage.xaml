@@ -24,7 +24,7 @@
 	               	<StackLayout x:Name = "SubCategoryStackLayout" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Spacing = "0">
 	               	</StackLayout>
                	</ScrollView>
-               	<ScrollView Grid.Row = "2" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+               	<ScrollView x:Name = "ProductScrollView" Grid.Row = "2" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Scrolled = "OnScrolled">
 					<Grid x:Name="Grid2" HorizontalOptions = "FillAndExpand" VerticalOptions = "Fill">				
 					</Grid>						
 				</ScrollView>
