@@ -71,6 +71,13 @@ namespace bluemart.MainViews
 		public void PrintDictionaryContents()
 		{			
 			mStackLayout.Children.Clear ();
+
+			UserClass user = mUserModel.GetUser ();
+			if (user.Name.Length > 0) 
+				LocationLabel.Text = user.Name.Split (' ') [0].ToUpper () + "'S BASKET";
+			else
+				LocationLabel.Text = "BASKET";
+
 			Cart.ProductTotalPrice = 0.0f;
 
 			foreach (Product p in Cart.ProductsInCart) {

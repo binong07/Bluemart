@@ -29,9 +29,9 @@ namespace bluemart.MainViews
 		private const string _location2Text="Location2Text";
 		private const string _location3Text="Location3Text";
 
-		private readonly List<string> mLocationList = new List<string>(){"jilt","dubai marina","discovery gardens",
-																"tecom","media city","internet city","knowledge village",
-																"palm","greens","springs","meadows","lakes","emirates hills"};
+		private readonly List<string> mLocationList = new List<string>(){"Discovery Gardens","Dubai Marina","Emirates Hills","Greens",
+																"Internet City","JLT","Knowledge Village","Lakes","Meadows","Media City",							
+																"Palm Jumeirah","Springs","Tecom"};
 
 	
 		public MainPage ()
@@ -71,7 +71,6 @@ namespace bluemart.MainViews
 
 			mPopupListView.ItemsSource = mLocationList;
 			mPopupListView.HorizontalOptions = LayoutOptions.Center;
-
 
 			mPopupLayout.Content = StackLayout1;
 			Content = mPopupLayout;

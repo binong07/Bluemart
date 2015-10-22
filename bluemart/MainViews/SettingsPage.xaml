@@ -21,9 +21,9 @@
 				</Grid.ColumnDefinitions>
                	<headers:MainMenuHeader x:Name = "Header" Grid.Row = "0" Grid.Column = "0"/>           
                	<StackLayout Grid.Row = "1" Grid.Column = "0" x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand">
-               		<Label x:Name = "NameLabel" Text = "Name:"></Label>
+               		<Label x:Name = "NameLabel" Text = "First Name:"></Label>
 					<Entry  TextColor = "Black" BackgroundColor = "White" x:Name = "NameEntry" VerticalOptions = "Fill" TextChanged = "OnNameTextChanged" Completed = "NameEntryCompleted"></Entry>
-					<Label x:Name = "SurNameLabel" Text = "SurName:"></Label>
+					<Label x:Name = "SurNameLabel" Text = "Last Name:"></Label>
 					<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "SurNameEntry" VerticalOptions = "Fill" TextChanged = "OnSurnameTextChanged" Completed = "SurNameEntryCompleted"></Entry>
 					<Label x:Name = "AddressLabel" Text = "Address:" ></Label>
 					<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "AddressEntry" VerticalOptions = "Fill" TextChanged = "OnAddressTextChanged" Completed = "AddressEntryCompleted"></Entry>

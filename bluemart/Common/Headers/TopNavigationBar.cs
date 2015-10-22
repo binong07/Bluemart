@@ -38,7 +38,7 @@ namespace bluemart.Common.Headers
 			CartGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight / 30;
 
 			PriceLabel.TextColor = MyDevice.BlueColor;
-			PriceLabel.FontSize = Device.GetNamedSize (NamedSize.Micro, typeof(Label));
+			PriceLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
 		}
 
 		private void SetImageSize()

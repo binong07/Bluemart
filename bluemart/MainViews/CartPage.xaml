@@ -27,7 +27,7 @@
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
 				<!--<Image x:Name = "CloseButton" Source="cross" Grid.Row = "0" Grid.Column = "0" HorizontalOptions = "Start" VerticalOptions = "Center"/>-->
-				<Label x:Name = "LocationLabel" Text = "SHOPPING CART" Grid.Row = "0" Grid.Column = "0" VerticalOptions = "Center" HorizontalOptions = "StartAndExpand"/>
+				<Label x:Name = "LocationLabel" Text = "BASKET" Grid.Row = "0" Grid.Column = "0" VerticalOptions = "Center" HorizontalOptions = "StartAndExpand"/>
 				<Button x:Name = "RemoveButton" Text = "REMOVE ALL" BorderWidth = "2" BackgroundColor = "White" Grid.Row = "0" Grid.Column = "1" Clicked = "OnClickedRemoveButton" HorizontalOptions="End"/>
 			</Grid>
 			<ScrollView Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" Padding = "0,0,0,0" VerticalOptions = "FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor = "Black">

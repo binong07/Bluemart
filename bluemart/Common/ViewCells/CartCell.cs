@@ -32,7 +32,8 @@ namespace bluemart
 			//mainCellView.BackgroundColor = Color.Red;
 			mainCellView.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto } );
 			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth/10} );
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth*7/10 });
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth*6/10 });
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth / 10});
 			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth / 10});
 			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth / 10});
 
@@ -46,7 +47,7 @@ namespace bluemart
 			insideGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto } );
 			insideGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto } );
 			insideGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto } );
-			insideGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth*7/10} );
+			insideGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth*6/10} );
 
 			Label nameLabel = new Label (){HorizontalOptions = LayoutOptions.Fill, FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),TextColor = Color.Black};
 				nameLabel.Text = product.Name;
@@ -73,7 +74,7 @@ namespace bluemart
 			mainCellView.Children.Add(mFavoriteImage,2,0);
 
 			#region row3insidegrid
-			Grid insideGrid2 = new Grid(){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
+			/*Grid insideGrid2 = new Grid(){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
 			insideGrid2.Padding = new Thickness (0);
 			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = new GridLength(MyDevice.ScreenWidth  / 10,GridUnitType.Absolute) });
 			//insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = new GridLength(MyDevice.ScreenWidth / 4,GridUnitType.Absolute) });
@@ -90,7 +91,16 @@ namespace bluemart
 			mRemoveImage.Source = "minus";
 			insideGrid2.Children.Add (mRemoveImage,0,1);
 
-			mainCellView.Children.Add( insideGrid2, 3, 0 );
+			mainCellView.Children.Add( insideGrid2, 3, 0 );*/
+			mAddImage = new Image (){HorizontalOptions = LayoutOptions.Start};
+			mAddImage.Aspect = Aspect.AspectFill;
+			mAddImage.Source = "plus";
+			mainCellView.Children.Add (mAddImage,3,0);
+
+			mRemoveImage = new Image (){VerticalOptions = LayoutOptions.Center};
+			mRemoveImage.Aspect = Aspect.AspectFill;
+			mRemoveImage.Source = "minus";
+			mainCellView.Children.Add (mRemoveImage,4,0	);
 			#endregion
 
 			UpdateNumberLabel();
