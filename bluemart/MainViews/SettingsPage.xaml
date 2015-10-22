@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:headers = "clr-namespace:bluemart.Common.Headers;assembly=bluemart"
+			 xmlns:common = "clr-namespace:bluemart.Common;assembly=bluemart"
 			 x:Class="bluemart.MainViews.SettingsPage">
 	<ContentPage.Padding>
 	        <OnPlatform x:TypeArguments="Thickness"
@@ -21,11 +22,11 @@
                	<headers:MainMenuHeader x:Name = "Header" Grid.Row = "0" Grid.Column = "0"/>           
                	<StackLayout Grid.Row = "1" Grid.Column = "0" x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand">
                		<Label x:Name = "NameLabel" Text = "Name:"></Label>
-					<Entry  TextColor = "Black" BackgroundColor = "White" x:Name = "NameEntry" VerticalOptions = "FillAndExpand" TextChanged = "OnNameTextChanged" Completed = "NameEntryCompleted"></Entry>
+					<Entry  TextColor = "Black" BackgroundColor = "White" x:Name = "NameEntry" VerticalOptions = "Fill" TextChanged = "OnNameTextChanged" Completed = "NameEntryCompleted"></Entry>
 					<Label x:Name = "SurNameLabel" Text = "SurName:"></Label>
-					<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "SurNameEntry" VerticalOptions = "FillAndExpand" TextChanged = "OnSurnameTextChanged" Completed = "SurNameEntryCompleted"></Entry>
+					<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "SurNameEntry" VerticalOptions = "Fill" TextChanged = "OnSurnameTextChanged" Completed = "SurNameEntryCompleted"></Entry>
 					<Label x:Name = "AddressLabel" Text = "Address:" ></Label>
-					<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "AddressEntry" VerticalOptions = "FillAndExpand" TextChanged = "OnAddressTextChanged" Completed = "AddressEntryCompleted"></Entry>
+					<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "AddressEntry" VerticalOptions = "Fill" TextChanged = "OnAddressTextChanged" Completed = "AddressEntryCompleted"></Entry>
 					<Label x:Name = "PhoneLabel" Text = "Telephone:"></Label>
 					<Grid x:Name = "PhoneGrid" HorizontalOptions = "FillAndExpand" RowSpacing = "0" ColumnSpacing = "3" Padding = "0">
 						<Grid.RowDefinitions>

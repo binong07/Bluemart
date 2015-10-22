@@ -14,8 +14,7 @@ using bluemart.Models.Local;
 namespace bluemart
 {
 	public partial class LoadingPage : ContentPage
-	{
-		CategoryModel mCategoryModel = new CategoryModel();
+	{		
 		UserClass mUserModel = new UserClass();
 
 		public LoadingPage ()
@@ -27,16 +26,16 @@ namespace bluemart
 		protected override async void OnAppearing()
 		{		
 			await Task.Run (() => MakeNecessaryInitialization ());
-			Application.Current.MainPage = new NavigationPage (new MainPage (mCategoryModel));
+			Application.Current.MainPage = new NavigationPage (new MainPage ());
 		}			
 
 		private void MakeNecessaryInitialization()
 		{	
 			MyDevice.NetworkStatus = Resolver.Resolve<IDevice> ().Network.InternetConnectionStatus ().ToString();
 			mUserModel.CreateUserTable ();
-			mCategoryModel.FetchCategories ();
+			CategoryModel.FetchCategories ();
 			ProductModel.FetchProducts ();
-			mCategoryModel.GetImagesAndSaveToLocal ();
+			CategoryModel.GetImagesAndSaveToLocal ();
 		}
 	}
 }

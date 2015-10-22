@@ -60,23 +60,14 @@
     <Compile Include="MainViews\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainViews\BrowseSubCategoriesPage.xaml.cs">
-      <DependentUpon>BrowseSubCategoriesPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\Utility\ParseConstants.cs" />
     <Compile Include="Common\Utility\DBConstants.cs" />
-    <Compile Include="MainViews\RootPage.cs" />
-    <Compile Include="MainViews\HamburgerMenu\MenuPage.cs" />
-    <Compile Include="MainViews\HamburgerMenu\MenuItem.cs" />
-    <Compile Include="MainViews\HamburgerMenu\MenuListData.cs" />
     <Compile Include="MainViews\FavoritesPage.xaml.cs">
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainViews\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainViews\HamburgerMenu\MenuCell.cs" />
-    <Compile Include="MainViews\HamburgerMenu\MenuListView.cs" />
     <Compile Include="MainViews\ReceiptView.xaml.cs">
       <DependentUpon>ReceiptView.xaml</DependentUpon>
     </Compile>
@@ -92,6 +83,12 @@
     <Compile Include="Models\Local\FavoritesClass.cs" />
     <Compile Include="Models\Local\UserClass.cs" />
     <Compile Include="Models\Local\ProductClass.cs" />
+    <Compile Include="Common\Footer.xaml.cs">
+      <DependentUpon>Footer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainViews\RootPage.xaml.cs">
+      <DependentUpon>RootPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -167,7 +164,6 @@
     <Folder Include="Common\Objects\" />
     <Folder Include="Common\Utility\" />
     <Folder Include="Models\" />
-    <Folder Include="MainViews\HamburgerMenu\" />
     <Folder Include="Models\Remote\" />
     <Folder Include="Models\Local\" />
   </ItemGroup>
@@ -193,9 +189,6 @@
     <EmbeddedResource Include="MainViews\LoadingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainViews\BrowseSubCategoriesPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainViews\FavoritesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -209,6 +202,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="MainViews\MapView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\Footer.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainViews\RootPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

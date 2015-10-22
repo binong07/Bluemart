@@ -12,12 +12,11 @@ namespace bluemart
 	public partial class ReceiptView : ContentPage
 	{
 		private UserClass mUserModel = new UserClass();
-		private CartPage mCartPage;
-
-		public ReceiptView (Page parent)
+		private RootPage mParent;
+		public ReceiptView (RootPage parent)
 		{			
 			InitializeComponent ();
-			mCartPage = parent as CartPage;
+			mParent = parent;
 			mUserModel = mUserModel.GetUser ();
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetMainGridDefinitions ();
@@ -168,13 +167,14 @@ namespace bluemart
 		private async void AgreeClicked( Object sender, EventArgs e )
 		{
 			await DisplayAlert ("Order Accepted", "Your Order Has Been Received!", "OK");
-			mCartPage.ClearCart ();
-			await Navigation.PopAsync ();
+			mParent.mCartPage.ClearCart ();
+			mParent.SwitchTab ("BrowseCategories");
 		}
 
-		private async void DisagreeClicked( Object sender, EventArgs e )
+		private void DisagreeClicked( Object sender, EventArgs e )
 		{
-			await Navigation.PopAsync ();
+			mParent.LoadCartPage ();
+			//await Navigation.PopAsync ();
 		}
 
 		private void SetButtonSize()

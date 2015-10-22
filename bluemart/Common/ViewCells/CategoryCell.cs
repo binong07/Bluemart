@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using bluemart.Common.Utilities;
 using bluemart.Models.Remote;
+using System.Linq;
 
 namespace bluemart.Common.ViewCells
 {
@@ -15,7 +16,7 @@ namespace bluemart.Common.ViewCells
 		List<Category> mCategoryList;
 		Dictionary<string, List<Product>> mProductDictionary;
 
-		public CategoryCell (StackLayout parentGrid, Category category, BrowseCategoriesPage parent = null, BrowseSubCategoriesPage subParent = null)
+		public CategoryCell (StackLayout parentGrid, Category category, RootPage parent = null)
 		{
 			mCategory = category;
 			mCategoryList = new List<Category> ();
@@ -55,10 +56,15 @@ namespace bluemart.Common.ViewCells
 		}
 
 
-		void LoadProductsPage(string categoryID,BrowseCategoriesPage parent)
+		void LoadProductsPage(string categoryID,RootPage parent)
 		{			
+			
 			PopulateProducts ();
-			parent.Navigation.PushAsync (new BrowseProductsPage (mProductDictionary,mCategory));
+			//parent.Content = new BrowseProductsPage (mProductDictionary, mCategory).Content;
+			//parent.Navigation.PushAsync (new BrowseProductsPage (mProductDictionary,mCategory));
+			//if (parent.Parent.Navigation.NavigationStack.Last () is RootPage)
+			//	(parent.Navigation.NavigationStack.Last () as RootPage).LoadProductsPage (mProductDictionary, mCategory);*/
+			parent.LoadProductsPage(mProductDictionary,mCategory);
 		}
 
 		private void PopulateProducts()
@@ -88,12 +94,12 @@ namespace bluemart.Common.ViewCells
 		{
 			mCategoryList.Clear ();
 
-			if (mCategory.CategoryModel.mSubCategoryDictionary.ContainsKey (mCategory.CategoryID) && 
-				mCategory.CategoryModel.mSubCategoryDictionary[mCategory.CategoryID].Count > 0) {
-				foreach (string subCategoryID in mCategory.CategoryModel.mSubCategoryDictionary[mCategory.CategoryID]) {
-					string ImagePath = mCategory.CategoryModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mCategory.CategoryModel.mImageNameDictionary [subCategoryID] + ".jpg";
-					string CategoryName = mCategory.CategoryModel.mCategoryNameDictionary [subCategoryID];
-					List<string> SubCategoryIDList = mCategory.CategoryModel.mSubCategoryDictionary [subCategoryID];
+			if (CategoryModel.mSubCategoryDictionary.ContainsKey (mCategory.CategoryID) && 
+				CategoryModel.mSubCategoryDictionary[mCategory.CategoryID].Count > 0) {
+				foreach (string subCategoryID in CategoryModel.mSubCategoryDictionary[mCategory.CategoryID]) {
+					string ImagePath = CategoryModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary [subCategoryID] + ".jpg";
+					string CategoryName = CategoryModel.mCategoryNameDictionary [subCategoryID];
+					List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [subCategoryID];
 
 					mCategoryList.Add (new Category (CategoryName, ImagePath, categoryID: subCategoryID));
 				}				

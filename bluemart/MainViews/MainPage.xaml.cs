@@ -15,15 +15,14 @@ using bluemart.Models.Local;
 namespace bluemart.MainViews
 {
 	public partial class MainPage : ContentPage
-	{		
-		CategoryModel mCategoryModel;
-		List<Category> mCategoryList;
+	{				
 		UserClass mUserModel;
 		PopupLayout mPopupLayout = new PopupLayout();
 		ListView mPopupListView = new ListView();
 		Grid mConfirmationGrid;
 		Button mOKButton;
 		Button mCancelButton;
+		RootPage mRootPage = new RootPage ();
 		//StackLayout mPopupStackLayout = new StackLayout();
 
 		private const string _location1Text="Location1Text";
@@ -35,11 +34,11 @@ namespace bluemart.MainViews
 																"palm","greens","springs","meadows","lakes","emirates hills"};
 
 	
-		public MainPage (CategoryModel categoryModel)
+		public MainPage ()
 		{			
 			NavigationPage.SetHasNavigationBar (this, false);
 			InitializeComponent ();
-			InitalizeMemberVariables (categoryModel);
+			InitalizeMemberVariables ();
 			SetGrid1ButtonsSize ();
 
 			LocationButton.TextColor = MyDevice.RedColor;
@@ -125,7 +124,9 @@ namespace bluemart.MainViews
 				{
 					DismissPopup();
 					mUserModel.AddLocationToUser (mPopupListView.SelectedItem.ToString());
-					LoadCategoriesPage(mPopupListView.SelectedItem.ToString());
+					CategoryModel.CategoryLocation = mPopupListView.SelectedItem.ToString();
+					Navigation.PushAsync( mRootPage );
+					//Navigation.PushAsync (new BrowseCategoriesPage (),true);	
 				}
 			};
 
@@ -152,10 +153,8 @@ namespace bluemart.MainViews
 			mPopupLayout.DismissPopup();
 		}
 
-		private void InitalizeMemberVariables(CategoryModel categoryModel)
+		private void InitalizeMemberVariables()
 		{
-			mCategoryModel = categoryModel;
-			mCategoryList = new List<Category> ();
 			mUserModel = new UserClass ();
 		}
 
@@ -177,28 +176,7 @@ namespace bluemart.MainViews
 		public void OnMapButtonClicked(Object sender,EventArgs e )
 		{
 			//todo: add map view
-			Navigation.PushAsync( new MapView(mCategoryModel));
-		}
-
-
-		private void LoadCategoriesPage(string Location)
-		{	
-			PopulateCategories (Location);
-			Navigation.PushAsync (new RootPage (mCategoryList));			 
-		}
-
-		private void PopulateCategories( string Location )
-		{			
-			mCategoryList.Clear ();
-
-			foreach (string categoryID in mCategoryModel.mCategoryIDList) {
-				string ImagePath = mCategoryModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mCategoryModel.mImageNameDictionary[categoryID] + ".jpg";
-				string CategoryName = mCategoryModel.mCategoryNameDictionary [categoryID];
-				bool isSubCategory = mCategoryModel.mIsSubCategoryDictionary [categoryID];
-				List<string> SubCategoryIDList = mCategoryModel.mSubCategoryDictionary [categoryID];
-
-				mCategoryList.Add( new Category( CategoryName,ImagePath,isSubCategory,categoryID,mCategoryModel,SubCategoryIDList) );
-			}
+			Navigation.PushAsync( new MapView(mRootPage));
 		}
 	}
 }

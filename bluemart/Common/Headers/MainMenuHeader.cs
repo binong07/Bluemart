@@ -9,29 +9,27 @@ namespace bluemart.Common.Headers
 {
 	public partial class MainMenuHeader: Grid
 	{
-		public Image mMenuButton;
 		public Label mPriceLabel;
+		public RootPage mParent;
 		public MainMenuHeader ()
 		{
 			
 			InitializeComponent ();
-			mMenuButton = MenuButton;
 			mPriceLabel = PriceLabel;
 			SetGridDefinitions ();
 			SetImageSize ();
 
 			AddTapRecognizers ();
-			//Grid1.RowDefinitions [0].Height = 50;
 		}
 
 
 		private void SetGridDefinitions()
 		{
 			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [0].Width = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [1].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight * 3 / 10;
+			//this.ColumnDefinitions [0].Width = MyDevice.ScreenHeight / 10;
+			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight * 2 / 10;
+			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight / 10;
 			this.ColumnDefinitions [2].Width = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [3].Width = MyDevice.ScreenHeight / 10;
 			CartGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
 			CartGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight / 30;
 
@@ -41,7 +39,7 @@ namespace bluemart.Common.Headers
 
 		private void SetImageSize()
 		{
-			MenuButton.HeightRequest = MyDevice.ScreenHeight / 15;
+			//MenuButton.HeightRequest = MyDevice.ScreenHeight / 15;
 			SearchButton.HeightRequest = MyDevice.ScreenHeight / 15;
 			CartButton.Aspect = Aspect.AspectFill;
 			LogoImage.HeightRequest = MyDevice.ScreenHeight / 15;
@@ -54,7 +52,8 @@ namespace bluemart.Common.Headers
 			cartButtonGestureRecognizer.Tapped += (sender, e) => {
 
 				CartButton.Opacity = 0.5f;
-				Navigation.PushAsync( new CartPage());
+				mParent.LoadCartPage();
+				//Navigation.PushAsync( new CartPage());
 				CartButton.Opacity = 1f;
 			};
 			CartButton.GestureRecognizers.Add (cartButtonGestureRecognizer);

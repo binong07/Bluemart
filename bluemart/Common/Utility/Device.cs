@@ -8,12 +8,12 @@ namespace bluemart.Common.Utilities
 {
 	public static class MyDevice
 	{
-		public static double DeviceHeight = Resolver.Resolve<IDevice> ().Display.Height;
-		public static double DeviceWidth = Resolver.Resolve<IDevice> ().Display.Width;
-		public static double DeviceHeightInInches = Resolver.Resolve<IDevice> ().Display.HeightRequestInInches(1);
-		public static double DeviceWidthInInches = Resolver.Resolve<IDevice> ().Display.WidthRequestInInches(1);
-		public static double ScreenWidthInches = Resolver.Resolve<IDevice> ().Display.ScreenWidthInches ();
-		public static double ScreenHeightInches = Resolver.Resolve<IDevice> ().Display.ScreenHeightInches ();
+		private static double DeviceHeight = Resolver.Resolve<IDevice> ().Display.Height;
+		private static double DeviceWidth = Resolver.Resolve<IDevice> ().Display.Width;
+		private static double DeviceHeightInInches = Resolver.Resolve<IDevice> ().Display.HeightRequestInInches(1);
+		private static double DeviceWidthInInches = Resolver.Resolve<IDevice> ().Display.WidthRequestInInches(1);
+		private static double ScreenWidthInches = Resolver.Resolve<IDevice> ().Display.ScreenWidthInches ();
+		private static double ScreenHeightInches = Resolver.Resolve<IDevice> ().Display.ScreenHeightInches ();
 		public static double ScreenWidth = Resolver.Resolve<IDevice> ().Display.WidthRequestInInches (1) * Resolver.Resolve<IDevice> ().Display.ScreenWidthInches ();
 		public static double ScreenHeight = Resolver.Resolve<IDevice> ().Display.HeightRequestInInches (1) * Resolver.Resolve<IDevice> ().Display.ScreenHeightInches ();
 		public static string NetworkStatus = Resolver.Resolve<IDevice> ().Network.InternetConnectionStatus ().ToString();

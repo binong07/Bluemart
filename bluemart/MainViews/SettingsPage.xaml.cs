@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using bluemart.Common.Utilities;
 using bluemart.Models.Local;
+using bluemart.Common.Objects;
 
 namespace bluemart.MainViews
 {
@@ -14,11 +15,15 @@ namespace bluemart.MainViews
 		bool bSurNameTextChanged = false;
 		bool bAddressTextChanged = false;
 		bool bTelephoneTextChanged = false;
+		RootPage mParent;
 
 
-		public SettingsPage (RootPage rootPage)
+		public SettingsPage (RootPage parent)
 		{
 			InitializeComponent ();
+			mParent = parent;
+			Header.mParent = parent;
+			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
 			SetPhoneGridDefinitions ();
 
@@ -33,18 +38,17 @@ namespace bluemart.MainViews
 				PhoneEntry.Text = user.PhoneNumber.Substring (6);
 			}
 			SubmitButton.IsEnabled = false;
-			Header.mMenuButton.GestureRecognizers.Add (new TapGestureRecognizer{ 
-				Command = new Command( (o) =>
-					{
-						rootPage.IsPresented = true;		//mRp.IsPresented = true;
-					})
-			});
+		}
+
+		public void RefreshPriceInCart()
+		{
+			Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 		}
 
 		private void SetGrid1Definitions()
 		{
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
-			Grid1.RowDefinitions [1].Height = GridLength.Auto;
+			//Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 
 			Grid1.BackgroundColor = MyDevice.BlueColor;

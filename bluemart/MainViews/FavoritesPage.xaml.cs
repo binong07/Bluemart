@@ -15,22 +15,16 @@ namespace bluemart.MainViews
 		private FavoritesClass mFavoritesModel = new FavoritesClass();
 		private int mRowCount;
 		private List<Product> mProductList = new List<Product>();
-		public FavoritesPage (RootPage rootPage)
+		RootPage mParent;
+		public FavoritesPage (RootPage parent)
 		{
 			InitializeComponent ();
-
+			mParent = parent;
+			Header.mParent = parent;
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
 			SetGrid2Definitions ();
-			/*PopulateProducts ();
-			PopulateGrid ();*/
 
-			Header.mMenuButton.GestureRecognizers.Add (new TapGestureRecognizer{ 
-				Command = new Command( (o) =>
-					{
-						rootPage.IsPresented = true;
-					})
-			});
 		}
 		public void UpdatePriceLabel()
 		{
@@ -98,6 +92,12 @@ namespace bluemart.MainViews
 			mProductList.Clear ();
 			PopulateProducts();
 			PopulateGrid ();
+			RefreshPriceInCart ();
+		}
+
+		public void RefreshPriceInCart()
+		{
+			Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 		}
 	}
 }

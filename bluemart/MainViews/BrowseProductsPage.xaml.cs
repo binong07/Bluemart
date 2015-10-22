@@ -19,10 +19,13 @@ namespace bluemart.MainViews
 		private List<int> mCategoryIndexList;
 		private double mPreviousScrollPositionY = 0;
 		private int mActiveButtonIndex = 0;
+		RootPage mParent;
 
-		public BrowseProductsPage (Dictionary<string,List<Product>> productDictionary,Category category)
+		public BrowseProductsPage (Dictionary<string,List<Product>> productDictionary,Category category, RootPage parent)
 		{						
 			InitializeComponent ();
+			mParent = parent;
+			NavigationBar.mParent = parent;
 			mProductCellList = new List<ProductCell> ();
 			mBoxViewList = new List<BoxView> ();
 			mButtonList = new List<Button> ();
@@ -38,7 +41,7 @@ namespace bluemart.MainViews
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
 			PopulateGrid ();
-
+			UpdatePriceLabel ();
 		}
 
 		public void  UpdatePriceLabel()
@@ -48,7 +51,7 @@ namespace bluemart.MainViews
 
 		protected override void OnAppearing()
 		{
-			UpdatePriceLabel ();
+			//UpdatePriceLabel ();
 		}
 
 		private void SetGrid1Definitions()

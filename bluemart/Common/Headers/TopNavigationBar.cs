@@ -5,6 +5,7 @@ using bluemart.MainViews;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using PCLStorage;
+using System.Linq;
 
 namespace bluemart.Common.Headers
 {
@@ -12,6 +13,7 @@ namespace bluemart.Common.Headers
 	{
 		public Label NavigationText;
 		public Label mPriceLabel;
+		public RootPage mParent;
 		public TopNavigationBar ()
 		{
 			InitializeComponent ();
@@ -28,10 +30,10 @@ namespace bluemart.Common.Headers
 		private void SetGridDefinitions()
 		{
 			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [0].Width = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [1].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight * 3 / 10;
+			//this.ColumnDefinitions [0].Width = MyDevice.ScreenHeight / 10;
+			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight * 2 / 10;
+			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight / 10;
 			this.ColumnDefinitions [2].Width = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [3].Width = MyDevice.ScreenHeight / 10;
 			CartGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
 			CartGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight / 30;
 
@@ -41,7 +43,7 @@ namespace bluemart.Common.Headers
 
 		private void SetImageSize()
 		{
-			BackButton.HeightRequest = MyDevice.ScreenHeight / 15;
+			//BackButton.HeightRequest = MyDevice.ScreenHeight / 15;
 			SearchButton.HeightRequest = MyDevice.ScreenHeight / 15;
 			CartButton.HeightRequest = MyDevice.ScreenHeight / 15;
 			NavigationTitle.FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label));
@@ -49,22 +51,25 @@ namespace bluemart.Common.Headers
 
 		private void AddTapRecognizers()
 		{
-			var backButtonTapGestureRecognizer = new TapGestureRecognizer ();
+			/*var backButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			backButtonTapGestureRecognizer.Tapped += async (sender, e) => {
 
 				BackButton.Opacity = 0.5f;
 				await Task.Delay(200);
-				await Navigation.PopAsync();
+				if( Navigation.NavigationStack.Last() is RootPage )
+					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("BrowseCategories");
+				//await Navigation.PopAsync();
 				BackButton.Opacity = 1f;
 			};
-			BackButton.GestureRecognizers.Add (backButtonTapGestureRecognizer);
+			BackButton.GestureRecognizers.Add (backButtonTapGestureRecognizer);*/
 
 			var cartButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			cartButtonTapGestureRecognizer.Tapped += async (sender, e) => {
 
 				CartButton.Opacity = 0.5f;
 				await Task.Delay(200);
-				await Navigation.PushAsync( new CartPage());
+				//await Navigation.PushAsync( new CartPage());
+				mParent.LoadCartPage();
 				CartButton.Opacity = 1f;
 			};
 			CartButton.GestureRecognizers.Add (cartButtonTapGestureRecognizer);

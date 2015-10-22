@@ -16,16 +16,18 @@ namespace bluemart.MainViews
 		private Label mTotalPriceLabel;
 		private StackLayout mStackLayout;
 
-		public CartPage ()
+		private RootPage mParent;
+
+		public CartPage (RootPage parent)
 		{
 			InitializeComponent ();
+			mParent = parent;
 			mStackLayout = StackLayout1;
 			NavigationPage.SetHasNavigationBar (this, false);
 
 			SetGrid1Properties ();
 			SetGrid2Properties ();
 			AddTapRecognizers ();
-			PrintDictionaryContents ();
 		}
 
 		private void SetGrid1Properties()
@@ -38,13 +40,13 @@ namespace bluemart.MainViews
 		private void SetGrid2Properties()
 		{
 			//Grid2.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
-			Grid2.ColumnDefinitions [0].Width = MyDevice.ScreenWidth / 5;
+			//Grid2.ColumnDefinitions [0].Width = MyDevice.ScreenWidth / 5;
+			Grid2.ColumnDefinitions [0].Width = MyDevice.ScreenWidth * 3 / 5;
 			Grid2.ColumnDefinitions [1].Width = MyDevice.ScreenWidth * 2 / 5;
-			Grid2.ColumnDefinitions [2].Width = MyDevice.ScreenWidth * 2 / 5;
 			//Grid2.ColumnDefinitions [2].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight / 15 - MyDevice.ScreenWidth * 2 / 5;
 
 			//CloseButton.HeightRequest = MyDevice.ScreenHeight / 15;
-			CloseButton.Aspect = Aspect.AspectFit;
+			//CloseButton.Aspect = Aspect.AspectFit;
 			LocationLabel.TextColor = MyDevice.RedColor;
 			LocationLabel.FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label));
 			RemoveButton.TextColor = MyDevice.RedColor;
@@ -53,7 +55,7 @@ namespace bluemart.MainViews
 
 		private void AddTapRecognizers()
 		{
-			var closeButtonTapGestureRecognizer = new TapGestureRecognizer ();
+			/*var closeButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			closeButtonTapGestureRecognizer.Tapped += async (sender, e) => {
 
 				CloseButton.Opacity = 0.5f;
@@ -63,11 +65,12 @@ namespace bluemart.MainViews
 				//if ( Navigation.NavigationStack/. = BrowseProductsPage )
 				CloseButton.Opacity = 1f;
 			};
-			CloseButton.GestureRecognizers.Add (closeButtonTapGestureRecognizer);
+			CloseButton.GestureRecognizers.Add (closeButtonTapGestureRecognizer);*/
 		}
 
-		private void PrintDictionaryContents()
-		{
+		public void PrintDictionaryContents()
+		{			
+			mStackLayout.Children.Clear ();
 			Cart.ProductTotalPrice = 0.0f;
 
 			foreach (Product p in Cart.ProductsInCart) {
@@ -102,7 +105,7 @@ namespace bluemart.MainViews
 				}
 				else
 				{
-					Navigation.PushAsync( new ReceiptView(this));
+					mParent.LoadReceiptPage();
 				}
 			};
 			orderGrid.Children.Add (OrderButton, 1, 0);
@@ -116,21 +119,9 @@ namespace bluemart.MainViews
 			}
 
 			Cart.ProductsInCart.Clear ();
+			Cart.ProductTotalPrice = 0.0f;
 			mStackLayout.Children.Clear ();
 
-			foreach (Page p in Navigation.NavigationStack) {
-				if (p is BrowseProductsPage) {
-					BrowseProductsPage b = p as BrowseProductsPage;
-					foreach (ProductCell pc in b.mProductCellList) {
-						pc.UpdateNumberLabel ();
-					}
-				} else if (p is SearchPage) {
-					SearchPage s = p as SearchPage;
-					foreach (ProductCell pc in s.mProductCellList) {
-						pc.UpdateNumberLabel ();
-					}
-				}
-			}
 		}
 
 		async void OnClickedRemoveButton( Object sender, EventArgs e )

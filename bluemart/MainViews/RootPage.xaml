@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-			 xmlns:headers = "clr-namespace:bluemart.Common.Headers;assembly=bluemart"
 			 xmlns:common = "clr-namespace:bluemart.Common;assembly=bluemart"
-			 x:Class="bluemart.MainViews.BrowseCategoriesPage">
-	 <ContentPage.Padding>
+			 x:Class="bluemart.MainViews.RootPage">
+	<ContentPage.Padding>
 	        <OnPlatform x:TypeArguments="Thickness"
 	                    iOS="0, 20, 0, 0"
 	                    Android="0, 0, 0, 0"
@@ -19,12 +18,7 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>		
 				</Grid.ColumnDefinitions>
-               	<headers:MainMenuHeader x:Name = "Header" Grid.Row = "0" Grid.Column = "0"/>           
-               	<ScrollView x:Name="ScrollView1" Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" VerticalOptions="FillAndExpand"  >
-					<StackLayout x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Spacing = "10">
-					</StackLayout>										
-				</ScrollView>
+				<common:Footer x:Name = "Footer" Grid.Row = "1" Grid.Column = "0"/>
         </Grid>
-		
 	</ContentPage.Content>
 </ContentPage>

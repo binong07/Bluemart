@@ -10,40 +10,14 @@ using bluemart.Models.Remote;
 namespace bluemart.MainViews
 {
 	public partial class MapView : ContentPage
-	{
-		
-		CategoryModel mCategoryModel;
-		List<Category> mCategoryList;	
-		private void InitalizeMemberVariables(CategoryModel categoryModel)
-		{
-			mCategoryModel = categoryModel;
-			mCategoryList = new List<Category> ();
-		}
-		private void LoadCategoriesPage(string Location)
-		{	
-			PopulateCategories (Location);
-			Navigation.PushAsync (new RootPage (mCategoryList));			 
-		}
-
-		private void PopulateCategories( string Location )
-		{			
-			mCategoryList.Clear ();
-
-			foreach (string categoryID in mCategoryModel.mCategoryIDList) {
-				string ImagePath = mCategoryModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mCategoryModel.mImageNameDictionary[categoryID] + ".jpg";
-				string CategoryName = mCategoryModel.mCategoryNameDictionary [categoryID];
-				bool isSubCategory = mCategoryModel.mIsSubCategoryDictionary [categoryID];
-				List<string> SubCategoryIDList = mCategoryModel.mSubCategoryDictionary [categoryID];
-
-				mCategoryList.Add( new Category( CategoryName,ImagePath,isSubCategory,categoryID,mCategoryModel,SubCategoryIDList) );
-			}
-		}
-
+	{		
 		public Button StartShopingButton;
 		public int selectedPinIndex;
+		RootPage mParent;
 		public void OnStartShopingButtonClicked(Object sender,EventArgs e )
 		{
-			LoadCategoriesPage("asd");
+			CategoryModel.CategoryLocation = "asd";
+			Navigation.PushAsync (new BrowseCategoriesPage (mParent));
 		}
 		public void OnPinClicked(int index )
 		{
@@ -53,12 +27,13 @@ namespace bluemart.MainViews
 			StartShopingButton.Text = "Start Shoping";
 			StartShopingButton.IsEnabled=true;
 		}
-		public MapView (CategoryModel categoryModel)
+		public MapView (RootPage parent)
 		{
 			InitializeComponent ();
+			mParent = parent;
 			NavigationPage.SetHasNavigationBar (this, false);
 
-			InitalizeMemberVariables (categoryModel);
+			//InitalizeMemberVariables ();
 
 			var map = new Map(
 				MapSpan.FromCenterAndRadius(

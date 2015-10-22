@@ -9,31 +9,35 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using bluemart.Models.Local;
 using System.Linq;
+using bluemart.Common.Objects;
 
 namespace bluemart.Models.Remote
 {
-	public class CategoryModel
+	public static class CategoryModel
 	{
-		public IFolder mRootFolder;
-		public string mRootFolderPath;
-		public List<string> mCategoryIDList;
-		public Dictionary<string,string> mCategoryNameDictionary;
-		public Dictionary<string,string> mImageNameDictionary;
-		public Dictionary<string,string> mImageIDDictionary;
-		public Dictionary<string,bool> mIsSubCategoryDictionary;
-		public Dictionary<string,List<string>> mSubCategoryDictionary;
-		private UserClass mUserModel = new UserClass();
-		private CategoryClass mCategoryClass = new CategoryClass();
+		public static IFolder mRootFolder;
+		public static string mRootFolderPath;
+		public static string CategoryLocation;
+		public static List<Category> CategoryList;
+		public static List<string> mCategoryIDList;
+		public static Dictionary<string,string> mCategoryNameDictionary;
+		public static Dictionary<string,string> mImageNameDictionary;
+		public static Dictionary<string,string> mImageIDDictionary;
+		public static Dictionary<string,bool> mIsSubCategoryDictionary;
+		public static Dictionary<string,List<string>> mSubCategoryDictionary;
+		private static UserClass mUserModel = new UserClass();
+		private static CategoryClass mCategoryClass = new CategoryClass();
 
-		public CategoryModel ()
+		static CategoryModel ()
 		{
 			InitializeMemberVariables ();				
 		}
 		
-		private void InitializeMemberVariables()
+		private static void InitializeMemberVariables()
 		{
 			mRootFolder = FileSystem.Current.LocalStorage;
 			mRootFolderPath = mRootFolder.Path;
+			CategoryList = new List<Category> ();
 			mCategoryIDList = new List<string> ();
 			mCategoryNameDictionary = new Dictionary<string,string> ();
 			mImageNameDictionary = new Dictionary<string,string> ();
@@ -41,13 +45,8 @@ namespace bluemart.Models.Remote
 			mIsSubCategoryDictionary = new Dictionary<string,bool> ();
 			mSubCategoryDictionary = new Dictionary<string,List<string>> ();
 		}
-		
-		/*public ExistenceCheckResult CheckIfImageFolderExists()
-		{
-			return mRootFolder.CheckExistsAsync (mRootFolderPath + "/" +ParseConstants.IMAGE_FOLDER_NAME).Result;
-		}*/
 
-		public bool CheckIfImageFileExists(string categoryID)
+		public static bool CheckIfImageFileExists(string categoryID)
 		{
 			bool fileExists = false;
 
@@ -60,7 +59,7 @@ namespace bluemart.Models.Remote
 			return fileExists;		
 		}
 
-		public void GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
+		public static void GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
 		{		
 			var categoryQuery = ParseObject.GetQuery (ParseConstants.CATEGORIES_CLASS_NAME).
 				WhereGreaterThan(ParseConstants.UPDATEDATE_NAME,localUpdate).
@@ -90,7 +89,7 @@ namespace bluemart.Models.Remote
 			mCategoryClass.AddCategory (tempList);	
 		}
 
-		private void PopulateCategoryDictionaries()
+		private static void PopulateCategoryDictionaries()
 		{
 			//populate categories from database
 			mCategoryIDList.Clear ();
@@ -115,7 +114,7 @@ namespace bluemart.Models.Remote
 			}
 		}
 
-		public void FetchCategories()
+		public static void FetchCategories()
 		{
 			if (MyDevice.NetworkStatus != "NotReachable") {
 				DateTime? localUpdate = mUserModel.GetCategoriesUpdatedDateFromUser ();
@@ -133,7 +132,7 @@ namespace bluemart.Models.Remote
 			PopulateCategoryDictionaries ();
 		}
 		
-		public void GetImagesAndSaveToLocal()
+		public static void GetImagesAndSaveToLocal()
 		{
 			if (MyDevice.NetworkStatus != "NotReachable") {
 				DateTime? localUpdate = mUserModel.GetImageUpdatedDateFromUser ();
@@ -166,6 +165,20 @@ namespace bluemart.Models.Remote
 				}
 
 			} 
+		}
+
+		public static void PopulateCategories()
+		{			
+			CategoryList.Clear ();
+
+			foreach (string categoryID in CategoryModel.mCategoryIDList) {
+				string ImagePath = CategoryModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary[categoryID] + ".jpg";
+				string CategoryName = CategoryModel.mCategoryNameDictionary [categoryID];
+				bool isSubCategory = CategoryModel.mIsSubCategoryDictionary [categoryID];
+				List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [categoryID];
+
+				CategoryList.Add( new Category( CategoryName,ImagePath,isSubCategory,categoryID,SubCategoryIDList) );
+			}
 		}
 	}
 }

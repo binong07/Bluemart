@@ -4,37 +4,41 @@ using bluemart.Common.Objects;
 using bluemart.Common.Utilities;
 using bluemart.Common.ViewCells;
 using Xamarin.Forms;
+using bluemart.Models.Remote;
 
 namespace bluemart.MainViews
 {
 	public partial class BrowseCategoriesPage : ContentPage
 	{		
 		List<Category> mCategories;
+		RootPage mParent;
 
-		public BrowseCategoriesPage (List<Category> category, RootPage rootPage)
+		public BrowseCategoriesPage (RootPage parent)
 		{						
 			InitializeComponent ();
-			mCategories = category;
+			mParent = parent;
+			Header.mParent = parent;
+			CategoryModel.PopulateCategories ();
+			mCategories = CategoryModel.CategoryList;
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
 			PopulateGrid ();
+		}
 
-			Header.mMenuButton.GestureRecognizers.Add (new TapGestureRecognizer{ 
-				Command = new Command( (o) =>
-				{
-					rootPage.IsPresented = true;
-				})
-			});
+		public void RefreshPriceInCart()
+		{
+			Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 		}
 
 		protected override void OnAppearing()
 		{
-			Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
+			//Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 		}
 
 		private void SetGrid1Definitions()
 		{
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
+			//Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 10;
 			Grid1.BackgroundColor = MyDevice.BlueColor;
 			ScrollView1.BackgroundColor = MyDevice.BlueColor;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
@@ -46,9 +50,8 @@ namespace bluemart.MainViews
 				if (!mCategories [i].IsSubCategory) {
 					CategoryCell categoryCell = new CategoryCell (StackLayout1,
 						mCategories [i],
-						this);
+						mParent);
 					StackLayout1.Children.Add (categoryCell.View);	
-					//Grid2.Children.Add (categoryCell.View, col, row);
 				}
 			}
 
