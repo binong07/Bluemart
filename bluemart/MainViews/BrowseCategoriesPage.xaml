@@ -19,7 +19,7 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>		
 				</Grid.ColumnDefinitions>
-               	<headers:MainMenuHeader x:Name = "Header" Grid.Row = "0" Grid.Column = "0"/>           
+                <common:SearchBar x:Name = "SearchBar" Grid.Row = "0" Grid.Column = "0"/>
                	<ScrollView x:Name="ScrollView1" Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" VerticalOptions="FillAndExpand"  >
 					<StackLayout x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Spacing = "10">
 					</StackLayout>										

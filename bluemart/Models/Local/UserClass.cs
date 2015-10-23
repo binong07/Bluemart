@@ -11,6 +11,8 @@ namespace bluemart.Models.Local
 	{
 		[PrimaryKey, AutoIncrement, Column("_id")]
 		public int Id { get; set; }
+		public string Region { get; set; }
+		public string AddressDescription{ get; set; }
 		public string Address { get; set; }
 		public string Name { get; set; }
 		public string PhoneNumber{ get; set; }
@@ -34,6 +36,8 @@ namespace bluemart.Models.Local
 				db.CreateTable<UserClass> ();	
 				var newUser = new UserClass ();
 				newUser.Address = "";
+				newUser.Region = "";
+				newUser.AddressDescription = "";
 				newUser.Name = "";
 				newUser.PhoneNumber = "";
 				newUser.Id = 1;
@@ -167,7 +171,7 @@ namespace bluemart.Models.Local
 		}
 		#endregion
 
-		public void AddUserInfo(string address,string name, string phoneNumber)
+		public void AddUserInfo(string address,string region,string addressDescription,string name, string phoneNumber)
 		{
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
@@ -179,6 +183,8 @@ namespace bluemart.Models.Local
 			UserClass user = userList [0];
 
 			user.Address = address;
+			user.Region = region;
+			user.AddressDescription = addressDescription;
 			user.Name = name;
 			user.PhoneNumber = phoneNumber;
 			db.InsertOrReplace (user);

@@ -1,0 +1,19 @@
+﻿<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+     xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
+     x:Class="bluemart.Common.SearchBar"
+     BackgroundColor="White"
+     ColumnSpacing = "0"
+     Padding = "0"
+     HorizontalOptions = "Center">
+     <Grid.RowDefinitions>
+		<RowDefinition/>
+	</Grid.RowDefinitions>
+	<Grid.ColumnDefinitions>
+		<ColumnDefinition/>
+		<ColumnDefinition/>
+	</Grid.ColumnDefinitions>
+	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "0" Source="search" VerticalOptions = "Center" HorizontalOptions = "Center"/>
+	<Entry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "1" Text = "Search Products" 
+			BackgroundColor = "White"  VerticalOptions = "Fill" Completed = "SearchEntryCompleted" Focused = "SearchEntryFocused" Unfocused = "SearchEntryUnfocused"/>
+</Grid>

@@ -43,7 +43,7 @@ namespace bluemart.Common.ViewCells
 
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
 
-			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.White, Padding = 0, RowSpacing = 0, ColumnSpacing =0 };
+			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Start, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.White, Padding = 0, RowSpacing = 0, ColumnSpacing =0 };
 
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = new GridLength(70,GridUnitType.Absolute) });
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = new GridLength(30,GridUnitType.Absolute) });

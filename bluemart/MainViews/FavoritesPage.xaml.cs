@@ -16,11 +16,12 @@ namespace bluemart.MainViews
 		private int mRowCount;
 		private List<Product> mProductList = new List<Product>();
 		RootPage mParent;
+		//Grid Grid2;
 		public FavoritesPage (RootPage parent)
 		{
 			InitializeComponent ();
 			mParent = parent;
-			Header.mParent = parent;
+			//Header.mParent = parent;
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
 			SetGrid2Definitions ();
@@ -28,7 +29,7 @@ namespace bluemart.MainViews
 		}
 		public void UpdatePriceLabel()
 		{
-			Header.mPriceLabel.Text = "DH: "+Cart.ProductTotalPrice;
+			//Header.mPriceLabel.Text = "DH: "+Cart.ProductTotalPrice;
 		}
 
 		protected override void OnAppearing()
@@ -39,8 +40,6 @@ namespace bluemart.MainViews
 
 		private void SetGrid1Definitions()
 		{
-			Grid1.RowDefinitions [0].Height = GridLength.Auto;
-			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.BackgroundColor = MyDevice.BlueColor;
 		}
@@ -64,6 +63,13 @@ namespace bluemart.MainViews
 
 		private void SetGrid2Definitions()
 		{
+			/*<Grid x:Name="Grid2" HorizontalOptions = "Fill" VerticalOptions = "FillAndExpand">				
+				</Grid>*/
+			/*Grid2 = new Grid () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand
+			};*/
+
 			for (int i = 0; i < mRowCount; i++) 
 			{
 				Grid2.RowDefinitions.Add (new RowDefinition ());
@@ -87,17 +93,21 @@ namespace bluemart.MainViews
 		}
 
 		public void RefreshFavoritesGrid()
-		{
+		{			
 			Grid2.Children.Clear ();
+			Grid2.ColumnDefinitions.Clear ();
+			Grid2.RowDefinitions.Clear ();
 			mProductList.Clear ();
+
 			PopulateProducts();
 			PopulateGrid ();
+			ScrollView1.Content = Grid2;
 			RefreshPriceInCart ();
 		}
 
 		public void RefreshPriceInCart()
 		{
-			Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
+			//Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 		}
 	}
 }

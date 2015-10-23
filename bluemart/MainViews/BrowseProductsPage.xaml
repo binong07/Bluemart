@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 			 xmlns:headers = "clr-namespace:bluemart.Common.Headers;assembly=bluemart"
+			 xmlns:common = "clr-namespace:bluemart.Common;assembly=bluemart"
 			 x:Class="bluemart.MainViews.BrowseProductsPage">	
 	<ContentPage.Padding>
 	        <OnPlatform x:TypeArguments="Thickness"
@@ -18,8 +19,8 @@
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>		
-				</Grid.ColumnDefinitions>
-               	<headers:TopNavigationBar x:Name = "NavigationBar" Grid.Row = "0" Grid.Column = "0"/>        
+				</Grid.ColumnDefinitions> 
+				<common:SearchBar x:Name = "SearchBar" Grid.Row = "0" Grid.Column = "0"/>      
                	<ScrollView x:Name = "ScrollView1" Grid.Row = "1" Grid.Column = "0" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" BackgroundColor = "White">
 	               	<StackLayout x:Name = "SubCategoryStackLayout" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Spacing = "0">
 	               	</StackLayout>

@@ -7,12 +7,14 @@ using bluemart.Common.Utilities;
 using System.Threading.Tasks;
 using bluemart.Common.ViewCells;
 using bluemart.Models.Local;
+using System.Linq;
 
 namespace bluemart.MainViews
 {
 	public partial class CartPage : ContentPage
 	{
 		UserClass mUserModel = new UserClass();
+		private List<CartCell> mCartCellList = new List<CartCell> ();
 		private Label mTotalPriceLabel;
 		private StackLayout mStackLayout;
 
@@ -81,7 +83,9 @@ namespace bluemart.MainViews
 			Cart.ProductTotalPrice = 0.0f;
 
 			foreach (Product p in Cart.ProductsInCart) {
-				mStackLayout.Children.Add( new CartCell( p,this ).View );
+				var cartCell = new CartCell (p, this);
+				mCartCellList.Add (cartCell);
+				mStackLayout.Children.Add( cartCell.View );
 			}
 
 			Grid orderGrid = new Grid (){ HorizontalOptions = LayoutOptions.Fill, VerticalOptions = LayoutOptions.Fill, BackgroundColor = Color.White };
@@ -110,6 +114,10 @@ namespace bluemart.MainViews
 				{
 					DisplayAlert("Failed","Please Enter Your Address On Settings Page","OK");
 				}
+				else if( Cart.ProductTotalPrice < 50 )
+				{
+					DisplayAlert("Failed","Please order AED 50, as this is the minumum order.","OK");
+				}
 				else
 				{
 					mParent.LoadReceiptPage();
@@ -127,8 +135,15 @@ namespace bluemart.MainViews
 
 			Cart.ProductsInCart.Clear ();
 			Cart.ProductTotalPrice = 0.0f;
-			mStackLayout.Children.Clear ();
 
+			var stackLayoutChildren = mStackLayout.Children;
+
+			foreach (var cartCell in mCartCellList) {
+				mStackLayout.Children.Remove (cartCell.View);
+			}
+
+
+			UpdateTotalPriceLabel ();
 		}
 
 		async void OnClickedRemoveButton( Object sender, EventArgs e )

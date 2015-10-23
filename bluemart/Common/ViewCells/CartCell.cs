@@ -74,31 +74,11 @@ namespace bluemart
 			mainCellView.Children.Add(mFavoriteImage,2,0);
 
 			#region row3insidegrid
-			/*Grid insideGrid2 = new Grid(){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
-			insideGrid2.Padding = new Thickness (0);
-			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = new GridLength(MyDevice.ScreenWidth  / 10,GridUnitType.Absolute) });
-			//insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = new GridLength(MyDevice.ScreenWidth / 4,GridUnitType.Absolute) });
-			insideGrid2.RowDefinitions.Add( new RowDefinition() { Height = GridLength.Auto } );
-			insideGrid2.RowDefinitions.Add( new RowDefinition() { Height = GridLength.Auto } );
-
 			mAddImage = new Image (){HorizontalOptions = LayoutOptions.Start};
-			mAddImage.Aspect = Aspect.AspectFill;
-			mAddImage.Source = "plus";
-			insideGrid2.Children.Add (mAddImage,0,0);
-
-			mRemoveImage = new Image (){VerticalOptions = LayoutOptions.Center};
-			mRemoveImage.Aspect = Aspect.AspectFill;
-			mRemoveImage.Source = "minus";
-			insideGrid2.Children.Add (mRemoveImage,0,1);
-
-			mainCellView.Children.Add( insideGrid2, 3, 0 );*/
-			mAddImage = new Image (){HorizontalOptions = LayoutOptions.Start};
-			mAddImage.Aspect = Aspect.AspectFill;
 			mAddImage.Source = "plus";
 			mainCellView.Children.Add (mAddImage,3,0);
 
 			mRemoveImage = new Image (){VerticalOptions = LayoutOptions.Center};
-			mRemoveImage.Aspect = Aspect.AspectFill;
 			mRemoveImage.Source = "minus";
 			mainCellView.Children.Add (mRemoveImage,4,0	);
 			#endregion
@@ -162,14 +142,7 @@ namespace bluemart
 					mFavoriteImage.Opacity = 1f;
 					mFavoriteImage.Source = "bookmark_add";
 					bIsFavorite = false;
-
-				/*	if( mParent is FavoritesPage )
-					{
-						FavoritesPage pa = mParent as FavoritesPage;
-						pa.RefreshFavoritesGrid();
-					}*/
 				}
-				//else if( mFavoriteImage.Source ==
 			};
 
 			mFavoriteImage.GestureRecognizers.Add (favoriteButtonTapGestureRecognizer);

@@ -168,6 +168,7 @@ namespace bluemart
 		{
 			await DisplayAlert ("Order Accepted", "Your Order Has Been Received!", "OK");
 			mParent.mCartPage.ClearCart ();
+			mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
 			mParent.SwitchTab ("BrowseCategories");
 		}
 

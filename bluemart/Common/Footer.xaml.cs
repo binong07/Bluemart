@@ -12,10 +12,21 @@ namespace bluemart.Common
 	public partial class Footer : StackLayout
 	{
 		private Label mActiveLabel;
+		public Label mCategoriesLabel;
+		public Label mSettingsLabel;
+		public Label mFavoritesLabel;
+		public Label mHistoryLabel;
+		public Label mTrackLabel;
 
 		public Footer ()
 		{
 			InitializeComponent ();
+
+			mCategoriesLabel = CategoryLabel;
+			mSettingsLabel = SettingsLabel;
+			mFavoritesLabel = FavoritesLabel;
+			mHistoryLabel = HistoryLabel;
+			mTrackLabel = TrackLabel;
 
 			SetImageSize ();
 			SetLabelProperties ();
@@ -24,12 +35,29 @@ namespace bluemart.Common
 			mActiveLabel.TextColor = Color.Green;
 		}
 
-		private void ChangeColorOfLabel(Label newActiveLabel)
+		public void ChangeColorOfLabel(Label newActiveLabel)
 		{
 			mActiveLabel.TextColor = MyDevice.RedColor;
 			mActiveLabel = newActiveLabel;
 			mActiveLabel.TextColor = Color.Green;
 		}
+
+		/*private void ChangeColorOfLabel(string tabName)
+		{
+			SetLabelProperties ();
+
+			switch (tabName) {
+			case "BrowseCategories":
+				CategoryLabel.TextColor = Color.Green;
+				break;
+			case "Settings":
+				SettingsLabel.TextColor = Color.Green;
+				break;
+			case "Favorites":
+				SettingsLabel.TextColor = Color.Green;
+				break;
+			}
+		}*/
 
 		public void SetLabelProperties()
 		{
@@ -47,7 +75,7 @@ namespace bluemart.Common
 			FavoritesButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			HistoryButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			TrackButton.WidthRequest = MyDevice.ScreenWidth / 5;				
-		}
+		}			
 
 		private void AddTapRecognizers()
 		{

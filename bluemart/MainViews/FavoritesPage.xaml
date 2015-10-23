@@ -14,15 +14,13 @@
 		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
 		 		<Grid.RowDefinitions>
 					<RowDefinition/>
-					<RowDefinition/>
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>		
-				</Grid.ColumnDefinitions>
-               	<headers:MainMenuHeader x:Name = "Header" Grid.Row = "0" Grid.Column = "0"/>           
-               	<ScrollView Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
-					<Grid x:Name="Grid2" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">				
-					</Grid>						
+				</Grid.ColumnDefinitions> 
+               	<ScrollView x:Name = "ScrollView1" Grid.Row = "0" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+					<Grid x:Name="Grid2" HorizontalOptions = "Fill" VerticalOptions = "FillAndExpand">				
+					</Grid>							
 				</ScrollView>
         </Grid>
 	</ContentPage.Content>

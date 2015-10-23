@@ -18,58 +18,35 @@ namespace bluemart.MainViews
 
 		private List<Product> mProductList = new List<Product>();
 		public List<ProductCell> mProductCellList = new List<ProductCell>();
+		private string mSearchString ;
 
-		public SearchPage ()
+		public SearchPage (string searchString)
 		{
 			InitializeComponent ();
+			mSearchString = searchString;
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
-			SetSearchGridDefinitions ();
-			AddTapRecognizers ();
+			PopulateSearch ();
 		}
 
 		private void SetGrid1Definitions()
 		{
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
-			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 		}
 
-		private void SetSearchGridDefinitions()
-		{
-			SearchGrid.ColumnDefinitions [0].Width = MyDevice.ScreenWidth/8;
-			SearchGrid.ColumnDefinitions [1].Width = MyDevice.ScreenWidth*7/8;
-			SearchGrid.RowDefinitions [0].Height = GridLength.Auto;
-		}
 
-		private void SearchEntryCompleted(Object sender, EventArgs e )
+		private void PopulateSearch()
 		{
-			if (SearchEntry.Text.Length >= 3) {
-				ProductModel.PopulateSearchProductList (SearchEntry.Text);
-				mRowCount = Convert.ToInt32 (Math.Ceiling (ProductModel.mSearchProductIDList.Count / 2.0f));
-				PopulateProducts ();
-				PopulateGrid ();
-			} else {
-				SearchEntry.Text = "Must be longer than 2 characters!";
-				SearchEntry.TextColor = Color.Red;
-			}
-		}
-
-		private void SearchEntryFocused( Object sender, EventArgs e)
-		{
-			SearchEntry.Text = "";
-			SearchEntry.TextColor = Color.Black;
-		}
-
-		private void AddTapRecognizers()
-		{
-			var searchButtonGestureRecognizer = new TapGestureRecognizer ();
-			searchButtonGestureRecognizer.Tapped += async (sender, e) =>  {
-				BackButton.Opacity = 0.5f;
-				await Navigation.PopAsync();
-				BackButton.Opacity = 1f;
-			};
-			BackButton.GestureRecognizers.Add (searchButtonGestureRecognizer);
+			//if (SearchEntry.Text.Length >= 3) {
+			ProductModel.PopulateSearchProductList (mSearchString);
+			mRowCount = Convert.ToInt32 (Math.Ceiling (ProductModel.mSearchProductIDList.Count / 2.0f));
+			PopulateProducts ();
+			PopulateGrid ();
+		//	} else {
+			//	SearchEntry.Text = "Must be longer than 2 characters!";
+			//	SearchEntry.TextColor = Color.Red;
+		//	}
 		}
 
 		private void PopulateGrid()

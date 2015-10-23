@@ -14,6 +14,8 @@ namespace bluemart.MainViews
 		bool bNameTextChanged = false;
 		bool bSurNameTextChanged = false;
 		bool bAddressTextChanged = false;
+		bool bRegionTextChanged = false;
+		bool bAddressDescriptionTextChanged = false;
 		bool bTelephoneTextChanged = false;
 		RootPage mParent;
 
@@ -22,14 +24,14 @@ namespace bluemart.MainViews
 		{
 			InitializeComponent ();
 			mParent = parent;
-			Header.mParent = parent;
+			//Header.mParent = parent;
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
-			SetPhoneGridDefinitions ();
-
 			UserClass user = mUserModel.GetUser ();
 
 			AddressEntry.Text = user.Address;
+			RegionEntry.Text = user.Region;
+			AddressDescriptionEntry.Text = user.AddressDescription;
 			if (user.Name.Length > 0) {
 				NameEntry.Text = user.Name.Split (' ') [0];
 				SurNameEntry.Text = user.Name.Split (' ') [1];
@@ -42,12 +44,12 @@ namespace bluemart.MainViews
 
 		public void RefreshPriceInCart()
 		{
-			Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
+			//Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 		}
 
 		private void SetGrid1Definitions()
 		{
-			Grid1.RowDefinitions [0].Height = GridLength.Auto;
+			//Grid1.RowDefinitions [0].Height = GridLength.Auto;
 			//Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 
@@ -55,21 +57,28 @@ namespace bluemart.MainViews
 			NameLabel.TextColor = Color.White;
 			SurNameLabel.TextColor = Color.White;
 			AddressLabel.TextColor = Color.White;
+			RegionLabel.TextColor = Color.White;
+			AddressDescriptionLabel.TextColor = Color.White;
 			PhoneLabel.TextColor = Color.White;
 			SubmitButton.TextColor = MyDevice.RedColor;
 			SubmitButton.BackgroundColor = Color.White;
-			AreaCodeEntry.TextColor = Color.Black;
 			NameEntry.TextColor = Color.Black;
 			SurNameEntry.TextColor = Color.Black;
 			AddressEntry.TextColor = Color.Black;
+			RegionEntry.TextColor = Color.Black;
+			AddressDescriptionEntry.TextColor = Color.Black;
 			PhoneEntry.TextColor = Color.Black;
 		}
 
-		private void SetPhoneGridDefinitions()
+
+		private void OnEntryFocused(Object sender,EventArgs e)
 		{
-			PhoneGrid.RowDefinitions [0].Height = GridLength.Auto;
-			PhoneGrid.ColumnDefinitions [0].Width = MyDevice.ScreenWidth*2/10;
-			PhoneGrid.ColumnDefinitions [1].Width = MyDevice.ScreenWidth*8/10;
+			mParent.mFooter.IsVisible = false;
+		}
+
+		private void OnEntryUnfocused( Object sender, EventArgs e)
+		{
+			mParent.mFooter.IsVisible = true;
 		}
 
 		private void NameEntryCompleted(Object sender, EventArgs e)
@@ -79,21 +88,37 @@ namespace bluemart.MainViews
 
 		private void SurNameEntryCompleted(Object sender, EventArgs e)
 		{
+			RegionEntry.Focus();
+		}
+
+
+		private void RegionEntryCompleted( Object sender, EventArgs e)
+		{
 			AddressEntry.Focus ();
 		}
 
 		private void AddressEntryCompleted(Object sender, EventArgs e)
 		{
-			PhoneEntry.Focus ();
+			AddressDescriptionEntry.Focus();
 		}
 
-		private void OnSubmitClicked(Object sender, EventArgs e)
+		private void AddressDescriptionEntryCompleted(Object sender, EventArgs e)
+		{
+			PhoneEntry.Focus();
+		}
+
+		private async void OnSubmitClicked(Object sender, EventArgs e)
 		{
 			string address = AddressEntry.Text.ToString ();
+			string region = RegionEntry.Text.ToString ();
+			string addressDescription = AddressDescriptionEntry.Text.ToString ();
 			string name = NameEntry.Text.ToString () + " " + SurNameEntry.Text.ToString ();
 			string phoneNumber = "(+971) " + PhoneEntry.Text.ToString ();
-			mUserModel.AddUserInfo (address,name,phoneNumber);
-			DisplayAlert ("User Infor Submitted", "You have successfully submitted your information", "OK");
+			mUserModel.AddUserInfo (address,region,addressDescription,name,phoneNumber);
+			await DisplayAlert ("User Infor Submitted", "You have successfully submitted your information", "OK");
+
+			mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
+			mParent.SwitchTab ("BrowseCategories");
 		}
 
 		private void OnNameTextChanged(Object sender,EventArgs e)
@@ -111,11 +136,26 @@ namespace bluemart.MainViews
 			bAddressTextChanged = CheckIfTextChanged (AddressEntry);
 			SetSubmitButton ();
 		}
+		private void OnRegionTextChanged(Object sender,EventArgs e)
+		{			
+			bAddressTextChanged = CheckIfTextChanged (AddressEntry);
+			SetSubmitButton ();
+		}
+		private void OnAddressDescriptionTextChanged(Object sender,EventArgs e)
+		{			
+			bAddressTextChanged = CheckIfTextChanged (AddressEntry);
+			SetSubmitButton ();
+		}
 		private void OnTelephoneTextChanged(Object sender,EventArgs e)
-		{				
-			PhoneEntry.Text = FormatPhoneNumber ();
+		{		
+			string phoneNumber = PhoneEntry.Text.Trim ();
 
-			if (PhoneEntry.Text.Length == 10)
+			if (phoneNumber.Length == 11)
+				phoneNumber = phoneNumber.Remove (10);		
+
+			PhoneEntry.Text = phoneNumber;
+
+			if (PhoneEntry.Text.Length >= 9)
 				bTelephoneTextChanged = true;
 			else
 				bTelephoneTextChanged = false;
@@ -123,9 +163,9 @@ namespace bluemart.MainViews
 			SetSubmitButton ();
 		}
 
-		private void SetSubmitButton()
+		private void SetSubmitButton() 
 		{
-			if (bNameTextChanged && bSurNameTextChanged && bAddressTextChanged && bTelephoneTextChanged)
+			if (bNameTextChanged && bSurNameTextChanged && bAddressTextChanged && bTelephoneTextChanged && bRegionTextChanged && bAddressDescriptionTextChanged)
 				SubmitButton.IsEnabled = true;
 			else
 				SubmitButton.IsEnabled = false;

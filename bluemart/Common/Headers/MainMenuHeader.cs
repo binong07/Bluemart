@@ -40,7 +40,6 @@ namespace bluemart.Common.Headers
 		private void SetImageSize()
 		{
 			//MenuButton.HeightRequest = MyDevice.ScreenHeight / 15;
-			SearchButton.HeightRequest = MyDevice.ScreenHeight / 15;
 			CartButton.Aspect = Aspect.AspectFill;
 			LogoImage.HeightRequest = MyDevice.ScreenHeight / 15;
 			//Lbl1.FontSize = Device.GetNamedSize (NamedSize.Large, typeof(Label));
@@ -53,19 +52,9 @@ namespace bluemart.Common.Headers
 
 				CartButton.Opacity = 0.5f;
 				mParent.LoadCartPage();
-				//Navigation.PushAsync( new CartPage());
 				CartButton.Opacity = 1f;
 			};
 			CartButton.GestureRecognizers.Add (cartButtonGestureRecognizer);
-
-			var searchButtonGestureRecognizer = new TapGestureRecognizer ();
-			searchButtonGestureRecognizer.Tapped += (sender, e) => {
-
-				SearchButton.Opacity = 0.5f;
-				Navigation.PushAsync( new SearchPage());
-				SearchButton.Opacity = 1f;
-			};
-			SearchButton.GestureRecognizers.Add (searchButtonGestureRecognizer);
 		}
 	}
 }

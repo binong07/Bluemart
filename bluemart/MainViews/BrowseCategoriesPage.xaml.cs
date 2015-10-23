@@ -17,7 +17,8 @@ namespace bluemart.MainViews
 		{						
 			InitializeComponent ();
 			mParent = parent;
-			Header.mParent = parent;
+			SearchBar.mParent = parent;
+			//Header.mParent = parent;
 			CategoryModel.PopulateCategories ();
 			mCategories = CategoryModel.CategoryList;
 			NavigationPage.SetHasNavigationBar (this, false);
@@ -25,23 +26,18 @@ namespace bluemart.MainViews
 			PopulateGrid ();
 		}
 
-		public void RefreshPriceInCart()
+		public void RefreshSearchText()
 		{
-			Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
-		}
-
-		protected override void OnAppearing()
-		{
-			//Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
+			SearchBar.mSearchEntry.Text = "Search Products";
 		}
 
 		private void SetGrid1Definitions()
 		{
-			Grid1.RowDefinitions [0].Height = GridLength.Auto;
+			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 20;
 			//Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 10;
-			Grid1.BackgroundColor = MyDevice.BlueColor;
+			//Grid1.BackgroundColor = MyDevice.BlueColor;
 			ScrollView1.BackgroundColor = MyDevice.BlueColor;
-			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
+			//Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 		}
 			
 		private void PopulateGrid()
