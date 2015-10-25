@@ -196,6 +196,8 @@ namespace bluemart.Common.ViewCells
 					(mParent as BrowseProductsPage).UpdatePriceLabel ();
 				else if (mParent is FavoritesPage)
 					(mParent as FavoritesPage).UpdatePriceLabel ();
+				else if (mParent is SearchPage)
+					(mParent as SearchPage).UpdatePriceLabel ();
 			}
 			if (mProduct.ProductNumberInCart == 0)
 				Cart.ProductsInCart.Remove (mProduct);
@@ -218,6 +220,8 @@ namespace bluemart.Common.ViewCells
 				(mParent as BrowseProductsPage).UpdatePriceLabel ();
 			else if (mParent is FavoritesPage)
 				(mParent as FavoritesPage).UpdatePriceLabel ();
+			else if (mParent is SearchPage)
+				(mParent as SearchPage).UpdatePriceLabel ();
 			
 			UpdateNumberLabel ();
 		}

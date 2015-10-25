@@ -18,7 +18,7 @@ namespace bluemart.MainViews
 		private Label mTotalPriceLabel;
 		private StackLayout mStackLayout;
 
-		private RootPage mParent;
+		public RootPage mParent;
 
 		public CartPage (RootPage parent)
 		{
@@ -29,7 +29,6 @@ namespace bluemart.MainViews
 
 			SetGrid1Properties ();
 			SetGrid2Properties ();
-			AddTapRecognizers ();
 		}
 
 		private void SetGrid1Properties()
@@ -55,21 +54,6 @@ namespace bluemart.MainViews
 			RemoveButton.BorderColor = MyDevice.BlueColor;
 		}
 
-		private void AddTapRecognizers()
-		{
-			/*var closeButtonTapGestureRecognizer = new TapGestureRecognizer ();
-			closeButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-
-				CloseButton.Opacity = 0.5f;
-				await Task.Delay(200);
-				await Navigation.PopAsync();
-
-				//if ( Navigation.NavigationStack/. = BrowseProductsPage )
-				CloseButton.Opacity = 1f;
-			};
-			CloseButton.GestureRecognizers.Add (closeButtonTapGestureRecognizer);*/
-		}
-
 		public void PrintDictionaryContents()
 		{			
 			mStackLayout.Children.Clear ();
@@ -80,7 +64,7 @@ namespace bluemart.MainViews
 			else
 				LocationLabel.Text = "BASKET";
 
-			Cart.ProductTotalPrice = 0.0f;
+			Cart.ProductTotalPrice = new Decimal(0.0);
 
 			foreach (Product p in Cart.ProductsInCart) {
 				var cartCell = new CartCell (p, this);
@@ -134,7 +118,7 @@ namespace bluemart.MainViews
 			}
 
 			Cart.ProductsInCart.Clear ();
-			Cart.ProductTotalPrice = 0.0f;
+			Cart.ProductTotalPrice = new decimal(0.0);
 
 			var stackLayoutChildren = mStackLayout.Children;
 
@@ -157,6 +141,8 @@ namespace bluemart.MainViews
 		public void UpdateTotalPriceLabel()
 		{
 			mTotalPriceLabel.Text = "Total Price: " + Cart.ProductTotalPrice.ToString ();
+			mParent.mRootHeader.mPriceLabel.Text = "DH " + Cart.ProductTotalPrice.ToString ();
+			mParent.mTopNavigationBar.mPriceLabel.Text = "DH " + Cart.ProductTotalPrice.ToString ();
 		}
 
 		public void RemoveProductFromCart(View CartCellView)

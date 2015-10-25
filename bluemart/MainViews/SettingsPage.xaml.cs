@@ -69,6 +69,11 @@ namespace bluemart.MainViews
 			PhoneEntry.TextColor = Color.Black;
 		}
 			
+		private void OnChangeLocationButtonClicked( Object sender, EventArgs e )
+		{
+			mParent.Navigation.PopAsync ();
+		}
+
 		private void OnEntryFocused(Object sender,EventArgs e)
 		{
 			mParent.mFooter.IsVisible = false;

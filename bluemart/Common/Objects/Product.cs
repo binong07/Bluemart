@@ -4,7 +4,7 @@ namespace bluemart.Common.Objects
 {
 	public class Product
 	{
-		public Product(string productID, string name, string productImagePath, double price, string quantity)
+		public Product(string productID, string name, string productImagePath, decimal price, string quantity)
 		{
 			this.ProductID = productID;
 			this.Name = name;
@@ -17,7 +17,7 @@ namespace bluemart.Common.Objects
 		public string ProductID { private set; get; }
 		public string Name { private set; get; }
 		public string ProductImagePath { private set; get; }
-		public double Price { private set; get; }
+		public decimal Price { private set; get; }
 		public string Quantity { private set; get; }
 		public int ProductNumberInCart { set; get; }
 	}

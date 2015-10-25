@@ -99,6 +99,7 @@ namespace bluemart
 		private void UpdatePriceLabel()
 		{
 			mProductPriceLabel.Text = "DH " + (mProduct.Price * mProduct.ProductNumberInCart).ToString();
+
 		}
 
 		private void AddTapRecognizers()
@@ -159,6 +160,7 @@ namespace bluemart
 			UpdateNumberLabel ();
 			Cart.ProductTotalPrice -= mProduct.Price ;
 			mParentPage.UpdateTotalPriceLabel ();
+
 			UpdatePriceLabel();
 		}
 

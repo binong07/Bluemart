@@ -5,27 +5,16 @@ using bluemart.Common.Utilities;
 namespace bluemart.Common.ViewCells
 {
 	public class LocationCell : ViewCell
-	{
-		public LocationCell (string location)
+	{		
+		public Label mLabel;
+		public LocationCell ()
 		{
-
-			var absLayout = new AbsoluteLayout (){ 
-				BackgroundColor = Color.White,
-				HorizontalOptions = LayoutOptions.Fill,
-				VerticalOptions = LayoutOptions.Fill
-			};
-
-			var LocationLabel = new Label (){ 
-				BackgroundColor = Color.White,
-				TextColor = MyDevice.BlueColor,
-				Text = location,
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.Center
-			};
-
-			absLayout.Children.Add (LocationLabel);
-
-			View = absLayout;
+			mLabel = new Label ();
+			mLabel.TextColor = MyDevice.BlueColor;
+			mLabel.XAlign = TextAlignment.Center;
+			mLabel.YAlign = TextAlignment.Center;
+			mLabel.SetBinding (Label.TextProperty, "Location");
+			this.View = mLabel;
 		}
 	}
 }

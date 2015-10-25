@@ -26,8 +26,8 @@ namespace bluemart.Common.Headers
 		private void SetGridDefinitions()
 		{
 			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight  / 10;
-			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight / 10;
+			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight  / 8;
+			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight / 8;
 	
 			CartGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
 			CartGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight / 30;

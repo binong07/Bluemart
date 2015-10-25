@@ -48,6 +48,7 @@ namespace bluemart.MainViews
 
 		public void  UpdatePriceLabel()
 		{
+			mParent.mRootHeader.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 			mParent.mTopNavigationBar.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 		}
 
@@ -63,7 +64,6 @@ namespace bluemart.MainViews
 			Grid1.RowDefinitions [2].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.BackgroundColor = MyDevice.BlueColor;
-
 			if (mProductDictionary.Count <= 1) {
 				ScrollView1.IsEnabled = false;
 				Grid1.RowDefinitions [1].Height = 0;

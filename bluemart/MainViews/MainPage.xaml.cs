@@ -12,6 +12,7 @@ using XLabs.Forms.Controls;
 using bluemart.Models.Remote;
 using bluemart.Models.Local;
 using bluemart.Common.ViewCells;
+using System.Linq;
 
 namespace bluemart.MainViews
 {
@@ -20,7 +21,9 @@ namespace bluemart.MainViews
 		UserClass mUserModel;
 		PopupLayout mPopupLayout = new PopupLayout();
 		ListView mPopupListView = new ListView ();	
-		List<LocationCell> mLocationCellList = new List<LocationCell> ();
+		List<LocationClass> mLocations = new List<LocationClass> ();
+		//Dictionary<string,List<LocationCell>> mLocationCellList = new Dictionary<string,List<LocationCell>> ();
+		//List<LocationCell> mLocationCellList = new List<LocationCell> ();
 		Grid mConfirmationGrid;
 		Button mOKButton;
 		Button mCancelButton;
@@ -39,8 +42,11 @@ namespace bluemart.MainViews
 		public MainPage ()
 		{			
 			NavigationPage.SetHasNavigationBar (this, false);
-			InitializeComponent ();
 			InitalizeMemberVariables ();
+			if( mUserModel.GetLocationFromUser() != "" )
+				Navigation.PushAsync( mRootPage );
+			InitializeComponent ();
+
 			SetGrid1ButtonsSize ();
 
 			LocationButton.TextColor = MyDevice.RedColor;
@@ -48,6 +54,7 @@ namespace bluemart.MainViews
 
 			MapButton.TextColor = MyDevice.RedColor;
 			MapButton.BorderColor = MyDevice.BlueColor;
+
 
 		}
 
@@ -68,13 +75,22 @@ namespace bluemart.MainViews
 		private void PopulatePopup()
 		{
 			StackLayout1.BackgroundColor = Color.Gray;
+			mLocations.Clear ();
 
 			mPopupLayout.WidthRequest = LocationButton.Width;
 
 			mPopupListView.SeparatorVisibility = SeparatorVisibility.None;
 			mPopupListView.SeparatorColor = Color.Transparent;
 
-			mPopupListView.ItemsSource = mLocationList;
+
+			var cell = new DataTemplate (typeof(LocationCell));
+
+			foreach (var location in mLocationList) {
+				mLocations.Add (new LocationClass (location));
+			}
+
+			mPopupListView.ItemTemplate = cell;
+			mPopupListView.ItemsSource = mLocations;
 			mPopupListView.HorizontalOptions = LayoutOptions.Center;
 
 			mPopupLayout.Content = StackLayout1;
@@ -93,7 +109,13 @@ namespace bluemart.MainViews
 				}
 			};
 			if(  mUserModel.GetLocationFromUser () != "" )
-				mPopupListView.SelectedItem = mUserModel.GetLocationFromUser ();
+			{
+				string location = mUserModel.GetLocationFromUser ();
+				foreach (var item in mPopupListView.ItemsSource) {
+					if ((item as LocationClass).Location == location)
+						mPopupListView.SelectedItem = item;
+				}
+			}
 			
 			mPopupLayout.ShowPopup (popup,Constraint.Constant(LocationButton.Bounds.Left),Constraint.Constant(MyDevice.ScreenHeight/6));
 		}
@@ -127,10 +149,9 @@ namespace bluemart.MainViews
 				if(mPopupListView.SelectedItem != null )
 				{
 					DismissPopup();
-					mUserModel.AddLocationToUser (mPopupListView.SelectedItem.ToString());
+					mUserModel.AddLocationToUser ((mPopupListView.SelectedItem as LocationClass).Location);
 					CategoryModel.CategoryLocation = mPopupListView.SelectedItem.ToString();
 					Navigation.PushAsync( mRootPage );
-					//Navigation.PushAsync (new BrowseCategoriesPage (),true);	
 				}
 			};
 

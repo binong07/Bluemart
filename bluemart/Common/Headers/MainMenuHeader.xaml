@@ -25,6 +25,6 @@
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<Image x:Name="CartButton" Grid.Row = "0" Grid.Column = "0" Source="cart" VerticalOptions = "Start" HorizontalOptions = "CenterAndExpand"/>
-		<Label x:Name="PriceLabel" Grid.Row = "1" Grid.Column = "0" Text = "DH: 0" VerticalOptions = "End" HorizontalOptions = "CenterAndExpand"/>
+		<Label x:Name="PriceLabel" Grid.Row = "1" Grid.Column = "0" Text = "DH: 0" VerticalOptions = "End" HorizontalOptions = "StartAndExpand"/>
 	</Grid>
 </Grid>

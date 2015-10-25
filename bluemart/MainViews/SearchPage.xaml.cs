@@ -20,8 +20,11 @@ namespace bluemart.MainViews
 		public List<ProductCell> mProductCellList = new List<ProductCell>();
 		private string mSearchString ;
 
-		public SearchPage (string searchString)
+		RootPage mParent;
+
+		public SearchPage (string searchString,RootPage parent)
 		{
+			mParent = parent;
 			InitializeComponent ();
 			mSearchString = searchString;
 			NavigationPage.SetHasNavigationBar (this, false);
@@ -33,6 +36,11 @@ namespace bluemart.MainViews
 		{
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
+		}
+
+		public void UpdatePriceLabel()
+		{
+			mParent.mRootHeader.mPriceLabel.Text = "DH: "+Cart.ProductTotalPrice;
 		}
 
 
@@ -86,7 +94,7 @@ namespace bluemart.MainViews
 			foreach (string productID in ProductModel.mSearchProductIDList ) {
 				string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
 				string ProductName = ProductModel.mProductNameDictionary [productID];
-				double price = ProductModel.mProductPriceDictionary [productID];
+				decimal price = ProductModel.mProductPriceDictionary [productID];
 				string quantity = ProductModel.mProductQuantityDictionary [productID];
 				mProductList.Add (new Product (productID, ProductName, ImagePath, price, quantity)); 
 			}

@@ -123,7 +123,7 @@ namespace bluemart.MainViews
 			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (true);
 			Grid1.Children.RemoveAt (3);
-			Grid1.Children.Add ((new SearchPage (searchString)).Content, 0, 1);
+			Grid1.Children.Add ((new SearchPage (searchString,this)).Content, 0, 1);
 		}
 	}
 }

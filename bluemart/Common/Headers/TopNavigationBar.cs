@@ -30,8 +30,8 @@ namespace bluemart.Common.Headers
 		private void SetGridDefinitions()
 		{
 			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight / 10;
+			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight / 8;
+			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight   / 8;
 			CartGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
 			CartGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight / 30;
 
@@ -46,18 +46,7 @@ namespace bluemart.Common.Headers
 		}
 
 		private void AddTapRecognizers()
-		{
-			/*var backButtonTapGestureRecognizer = new TapGestureRecognizer ();
-			backButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-
-				BackButton.Opacity = 0.5f;
-				await Task.Delay(200);
-				if( Navigation.NavigationStack.Last() is RootPage )
-					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("BrowseCategories");
-				//await Navigation.PopAsync();
-				BackButton.Opacity = 1f;
-			};
-			BackButton.GestureRecognizers.Add (backButtonTapGestureRecognizer);*/
+		{		
 
 			var cartButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			cartButtonTapGestureRecognizer.Tapped += async (sender, e) => {

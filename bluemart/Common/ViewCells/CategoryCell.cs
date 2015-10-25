@@ -80,7 +80,7 @@ namespace bluemart.Common.ViewCells
 					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {
 						string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
 						string ProductName = ProductModel.mProductNameDictionary [productID];
-						double price = ProductModel.mProductPriceDictionary [productID];
+						decimal price = ProductModel.mProductPriceDictionary [productID];
 						string quantity = ProductModel.mProductQuantityDictionary [productID];
 						product.Add (new Product (productID, ProductName, ImagePath, price, quantity)); 
 					}
