@@ -73,7 +73,7 @@ namespace bluemart.Models.Remote
 				tempProduct.ImageName = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_IMAGENAME);
 				tempProduct.ImageID = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_IMAGEID);
 				tempProduct.CategoryId = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_CATEGORYID);
-				tempProduct.Price = productObject.Get<decimal> (ParseConstants.PRODUCT_ATTRIBUTE_PRICE);
+				tempProduct.Price = new Decimal(productObject.Get<double> (ParseConstants.PRODUCT_ATTRIBUTE_PRICE));
 				tempProduct.Quantity = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_QUANTITY);
 
 				tempList.Add (tempProduct);
