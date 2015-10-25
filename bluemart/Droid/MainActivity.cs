@@ -39,7 +39,6 @@ namespace bluemart.Droid
 				ParseClient.Initialize("EUDL8rKwCc1JcL8tw5KsW1QB9ePSGx2dSBTobbE5","PNOG7XhRV8tuB907fQ0S0b5ShaIzYN0wVPZ3AyoN");
 			}
 			catch(ParseException e) {
-				//System.out.println(e.Message);
 				Log.Warn("BlueMart",e.Message.ToString());
 			}
 

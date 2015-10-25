@@ -116,7 +116,7 @@ namespace bluemart.MainViews
 				}
 				else if( Cart.ProductTotalPrice < 50 )
 				{
-					DisplayAlert("Failed","Please order AED 50, as this is the minumum order.","OK");
+					DisplayAlert("Failed","Please order AED 50, as this is the minimum order.","OK");
 				}
 				else
 				{

@@ -11,6 +11,7 @@ using System.Net.Http;
 using XLabs.Forms.Controls;
 using bluemart.Models.Remote;
 using bluemart.Models.Local;
+using bluemart.Common.ViewCells;
 
 namespace bluemart.MainViews
 {
@@ -18,7 +19,8 @@ namespace bluemart.MainViews
 	{				
 		UserClass mUserModel;
 		PopupLayout mPopupLayout = new PopupLayout();
-		ListView mPopupListView = new ListView();
+		ListView mPopupListView = new ListView ();	
+		List<LocationCell> mLocationCellList = new List<LocationCell> ();
 		Grid mConfirmationGrid;
 		Button mOKButton;
 		Button mCancelButton;
@@ -68,6 +70,9 @@ namespace bluemart.MainViews
 			StackLayout1.BackgroundColor = Color.Gray;
 
 			mPopupLayout.WidthRequest = LocationButton.Width;
+
+			mPopupListView.SeparatorVisibility = SeparatorVisibility.None;
+			mPopupListView.SeparatorColor = Color.Transparent;
 
 			mPopupListView.ItemsSource = mLocationList;
 			mPopupListView.HorizontalOptions = LayoutOptions.Center;

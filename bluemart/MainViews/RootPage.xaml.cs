@@ -18,16 +18,25 @@ namespace bluemart.MainViews
 		private string mCurrentPage = "";
 		public Footer mFooter;
 		public Grid mGrid;
+		public TopNavigationBar mTopNavigationBar;
+		public MainMenuHeader mRootHeader;
+
 		public RootPage ()
 		{
 			InitializeComponent ();
 			SwitchHeaderVisibility (true);
+
 			mFooter = Footer;
 			mGrid = Grid1;
 			mBrowseCategoriesPage = new BrowseCategoriesPage (this);
 			mSettingsPage = new SettingsPage(this);
 			mFavoritesPage = new FavoritesPage (this);
 			mCartPage = new CartPage (this);
+			RootHeader.mParent = this;
+			ProductHeader.mParent = this;
+			mTopNavigationBar = ProductHeader;
+			mRootHeader = RootHeader;
+
 			NavigationPage.SetHasNavigationBar (this, false);
 			mCurrentPage = "BrowseCategories";
 			SetGrid1Definitions ();

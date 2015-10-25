@@ -32,6 +32,7 @@ namespace bluemart.MainViews
 			mButtonList = new List<Button> ();
 			mCategoryIndexList = new List<int> ();
 			//NavigationBar.NavigationText.Text = category.Name;
+			parent.mTopNavigationBar.NavigationText.Text = category.Name;
 			mProductDictionary = productDictionary;
 			int count = 0;
 			foreach (var product in productDictionary) {
@@ -47,7 +48,7 @@ namespace bluemart.MainViews
 
 		public void  UpdatePriceLabel()
 		{
-			//NavigationBar.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
+			mParent.mTopNavigationBar.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 		}
 
 		protected override void OnAppearing()

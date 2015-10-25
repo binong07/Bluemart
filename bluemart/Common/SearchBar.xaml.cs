@@ -41,7 +41,7 @@ namespace bluemart.Common
 			this.WidthRequest = MyDevice.ScreenWidth * 4 / 5;
 			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth / 5;
 			this.ColumnDefinitions [1].Width = MyDevice.ScreenWidth *3 / 5;
-			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 20;
+			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
 		}
 
 		private void SearchEntryCompleted(Object sender,EventArgs e)

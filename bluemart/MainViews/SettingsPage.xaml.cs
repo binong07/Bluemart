@@ -39,7 +39,6 @@ namespace bluemart.MainViews
 			if (user.PhoneNumber.Length > 0) {
 				PhoneEntry.Text = user.PhoneNumber.Substring (6);
 			}
-			SubmitButton.IsEnabled = false;
 		}
 
 		public void RefreshPriceInCart()
@@ -61,7 +60,7 @@ namespace bluemart.MainViews
 			AddressDescriptionLabel.TextColor = Color.White;
 			PhoneLabel.TextColor = Color.White;
 			SubmitButton.TextColor = MyDevice.RedColor;
-			SubmitButton.BackgroundColor = Color.White;
+			SubmitButton.BackgroundColor = Color.Gray;
 			NameEntry.TextColor = Color.Black;
 			SurNameEntry.TextColor = Color.Black;
 			AddressEntry.TextColor = Color.Black;
@@ -69,8 +68,7 @@ namespace bluemart.MainViews
 			AddressDescriptionEntry.TextColor = Color.Black;
 			PhoneEntry.TextColor = Color.Black;
 		}
-
-
+			
 		private void OnEntryFocused(Object sender,EventArgs e)
 		{
 			mParent.mFooter.IsVisible = false;
@@ -113,7 +111,7 @@ namespace bluemart.MainViews
 			string region = RegionEntry.Text.ToString ();
 			string addressDescription = AddressDescriptionEntry.Text.ToString ();
 			string name = NameEntry.Text.ToString () + " " + SurNameEntry.Text.ToString ();
-			string phoneNumber = "(+971) " + PhoneEntry.Text.ToString ();
+			string phoneNumber = PhoneEntry.Text.ToString ();
 			mUserModel.AddUserInfo (address,region,addressDescription,name,phoneNumber);
 			await DisplayAlert ("User Infor Submitted", "You have successfully submitted your information", "OK");
 
@@ -138,12 +136,12 @@ namespace bluemart.MainViews
 		}
 		private void OnRegionTextChanged(Object sender,EventArgs e)
 		{			
-			bAddressTextChanged = CheckIfTextChanged (AddressEntry);
+			bRegionTextChanged = CheckIfTextChanged (RegionEntry);
 			SetSubmitButton ();
 		}
 		private void OnAddressDescriptionTextChanged(Object sender,EventArgs e)
 		{			
-			bAddressTextChanged = CheckIfTextChanged (AddressEntry);
+			bAddressDescriptionTextChanged = CheckIfTextChanged (AddressDescriptionEntry);
 			SetSubmitButton ();
 		}
 		private void OnTelephoneTextChanged(Object sender,EventArgs e)
@@ -165,10 +163,15 @@ namespace bluemart.MainViews
 
 		private void SetSubmitButton() 
 		{
-			if (bNameTextChanged && bSurNameTextChanged && bAddressTextChanged && bTelephoneTextChanged && bRegionTextChanged && bAddressDescriptionTextChanged)
+			if (bNameTextChanged && bSurNameTextChanged && bAddressTextChanged && bTelephoneTextChanged && bRegionTextChanged && bAddressDescriptionTextChanged) {
 				SubmitButton.IsEnabled = true;
-			else
+				SubmitButton.TextColor = MyDevice.RedColor;
+				SubmitButton.BackgroundColor = Color.White;
+			} else {
 				SubmitButton.IsEnabled = false;
+				SubmitButton.TextColor = MyDevice.RedColor;
+				SubmitButton.BackgroundColor = Color.Gray;
+			}
 		}
 
 		private bool CheckIfTextChanged (Entry entry)
@@ -179,24 +182,6 @@ namespace bluemart.MainViews
 				bTextChanged = true;
 
 			return bTextChanged;
-		}
-
-		private string FormatPhoneNumber()
-		{
-			string formattedPhoneNumber = PhoneEntry.Text.Trim ();
-
-			if (formattedPhoneNumber.Length == 11)
-				formattedPhoneNumber = formattedPhoneNumber.Remove (10);			
-				
-
-			//PhoneEntry.
-			if (formattedPhoneNumber.Length == 2)
-				formattedPhoneNumber = formattedPhoneNumber.Insert (1, " ");
-			else if (formattedPhoneNumber.Length == 6) {
-				formattedPhoneNumber = formattedPhoneNumber.Insert (5, " ");
-			}
-
-			return formattedPhoneNumber;
 		}
 	}
 }

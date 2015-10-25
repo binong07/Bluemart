@@ -30,10 +30,8 @@ namespace bluemart.Common.Headers
 		private void SetGridDefinitions()
 		{
 			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 10;
-			//this.ColumnDefinitions [0].Width = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight * 2 / 10;
+			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight / 10;
 			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [2].Width = MyDevice.ScreenHeight / 10;
 			CartGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
 			CartGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight / 30;
 
@@ -43,10 +41,8 @@ namespace bluemart.Common.Headers
 
 		private void SetImageSize()
 		{
-			//BackButton.HeightRequest = MyDevice.ScreenHeight / 15;
-			SearchButton.HeightRequest = MyDevice.ScreenHeight / 15;
 			CartButton.HeightRequest = MyDevice.ScreenHeight / 15;
-			NavigationTitle.FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label));
+			NavigationTitle.FontSize = Device.GetNamedSize (NamedSize.Large, typeof(Label));
 		}
 
 		private void AddTapRecognizers()

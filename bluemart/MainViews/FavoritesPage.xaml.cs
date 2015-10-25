@@ -29,7 +29,7 @@ namespace bluemart.MainViews
 		}
 		public void UpdatePriceLabel()
 		{
-			//Header.mPriceLabel.Text = "DH: "+Cart.ProductTotalPrice;
+			mParent.mRootHeader.mPriceLabel.Text = "DH: "+Cart.ProductTotalPrice;
 		}
 
 		protected override void OnAppearing()

@@ -11,16 +11,11 @@
 		<RowDefinition/>
 	</Grid.RowDefinitions>
 	<Grid.ColumnDefinitions>
-		<!--<ColumnDefinition/>-->
-		<ColumnDefinition/>
 		<ColumnDefinition/>
 		<ColumnDefinition/>
 	</Grid.ColumnDefinitions>
-
-	<!--<Image x:Name="BackButton" Grid.Row = "0" Grid.Column = "0" Source = "back" VerticalOptions = "Center" HorizontalOptions = "Start"/>-->
-	<Label x:Name="NavigationTitle" Grid.Row = "0" Grid.Column = "0" VerticalOptions = "Center" HorizontalOptions = "Start"/>
-	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "1" Source="search" VerticalOptions = "Center" HorizontalOptions = "Start"/>
-	<Grid  x:Name="CartGrid"  Grid.Row = "0" Grid.Column = "2" BackgroundColor="White" Padding = "0,0,0,0" RowSpacing = "0">
+	<Label x:Name="NavigationTitle" Grid.Row = "0" Grid.Column = "0" VerticalOptions = "Center" HorizontalOptions = "Center"/>
+	<Grid  x:Name="CartGrid"  Grid.Row = "0" Grid.Column = "1" BackgroundColor="White" Padding = "0,0,0,0" RowSpacing = "0">
 		<Grid.RowDefinitions>
 			<RowDefinition/>
 			<RowDefinition/>

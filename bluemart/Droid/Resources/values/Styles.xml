@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+  <color name="Red">#FF0000</color>
+  <style name="MyTheme" parent="android:Theme.Holo.Light">
+    <item name="android:colorPressedHighlight">@color/Red</item>
+    <item name="android:colorFocusedHighlight">@color/Red</item>
+    <item name="android:colorActivatedHighlight">@color/Red</item>
+  </style>
+</resources>

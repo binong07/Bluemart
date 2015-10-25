@@ -4,6 +4,7 @@
      x:Class="bluemart.Common.SearchBar"
      BackgroundColor="White"
      ColumnSpacing = "0"
+     RowSpacing = "0"
      Padding = "0"
      HorizontalOptions = "Center">
      <Grid.RowDefinitions>
@@ -15,5 +16,5 @@
 	</Grid.ColumnDefinitions>
 	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "0" Source="search" VerticalOptions = "Center" HorizontalOptions = "Center"/>
 	<Entry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "1" Text = "Search Products" 
-			BackgroundColor = "White"  VerticalOptions = "Fill" Completed = "SearchEntryCompleted" Focused = "SearchEntryFocused" Unfocused = "SearchEntryUnfocused"/>
+			BackgroundColor = "White"  VerticalOptions = "Fill" HorizontalOptions = "FillAndExpand" Completed = "SearchEntryCompleted" Focused = "SearchEntryFocused" Unfocused = "SearchEntryUnfocused"/>
 </Grid>

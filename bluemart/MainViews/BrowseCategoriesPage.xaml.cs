@@ -33,8 +33,8 @@ namespace bluemart.MainViews
 
 		private void SetGrid1Definitions()
 		{
-			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 20;
-			//Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 10;
+			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
+			//Grid1.RowDefinitions [1].Height = MyDevice.ScreenHeight / 20;
 			//Grid1.BackgroundColor = MyDevice.BlueColor;
 			ScrollView1.BackgroundColor = MyDevice.BlueColor;
 			//Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
