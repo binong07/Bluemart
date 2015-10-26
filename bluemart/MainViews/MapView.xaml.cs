@@ -17,7 +17,7 @@ namespace bluemart.MainViews
 		public void OnStartShopingButtonClicked(Object sender,EventArgs e )
 		{
 			CategoryModel.CategoryLocation = "asd";
-			Navigation.PushAsync (new BrowseCategoriesPage (mParent));
+			Navigation.PushAsync (mParent);
 		}
 		public void OnPinClicked(int index )
 		{

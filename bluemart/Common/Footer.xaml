@@ -64,7 +64,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "SettingsButton" Grid.Row = "0" Grid.Column = "0" Source = "Settings" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Image x:Name = "SettingsButton" Grid.Row = "0" Grid.Column = "0" Source = "Settings" HorizontalOptions = "Center" VerticalOptions = "End" />
 		<Label x:Name="SettingsLabel" Grid.Row = "1" Grid.Column = "0" Text = "Settings" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 </StackLayout>

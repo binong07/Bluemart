@@ -17,7 +17,7 @@ using Android.Util;
 
 namespace bluemart.Droid
 {
-	[Activity (Label = "bluemart", Icon = "@drawable/icon1", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity (Label = "bluemart", Icon = "@drawable/icon1", MainLauncher = true, ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
 	public class MainActivity : XFormsApplicationDroid
 	{
 		protected override void OnCreate (Bundle bundle)

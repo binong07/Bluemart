@@ -71,7 +71,8 @@ namespace bluemart.MainViews
 
 		private void PopulatePopup()
 		{
-			StackLayout1.BackgroundColor = Color.Aqua;
+			//StackLayout1.BackgroundColor = MyDevice.BlueColor;
+			StackLayout1.BackgroundColor = Color.FromRgba ( MyDevice.BlueColor.R, MyDevice.BlueColor.G, MyDevice.BlueColor.B,0.5f);
 			mLocations.Clear ();
 
 			mPopupLayout.WidthRequest = LocationButton.Width;

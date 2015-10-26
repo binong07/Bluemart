@@ -15,7 +15,7 @@
 		<ColumnDefinition/>
 		<ColumnDefinition/>
 	</Grid.ColumnDefinitions>
-	<Image x:Name = "BackButton" Grid.Row = "0" Grid.Column = "0" Source = "back" VerticalOptions = "Center" HorizontalOptions = "Start" />
+	<Image x:Name = "BackButton" Grid.Row = "0" Grid.Column = "0" Source = "back" VerticalOptions = "Center" HorizontalOptions = "Center" />
 	<Label x:Name="NavigationTitle" Grid.Row = "0" Grid.Column = "1" VerticalOptions = "Center" HorizontalOptions = "Center"/>
 	<Grid  x:Name="CartGrid"  Grid.Row = "0" Grid.Column = "2" BackgroundColor="White" Padding = "0,0,0,0" RowSpacing = "0">
 		<Grid.RowDefinitions>

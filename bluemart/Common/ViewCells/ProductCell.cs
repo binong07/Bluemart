@@ -25,7 +25,6 @@ namespace bluemart.Common.ViewCells
 		{		
 				
 			double width = (MyDevice.ScreenWidth-parentGrid.ColumnSpacing)/2;
-			List<string> productIDList = new List<string> ();
 
 			if (Cart.ProductsInCart.Count != 0) {
 				foreach (Product p in Cart.ProductsInCart) {
@@ -52,7 +51,7 @@ namespace bluemart.Common.ViewCells
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto });
 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  new GridLength(width,GridUnitType.Absolute) });
 
-			Label productNameLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)), HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Start , TextColor = MyDevice.RedColor };
+			Label productNameLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)), HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Start , TextColor = MyDevice.RedColor, XAlign=TextAlignment.Center };
 
 			productNameLabel.Text = product.Name;
 			mainCellGrid.Children.Add (productNameLabel, 0, 0);

@@ -65,8 +65,7 @@ namespace bluemart.MainViews
 			
 		private void OnChangeLocationButtonClicked( Object sender, EventArgs e )
 		{
-			//mParent.Navigation.PopAsync ();
-			Keyboard key = Keyboard.Default;
+			mParent.Navigation.PopAsync ();
 		}
 
 		private void OnEntryFocused(Object sender,EventArgs e)

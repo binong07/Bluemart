@@ -32,14 +32,14 @@ namespace bluemart.Common
 			SetLabelProperties ();
 			AddTapRecognizers ();
 			mActiveLabel = CategoryLabel;
-			mActiveLabel.TextColor = Color.Green;
+			mActiveLabel.TextColor = MyDevice.BlueColor;
 		}
 
 		public void ChangeColorOfLabel(Label newActiveLabel)
 		{
 			mActiveLabel.TextColor = MyDevice.RedColor;
 			mActiveLabel = newActiveLabel;
-			mActiveLabel.TextColor = Color.Green;
+			mActiveLabel.TextColor = MyDevice.BlueColor;
 		}
 
 		public void SetLabelProperties()
