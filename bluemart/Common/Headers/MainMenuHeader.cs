@@ -11,9 +11,9 @@ namespace bluemart.Common.Headers
 	{
 		public Label mPriceLabel;
 		public RootPage mParent;
+
 		public MainMenuHeader ()
-		{
-			
+		{			
 			InitializeComponent ();
 			mPriceLabel = PriceLabel;
 			SetGridDefinitions ();

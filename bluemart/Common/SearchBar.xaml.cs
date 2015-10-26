@@ -56,14 +56,14 @@ namespace bluemart.Common
 		private void SearchEntryFocused(Object sender,EventArgs e)
 		{
 			SearchEntry.Text = "";
-			mParent.mFooter.IsVisible = false;
+			mParent.RemoveFooter ();
 		}
 
 		private void SearchEntryUnfocused(Object sender,EventArgs e)
 		{
 			if (SearchEntry.Text == "")
 				SearchEntry.Text = "Search Products";
-			mParent.mFooter.IsVisible = true;
+			mParent.AddFooter ();
 		}
 	}
 }

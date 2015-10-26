@@ -37,7 +37,7 @@ namespace bluemart.MainViews
 				SurNameEntry.Text = user.Name.Split (' ') [1];
 			}
 			if (user.PhoneNumber.Length > 0) {
-				PhoneEntry.Text = user.PhoneNumber.Substring (6);
+				PhoneEntry.Text = user.PhoneNumber;
 			}
 		}
 
@@ -76,12 +76,12 @@ namespace bluemart.MainViews
 
 		private void OnEntryFocused(Object sender,EventArgs e)
 		{
-			mParent.mFooter.IsVisible = false;
+			mParent.RemoveFooter ();
 		}
 
 		private void OnEntryUnfocused( Object sender, EventArgs e)
 		{
-			mParent.mFooter.IsVisible = true;
+			mParent.AddFooter ();
 		}
 
 		private void NameEntryCompleted(Object sender, EventArgs e)

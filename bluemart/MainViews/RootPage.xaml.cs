@@ -21,6 +21,8 @@ namespace bluemart.MainViews
 		public TopNavigationBar mTopNavigationBar;
 		public MainMenuHeader mRootHeader;
 
+		private View mContentGrid;
+
 		public RootPage ()
 		{
 			InitializeComponent ();
@@ -41,13 +43,21 @@ namespace bluemart.MainViews
 			mCurrentPage = "BrowseCategories";
 			SetGrid1Definitions ();
 
-			Grid1.Children.Add(mBrowseCategoriesPage.Content,0,1);
+			mContentGrid = mBrowseCategoriesPage.Content;
+			Grid1.Children.Add(mContentGrid,0,1);
 		}
 
 		private void SetGrid1Definitions()
 		{
 			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 10;
 			Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 10;
+		}
+
+		private void SwitchContentGrid(View content)
+		{
+			Grid1.Children.Remove(mContentGrid);
+			mContentGrid = content;
+			Grid1.Children.Add(mContentGrid,0,1);
 		}
 
 		public void SwitchTab( string pageName )
@@ -58,24 +68,21 @@ namespace bluemart.MainViews
 			switch (pageName) {
 			case "BrowseCategories":
 				SwitchHeaderVisibility (true);
-				Grid1.Children.RemoveAt (3);
-				RootHeader.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
-				mBrowseCategoriesPage.RefreshSearchText();
-				Grid1.Children.Add(mBrowseCategoriesPage.Content,0,1);
+				RootHeader.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString ();
+				mBrowseCategoriesPage.RefreshSearchText ();
+				SwitchContentGrid (mBrowseCategoriesPage.Content);
 				mCurrentPage = pageName;
 				break;
 			case "Settings":
 				SwitchHeaderVisibility (true);
-				Grid1.Children.RemoveAt (3);
 				mSettingsPage.RefreshPriceInCart ();
-				Grid1.Children.Add(mSettingsPage.Content,0,1);
+				SwitchContentGrid (mSettingsPage.Content);
 				mCurrentPage = pageName;
 				break;
 			case "Favorites":
 				SwitchHeaderVisibility (true);
-				Grid1.Children.RemoveAt (3);
 				mFavoritesPage.RefreshFavoritesGrid ();
-				Grid1.Children.Add(mFavoritesPage.Content,0,1);
+				SwitchContentGrid (mFavoritesPage.Content);
 				mCurrentPage = pageName;
 				break;
 			default:
@@ -94,8 +101,7 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (false);
-			Grid1.Children.RemoveAt (3);
-			Grid1.Children.Add((new BrowseProductsPage(productDictionary,category,this)).Content,0,1);
+			SwitchContentGrid ((new BrowseProductsPage(productDictionary,category,this)).Content);
 		}
 
 		public void LoadCartPage()
@@ -103,8 +109,7 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 			SwitchHeaderVisibility (true);
 			Footer.SetLabelProperties ();
-			Grid1.Children.RemoveAt (3);
-			Grid1.Children.Add(mCartPage.Content,0,1);
+			SwitchContentGrid (mCartPage.Content);
 			mCartPage.PrintDictionaryContents ();
 		}
 
@@ -113,8 +118,7 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 			SwitchHeaderVisibility (true);
 			Footer.SetLabelProperties ();
-			Grid1.Children.RemoveAt (3);
-			Grid1.Children.Add((new ReceiptView(this)).Content,0,1);
+			SwitchContentGrid ((new ReceiptView (this)).Content);
 		}
 
 		public void LoadSearchPage(string searchString)
@@ -122,8 +126,18 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (true);
-			Grid1.Children.RemoveAt (3);
-			Grid1.Children.Add ((new SearchPage (searchString,this)).Content, 0, 1);
+			SwitchContentGrid ((new SearchPage (searchString,this)).Content);
+		}
+
+		public void RemoveFooter()
+		{
+			Grid1.RowDefinitions.RemoveAt (2);
+			Grid1.Children.Remove (mFooter);
+		}
+		public void AddFooter()
+		{
+			Grid1.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenHeight / 10 });
+			Grid1.Children.Add (mFooter,0,2);
 		}
 	}
 }
