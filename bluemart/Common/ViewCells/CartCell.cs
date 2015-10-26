@@ -27,12 +27,12 @@ namespace bluemart
 			mParentPage = parent as CartPage;
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
 
-			Grid mainCellView = new Grid (){RowSpacing = 0, ColumnSpacing = 0, Padding = 0,BackgroundColor=Color.White};
+			Grid mainCellView = new Grid (){RowSpacing = 0, ColumnSpacing = 9, Padding = 0,BackgroundColor=Color.White};
 			mainCellView.HorizontalOptions = LayoutOptions.Start;
 			//mainCellView.BackgroundColor = Color.Red;
 			mainCellView.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto } );
 			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth/10} );
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth*6/10 });
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth*6/10 - mainCellView.ColumnSpacing*4 });
 			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth / 10});
 			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth / 10});
 			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth / 10});

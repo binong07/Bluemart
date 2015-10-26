@@ -40,7 +40,7 @@ namespace bluemart.MainViews
 
 		public void UpdatePriceLabel()
 		{
-			mParent.mRootHeader.mPriceLabel.Text = "DH: "+Cart.ProductTotalPrice;
+			mParent.mRootHeader.mPriceLabel.Text = "DH:"+Cart.ProductTotalPrice;
 		}
 
 

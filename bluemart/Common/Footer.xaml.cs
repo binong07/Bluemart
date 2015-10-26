@@ -42,23 +42,6 @@ namespace bluemart.Common
 			mActiveLabel.TextColor = Color.Green;
 		}
 
-		/*private void ChangeColorOfLabel(string tabName)
-		{
-			SetLabelProperties ();
-
-			switch (tabName) {
-			case "BrowseCategories":
-				CategoryLabel.TextColor = Color.Green;
-				break;
-			case "Settings":
-				SettingsLabel.TextColor = Color.Green;
-				break;
-			case "Favorites":
-				SettingsLabel.TextColor = Color.Green;
-				break;
-			}
-		}*/
-
 		public void SetLabelProperties()
 		{
 			CategoryLabel.TextColor = MyDevice.RedColor;

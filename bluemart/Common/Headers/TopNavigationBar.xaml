@@ -13,9 +13,11 @@
 	<Grid.ColumnDefinitions>
 		<ColumnDefinition/>
 		<ColumnDefinition/>
+		<ColumnDefinition/>
 	</Grid.ColumnDefinitions>
-	<Label x:Name="NavigationTitle" Grid.Row = "0" Grid.Column = "0" VerticalOptions = "Center" HorizontalOptions = "Center"/>
-	<Grid  x:Name="CartGrid"  Grid.Row = "0" Grid.Column = "1" BackgroundColor="White" Padding = "0,0,0,0" RowSpacing = "0">
+	<Image x:Name = "BackButton" Grid.Row = "0" Grid.Column = "0" Source = "back" VerticalOptions = "Center" HorizontalOptions = "Start" />
+	<Label x:Name="NavigationTitle" Grid.Row = "0" Grid.Column = "1" VerticalOptions = "Center" HorizontalOptions = "Center"/>
+	<Grid  x:Name="CartGrid"  Grid.Row = "0" Grid.Column = "2" BackgroundColor="White" Padding = "0,0,0,0" RowSpacing = "0">
 		<Grid.RowDefinitions>
 			<RowDefinition/>
 			<RowDefinition/>
@@ -24,6 +26,6 @@
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<Image x:Name="CartButton" Grid.Row = "0" Grid.Column = "0" Source="cart" VerticalOptions = "Start" HorizontalOptions = "Center"/>
-		<Label x:Name="PriceLabel" Grid.Row = "1" Grid.Column = "0" Text = "DH: 0" VerticalOptions = "End" HorizontalOptions = "StartAndExpand"/>
+		<Label x:Name="PriceLabel" Grid.Row = "1" Grid.Column = "0" Text = "DH:0" VerticalOptions = "Center" HorizontalOptions = "Center"/>
 	</Grid>
 </Grid>

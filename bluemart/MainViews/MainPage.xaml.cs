@@ -22,13 +22,10 @@ namespace bluemart.MainViews
 		PopupLayout mPopupLayout = new PopupLayout();
 		ListView mPopupListView = new ListView ();	
 		List<LocationClass> mLocations = new List<LocationClass> ();
-		//Dictionary<string,List<LocationCell>> mLocationCellList = new Dictionary<string,List<LocationCell>> ();
-		//List<LocationCell> mLocationCellList = new List<LocationCell> ();
 		Grid mConfirmationGrid;
 		Button mOKButton;
 		Button mCancelButton;
 		RootPage mRootPage = new RootPage ();
-		//StackLayout mPopupStackLayout = new StackLayout();
 
 		private const string _location1Text="Location1Text";
 		private const string _location2Text="Location2Text";
@@ -74,7 +71,7 @@ namespace bluemart.MainViews
 
 		private void PopulatePopup()
 		{
-			StackLayout1.BackgroundColor = Color.Gray;
+			StackLayout1.BackgroundColor = Color.Aqua;
 			mLocations.Clear ();
 
 			mPopupLayout.WidthRequest = LocationButton.Width;

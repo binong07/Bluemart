@@ -15,6 +15,6 @@
 		<ColumnDefinition/>
 	</Grid.ColumnDefinitions>
 	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "0" Source="search" VerticalOptions = "Center" HorizontalOptions = "Center"/>
-	<Entry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "1" Text = "Search Products" 
+	<controls:ExtendedEntry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "1" Text = "Search Products" 
 			BackgroundColor = "White"  VerticalOptions = "Fill" HorizontalOptions = "FillAndExpand" Completed = "SearchEntryCompleted" Focused = "SearchEntryFocused" Unfocused = "SearchEntryUnfocused"/>
 </Grid>

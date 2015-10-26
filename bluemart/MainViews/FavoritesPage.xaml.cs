@@ -29,7 +29,7 @@ namespace bluemart.MainViews
 		}
 		public void UpdatePriceLabel()
 		{
-			mParent.mRootHeader.mPriceLabel.Text = "DH: "+Cart.ProductTotalPrice;
+			mParent.mRootHeader.mPriceLabel.Text = "DH:"+Cart.ProductTotalPrice;
 		}
 
 		protected override void OnAppearing()
@@ -102,12 +102,6 @@ namespace bluemart.MainViews
 			PopulateProducts();
 			PopulateGrid ();
 			ScrollView1.Content = Grid2;
-			RefreshPriceInCart ();
-		}
-
-		public void RefreshPriceInCart()
-		{
-			//Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
 		}
 	}
 }

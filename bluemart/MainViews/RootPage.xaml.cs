@@ -49,8 +49,9 @@ namespace bluemart.MainViews
 
 		private void SetGrid1Definitions()
 		{
-			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 10;
-			Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 10;
+			Grid1.BackgroundColor = MyDevice.BlueColor;
+			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 12;
+			Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 12;
 		}
 
 		private void SwitchContentGrid(View content)
@@ -68,14 +69,13 @@ namespace bluemart.MainViews
 			switch (pageName) {
 			case "BrowseCategories":
 				SwitchHeaderVisibility (true);
-				RootHeader.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString ();
+				RootHeader.mPriceLabel.Text = "DH:" + Cart.ProductTotalPrice.ToString ();
 				mBrowseCategoriesPage.RefreshSearchText ();
 				SwitchContentGrid (mBrowseCategoriesPage.Content);
 				mCurrentPage = pageName;
 				break;
 			case "Settings":
 				SwitchHeaderVisibility (true);
-				mSettingsPage.RefreshPriceInCart ();
 				SwitchContentGrid (mSettingsPage.Content);
 				mCurrentPage = pageName;
 				break;
@@ -99,7 +99,7 @@ namespace bluemart.MainViews
 		public void LoadProductsPage( Dictionary<string, List<Product>> productDictionary, Category category )
 		{
 			mCurrentPage = "";
-			Footer.SetLabelProperties ();
+			//Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (false);
 			SwitchContentGrid ((new BrowseProductsPage(productDictionary,category,this)).Content);
 		}

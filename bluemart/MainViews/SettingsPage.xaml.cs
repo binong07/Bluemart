@@ -41,15 +41,9 @@ namespace bluemart.MainViews
 			}
 		}
 
-		public void RefreshPriceInCart()
-		{
-			//Header.mPriceLabel.Text = "DH: " + Cart.ProductTotalPrice.ToString();
-		}
 
 		private void SetGrid1Definitions()
 		{
-			//Grid1.RowDefinitions [0].Height = GridLength.Auto;
-			//Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 
 			Grid1.BackgroundColor = MyDevice.BlueColor;
@@ -71,7 +65,8 @@ namespace bluemart.MainViews
 			
 		private void OnChangeLocationButtonClicked( Object sender, EventArgs e )
 		{
-			mParent.Navigation.PopAsync ();
+			//mParent.Navigation.PopAsync ();
+			Keyboard key = Keyboard.Default;
 		}
 
 		private void OnEntryFocused(Object sender,EventArgs e)

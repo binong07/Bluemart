@@ -16,6 +16,9 @@ namespace bluemart.Common
 		{
 			InitializeComponent ();
 			mSearchEntry = SearchEntry;
+			SearchEntry.XAlign = TextAlignment.Center;
+
+
 			SetGridDefinitions ();
 			AddTapRecognizers ();
 		}
@@ -38,10 +41,10 @@ namespace bluemart.Common
 
 		private void SetGridDefinitions()
 		{
-			this.WidthRequest = MyDevice.ScreenWidth * 4 / 5;
-			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth / 5;
-			this.ColumnDefinitions [1].Width = MyDevice.ScreenWidth *3 / 5;
-			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
+			this.WidthRequest = MyDevice.ScreenWidth;
+			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth / 7;
+			this.ColumnDefinitions [1].Width = MyDevice.ScreenWidth * 6 / 7;
+			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 17;
 		}
 
 		private void SearchEntryCompleted(Object sender,EventArgs e)

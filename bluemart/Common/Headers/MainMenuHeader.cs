@@ -25,12 +25,12 @@ namespace bluemart.Common.Headers
 
 		private void SetGridDefinitions()
 		{
-			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 10;
-			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight  / 8;
-			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight / 8;
+			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 12;
+			this.ColumnDefinitions [0].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight  / 7;
+			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight / 7;
 	
-			CartGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight / 15;
-			CartGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight / 30;
+			CartGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight / 18;
+			CartGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight / 36;
 
 			PriceLabel.TextColor = MyDevice.BlueColor;
 			PriceLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
