@@ -45,11 +45,11 @@ namespace bluemart.MainViews
 			};
 
 
-			var position = new Position(25.068084, 55.131583);
+			var position = new Position(25.082742, 55.147174);
 			var pin = new Pin {
 				Type = PinType.Place,
 				Position = position,
-				Label = "Express Blue Mart",
+				Label = "Blue Mart Supermarket",
 				Address = "Dubai Marina, Dubai - UAE"
 			};
 			pin.Clicked += (object sender, EventArgs e) => 
@@ -58,11 +58,11 @@ namespace bluemart.MainViews
 			};
 			map.Pins.Add(pin);
 
-			position = new Position(25.097806, 55.175379);
+			position = new Position(25.099536, 55.178529);
 			pin = new Pin {
 				Type = PinType.Place,
 				Position = position,
-				Label = "Express Blue Mart",
+				Label = "Blue Mart",
 				Address = "Tecom, Dubai - UAE"
 			};
 			pin.Clicked += (object sender, EventArgs e) => 
@@ -71,11 +71,11 @@ namespace bluemart.MainViews
 			};
 			map.Pins.Add(pin);
 
-			position = new Position(25.046159, 55.232229);
+			position = new Position(25.046035, 55.232205);
 			pin = new Pin {
 				Type = PinType.Place,
 				Position = position,
-				Label = "Blue Mart Supermarket",
+				Label = "Blue Mart",
 				Address = "Motor City, Dubai - UAE"
 			};
 			pin.Clicked += (object sender, EventArgs e) => 
