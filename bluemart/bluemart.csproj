@@ -57,9 +57,6 @@
     </Compile>
     <Compile Include="Common\Objects\Cart.cs" />
     <Compile Include="Common\ViewCells\CartCell.cs" />
-    <Compile Include="MainViews\LoadingPage.xaml.cs">
-      <DependentUpon>LoadingPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\Utility\ParseConstants.cs" />
     <Compile Include="Common\Utility\DBConstants.cs" />
     <Compile Include="MainViews\FavoritesPage.xaml.cs">
@@ -77,7 +74,9 @@
     <Compile Include="MainViews\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Remote\CategoryModel.cs" />
+    <Compile Include="Models\Remote\CategoryModel.cs">
+      <DeployService-Deploy>True</DeployService-Deploy>
+    </Compile>
     <Compile Include="Models\Remote\ProductModel.cs" />
     <Compile Include="Models\Local\CategoryClass.cs" />
     <Compile Include="Models\Local\FavoritesClass.cs" />
@@ -94,6 +93,12 @@
     </Compile>
     <Compile Include="Common\ViewCells\LocationCell.cs" />
     <Compile Include="Models\Local\LocationClass.cs" />
+    <Compile Include="MainViews\LoadingPage.xaml.cs">
+      <DeployService-Deploy>True</DeployService-Deploy>
+      <DeployService-TargetDirectoryId>CommonApplicationData</DeployService-TargetDirectoryId>
+      <DependentUpon>LoadingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Remote\ImageModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -218,5 +223,64 @@
     <EmbeddedResource Include="Common\SearchBar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="SavedImages\Bakery.jpg">
+      <DeployService-Deploy>True</DeployService-Deploy>
+      <DeployService-TargetDirectoryId>CommonApplicationDataRoot</DeployService-TargetDirectoryId>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SavedImages\Biscuits_Crackers_QuakerMinisHoneyNut28gm.jpg" />
+    <EmbeddedResource Include="SavedImages\Biscuits_Crackers_TescoFrenchToast200gm .jpg" />
+    <EmbeddedResource Include="SavedImages\Biscuits_Crackers_WonderfulCopenHagenDanishButterCookies150gm.jpg" />
+    <EmbeddedResource Include="SavedImages\BiscuitsCrackers.jpg" />
+    <EmbeddedResource Include="SavedImages\Candies.jpg" />
+    <EmbeddedResource Include="SavedImages\CandiesSnacks.jpg" />
+    <EmbeddedResource Include="SavedImages\Cheese.jpg" />
+    <EmbeddedResource Include="SavedImages\DairyEggs.jpg" />
+    <EmbeddedResource Include="SavedImages\Eggs.jpg" />
+    <EmbeddedResource Include="SavedImages\Eggs_AlJaziraEcoBrownEggs-VegetarianFed_6.jpg" />
+    <EmbeddedResource Include="SavedImages\Eggs_AlJaziraSuperBrownEggs_6.jpg" />
+    <EmbeddedResource Include="SavedImages\Eggs_AlJaziraSuperWhiteEggs_6.jpg" />
+    <EmbeddedResource Include="SavedImages\Eggs_AlJaziraWhiteGoldenEggsFamilyPack_15.jpg" />
+    <EmbeddedResource Include="SavedImages\Eggs_AlJaziraWhiteGoldenEggs-Omega3_15.jpg" />
+    <EmbeddedResource Include="SavedImages\Eggs_AlJaziraWhiteGoldenEggsRichinLutein_15.jpg" />
+    <EmbeddedResource Include="SavedImages\Fruits.jpg" />
+    <EmbeddedResource Include="SavedImages\Fruits_ApplePinkLady.jpg" />
+    <EmbeddedResource Include="SavedImages\Fruits_GreenApple.jpg" />
+    <EmbeddedResource Include="SavedImages\FruitsVegetables.jpg" />
+    <EmbeddedResource Include="SavedImages\MeatFish.jpg" />
+    <EmbeddedResource Include="SavedImages\Milk.jpg" />
+    <EmbeddedResource Include="SavedImages\Milk_AlmaraiFreshMilkFullFat1L.jpg" />
+    <EmbeddedResource Include="SavedImages\Milk_AlmaraiFreshMilkFullFat2L.jpg" />
+    <EmbeddedResource Include="SavedImages\Milk_AlmaraiFreshMilkFullFat500ml.jpg" />
+    <EmbeddedResource Include="SavedImages\Milk_AlmaraiFreshMilkLowFat1L.jpg" />
+    <EmbeddedResource Include="SavedImages\Milk_AlmaraiFreshMilkLowFat2L.jpg" />
+    <EmbeddedResource Include="SavedImages\Milk_AlmaraiFreshMilkLowFat500ml.jpg" />
+    <EmbeddedResource Include="SavedImages\NormalWater.jpg" />
+    <EmbeddedResource Include="SavedImages\NormalWater_Alpin1500ml.jpg" />
+    <EmbeddedResource Include="SavedImages\NormalWater_Alpin330ml.jpg" />
+    <EmbeddedResource Include="SavedImages\NormalWater_Alpin500ml.jpg" />
+    <EmbeddedResource Include="SavedImages\NormalWater_Erikli1500ml.jpg" />
+    <EmbeddedResource Include="SavedImages\SoftDrinks.jpg" />
+    <EmbeddedResource Include="SavedImages\SparklingWater.jpg" />
+    <EmbeddedResource Include="SavedImages\SparklingWater_OasisBlue1000ml.jpg" />
+    <EmbeddedResource Include="SavedImages\SparklingWater_OasisBlue450ml.jpg" />
+    <EmbeddedResource Include="SavedImages\SparklingWater_OasisBlueLemon450ml.jpg" />
+    <EmbeddedResource Include="SavedImages\SparklingWater_Pellegrino1000ml.jpg" />
+    <EmbeddedResource Include="SavedImages\SparklingWater_Pellegrino500ml.jpg" />
+    <EmbeddedResource Include="SavedImages\Thumbs.db" />
+    <EmbeddedResource Include="SavedImages\Vegatables.jpg" />
+    <EmbeddedResource Include="SavedImages\Vegetables_LettuceIcebergHolland.jpg" />
+    <EmbeddedResource Include="SavedImages\Vegetables_PumpkinYellowHolland.jpg" />
+    <EmbeddedResource Include="SavedImages\Vegetables_TomatoBunchHolland.jpg" />
+    <EmbeddedResource Include="SavedImages\Vegetables_TomatoLocal.jpg" />
+    <EmbeddedResource Include="SavedImages\Water.jpg" />
+    <EmbeddedResource Include="SavedImages\Yoghurt.jpg">
+      <DeployService-HasPathReferences>True</DeployService-HasPathReferences>
+      <DeployService-TargetDirectoryId>CommonApplicationDataRoot</DeployService-TargetDirectoryId>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SavedImages\Fruits_Clementine.jpg" />
+    <EmbeddedResource Include="SavedImages\Vegetables_EggplantSmallLocal.jpg" />
+    <EmbeddedResource Include="SavedImages\Fruits_SweetMelonSlice.jpg" />
+    <EmbeddedResource Include="SavedImages\Fruits_SweetMelon.jpg" />
+    <EmbeddedResource Include="SavedImages\NormalWater_Erikli500ml.jpg" />
   </ItemGroup>
 </Project>

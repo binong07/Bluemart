@@ -14,9 +14,7 @@ using bluemart.Common.Objects;
 namespace bluemart.Models.Remote
 {
 	public static class CategoryModel
-	{
-		public static IFolder mRootFolder;
-		public static string mRootFolderPath;
+	{		
 		public static string CategoryLocation;
 		public static List<Category> CategoryList;
 		public static List<string> mCategoryIDList;
@@ -34,9 +32,7 @@ namespace bluemart.Models.Remote
 		}
 		
 		private static void InitializeMemberVariables()
-		{
-			mRootFolder = FileSystem.Current.LocalStorage;
-			mRootFolderPath = mRootFolder.Path;
+		{			
 			CategoryList = new List<Category> ();
 			mCategoryIDList = new List<string> ();
 			mCategoryNameDictionary = new Dictionary<string,string> ();
@@ -46,7 +42,7 @@ namespace bluemart.Models.Remote
 			mSubCategoryDictionary = new Dictionary<string,List<string>> ();
 		}
 
-		public static bool CheckIfImageFileExists(string categoryID)
+		/*public static bool CheckIfImageFileExists(string categoryID)
 		{
 			bool fileExists = false;
 
@@ -57,7 +53,7 @@ namespace bluemart.Models.Remote
 				fileExists = true;
 
 			return fileExists;		
-		}
+		}*/
 
 		public static void GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
 		{		
@@ -132,7 +128,7 @@ namespace bluemart.Models.Remote
 			PopulateCategoryDictionaries ();
 		}
 		
-		public static void GetImagesAndSaveToLocal()
+		/*public static void GetImagesAndSaveToLocal()
 		{
 			if (MyDevice.NetworkStatus != "NotReachable") {
 				DateTime? localUpdate = mUserModel.GetImageUpdatedDateFromUser ();
@@ -165,14 +161,14 @@ namespace bluemart.Models.Remote
 				}
 
 			} 
-		}
+		}*/
 
 		public static void PopulateCategories()
 		{			
 			CategoryList.Clear ();
 
 			foreach (string categoryID in CategoryModel.mCategoryIDList) {
-				string ImagePath = CategoryModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary[categoryID] + ".jpg";
+				string ImagePath = ImageModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary[categoryID] + ".jpg";
 				string CategoryName = CategoryModel.mCategoryNameDictionary [categoryID];
 				bool isSubCategory = CategoryModel.mIsSubCategoryDictionary [categoryID];
 				List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [categoryID];

@@ -97,7 +97,7 @@ namespace bluemart.Common.ViewCells
 			if (CategoryModel.mSubCategoryDictionary.ContainsKey (mCategory.CategoryID) && 
 				CategoryModel.mSubCategoryDictionary[mCategory.CategoryID].Count > 0) {
 				foreach (string subCategoryID in CategoryModel.mSubCategoryDictionary[mCategory.CategoryID]) {
-					string ImagePath = CategoryModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary [subCategoryID] + ".jpg";
+					string ImagePath = ImageModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary [subCategoryID] + ".jpg";
 					string CategoryName = CategoryModel.mCategoryNameDictionary [subCategoryID];
 					List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [subCategoryID];
 

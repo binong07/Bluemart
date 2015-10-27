@@ -19,6 +19,7 @@ namespace bluemart.Common.Utilities
 		public static string NetworkStatus = Resolver.Resolve<IDevice> ().Network.InternetConnectionStatus ().ToString();
 		public static Color BlueColor =	Color.FromRgb (12,92,169);
 		public static Color RedColor = Color.FromRgb (204,27,39);
+		public static string ThumbnailDirectoryPath = "@drawable/SavedImages"; 
 	}
 }
 

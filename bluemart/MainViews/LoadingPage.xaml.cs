@@ -33,9 +33,14 @@ namespace bluemart
 		{	
 			MyDevice.NetworkStatus = Resolver.Resolve<IDevice> ().Network.InternetConnectionStatus ().ToString();
 			mUserModel.CreateUserTable ();
+
+			//Move From EmbeddedResource to SavedImages
+			//If the folder doesn't exist
+			if( ImageModel.mRootFolder.CheckExistsAsync (ParseConstants.IMAGE_FOLDER_NAME).Result.ToString() != "FolderExists")
+				ImageModel.MoveImagesToLocal ();
+			
 			CategoryModel.FetchCategories ();
 			ProductModel.FetchProducts ();
-			CategoryModel.GetImagesAndSaveToLocal ();
 		}
 	}
 }
