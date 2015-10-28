@@ -99,6 +99,7 @@
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Remote\ImageModel.cs" />
+    <Compile Include="Common\Utility\ReleaseConfig.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -223,11 +224,6 @@
     <EmbeddedResource Include="Common\SearchBar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="SavedImages\Bakery.jpg">
-      <DeployService-Deploy>True</DeployService-Deploy>
-      <DeployService-TargetDirectoryId>CommonApplicationDataRoot</DeployService-TargetDirectoryId>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SavedImages\Biscuits_Crackers_QuakerMinisHoneyNut28gm.jpg" />
     <EmbeddedResource Include="SavedImages\Biscuits_Crackers_TescoFrenchToast200gm .jpg" />
     <EmbeddedResource Include="SavedImages\Biscuits_Crackers_WonderfulCopenHagenDanishButterCookies150gm.jpg" />
     <EmbeddedResource Include="SavedImages\BiscuitsCrackers.jpg" />
@@ -282,5 +278,9 @@
     <EmbeddedResource Include="SavedImages\Fruits_SweetMelonSlice.jpg" />
     <EmbeddedResource Include="SavedImages\Fruits_SweetMelon.jpg" />
     <EmbeddedResource Include="SavedImages\NormalWater_Erikli500ml.jpg" />
+    <EmbeddedResource Include="SavedImages\Biscuits_Crackers_QuakerMinisHoneyNut28gm.jpg" />
+    <EmbeddedResource Include="SavedImages\Bakery.jpg">
+      <DeployService-TargetDirectoryId>CommonApplicationDataRoot</DeployService-TargetDirectoryId>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

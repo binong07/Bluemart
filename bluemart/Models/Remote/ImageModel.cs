@@ -13,14 +13,14 @@ namespace bluemart.Models.Remote
 {
 	public static class ImageModel
 	{
-		public static IFolder mRootFolder = FileSystem.Current.LocalStorage;
+		public static IFolder mRootFolder =  FileSystem.Current.LocalStorage;
 		public static string mRootFolderPath = mRootFolder.Path;
 		private static UserClass mUserModel = new UserClass();
 		private static List<string> mImageNameList = new List<string> ();
 
 		static ImageModel ()
 		{
-			PopulateImageNames ();
+			//PopulateImageNames ();
 		}
 
 		private static void PopulateImageNames()
@@ -48,32 +48,38 @@ namespace bluemart.Models.Remote
 			}
 		}
 
+		/*
+		 * Gets image from resource to stream
+		 * Copys it to local storage via stream
+		*/
 		public static void MoveImagesToLocal()
 		{
-			
-			foreach (string imageName in mImageNameList) {
+			var assembly = typeof(ImageModel).GetTypeInfo().Assembly;
+			var projectName = assembly.GetName ().Name;
+			var imageNames = assembly.GetManifestResourceNames ().Where(name => name.Contains(ParseConstants.IMAGE_FOLDER_NAME));
+			//Generate resource path to be able to get length
+			var directoryPath = String.Concat (projectName, ".", ParseConstants.IMAGE_FOLDER_NAME, ".");
+
+			foreach (string fullImageName in imageNames) {	
 				
-				var assembly = typeof(ImageModel).GetTypeInfo().Assembly; // you can replace "this.GetType()" with "typeof(MyType)", where MyType is any type in your assembly.
-				byte[] buffer;
-				using (Stream s = assembly.GetManifestResourceStream("bluemart.SavedImages." + imageName + ".jpg") )
+				using (Stream s = assembly.GetManifestResourceStream(fullImageName) )
 				{
+					//Start from resource path length
+					//to be able to get image name from full name
+					var imageName = fullImageName.Substring (directoryPath.Length);
+
 					if (s == null) {
 						System.Diagnostics.Debug.WriteLine ("imagename:" + imageName);
 						continue;
 					}
-					
-					long length = s.Length;
 
-					buffer = new byte[length];
-					s.Read(buffer, 0, (int)length);				
-				}
+					var folder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;
 
-				var folder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;
+					var file = folder.CreateFileAsync (imageName, CreationCollisionOption.ReplaceExisting).Result;
 
-				var file = folder.CreateFileAsync (imageName + ".jpg", CreationCollisionOption.ReplaceExisting).Result;
-
-				using (System.IO.Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result) {
-					stream.Write (buffer, 0, buffer.Length);
+					using (System.IO.Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result) {
+						s.CopyTo (stream);
+					}		
 				}
 			}
 		}
