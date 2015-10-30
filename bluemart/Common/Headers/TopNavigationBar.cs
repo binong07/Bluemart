@@ -54,7 +54,7 @@ namespace bluemart.Common.Headers
 			cartButtonTapGestureRecognizer.Tapped += async (sender, e) => {
 
 				CartButton.Opacity = 0.5f;
-				await Task.Delay(200);
+				await Task.Delay(MyDevice.DelayTime);
 				mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
 				mParent.LoadCartPage();
 				CartButton.Opacity = 1f;
@@ -65,7 +65,7 @@ namespace bluemart.Common.Headers
 			backButtonTapGestureRecognizer.Tapped += async (sender, e) => {
 
 				BackButton.Opacity = 0.5f;
-				await Task.Delay(200);			
+				await Task.Delay(MyDevice.DelayTime);			
 				mParent.SwitchTab("BrowseCategories");
 				BackButton.Opacity = 1f;
 			};

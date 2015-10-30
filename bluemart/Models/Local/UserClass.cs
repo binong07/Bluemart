@@ -41,7 +41,7 @@ namespace bluemart.Models.Local
 				newUser.Name = "";
 				newUser.PhoneNumber = "";
 				newUser.Id = 1;
-				newUser.ImagesUpdateDate = new DateTime? (DateTime.MinValue);
+				newUser.ImagesUpdateDate = ReleaseConfig.LAST_UPDATEDATE;
 				newUser.CategoriesUpdateDate = new DateTime? (DateTime.MinValue);
 				newUser.ProductsUpdateDate = new DateTime? (DateTime.MinValue);
 				newUser.Location = "";

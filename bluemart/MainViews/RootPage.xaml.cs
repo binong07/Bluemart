@@ -14,6 +14,7 @@ namespace bluemart.MainViews
 		BrowseCategoriesPage mBrowseCategoriesPage;
 		SettingsPage mSettingsPage;
 		FavoritesPage mFavoritesPage;
+		public BrowseProductsPage mBrowseProductPage;
 		public CartPage mCartPage;
 		private string mCurrentPage = "";
 		public Footer mFooter;
@@ -70,6 +71,7 @@ namespace bluemart.MainViews
 			case "BrowseCategories":
 				SwitchHeaderVisibility (true);
 				RootHeader.mPriceLabel.Text = "DH:" + Cart.ProductTotalPrice.ToString ();
+				mBrowseProductPage = null;
 				mBrowseCategoriesPage.RefreshSearchText ();
 				SwitchContentGrid (mBrowseCategoriesPage.Content);
 				mCurrentPage = pageName;
@@ -101,7 +103,8 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 			//Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (false);
-			SwitchContentGrid ((new BrowseProductsPage(productDictionary,category,this)).Content);
+			mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
+			SwitchContentGrid (mBrowseProductPage.Content);
 		}
 
 		public void LoadCartPage()
@@ -121,12 +124,12 @@ namespace bluemart.MainViews
 			SwitchContentGrid ((new ReceiptView (this)).Content);
 		}
 
-		public void LoadSearchPage(string searchString)
+		public void LoadSearchPage(string searchString,string categoryId = "")
 		{
 			mCurrentPage = "";
 			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (true);
-			SwitchContentGrid ((new SearchPage (searchString,this)).Content);
+			SwitchContentGrid ((new SearchPage (searchString,categoryId,this)).Content);
 		}
 
 		public void RemoveFooter()

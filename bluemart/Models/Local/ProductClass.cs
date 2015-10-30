@@ -16,6 +16,7 @@ namespace bluemart.Models.Local
 		public string Name { get; set; }
 		public decimal Price { get; set; }
 		public string Quantity { get; set; }
+		public string Stores { get; set; }
 
 		private bool TableExists<T> (SQLiteConnection connection,string tableName)
 		{    

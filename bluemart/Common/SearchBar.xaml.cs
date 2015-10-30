@@ -50,6 +50,7 @@ namespace bluemart.Common
 		private void SearchEntryCompleted(Object sender,EventArgs e)
 		{
 			if (SearchEntry.Text.Length >= 3) {
+				
 				mParent.LoadSearchPage (SearchEntry.Text);
 			} else {
 				SearchEntry.Text = "Must be longer than 2 characters!";

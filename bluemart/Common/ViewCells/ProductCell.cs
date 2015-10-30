@@ -42,7 +42,7 @@ namespace bluemart.Common.ViewCells
 
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
 
-			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Start, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.White, Padding = 0, RowSpacing = 0, ColumnSpacing =0 };
+			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.White, Padding = 0, RowSpacing = 0, ColumnSpacing =0 };
 
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = new GridLength(70,GridUnitType.Absolute) });
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = new GridLength(30,GridUnitType.Absolute) });
@@ -66,7 +66,7 @@ namespace bluemart.Common.ViewCells
 			mainCellGrid.Children.Add(mFavoriteImage,0,1);
 
 			#region row1insidegrid
-			Grid insideGrid1 = new Grid(){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand,Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
+			Grid insideGrid1 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand,Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
 			insideGrid1.Padding = new Thickness (0);
 			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = new GridLength(width/2,GridUnitType.Absolute) });
 			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = new GridLength(width/2,GridUnitType.Absolute) });
@@ -90,7 +90,7 @@ namespace bluemart.Common.ViewCells
 			mainCellGrid.Children.Add (productImage, 0, 3);
 
 			#region row3insidegrid
-			Grid insideGrid2 = new Grid(){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
+			Grid insideGrid2 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
 			insideGrid2.Padding = new Thickness (0);
 			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = new GridLength(width / 4,GridUnitType.Absolute) });
 			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = new GridLength(width * 2  / 4,GridUnitType.Absolute) });//{ Width = ParentWidth - ((ParentHeight - ParentWidth) / 3 * 2)}
@@ -129,7 +129,7 @@ namespace bluemart.Common.ViewCells
 
 				mAddImage.Opacity = 0.5f;
 				AddProductInCart();
-				await Task.Delay(200);
+				await Task.Delay(MyDevice.DelayTime);
 				mAddImage.Opacity = 1f;
 			};
 			mAddImage.GestureRecognizers.Add (addButtonTapGestureRecognizer);
@@ -139,7 +139,7 @@ namespace bluemart.Common.ViewCells
 
 				mRemoveImage.Opacity = 0.5f;
 				RemoveProductFromCart();
-				await Task.Delay(200);
+				await Task.Delay(MyDevice.DelayTime);
 				mRemoveImage.Opacity = 1f;
 			};
 			mRemoveImage.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
@@ -150,7 +150,7 @@ namespace bluemart.Common.ViewCells
 				{
 					mFavoriteImage.Opacity = 0.5f;
 					mFavoriteModel.AddProductID(mProduct.ProductID);
-					await Task.Delay(200);
+					await Task.Delay(MyDevice.DelayTime);
 					mFavoriteImage.Opacity = 1f;
 					mFavoriteImage.Source = "bookmark_remove";
 					bIsFavorite = true;
@@ -159,7 +159,7 @@ namespace bluemart.Common.ViewCells
 				{					
 					mFavoriteImage.Opacity = 0.5f;
 					mFavoriteModel.RemoveProductID(mProduct.ProductID);
-					await Task.Delay(200);
+					await Task.Delay(MyDevice.DelayTime);
 					mFavoriteImage.Opacity = 1f;
 					mFavoriteImage.Source = "bookmark_add";
 					bIsFavorite = false;

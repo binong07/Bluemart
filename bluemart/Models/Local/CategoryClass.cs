@@ -2,6 +2,7 @@
 using SQLite;
 using bluemart.Common.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace bluemart.Models.Local
 {
@@ -48,9 +49,11 @@ namespace bluemart.Models.Local
 				return categoryList;			
 			}
 
-			var categoryTable = db.Table<CategoryClass> ();
+			var query = from Categories in  db.Table<CategoryClass> ()
+				orderby Categories.Name
+				select Categories;
 
-			foreach (var category in categoryTable) {
+			foreach (var category in query) {
 				categoryList.Add (category);
 			}
 

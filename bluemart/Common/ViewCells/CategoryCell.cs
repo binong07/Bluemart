@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using bluemart.Common.Utilities;
 using bluemart.Models.Remote;
 using System.Linq;
+using bluemart.Models.Local;
 
 namespace bluemart.Common.ViewCells
 {
@@ -14,6 +15,7 @@ namespace bluemart.Common.ViewCells
 	{	
 		Category mCategory;
 		List<Category> mCategoryList;
+		UserClass mUser;
 		Dictionary<string, List<Product>> mProductDictionary;
 
 		public CategoryCell (StackLayout parentGrid, Category category, RootPage parent = null)
@@ -21,6 +23,7 @@ namespace bluemart.Common.ViewCells
 			mCategory = category;
 			mCategoryList = new List<Category> ();
 			mProductDictionary = new Dictionary<string, List<Product>> ();
+			mUser = new UserClass ();
 
 			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Gray, Padding = 0, RowSpacing = 0 };
 
@@ -36,7 +39,7 @@ namespace bluemart.Common.ViewCells
 			tapGestureRecognizer.Tapped += async (sender, e) => {
 
 				categoryImage.Opacity = 0.5f;
-				await Task.Delay (200);
+				await Task.Delay (MyDevice.DelayTime);
 				LoadProductsPage(category.CategoryID,parent);
 				categoryImage.Opacity = 1f;
 			};
@@ -76,8 +79,24 @@ namespace bluemart.Common.ViewCells
 			{
 				List<Product> product = new List<Product> ();
 
+				string location = mUser.GetLocationFromUser ();
+				int store = LocationHelper.DecideShopNumber (location);
+
 				if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
-					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {
+					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
+						string storeString = ProductModel.mProductStoresDictionary [productID];
+
+						if (String.IsNullOrEmpty(storeString))
+							continue;
+
+						//Get store string list
+						var storeList = storeString.Split (',').ToList ();
+						//Convert storelist to integer list
+						var storeNumberList = storeList.Select (int.Parse).ToList ();
+
+						if (!storeNumberList.Contains (store))
+							continue;
+
 						string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
 						string ProductName = ProductModel.mProductNameDictionary [productID];
 						decimal price = ProductModel.mProductPriceDictionary [productID];

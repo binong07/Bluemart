@@ -109,7 +109,7 @@ namespace bluemart
 
 				mAddImage.Opacity = 0.5f;
 				AddProductInCart();
-				await Task.Delay(200);
+				await Task.Delay(MyDevice.DelayTime);
 				mAddImage.Opacity = 1f;
 			};
 			mAddImage.GestureRecognizers.Add (addButtonTapGestureRecognizer);
@@ -119,7 +119,7 @@ namespace bluemart
 
 				mRemoveImage.Opacity = 0.5f;
 				RemoveProductFromCart();
-				await Task.Delay(200);
+				await Task.Delay(MyDevice.DelayTime);
 				mRemoveImage.Opacity = 1f;
 			};
 			mRemoveImage.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
@@ -130,7 +130,7 @@ namespace bluemart
 				{
 					mFavoriteImage.Opacity = 0.5f;
 					mFavoriteModel.AddProductID(mProduct.ProductID);
-					await Task.Delay(200);
+					await Task.Delay(MyDevice.DelayTime);
 					mFavoriteImage.Opacity = 1f;
 					mFavoriteImage.Source = "bookmark_remove";
 					bIsFavorite = true;
@@ -139,7 +139,7 @@ namespace bluemart
 				{					
 					mFavoriteImage.Opacity = 0.5f;
 					mFavoriteModel.RemoveProductID(mProduct.ProductID);
-					await Task.Delay(200);
+					await Task.Delay(MyDevice.DelayTime);
 					mFavoriteImage.Opacity = 1f;
 					mFavoriteImage.Source = "bookmark_add";
 					bIsFavorite = false;

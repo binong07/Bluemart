@@ -18,36 +18,6 @@ namespace bluemart.Models.Remote
 		private static UserClass mUserModel = new UserClass();
 		private static List<string> mImageNameList = new List<string> ();
 
-		static ImageModel ()
-		{
-			//PopulateImageNames ();
-		}
-
-		private static void PopulateImageNames()
-		{
-			if (MyDevice.NetworkStatus != "NotReachable") {
-				DateTime? localUpdate = mUserModel.GetImageUpdatedDateFromUser ();
-				var query = ParseObject.GetQuery (ParseConstants.IMAGES_CLASS_NAME).OrderByDescending (ParseConstants.UPDATEDATE_NAME).Limit (1);
-				var parseObject = query.FirstAsync ().Result;
-				DateTime? remoteUpdate = parseObject.UpdatedAt;
-
-				//if (remoteUpdate > localUpdate) {
-					mImageNameList.Clear ();
-
-					var imageQuery = ParseObject.GetQuery (ParseConstants.IMAGES_CLASS_NAME).
-						WhereGreaterThan (ParseConstants.UPDATEDATE_NAME, localUpdate).
-						WhereLessThanOrEqualTo (ParseConstants.UPDATEDATE_NAME, remoteUpdate);
-
-					var imageObjects = imageQuery.FindAsync ().Result;
-
-					foreach (ParseObject imageObject in imageObjects) {
-						string imageName = imageObject.Get<string> (ParseConstants.IMAGE_ATTRIBUTE_IMAGENAME);
-						mImageNameList.Add (imageName);
-					}
-			//	}
-			}
-		}
-
 		/*
 		 * Gets image from resource to stream
 		 * Copys it to local storage via stream

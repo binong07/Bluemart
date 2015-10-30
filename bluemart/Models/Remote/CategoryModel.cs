@@ -59,7 +59,8 @@ namespace bluemart.Models.Remote
 		{		
 			var categoryQuery = ParseObject.GetQuery (ParseConstants.CATEGORIES_CLASS_NAME).
 				WhereGreaterThan(ParseConstants.UPDATEDATE_NAME,localUpdate).
-				WhereLessThanOrEqualTo(ParseConstants.UPDATEDATE_NAME,remoteUpdate);
+				WhereLessThanOrEqualTo(ParseConstants.UPDATEDATE_NAME,remoteUpdate).
+				OrderBy(ParseConstants.CATEGORY_ATTRIBUTE_NAME);
 
 			var categoryObjects = categoryQuery.FindAsync ().Result;
 

@@ -26,7 +26,7 @@
 	               	</StackLayout>
                	</ScrollView>
                	<ScrollView x:Name = "ProductScrollView" Grid.Row = "2" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Scrolled = "OnScrolled">
-					<Grid x:Name="Grid2" HorizontalOptions = "FillAndExpand" VerticalOptions = "Fill">				
+					<Grid x:Name="Grid2" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">				
 					</Grid>						
 				</ScrollView>
         </Grid>		

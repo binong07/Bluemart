@@ -20,9 +20,10 @@ namespace bluemart.MainViews
 		private double mPreviousScrollPositionY = 0;
 		private int mActiveButtonIndex = 0;
 		RootPage mParent;
+		public string mCategoryID;
 
 		public BrowseProductsPage (Dictionary<string,List<Product>> productDictionary,Category category, RootPage parent)
-		{						
+		{					
 			InitializeComponent ();
 			mParent = parent;
 			SearchBar.mParent = parent;
@@ -33,6 +34,7 @@ namespace bluemart.MainViews
 			mCategoryIndexList = new List<int> ();
 			//NavigationBar.NavigationText.Text = category.Name;
 			parent.mTopNavigationBar.NavigationText.Text = category.Name;
+			mCategoryID = category.CategoryID;
 			mProductDictionary = productDictionary;
 			int count = 0;
 			foreach (var product in productDictionary) {

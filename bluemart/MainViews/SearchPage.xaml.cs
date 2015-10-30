@@ -22,14 +22,14 @@ namespace bluemart.MainViews
 
 		RootPage mParent;
 
-		public SearchPage (string searchString,RootPage parent)
+		public SearchPage (string searchString, string categoryId,RootPage parent)
 		{
 			mParent = parent;
 			InitializeComponent ();
 			mSearchString = searchString;
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
-			PopulateSearch ();
+			PopulateSearch (mParent.mBrowseProductPage);
 		}
 
 		private void SetGrid1Definitions()
@@ -44,17 +44,16 @@ namespace bluemart.MainViews
 		}
 
 
-		private void PopulateSearch()
+		private void PopulateSearch(BrowseProductsPage productPage)
 		{
-			//if (SearchEntry.Text.Length >= 3) {
-			ProductModel.PopulateSearchProductList (mSearchString);
+			if (productPage != null)
+				ProductModel.PopulateSearchProductListWithCategoryID (mSearchString,productPage.mCategoryID);
+			else
+				ProductModel.PopulateSearchProductList (mSearchString);
+			
 			mRowCount = Convert.ToInt32 (Math.Ceiling (ProductModel.mSearchProductIDList.Count / 2.0f));
 			PopulateProducts ();
 			PopulateGrid ();
-		//	} else {
-			//	SearchEntry.Text = "Must be longer than 2 characters!";
-			//	SearchEntry.TextColor = Color.Red;
-		//	}
 		}
 
 		private void PopulateGrid()

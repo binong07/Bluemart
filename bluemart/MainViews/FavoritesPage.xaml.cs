@@ -23,7 +23,7 @@ namespace bluemart.MainViews
 			mParent = parent;
 			//Header.mParent = parent;
 			NavigationPage.SetHasNavigationBar (this, false);
-			SetGrid1Definitions ();
+			ScrollView1.BackgroundColor = MyDevice.BlueColor;
 			SetGrid2Definitions ();
 
 		}
@@ -36,13 +36,7 @@ namespace bluemart.MainViews
 		{
 			UpdatePriceLabel ();
 			RefreshFavoritesGrid ();
-		}
-
-		private void SetGrid1Definitions()
-		{
-			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
-			Grid1.BackgroundColor = MyDevice.BlueColor;
-		}
+		}			
 
 		private void PopulateGrid()
 		{
