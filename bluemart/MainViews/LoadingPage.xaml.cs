@@ -30,9 +30,7 @@ namespace bluemart
 		}			
 
 		private void MakeNecessaryInitialization()
-		{	
-			MyDevice.NetworkStatus = Resolver.Resolve<IDevice> ().Network.InternetConnectionStatus ().ToString();
-
+		{		
 			mUserModel.CreateUserTable ();
 
 			//Move From EmbeddedResource to SavedImages

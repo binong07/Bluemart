@@ -66,40 +66,63 @@ namespace bluemart.Common
 			var categoryButtonTapRecognizer = new TapGestureRecognizer ();
 			categoryButtonTapRecognizer.Tapped += (sender, e) => {
 
-				CategoryButton.Opacity = 0.5f;
-
+				CategoryGrid.Opacity = 0.5f;
 				ChangeColorOfLabel(CategoryLabel);
 
 				if( Navigation.NavigationStack.Last() is RootPage )
 					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("BrowseCategories");
 				
-				CategoryButton.Opacity = 1f;
+				CategoryGrid.Opacity = 1f;
 			};
-			CategoryButton.GestureRecognizers.Add (categoryButtonTapRecognizer);
+			CategoryGrid.GestureRecognizers.Add (categoryButtonTapRecognizer);
 
-			var settingsButtonTapRecognizer = new TapGestureRecognizer ();
-			settingsButtonTapRecognizer.Tapped += (sender, e) => {
+			var SettingsGridTapRecognizer = new TapGestureRecognizer ();
+			SettingsGridTapRecognizer.Tapped += (sender, e) => {
 
-				SettingsButton.Opacity = 0.5f;
+				SettingsGrid.Opacity = 0.5f;
 				ChangeColorOfLabel(SettingsLabel);
 				if( Navigation.NavigationStack.Last() is RootPage )
 					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("Settings");
 				
-				SettingsButton.Opacity = 1f;
+				SettingsGrid.Opacity = 1f;
 			};
-			SettingsButton.GestureRecognizers.Add (settingsButtonTapRecognizer);
+			SettingsGrid.GestureRecognizers.Add (SettingsGridTapRecognizer);
 
-			var favoritesButtonTapRecognizer = new TapGestureRecognizer ();
-			favoritesButtonTapRecognizer.Tapped += (sender, e) => {
+			var FavoritesGridTapRecognizer = new TapGestureRecognizer ();
+			FavoritesGridTapRecognizer.Tapped += (sender, e) => {
 
-				FavoritesButton.Opacity = 0.5f;
+				FavoritesGrid.Opacity = 0.5f;
 				ChangeColorOfLabel(FavoritesLabel);
 				if( Navigation.NavigationStack.Last() is RootPage )
 					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("Favorites");
 
-				FavoritesButton.Opacity = 1f;
+				FavoritesGrid.Opacity = 1f;
 			};
-			FavoritesButton.GestureRecognizers.Add (favoritesButtonTapRecognizer);
+			FavoritesGrid.GestureRecognizers.Add (FavoritesGridTapRecognizer);
+
+			var HistoryGridTapRecognizer = new TapGestureRecognizer ();
+			HistoryGridTapRecognizer.Tapped += (sender, e) => {
+
+				HistoryGrid.Opacity = 0.5f;
+				ChangeColorOfLabel(HistoryLabel);
+				if( Navigation.NavigationStack.Last() is RootPage )
+					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("History");
+
+				HistoryGrid.Opacity = 1f;
+			};
+			HistoryGrid.GestureRecognizers.Add (HistoryGridTapRecognizer);
+
+			var TrackGridTapRecognizer = new TapGestureRecognizer ();
+			TrackGridTapRecognizer.Tapped += (sender, e) => {
+
+				TrackGrid.Opacity = 0.5f;
+				ChangeColorOfLabel(TrackLabel);
+				if( Navigation.NavigationStack.Last() is RootPage )
+					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("Track");
+
+				TrackGrid.Opacity = 1f;
+			};
+			TrackGrid.GestureRecognizers.Add (TrackGridTapRecognizer);
 
 		}
 	}

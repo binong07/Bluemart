@@ -6,6 +6,7 @@ using bluemart.Common.Utilities;
 using bluemart.Common.Objects;
 using bluemart.Common;
 using bluemart.Common.Headers;
+using bluemart.Models.Local;
 
 namespace bluemart.MainViews
 {
@@ -14,6 +15,8 @@ namespace bluemart.MainViews
 		BrowseCategoriesPage mBrowseCategoriesPage;
 		SettingsPage mSettingsPage;
 		FavoritesPage mFavoritesPage;
+		HistoryPage mHistoryPage;
+		TrackPage mTrackPage;
 		public BrowseProductsPage mBrowseProductPage;
 		public CartPage mCartPage;
 		private string mCurrentPage = "";
@@ -34,6 +37,8 @@ namespace bluemart.MainViews
 			mBrowseCategoriesPage = new BrowseCategoriesPage (this);
 			mSettingsPage = new SettingsPage(this);
 			mFavoritesPage = new FavoritesPage (this);
+			mHistoryPage = new HistoryPage (this);
+			mTrackPage = new TrackPage (this);
 			mCartPage = new CartPage (this);
 			RootHeader.mParent = this;
 			ProductHeader.mParent = this;
@@ -87,6 +92,18 @@ namespace bluemart.MainViews
 				SwitchContentGrid (mFavoritesPage.Content);
 				mCurrentPage = pageName;
 				break;
+			case "History":
+				SwitchHeaderVisibility (true);
+				mHistoryPage.PopulateListView ();
+				SwitchContentGrid (mHistoryPage.Content);
+				mCurrentPage = pageName;
+				break;
+			case "Track":
+				SwitchHeaderVisibility (true);
+				mTrackPage.PopulateListView ();
+				SwitchContentGrid (mTrackPage.Content);
+				mCurrentPage = pageName;
+				break;
 			default:
 				break;
 			}
@@ -116,12 +133,15 @@ namespace bluemart.MainViews
 			mCartPage.PrintDictionaryContents ();
 		}
 
-		public void LoadReceiptPage()
+		public void LoadReceiptPage(HistoryClass history=null)
 		{
 			mCurrentPage = "";
 			SwitchHeaderVisibility (true);
 			Footer.SetLabelProperties ();
-			SwitchContentGrid ((new ReceiptView (this)).Content);
+			if( history == null )
+				SwitchContentGrid ((new ReceiptView (this)).Content);
+			else
+				SwitchContentGrid ((new ReceiptView (this,history)).Content);
 		}
 
 		public void LoadSearchPage(string searchString,string categoryId = "")

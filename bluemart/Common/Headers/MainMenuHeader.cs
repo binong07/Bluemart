@@ -44,14 +44,14 @@ namespace bluemart.Common.Headers
 
 		private void AddTapRecognizers()
 		{
-			var cartButtonGestureRecognizer = new TapGestureRecognizer ();
-			cartButtonGestureRecognizer.Tapped += (sender, e) => {
+			var CartGridGestureRecognizer = new TapGestureRecognizer ();
+			CartGridGestureRecognizer.Tapped += (sender, e) => {
 
-				CartButton.Opacity = 0.5f;
+				CartGrid.Opacity = 0.5f;
 				mParent.LoadCartPage();
-				CartButton.Opacity = 1f;
+				CartGrid.Opacity = 1f;
 			};
-			CartButton.GestureRecognizers.Add (cartButtonGestureRecognizer);
+			CartGrid.GestureRecognizers.Add (CartGridGestureRecognizer);
 		}
 	}
 }

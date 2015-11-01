@@ -101,6 +101,17 @@
     <Compile Include="Models\Remote\ImageModel.cs" />
     <Compile Include="Common\Utility\ReleaseConfig.cs" />
     <Compile Include="Common\Utility\LocationHelper.cs" />
+    <Compile Include="Models\Remote\OrderModel.cs" />
+    <Compile Include="Common\ViewCells\HistoryCell.cs" />
+    <Compile Include="MainViews\HistoryPage.cs">
+      <DependentUpon>HistoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Local\HistoryClass.cs" />
+    <Compile Include="Common\ViewCells\TrackCell.cs" />
+    <Compile Include="Models\Local\StatusClass.cs" />
+    <Compile Include="MainViews\TrackPage.cs">
+      <DependentUpon>TrackPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -150,19 +161,19 @@
       <HintPath>packages\Xamarin.Forms.Maps.1.5.1.6471\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Maps.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Ioc">
-      <HintPath>packages\XLabs.IoC.2.0.5779\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+Xamarin.iOS10\XLabs.Ioc.dll</HintPath>
+      <HintPath>packages\XLabs.IoC.2.0.5782\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+Xamarin.iOS10\XLabs.Ioc.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Core">
-      <HintPath>packages\XLabs.Core.2.0.5779\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Core.dll</HintPath>
+      <HintPath>packages\XLabs.Core.2.0.5782\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Core.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Platform">
-      <HintPath>packages\XLabs.Platform.2.0.5779\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Platform.dll</HintPath>
+      <HintPath>packages\XLabs.Platform.2.0.5782\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Platform.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Serialization">
-      <HintPath>packages\XLabs.Serialization.2.0.5779\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Serialization.dll</HintPath>
+      <HintPath>packages\XLabs.Serialization.2.0.5782\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Forms">
-      <HintPath>packages\XLabs.Forms.2.0.5779\lib\portable-net45+netcore45+wpa81+wp8\XLabs.Forms.dll</HintPath>
+      <HintPath>packages\XLabs.Forms.2.0.5782\lib\portable-net45+netcore45+wpa81+wp8\XLabs.Forms.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +292,12 @@
     <EmbeddedResource Include="SavedImages\Biscuits_Crackers_QuakerMinisHoneyNut28gm.jpg" />
     <EmbeddedResource Include="SavedImages\Bakery.jpg">
       <DeployService-TargetDirectoryId>CommonApplicationDataRoot</DeployService-TargetDirectoryId>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainViews\HistoryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainViews\TrackPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

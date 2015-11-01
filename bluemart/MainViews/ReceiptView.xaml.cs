@@ -6,6 +6,7 @@ using bluemart.Common.Utilities;
 using bluemart.Common.Objects;
 using bluemart.Models.Local;
 using bluemart.MainViews;
+using bluemart.Models.Remote;
 
 namespace bluemart
 {
@@ -13,6 +14,8 @@ namespace bluemart
 	{
 		private UserClass mUserModel = new UserClass();
 		private RootPage mParent;
+		private HistoryClass mHistory = null;
+
 		public ReceiptView (RootPage parent)
 		{			
 			InitializeComponent ();
@@ -24,6 +27,21 @@ namespace bluemart
 			SetMiddleGridDefinitions ();
 			PopulateTopGrid ();
 			PopulateMiddleGrid ();
+			SetButtonSize ();
+		}
+
+		public ReceiptView (RootPage parent, HistoryClass history)
+		{			
+			InitializeComponent ();
+			mParent = parent;
+			mHistory = history;
+			mUserModel = mUserModel.GetUser ();
+			NavigationPage.SetHasNavigationBar (this, false);
+			SetMainGridDefinitions ();
+			SetTopGridDefinitions ();
+			SetMiddleGridDefinitions ();
+			PopulateTopGrid (history);
+			PopulateMiddleGrid (history);
 			SetButtonSize ();
 		}
 
@@ -39,8 +57,6 @@ namespace bluemart
 
 		private void SetTopGridDefinitions()
 		{
-			/*TopGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight * 1 / 10;
-			TopGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight * 1 / 10;*/
 			TopGrid.ColumnDefinitions [0].Width = MyDevice.ScreenWidth / 2;
 			TopGrid.ColumnDefinitions [1].Width = MyDevice.ScreenWidth / 2;
 
@@ -74,23 +90,49 @@ namespace bluemart
 			DisagreeButton.BorderColor = MyDevice.BlueColor;
 		}
 
-		private void PopulateTopGrid()
+		private void PopulateTopGrid(HistoryClass history = null)
 		{
-			DateText.Text = DateTime.Now.ToString ();
-			NameText.Text = mUserModel.Name;
-			AddressText.Text = mUserModel.Address;
-			PhoneText.Text = mUserModel.PhoneNumber;
+			if (history == null) {
+				DateText.Text = DateTime.Now.ToString ();
+				NameText.Text = mUserModel.Name;
+				AddressText.Text = mUserModel.Address;
+				PhoneText.Text = mUserModel.PhoneNumber;
+			} else {
+				DateText.Text = history.Date;
+				NameText.Text = history.Name + " " + history.Surname;
+				AddressText.Text = history.Address;
+				PhoneText.Text = history.Phone;
+			}
 		}
 
-		private void PopulateMiddleGrid()
+		private void PopulateMiddleGrid(HistoryClass history = null)
 		{
-			for (int row = 0; row < Cart.ProductsInCart.Count; row++) {
+			int productCount = 0;
+			if (history == null)
+				productCount = Cart.ProductsInCart.Count;
+			else
+				productCount = history.ProductOrderList.Count;
+			
+			for (int row = 0; row < productCount; row++) {
 				ScrollViewGrid.RowDefinitions.Add (new RowDefinition ());
 
-				string quantity = Cart.ProductsInCart[row].ProductNumberInCart.ToString();
-				string name = Cart.ProductsInCart [row].Name;
-				string description = Cart.ProductsInCart [row].Quantity;
-				string cost = (Cart.ProductsInCart [row].ProductNumberInCart * Cart.ProductsInCart [row].Price).ToString ();
+				string quantity;
+				string name ;
+				string description;
+				string cost;
+
+				if (history == null) {
+					quantity = Cart.ProductsInCart [row].ProductNumberInCart.ToString ();
+					name = Cart.ProductsInCart [row].Name;
+					description = Cart.ProductsInCart [row].Quantity;
+					cost = (Cart.ProductsInCart [row].ProductNumberInCart * Cart.ProductsInCart [row].Price).ToString ();
+				} else {
+					var firstSplitArray = history.ProductOrderList [row].Split (',');
+					quantity = firstSplitArray [0].Split (':') [1];
+					name = firstSplitArray [1].Split (':') [1];
+					description = firstSplitArray [2].Split (':') [1];
+					cost = firstSplitArray [3].Split (':') [1];
+				}
 
 				Label quantityLabel = new Label () {
 					Text = quantity,
@@ -147,8 +189,15 @@ namespace bluemart
 
 			MiddleGrid.Children.Add (totalPriceLabel,2,3 );
 
+			string totalPrice = "DH ";
+
+			if (history == null)
+				totalPrice += Cart.ProductTotalPrice.ToString ();
+			else
+				totalPrice += history.TotalPrice;
+
 			Label totalPriceText = new Label () {
-				Text = "DH " + Cart.ProductTotalPrice.ToString(),
+				Text = totalPrice,
 				FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label)),
 				HorizontalOptions = LayoutOptions.Center,
 				TextColor = Color.Black
@@ -158,6 +207,14 @@ namespace bluemart
 
 			MiddleGrid.RowDefinitions[1].Height =  MyDevice.ScreenHeight / 4;
 
+			if (mHistory != null) {
+				AgreeButton.Text = "OK";
+				DisagreeButton.IsVisible = false;
+			} else {
+				AgreeButton.Text = "Agree";
+				DisagreeButton.Text = "Disagree";
+			}
+
 			/*MiddleGrid.RowDefinitions[0].Height =  MyDevice.ScreenHeight / 10;
 			MiddleGrid.RowDefinitions[1].Height =  MyDevice.ScreenHeight / 2;
 			MiddleGrid.RowDefinitions [2].Height =  MyDevice.ScreenHeight / 10;
@@ -166,15 +223,34 @@ namespace bluemart
 
 		private async void AgreeClicked( Object sender, EventArgs e )
 		{
-			await DisplayAlert ("Order Accepted", "Your Order Has Been Received!", "OK");
-			mParent.mCartPage.ClearCart ();
-			mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
-			mParent.SwitchTab ("BrowseCategories");
+			if (mHistory == null) {
+				if (MyDevice.GetNetworkStatus () != "NotReachable") {
+
+					bool OrderSucceeded = OrderModel.SendOrderToRemote (mUserModel).Result;
+
+					if (OrderSucceeded)
+						await DisplayAlert ("Order Accepted", "Your order has been received!", "OK");
+					else
+						await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
+					
+					mParent.mCartPage.ClearCart ();
+					mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
+					mParent.SwitchTab ("BrowseCategories");
+				} else {
+					await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
+				}
+			} else {
+				mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mHistoryLabel);
+				mParent.SwitchTab ("History");
+			}
 		}
 
 		private void DisagreeClicked( Object sender, EventArgs e )
 		{
-			mParent.LoadCartPage ();
+			if (mHistory == null) {
+				mParent.LoadCartPage ();
+			}
+
 			//await Navigation.PopAsync ();
 		}
 

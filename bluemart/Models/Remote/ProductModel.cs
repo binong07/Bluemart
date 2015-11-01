@@ -95,7 +95,7 @@ namespace bluemart.Models.Remote
 
 		public static void FetchProducts()
 		{
-			if (MyDevice.NetworkStatus != "NotReachable") {
+			if (MyDevice.GetNetworkStatus() != "NotReachable") {
 				DateTime? localUpdate = mUserClass.GetProductsUpdatedDateFromUser ();
 				var query = ParseObject.GetQuery (ParseConstants.PRODUCTS_CLASS_NAME).OrderByDescending (ParseConstants.UPDATEDATE_NAME).Limit (1);
 				var parseObject = query.FirstAsync ().Result;

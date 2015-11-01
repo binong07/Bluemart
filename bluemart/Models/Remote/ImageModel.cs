@@ -56,7 +56,7 @@ namespace bluemart.Models.Remote
 
 		public static void GetImagesFromRemote()
 		{
-			if (MyDevice.NetworkStatus != "NotReachable") {
+			if (MyDevice.GetNetworkStatus() != "NotReachable") {
 				DateTime? localUpdate = mUserModel.GetImageUpdatedDateFromUser ();
 				var query = ParseObject.GetQuery (ParseConstants.IMAGES_CLASS_NAME).OrderByDescending (ParseConstants.UPDATEDATE_NAME).Limit (1);
 				var parseObject = query.FirstAsync ().Result;

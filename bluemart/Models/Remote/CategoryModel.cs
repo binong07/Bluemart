@@ -113,7 +113,7 @@ namespace bluemart.Models.Remote
 
 		public static void FetchCategories()
 		{
-			if (MyDevice.NetworkStatus != "NotReachable") {
+			if (MyDevice.GetNetworkStatus() != "NotReachable") {
 				DateTime? localUpdate = mUserModel.GetCategoriesUpdatedDateFromUser ();
 				var query = ParseObject.GetQuery (ParseConstants.CATEGORIES_CLASS_NAME).OrderByDescending (ParseConstants.UPDATEDATE_NAME).Limit (1);
 				var parseObject = query.FirstAsync ().Result;

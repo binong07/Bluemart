@@ -38,13 +38,13 @@ namespace bluemart.Common.ViewCells
 			var tapGestureRecognizer = new TapGestureRecognizer ();
 			tapGestureRecognizer.Tapped += async (sender, e) => {
 
-				categoryImage.Opacity = 0.5f;
+				mainCellGrid.Opacity = 0.5f;
 				await Task.Delay (MyDevice.DelayTime);
 				LoadProductsPage(category.CategoryID,parent);
-				categoryImage.Opacity = 1f;
+				mainCellGrid.Opacity = 1f;
 			};
 
-			categoryImage.GestureRecognizers.Add (tapGestureRecognizer);
+			mainCellGrid.GestureRecognizers.Add (tapGestureRecognizer);
 
 			mainCellGrid.Children.Add (categoryImage, 0, 0);
 

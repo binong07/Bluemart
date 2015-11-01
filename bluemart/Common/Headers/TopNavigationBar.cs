@@ -50,16 +50,16 @@ namespace bluemart.Common.Headers
 		private void AddTapRecognizers()
 		{		
 
-			var cartButtonTapGestureRecognizer = new TapGestureRecognizer ();
-			cartButtonTapGestureRecognizer.Tapped += async (sender, e) => {
+			var CartGridTapGestureRecognizer = new TapGestureRecognizer ();
+			CartGridTapGestureRecognizer.Tapped += async (sender, e) => {
 
-				CartButton.Opacity = 0.5f;
+				CartGrid.Opacity = 0.5f;
 				await Task.Delay(MyDevice.DelayTime);
 				mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
 				mParent.LoadCartPage();
-				CartButton.Opacity = 1f;
+				CartGrid.Opacity = 1f;
 			};
-			CartButton.GestureRecognizers.Add (cartButtonTapGestureRecognizer);
+			CartGrid.GestureRecognizers.Add (CartGridTapGestureRecognizer);
 
 			var backButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			backButtonTapGestureRecognizer.Tapped += async (sender, e) => {
