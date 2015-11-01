@@ -32,14 +32,14 @@ namespace bluemart.Models.Remote
 
 
 			ParseObject order= new ParseObject(ParseConstants.ORDERS_CLASS_NAME);
-
-			order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESS] = user.Address;
-			order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESSDESC] = user.AddressDescription;
-			order [ParseConstants.ORDERS_ATTRIBUTE_REGION] = user.Region;
+			//change
+			//order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESS] = user.Address;
+			//order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESSDESC] = user.AddressDescription;
+			order [ParseConstants.ORDERS_ATTRIBUTE_REGION] = user.ActiveRegion;
 			order [ParseConstants.ORDERS_ATTRIBUTE_USERNAME] = fullname[0];
 			order [ParseConstants.ORDERS_ATTRIBUTE_SURNAME] = fullname[1];
 			order [ParseConstants.ORDERS_ATTRIBUTE_PHONE] = user.PhoneNumber;
-			order [ParseConstants.ORDERS_ATTRIBUTE_STORE] = LocationHelper.DecideShopNumber (user.Location);
+			order [ParseConstants.ORDERS_ATTRIBUTE_STORE] = RegionHelper.DecideShopNumber (user.ActiveRegion);
 			order [ParseConstants.ORDERS_ATTRIBUTE_STATUS] = (int)OrderStatus.WAITING_CONFIRMATION;
 			order [ParseConstants.ORDERS_ATTRIBUTE_USERID] =  MyDevice.DeviceID;
 			order [ParseConstants.ORDERS_ATTRIBUTE_ORDERARRAY] = OrderList.ToArray ();

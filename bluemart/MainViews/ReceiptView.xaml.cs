@@ -95,7 +95,8 @@ namespace bluemart
 			if (history == null) {
 				DateText.Text = DateTime.Now.ToString ();
 				NameText.Text = mUserModel.Name;
-				AddressText.Text = mUserModel.Address;
+				//change
+				//AddressText.Text = mUserModel.Address;
 				PhoneText.Text = mUserModel.PhoneNumber;
 			} else {
 				DateText.Text = history.Date;
@@ -251,7 +252,6 @@ namespace bluemart
 				mParent.LoadCartPage ();
 			}
 
-			//await Navigation.PopAsync ();
 		}
 
 		private void SetButtonSize()

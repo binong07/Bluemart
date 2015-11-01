@@ -21,7 +21,7 @@ namespace bluemart.MainViews
 		UserClass mUserModel;
 		PopupLayout mPopupLayout = new PopupLayout();
 		ListView mPopupListView = new ListView ();	
-		List<LocationClass> mLocations = new List<LocationClass> ();
+		List<RegionClass> mRegions = new List<RegionClass> ();
 		Grid mConfirmationGrid;
 		Button mOKButton;
 		Button mCancelButton;
@@ -31,7 +31,7 @@ namespace bluemart.MainViews
 		{			
 			NavigationPage.SetHasNavigationBar (this, false);
 			InitalizeMemberVariables ();
-			if( mUserModel.GetLocationFromUser() != "" )
+			if( mUserModel.GetActiveRegionFromUser() != "" )
 				Navigation.PushAsync( mRootPage );
 			InitializeComponent ();
 
@@ -64,7 +64,7 @@ namespace bluemart.MainViews
 		{
 			//StackLayout1.BackgroundColor = MyDevice.BlueColor;
 			StackLayout1.BackgroundColor = Color.FromRgba ( MyDevice.BlueColor.R, MyDevice.BlueColor.G, MyDevice.BlueColor.B,0.5f);
-			mLocations.Clear ();
+			mRegions.Clear ();
 
 			mPopupLayout.WidthRequest = LocationButton.Width;
 
@@ -72,14 +72,14 @@ namespace bluemart.MainViews
 			mPopupListView.SeparatorColor = Color.Transparent;
 
 
-			var cell = new DataTemplate (typeof(LocationCell));
+			var cell = new DataTemplate (typeof(RegionCell));
 
-			foreach (var location in LocationHelper.locationList) {
-				mLocations.Add (new LocationClass (location));
+			foreach (var region in RegionHelper.locationList) {
+				mRegions.Add (new RegionClass (region));
 			}
 
 			mPopupListView.ItemTemplate = cell;
-			mPopupListView.ItemsSource = mLocations;
+			mPopupListView.ItemsSource = mRegions;
 			mPopupListView.HorizontalOptions = LayoutOptions.Center;
 
 			mPopupLayout.Content = StackLayout1;
@@ -97,11 +97,11 @@ namespace bluemart.MainViews
 					mConfirmationGrid
 				}
 			};
-			if(  mUserModel.GetLocationFromUser () != "" )
+			if(  mUserModel.GetActiveRegionFromUser () != "" )
 			{
-				string location = mUserModel.GetLocationFromUser ();
+				string region = mUserModel.GetActiveRegionFromUser ();
 				foreach (var item in mPopupListView.ItemsSource) {
-					if ((item as LocationClass).Location == location)
+					if ((item as RegionClass).Region == region)
 						mPopupListView.SelectedItem = item;
 				}
 			}
@@ -138,8 +138,22 @@ namespace bluemart.MainViews
 				if(mPopupListView.SelectedItem != null )
 				{
 					DismissPopup();
-					mUserModel.AddLocationToUser ((mPopupListView.SelectedItem as LocationClass).Location);
+					string region = (mPopupListView.SelectedItem as RegionClass).Region;
+					mUserModel.AddActiveRegionToUser (region);
+					AddressClass address = new AddressClass();
+					address = address.GetAddress(region);
+					if( address != null )
+						address.AddAddress();
+					else
+					{
+						address = new AddressClass();
+						address.Region = region;
+						address.Address = "";
+						address.AddressDescription = "";
+						address.AddAddress();
+					}
 					CategoryModel.CategoryLocation = mPopupListView.SelectedItem.ToString();
+					mRootPage.mSettingsPage.SetInitialTexts();
 					Navigation.PushAsync( mRootPage );
 				}
 			};

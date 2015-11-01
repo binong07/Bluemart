@@ -11,6 +11,7 @@ namespace bluemart.MainViews
 	public partial class SettingsPage : ContentPage
 	{
 		UserClass mUserModel = new UserClass ();
+		AddressClass mAddressModel = new AddressClass ();
 		bool bNameTextChanged = false;
 		bool bSurNameTextChanged = false;
 		bool bAddressTextChanged = false;
@@ -27,11 +28,19 @@ namespace bluemart.MainViews
 			//Header.mParent = parent;
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
-			UserClass user = mUserModel.GetUser ();
 
-			AddressEntry.Text = user.Address;
-			RegionEntry.Text = user.Region;
-			AddressDescriptionEntry.Text = user.AddressDescription;
+		}
+
+		public void SetInitialTexts()
+		{
+			UserClass user = mUserModel.GetUser ();
+			string activeRegion = user.ActiveRegion;
+			AddressClass address = mAddressModel.GetAddress (activeRegion);
+
+			AddressEntry.Text = address.Address;
+			AddressDescriptionEntry.Text = address.AddressDescription;
+			RegionEntry.Text = activeRegion;
+
 			if (user.Name.Length > 0) {
 				NameEntry.Text = user.Name.Split (' ') [0];
 				SurNameEntry.Text = user.Name.Split (' ') [1];
@@ -107,11 +116,15 @@ namespace bluemart.MainViews
 		private async void OnSubmitClicked(Object sender, EventArgs e)
 		{
 			string address = AddressEntry.Text.ToString ();
-			string region = RegionEntry.Text.ToString ();
+			string activeRegion = RegionEntry.Text.ToString ();
 			string addressDescription = AddressDescriptionEntry.Text.ToString ();
 			string name = NameEntry.Text.ToString () + " " + SurNameEntry.Text.ToString ();
 			string phoneNumber = PhoneEntry.Text.ToString ();
-			mUserModel.AddUserInfo (address,region,addressDescription,name,phoneNumber);
+			mAddressModel.Address = address;
+			mAddressModel.AddressDescription = addressDescription;
+			mAddressModel.Region = activeRegion;
+			mAddressModel.AddAddress ();
+			mUserModel.AddUserInfo (activeRegion,name,phoneNumber);
 			await DisplayAlert ("User Infor Submitted", "You have successfully submitted your information", "OK");
 
 			mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);

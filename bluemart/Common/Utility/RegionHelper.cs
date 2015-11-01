@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace bluemart.Common.Utilities
 {
-	public static class LocationHelper
+	public static class RegionHelper
 	{
 		//Location Keys
 		private const string DISCOVERY_GARDENS = "Discovery Gardens";

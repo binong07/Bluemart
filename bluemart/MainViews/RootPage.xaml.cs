@@ -13,7 +13,7 @@ namespace bluemart.MainViews
 	public partial class RootPage : ContentPage
 	{
 		BrowseCategoriesPage mBrowseCategoriesPage;
-		SettingsPage mSettingsPage;
+		public SettingsPage mSettingsPage;
 		FavoritesPage mFavoritesPage;
 		HistoryPage mHistoryPage;
 		TrackPage mTrackPage;
@@ -83,6 +83,7 @@ namespace bluemart.MainViews
 				break;
 			case "Settings":
 				SwitchHeaderVisibility (true);
+				mSettingsPage.SetInitialTexts ();
 				SwitchContentGrid (mSettingsPage.Content);
 				mCurrentPage = pageName;
 				break;

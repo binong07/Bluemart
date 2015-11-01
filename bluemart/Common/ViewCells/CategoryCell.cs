@@ -79,8 +79,8 @@ namespace bluemart.Common.ViewCells
 			{
 				List<Product> product = new List<Product> ();
 
-				string location = mUser.GetLocationFromUser ();
-				int store = LocationHelper.DecideShopNumber (location);
+				string location = mUser.GetActiveRegionFromUser ();
+				int store = RegionHelper.DecideShopNumber (location);
 
 				if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
 					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						

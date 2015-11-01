@@ -11,15 +11,13 @@ namespace bluemart.Models.Local
 	{
 		[PrimaryKey, AutoIncrement, Column("_id")]
 		public int Id { get; set; }
-		public string Region { get; set; }
-		public string AddressDescription{ get; set; }
-		public string Address { get; set; }
+		public string ActiveRegion { get; set; }
 		public string Name { get; set; }
 		public string PhoneNumber{ get; set; }
 		public DateTime? ImagesUpdateDate { get; set; }
 		public DateTime? CategoriesUpdateDate { get; set; }
 		public DateTime? ProductsUpdateDate { get; set; }
-		public string Location{ get; set; }
+		//public string Location{ get; set; }
 
 		private bool TableExists<T> (SQLiteConnection connection,string tableName)
 		{    
@@ -35,16 +33,14 @@ namespace bluemart.Models.Local
 			if (!TableExists<UserClass> (db, "User")) {
 				db.CreateTable<UserClass> ();	
 				var newUser = new UserClass ();
-				newUser.Address = "";
-				newUser.Region = "";
-				newUser.AddressDescription = "";
+				newUser.ActiveRegion = "";
 				newUser.Name = "";
 				newUser.PhoneNumber = "";
 				newUser.Id = 1;
 				newUser.ImagesUpdateDate = ReleaseConfig.LAST_UPDATEDATE;
 				newUser.CategoriesUpdateDate = new DateTime? (DateTime.MinValue);
 				newUser.ProductsUpdateDate = new DateTime? (DateTime.MinValue);
-				newUser.Location = "";
+				//newUser.Location = "";
 				db.InsertOrReplace (newUser); 
 			}
 
@@ -52,7 +48,7 @@ namespace bluemart.Models.Local
 		}
 
 		#region UserLocation
-		public void AddLocationToUser( string location )
+		public void AddActiveRegionToUser( string activeRegion )
 		{
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
@@ -63,21 +59,21 @@ namespace bluemart.Models.Local
 			List<UserClass> userList =db.Query<UserClass> (" select * from User ");
 			UserClass user = userList [0];
 
-			user.Location = location;
+			user.ActiveRegion = activeRegion;
 			db.InsertOrReplace (user);
 
 			db.Close ();
 		}
 
-		public string GetLocationFromUser()
+		public string GetActiveRegionFromUser()
 		{
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
-			List<UserClass> userList =db.Query<UserClass> ("select Location from User WHERE _id = 1");
+			List<UserClass> userList =db.Query<UserClass> ("select ActiveRegion from User WHERE _id = 1");
 			UserClass user = userList [0];
 
 			db.Close ();
-			return user.Location;
+			return user.ActiveRegion;
 		}
 		#endregion
 
@@ -171,7 +167,7 @@ namespace bluemart.Models.Local
 		}
 		#endregion
 
-		public void AddUserInfo(string address,string region,string addressDescription,string name, string phoneNumber)
+		public void AddUserInfo(string activeRegion,string name, string phoneNumber)
 		{
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
@@ -182,9 +178,7 @@ namespace bluemart.Models.Local
 			List<UserClass> userList =db.Query<UserClass> (" select * from User ");
 			UserClass user = userList [0];
 
-			user.Address = address;
-			user.Region = region;
-			user.AddressDescription = addressDescription;
+			user.ActiveRegion = activeRegion;
 			user.Name = name;
 			user.PhoneNumber = phoneNumber;
 			db.InsertOrReplace (user);

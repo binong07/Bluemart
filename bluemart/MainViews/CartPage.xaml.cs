@@ -94,10 +94,11 @@ namespace bluemart.MainViews
 				{
 					DisplayAlert("Failed","You don't have any product on cart","OK");
 				}
-				else if( String.IsNullOrWhiteSpace(mUserModel.GetUser().Address)  )
+				//change
+				/*else if( String.IsNullOrWhiteSpace(mUserModel.GetUser().Address)  )
 				{
 					DisplayAlert("Failed","Please Enter Your Address On Settings Page","OK");
-				}
+				}*/
 				else if( Cart.ProductTotalPrice < 50 )
 				{
 					DisplayAlert("Failed","Please order AED 50, as this is the minimum order.","OK");
