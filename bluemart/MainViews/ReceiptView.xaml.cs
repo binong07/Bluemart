@@ -14,7 +14,7 @@ namespace bluemart
 	{
 		private UserClass mUserModel = new UserClass();
 		private RootPage mParent;
-		private HistoryClass mHistory = null;
+		private Object mObject = null;
 
 		public ReceiptView (RootPage parent)
 		{			
@@ -25,23 +25,27 @@ namespace bluemart
 			SetMainGridDefinitions ();
 			SetTopGridDefinitions ();
 			SetMiddleGridDefinitions ();
+			SetBottomGridDefinitions ();
 			PopulateTopGrid ();
 			PopulateMiddleGrid ();
 			SetButtonSize ();
 		}
 
-		public ReceiptView (RootPage parent, HistoryClass history)
-		{			
+		public ReceiptView (RootPage parent, Object obj)
+		{		
+			
+
 			InitializeComponent ();
 			mParent = parent;
-			mHistory = history;
+			mObject = obj;
 			mUserModel = mUserModel.GetUser ();
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetMainGridDefinitions ();
 			SetTopGridDefinitions ();
 			SetMiddleGridDefinitions ();
-			PopulateTopGrid (history);
-			PopulateMiddleGrid (history);
+			SetBottomGridDefinitions ();
+			PopulateTopGrid (obj);
+			PopulateMiddleGrid (obj);
 			SetButtonSize ();
 		}
 
@@ -49,7 +53,7 @@ namespace bluemart
 		{
 			MainGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight * 3 / 10;
 			//MainGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight * 6 / 10;
-			MainGrid.RowDefinitions [2].Height = MyDevice.ScreenHeight  / 10;
+			MainGrid.RowDefinitions [2].Height = Device.GetNamedSize (NamedSize.Large, typeof(Label)) * 3;
 			MainGrid.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			MainGrid.BackgroundColor = Color.White;
 			ScrollViewGrid.BackgroundColor = Color.White;
@@ -83,56 +87,91 @@ namespace bluemart
 			AgreeButton.TextColor = Color.Green;
 			AgreeButton.BorderWidth = 2;
 			AgreeButton.BorderColor = MyDevice.BlueColor;
+			AgreeButton.WidthRequest = MyDevice.ScreenWidth / 2.5f;
 
 			DisagreeButton.BackgroundColor = Color.White;
 			DisagreeButton.TextColor = MyDevice.RedColor;
 			DisagreeButton.BorderWidth = 2;
 			DisagreeButton.BorderColor = MyDevice.BlueColor;
+			DisagreeButton.WidthRequest = MyDevice.ScreenWidth / 2.5f;
 		}
 
-		private void PopulateTopGrid(HistoryClass history = null)
+		private void SetBottomGridDefinitions()
 		{
-			if (history == null) {
+			BottomGrid.ColumnDefinitions [0].Width = MyDevice.ViewPadding;
+			BottomGrid.ColumnDefinitions [1].Width = (MyDevice.ScreenWidth - 2*MyDevice.ViewPadding) / 2;
+			BottomGrid.ColumnDefinitions [2].Width = (MyDevice.ScreenWidth - 2*MyDevice.ViewPadding) / 2;
+			BottomGrid.ColumnDefinitions [3].Width = MyDevice.ViewPadding;
+			//BottomGrid.RowDefinitions [0].Height = Device.GetNamedSize (NamedSize.Large, typeof(Label)) * 3;
+		}
+
+		private void PopulateTopGrid(Object obj = null)
+		{
+			if (obj == null) {
 				DateText.Text = DateTime.Now.ToString ();
 				NameText.Text = mUserModel.Name;
 				//change
 				//AddressText.Text = mUserModel.Address;
 				PhoneText.Text = mUserModel.PhoneNumber;
 			} else {
-				DateText.Text = history.Date;
-				NameText.Text = history.Name + " " + history.Surname;
-				AddressText.Text = history.Address;
-				PhoneText.Text = history.Phone;
+				if (obj is HistoryClass) {
+					HistoryClass history = obj as HistoryClass;
+					DateText.Text = history.Date;
+					NameText.Text = history.Name + " " + history.Surname;
+					AddressText.Text = history.Address;
+					PhoneText.Text = history.Phone;
+				} else if (obj is StatusClass) {
+					StatusClass status = obj as StatusClass;
+					DateText.Text = status.Date;
+					NameText.Text = status.Name + " " + status.Surname;
+					AddressText.Text = status.Address;
+					PhoneText.Text = status.Phone;
+				}
 			}
 		}
 
-		private void PopulateMiddleGrid(HistoryClass history = null)
+		private void PopulateMiddleGrid(Object obj = null)
 		{
 			int productCount = 0;
-			if (history == null)
+			if (obj == null)
 				productCount = Cart.ProductsInCart.Count;
-			else
-				productCount = history.ProductOrderList.Count;
+			else {
+				if( obj is HistoryClass )
+					productCount = (obj as HistoryClass).ProductOrderList.Count;
+				else if( obj is StatusClass )
+					productCount = (obj as StatusClass).ProductOrderList.Count;
+			}
+
 			
 			for (int row = 0; row < productCount; row++) {
 				ScrollViewGrid.RowDefinitions.Add (new RowDefinition ());
 
-				string quantity;
-				string name ;
-				string description;
-				string cost;
+				string quantity = "";
+				string name = "";
+				string description = "";
+				string cost = "";
 
-				if (history == null) {
+				if (obj == null) {
 					quantity = Cart.ProductsInCart [row].ProductNumberInCart.ToString ();
 					name = Cart.ProductsInCart [row].Name;
 					description = Cart.ProductsInCart [row].Quantity;
 					cost = (Cart.ProductsInCart [row].ProductNumberInCart * Cart.ProductsInCart [row].Price).ToString ();
 				} else {
-					var firstSplitArray = history.ProductOrderList [row].Split (',');
-					quantity = firstSplitArray [0].Split (':') [1];
-					name = firstSplitArray [1].Split (':') [1];
-					description = firstSplitArray [2].Split (':') [1];
-					cost = firstSplitArray [3].Split (':') [1];
+					if (obj is HistoryClass) {
+						var firstSplitArray = (obj as HistoryClass).ProductOrderList [row].Split (',');
+						quantity = firstSplitArray [0].Split (':') [1];
+						name = firstSplitArray [1].Split (':') [1];
+						description = firstSplitArray [2].Split (':') [1];
+						cost = firstSplitArray [3].Split (':') [1];
+					}
+					else if (obj is StatusClass) {
+						var firstSplitArray = (obj as StatusClass).ProductOrderList [row].Split (',');
+						quantity = firstSplitArray [0].Split (':') [1];
+						name = firstSplitArray [1].Split (':') [1];
+						description = firstSplitArray [2].Split (':') [1];
+						cost = firstSplitArray [3].Split (':') [1];
+					}
+
 				}
 
 				Label quantityLabel = new Label () {
@@ -192,10 +231,16 @@ namespace bluemart
 
 			string totalPrice = "DH ";
 
-			if (history == null)
+			if (obj == null)
 				totalPrice += Cart.ProductTotalPrice.ToString ();
-			else
-				totalPrice += history.TotalPrice;
+			else {
+				if (obj is HistoryClass) {
+					totalPrice += (obj as HistoryClass).TotalPrice;
+				} else if (obj is StatusClass) {
+					totalPrice += (obj as StatusClass).TotalPrice;
+				}
+			}
+				
 
 			Label totalPriceText = new Label () {
 				Text = totalPrice,
@@ -208,7 +253,7 @@ namespace bluemart
 
 			MiddleGrid.RowDefinitions[1].Height =  MyDevice.ScreenHeight / 4;
 
-			if (mHistory != null) {
+			if (mObject != null) {
 				AgreeButton.Text = "OK";
 				DisagreeButton.IsVisible = false;
 			} else {
@@ -224,7 +269,7 @@ namespace bluemart
 
 		private async void AgreeClicked( Object sender, EventArgs e )
 		{
-			if (mHistory == null) {
+			if (mObject == null) {
 				if (MyDevice.GetNetworkStatus () != "NotReachable") {
 
 					bool OrderSucceeded = OrderModel.SendOrderToRemote (mUserModel).Result;
@@ -241,14 +286,19 @@ namespace bluemart
 					await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
 				}
 			} else {
-				mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mHistoryLabel);
-				mParent.SwitchTab ("History");
+				if (mObject is HistoryClass) {
+					mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mHistoryLabel);
+					mParent.SwitchTab ("History");
+				} else if (mObject is StatusClass) {
+					mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mTrackLabel);
+					mParent.SwitchTab ("Track");
+				}
 			}
 		}
 
 		private void DisagreeClicked( Object sender, EventArgs e )
 		{
-			if (mHistory == null) {
+			if (mObject == null) {
 				mParent.LoadCartPage ();
 			}
 

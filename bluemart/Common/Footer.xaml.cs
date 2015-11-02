@@ -49,15 +49,27 @@ namespace bluemart.Common
 			FavoritesLabel.TextColor = MyDevice.RedColor;
 			HistoryLabel.TextColor = MyDevice.RedColor;
 			TrackLabel.TextColor = MyDevice.RedColor;
+
+			CategoryLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			SettingsLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			FavoritesLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			HistoryLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			TrackLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
 		}
 
 		private void SetImageSize()
 		{
+			HistoryGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
+			TrackGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
+			CategoryGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
+			FavoritesGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
+			SettingsGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
+			//HistoryButton.Aspect = Aspect.Fill;
 			CategoryButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			SettingsButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			FavoritesButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			HistoryButton.WidthRequest = MyDevice.ScreenWidth / 5;
-			TrackButton.WidthRequest = MyDevice.ScreenWidth / 5;				
+			TrackButton.WidthRequest = MyDevice.ScreenWidth / 5;
 		}			
 
 		private void AddTapRecognizers()

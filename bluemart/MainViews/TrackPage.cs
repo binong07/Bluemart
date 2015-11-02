@@ -11,7 +11,7 @@ namespace bluemart.MainViews
 {
 	public partial class TrackPage : ContentPage
 	{				
-		RootPage mParent;
+		public RootPage mParent;
 		public TrackCell mActiveTrackCell;
 
 		public TrackPage (RootPage parent)

@@ -55,7 +55,7 @@ namespace bluemart.MainViews
 		}
 
 		protected override void OnAppearing()
-		{
+		{			
 			//UpdatePriceLabel ();
 		}
 
@@ -220,8 +220,7 @@ namespace bluemart.MainViews
 				foreach (var product in productList) {
 					ProductCell productCell = new ProductCell (Grid2, product, this);
 					int productIndex = tempProductList.IndexOf(product);
-					mProductCellList.Add (productCell);
-					double a = productCell.RenderHeight;
+					mProductCellList.Add (productCell);				
 					Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);
 				}					
 			}
@@ -233,9 +232,9 @@ namespace bluemart.MainViews
 			{
 				Grid2.RowDefinitions.Add (new RowDefinition ());
 			}
-
-			Grid2.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-Grid2.ColumnSpacing)/2});
-			Grid2.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-Grid2.ColumnSpacing)/2}); 
+			Grid2.Padding = new Thickness (MyDevice.ViewPadding / 2, 0, 0, 0);
+			Grid2.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-Grid2.ColumnSpacing-MyDevice.ViewPadding)/2});
+			Grid2.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-Grid2.ColumnSpacing-MyDevice.ViewPadding)/2}); 
 		}
 
 	}

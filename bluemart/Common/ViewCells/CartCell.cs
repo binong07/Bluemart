@@ -27,20 +27,23 @@ namespace bluemart
 			mParentPage = parent as CartPage;
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
 
-			Grid mainCellView = new Grid (){RowSpacing = 0, ColumnSpacing = 9, Padding = 0,BackgroundColor=Color.White};
-			mainCellView.HorizontalOptions = LayoutOptions.Start;
+			Grid mainCellView = new Grid (){RowSpacing = 0, ColumnSpacing = MyDevice.ViewPadding, Padding = 0,BackgroundColor=Color.White, HorizontalOptions = LayoutOptions.Center};
+
 			//mainCellView.BackgroundColor = Color.Red;
 			mainCellView.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto } );
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth/10} );
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth*6/10 - mainCellView.ColumnSpacing*4 });
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth / 10});
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth / 10});
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth / 10});
+			double width = MyDevice.ScreenWidth - mainCellView.ColumnSpacing*6;
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = 0 } );
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width/10} );
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width*6/10 });
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width / 10});
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width / 10});
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width / 10});
+			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = 0} );
 
 			Image productImage = new Image (){HorizontalOptions = LayoutOptions.Start};
 			productImage.Aspect = Aspect.AspectFill;
 			productImage.Source = product.ProductImagePath;
-			mainCellView.Children.Add (productImage, 0, 0);
+			mainCellView.Children.Add (productImage, 1, 0);
 
 			#region InsideGrid 
 			Grid insideGrid = new Grid (){ ColumnSpacing = 0, RowSpacing = 0};
@@ -62,7 +65,7 @@ namespace bluemart
 			insideGrid.Children.Add (mProductPriceLabel, 0, 2);
 			#endregion
 
-			mainCellView.Children.Add (insideGrid, 1, 0);
+			mainCellView.Children.Add (insideGrid, 2, 0);
 
 			mFavoriteImage = new Image();
 			if (!bIsFavorite) {
@@ -71,16 +74,16 @@ namespace bluemart
 				mFavoriteImage.Source = "bookmark_remove";
 			}
 
-			mainCellView.Children.Add(mFavoriteImage,2,0);
+			mainCellView.Children.Add(mFavoriteImage,3,0);
 
 			#region row3insidegrid
-			mAddImage = new Image (){HorizontalOptions = LayoutOptions.Start};
+			mAddImage = new Image ();
 			mAddImage.Source = "plus";
-			mainCellView.Children.Add (mAddImage,3,0);
+			mainCellView.Children.Add (mAddImage,4,0);
 
-			mRemoveImage = new Image (){VerticalOptions = LayoutOptions.Center};
+			mRemoveImage = new Image ();
 			mRemoveImage.Source = "minus";
-			mainCellView.Children.Add (mRemoveImage,4,0	);
+			mainCellView.Children.Add (mRemoveImage,5,0	);
 			#endregion
 
 			UpdateNumberLabel();

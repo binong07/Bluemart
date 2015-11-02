@@ -129,6 +129,12 @@
     <Reference Include="XLabs.Forms.Droid">
       <HintPath>..\packages\XLabs.Forms.2.0.5782\lib\MonoAndroid\XLabs.Forms.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="MR.Gestures.Android">
+      <HintPath>..\packages\MR.Gestures.1.2.4\lib\MonoAndroid10\MR.Gestures.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="MR.Gestures">
+      <HintPath>..\packages\MR.Gestures.1.2.4\lib\MonoAndroid10\MR.Gestures.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bluemart.csproj">

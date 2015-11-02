@@ -63,10 +63,7 @@ namespace bluemart.Models.Remote
 			if (MyDevice.GetNetworkStatus () != "NotReachable") {
 				var orderQuery = ParseObject.GetQuery (ParseConstants.ORDERS_CLASS_NAME).
 				WhereEqualTo (ParseConstants.ORDERS_ATTRIBUTE_USERID, MyDevice.DeviceID).
-				WhereLessThan (ParseConstants.ORDERS_ATTRIBUTE_STATUS, 3).
-				Select (ParseConstants.ORDERS_ATTRIBUTE_ORDERARRAY).
-				Select (ParseConstants.ORDERS_ATTRIBUTE_REGION).
-				Select (ParseConstants.ORDERS_ATTRIBUTE_STATUS);
+				WhereLessThan (ParseConstants.ORDERS_ATTRIBUTE_STATUS, 3);
 
 				var orderObjects = orderQuery.FindAsync ().Result;
 
@@ -76,7 +73,12 @@ namespace bluemart.Models.Remote
 					int status = order.Get<int> (ParseConstants.ORDERS_ATTRIBUTE_STATUS);
 					var date = order.CreatedAt.ToString ();
 					var totalPrice = CalculateTotalPrice (productOrderList).ToString ();
-					statusClassList.Add (new StatusClass (totalPrice, date, region, (OrderStatus)status));
+					var address = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ADDRESS);
+					var addressDesc = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ADDRESSDESC);
+					var name = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_USERNAME);
+					var surname = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_SURNAME);
+					var phone = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_PHONE);
+					statusClassList.Add (new StatusClass (productOrderList,address,addressDesc,name,surname,phone,totalPrice, date, region, (OrderStatus)status));
 				}
 			}
 				

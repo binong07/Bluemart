@@ -64,16 +64,18 @@
 						</Grid>						
 					</ScrollView>
 				</Grid>
-				<Grid x:Name = "BottomGrid" Grid.Row = "2" Grid.Column = "0" RowSpacing="0" ColumnSpacing = "0" Padding = "0">
+				<Grid x:Name = "BottomGrid" Grid.Row = "2" Grid.Column = "0" RowSpacing="0" ColumnSpacing = "0" Padding = "0" HorizontalOptions = "Center" VerticalOptions = "Center">
 					<Grid.RowDefinitions>
 						<RowDefinition />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
 						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
-				 	<Button x:Name = "AgreeButton" Grid.Row = "0" Grid.Column = "0" Text = "ACCEPT" VerticalOptions = "Start" HorizontalOptions = "Start" BackgroundColor = "Green" TextColor = "White" Clicked = "AgreeClicked" />
-				 	<Button x:Name = "DisagreeButton" Grid.Row = "0" Grid.Column = "1" Text = "DON'T ACCEPT" VerticalOptions = "Start" HorizontalOptions = "End" BackgroundColor = "Red" TextColor = "White" Clicked = "DisagreeClicked" />
+				 	<Button x:Name = "AgreeButton" Grid.Row = "0" Grid.Column = "1" Text = "ACCEPT" VerticalOptions = "Center" HorizontalOptions = "Start" BackgroundColor = "Green" TextColor = "White" Clicked = "AgreeClicked" />
+				 	<Button x:Name = "DisagreeButton" Grid.Row = "0" Grid.Column = "2" Text = "DON'T ACCEPT" VerticalOptions = "Center" HorizontalOptions = "End" BackgroundColor = "Red" TextColor = "White" Clicked = "DisagreeClicked" />
 				</Grid>
 		</Grid>
 	</ContentPage.Content>

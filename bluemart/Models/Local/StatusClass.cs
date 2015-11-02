@@ -1,16 +1,23 @@
 ﻿using System;
 using bluemart.Models.Remote;
+using System.Collections.Generic;
 
 namespace bluemart.Models.Local
 {
 	public class StatusClass
 	{
-		public StatusClass (string totalPrice, string date, string region, OrderModel.OrderStatus orderStatus)
+		public StatusClass (List<string> productOrderList,string address, string addressDesc,string name, string surname, string phone, string totalPrice, string date, string region, OrderModel.OrderStatus orderStatus)
 		{
-			TotalPrice = "Total Price: " + totalPrice + " DH";
-			Date = "Date: " + date;
-			Region = "Region: " + region;
+			ProductOrderList = productOrderList;
+			TotalPrice = totalPrice;
+			Date = date;
+			Region = region;
 			Status = "Status: ";
+			Address = address;
+			AddressDescription = addressDesc;
+			Name = name;
+			Surname = surname;
+			Phone = phone;
 
 			switch (orderStatus) {
 			case OrderModel.OrderStatus.WAITING_CONFIRMATION:
@@ -28,10 +35,16 @@ namespace bluemart.Models.Local
 
 		}
 
+		public List<string> ProductOrderList;
 		public string TotalPrice {get;set;}
 		public string Date {get;set;}
 		public string Region {get;set;}
 		public string Status { get; set; }
+		public string Address {get;set;}
+		public string AddressDescription {get;set;}
+		public string Name {get;set;}
+		public string Surname {get;set;}
+		public string Phone {get;set;}
 	}
 }
 

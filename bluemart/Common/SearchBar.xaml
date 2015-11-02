@@ -5,16 +5,17 @@
      BackgroundColor="White"
      ColumnSpacing = "0"
      RowSpacing = "0"
-     Padding = "0"
-     HorizontalOptions = "Center">
+     Padding = "0">
      <Grid.RowDefinitions>
 		<RowDefinition/>
 	</Grid.RowDefinitions>
 	<Grid.ColumnDefinitions>
 		<ColumnDefinition/>
 		<ColumnDefinition/>
+		<ColumnDefinition/>
+		<ColumnDefinition/>
 	</Grid.ColumnDefinitions>
-	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "0" Source="search" VerticalOptions = "Center" HorizontalOptions = "Center"/>
-	<controls:ExtendedEntry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "1" Text = "Search Products" 
+	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "1" Source="search" VerticalOptions = "Center" HorizontalOptions = "Start"/>
+	<controls:ExtendedEntry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "2" Text = "Search Products" 
 			BackgroundColor = "White"  VerticalOptions = "Fill" HorizontalOptions = "FillAndExpand" Completed = "SearchEntryCompleted" Focused = "SearchEntryFocused" Unfocused = "SearchEntryUnfocused"/>
 </Grid>

@@ -20,6 +20,8 @@ namespace bluemart.Common.Utilities
 		public static Color RedColor = Color.FromRgb (204,27,39);
 		public static int DelayTime = 10;
 		public static string DeviceID = Resolver.Resolve<IDevice> ().Id;
+		public static double MenuPadding = MyDevice.ScreenWidth / 25;
+		public static double ViewPadding = MyDevice.ScreenWidth / 50;
 
 		public static string GetNetworkStatus()
 		{

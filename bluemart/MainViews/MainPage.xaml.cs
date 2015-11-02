@@ -113,20 +113,23 @@ namespace bluemart.MainViews
 		{
 			mConfirmationGrid = new Grid()
 			{
-				ColumnSpacing = 0,
+				Padding = new Thickness(0,0,0,MyDevice.ViewPadding/2),
+				ColumnSpacing = MyDevice.ViewPadding,
 				RowSpacing = 0,
+				HorizontalOptions = LayoutOptions.Center,
+				VerticalOptions = LayoutOptions.Center,
 				RowDefinitions = 
 				{
 					new RowDefinition { Height = GridLength.Auto }
 				},
 				ColumnDefinitions =
 				{
-					new ColumnDefinition { Width = LocationButton.Width/2},
-					new ColumnDefinition { Width = LocationButton.Width/2},
+					new ColumnDefinition { Width = LocationButton.Width/2 - MyDevice.ViewPadding},
+					new ColumnDefinition { Width = LocationButton.Width/2 - MyDevice.ViewPadding},
 				}
 			};
 
-			mOKButton = new Button () { 
+			mOKButton = new Button () {
 				Text = "OK",
 				BackgroundColor = Color.White,
 				TextColor = MyDevice.RedColor,

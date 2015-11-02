@@ -11,8 +11,8 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<ScrollView x:Name = "ScrollView1" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "Start">
-				<Grid x:Name="Grid2" HorizontalOptions = "Fill" VerticalOptions = "Start">				
+		<ScrollView x:Name = "ScrollView1" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "Fill">
+				<Grid x:Name="Grid2" HorizontalOptions = "Fill" VerticalOptions = "Fill">				
 				</Grid>							
 		</ScrollView>	
 	</ContentPage.Content>

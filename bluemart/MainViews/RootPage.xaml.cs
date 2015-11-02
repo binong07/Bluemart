@@ -7,10 +7,11 @@ using bluemart.Common.Objects;
 using bluemart.Common;
 using bluemart.Common.Headers;
 using bluemart.Models.Local;
+using MR.Gestures;
 
 namespace bluemart.MainViews
 {
-	public partial class RootPage : ContentPage
+	public partial class RootPage : Xamarin.Forms.ContentPage
 	{
 		BrowseCategoriesPage mBrowseCategoriesPage;
 		public SettingsPage mSettingsPage;
@@ -21,7 +22,7 @@ namespace bluemart.MainViews
 		public CartPage mCartPage;
 		private string mCurrentPage = "";
 		public Footer mFooter;
-		public Grid mGrid;
+		public Xamarin.Forms.Grid mGrid;
 		public TopNavigationBar mTopNavigationBar;
 		public MainMenuHeader mRootHeader;
 
@@ -51,13 +52,22 @@ namespace bluemart.MainViews
 
 			mContentGrid = mBrowseCategoriesPage.Content;
 			Grid1.Children.Add(mContentGrid,0,1);
+			/*Grid1.Swiped += (sender, e) => {
+				DisplayAlert ("as", e.Direction.ToString(), "a");
+			};*/
 		}
+
+		/*void OnleftSwipe(object sender, MR.Gestures.SwipeEventArgs e)
+		{
+			//DisplayAlert ("as", e.Direction.ToString(), "a");
+			System.Diagnostics.Debug.WriteLine("BoxViewXaml.Red_Swiped method called, swiped " + e.Direction);
+		}*/
 
 		private void SetGrid1Definitions()
 		{
-			Grid1.BackgroundColor = MyDevice.BlueColor;
+			Grid1.BackgroundColor = MyDevice.RedColor;
 			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 12;
-			Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 12;
+			Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 14;
 		}
 
 		private void SwitchContentGrid(View content)
@@ -75,7 +85,6 @@ namespace bluemart.MainViews
 			switch (pageName) {
 			case "BrowseCategories":
 				SwitchHeaderVisibility (true);
-				RootHeader.mPriceLabel.Text = "DH:" + Cart.ProductTotalPrice.ToString ();
 				mBrowseProductPage = null;
 				mBrowseCategoriesPage.RefreshSearchText ();
 				SwitchContentGrid (mBrowseCategoriesPage.Content);
@@ -119,7 +128,7 @@ namespace bluemart.MainViews
 		public void LoadProductsPage( Dictionary<string, List<Product>> productDictionary, Category category )
 		{
 			mCurrentPage = "";
-			//Footer.SetLabelProperties ();
+			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (false);
 			mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
 			SwitchContentGrid (mBrowseProductPage.Content);
@@ -134,15 +143,17 @@ namespace bluemart.MainViews
 			mCartPage.PrintDictionaryContents ();
 		}
 
-		public void LoadReceiptPage(HistoryClass history=null)
+		public void LoadReceiptPage(Object obj = null)
 		{
 			mCurrentPage = "";
 			SwitchHeaderVisibility (true);
 			Footer.SetLabelProperties ();
-			if( history == null )
+			if (obj == null)
 				SwitchContentGrid ((new ReceiptView (this)).Content);
-			else
-				SwitchContentGrid ((new ReceiptView (this,history)).Content);
+			else {
+				SwitchContentGrid ((new ReceiptView (this,obj)).Content);
+			}
+				
 		}
 
 		public void LoadSearchPage(string searchString,string categoryId = "")
@@ -165,4 +176,3 @@ namespace bluemart.MainViews
 		}
 	}
 }
-

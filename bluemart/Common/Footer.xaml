@@ -10,61 +10,66 @@
 
      <Grid x:Name = "HistoryGrid" RowSpacing = "0" Padding = "0">
      	<Grid.RowDefinitions>
+     		<RowDefinition/>
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "HistoryButton" Grid.Row = "0" Grid.Column = "0" Source = "History" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="HistoryLabel" Grid.Row = "1" Grid.Column = "0" Text = "History" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "HistoryButton" Grid.Row = "1" Grid.Column = "0" Source = "History" HorizontalOptions = "Center" VerticalOptions = "End" />
+		<Label x:Name="HistoryLabel" Grid.Row = "2" Grid.Column = "0" Text = "History" VerticalOptions = "End" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
      <Grid x:Name = "TrackGrid" RowSpacing = "0" Padding = "0">
      	<Grid.RowDefinitions>
+     		<RowDefinition/>
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "TrackButton" Grid.Row = "0" Grid.Column = "0" Source = "Track" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="TrackLabel" Grid.Row = "1" Grid.Column = "0" Text = "Track" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "TrackButton" Grid.Row = "1" Grid.Column = "0" Source = "Track" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Label x:Name="TrackLabel" Grid.Row = "2" Grid.Column = "0" Text = "Track" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
      <Grid x:Name = "CategoryGrid" RowSpacing = "0" Padding = "0">
      	<Grid.RowDefinitions>
+     		<RowDefinition/>
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "CategoryButton" Grid.Row = "0" Grid.Column = "0" Source = "Categories" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="CategoryLabel" Grid.Row = "1" Grid.Column = "0" Text = "Categories" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "CategoryButton" Grid.Row = "1" Grid.Column = "0" Source = "Categories" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Label x:Name="CategoryLabel" Grid.Row = "2" Grid.Column = "0" Text = "Categories" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
      <Grid x:Name = "FavoritesGrid" RowSpacing = "0" Padding = "0">
      	<Grid.RowDefinitions>
+     		<RowDefinition/>
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "FavoritesButton" Grid.Row = "0" Grid.Column = "0" Source = "Favorites" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="FavoritesLabel" Grid.Row = "1" Grid.Column = "0" Text = "Favorites" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "FavoritesButton" Grid.Row = "1" Grid.Column = "0" Source = "Favorites" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Label x:Name="FavoritesLabel" Grid.Row = "2" Grid.Column = "0" Text = "Favorites" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
 	<Grid x:Name = "SettingsGrid" RowSpacing = "0" Padding = "0">
      	<Grid.RowDefinitions>
-			<RowDefinition/>
+     		<RowDefinition/>
+     		<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "SettingsButton" Grid.Row = "0" Grid.Column = "0" Source = "Settings" HorizontalOptions = "Center" VerticalOptions = "End" />
-		<Label x:Name="SettingsLabel" Grid.Row = "1" Grid.Column = "0" Text = "Settings" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "SettingsButton" Grid.Row = "1" Grid.Column = "0" Source = "Settings" HorizontalOptions = "Center" VerticalOptions = "End" />
+		<Label x:Name="SettingsLabel" Grid.Row = "2" Grid.Column = "0" Text = "Settings" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 </StackLayout>

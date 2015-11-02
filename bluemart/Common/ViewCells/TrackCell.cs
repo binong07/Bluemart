@@ -14,10 +14,12 @@ namespace bluemart.Common.ViewCells
 		public Label mRegionLabel;
 		public Label mStatusLabel;
 		private TrackPage mRootPage;
+		private StatusClass mStatus;
 
 		public TrackCell (StatusClass status, TrackPage rootPage)
 		{
 			mRootPage = rootPage;
+			mStatus = status;
 
 			Grid mainGrid = new Grid (){	
 				Padding = new Thickness(1,1,1,1),
@@ -43,7 +45,7 @@ namespace bluemart.Common.ViewCells
 				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = status.TotalPrice,
+				Text = "Total Price: " + status.TotalPrice + " DH",
 				BackgroundColor = Color.White
 			};
 
@@ -52,7 +54,7 @@ namespace bluemart.Common.ViewCells
 				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = status.Date,
+				Text = "Date: " + status.Date,
 				BackgroundColor = Color.White
 			};
 
@@ -61,7 +63,7 @@ namespace bluemart.Common.ViewCells
 				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = status.Region,
+				Text = "Region: " + status.Region,
 				BackgroundColor = Color.White
 			};
 
@@ -86,6 +88,7 @@ namespace bluemart.Common.ViewCells
 				mainGrid.Opacity = 0.5f;
 				await Task.Delay (MyDevice.DelayTime);
 				SwitchColor();
+				mRootPage.mParent.LoadReceiptPage(mStatus);
 				mainGrid.Opacity = 1f;
 			};
 			mainGrid.GestureRecognizers.Add (tapGestureRecognizer);

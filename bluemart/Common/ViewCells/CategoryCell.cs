@@ -31,9 +31,12 @@ namespace bluemart.Common.ViewCells
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto});
 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  MyDevice.ScreenWidth});
 
+
 			Image categoryImage = new Image ();
 			categoryImage.Aspect = Aspect.AspectFill;
 			categoryImage.Source = ImageSource.FromFile(category.CategoryImagePath);
+
+
 
 			var tapGestureRecognizer = new TapGestureRecognizer ();
 			tapGestureRecognizer.Tapped += async (sender, e) => {
@@ -63,10 +66,6 @@ namespace bluemart.Common.ViewCells
 		{			
 			
 			PopulateProducts ();
-			//parent.Content = new BrowseProductsPage (mProductDictionary, mCategory).Content;
-			//parent.Navigation.PushAsync (new BrowseProductsPage (mProductDictionary,mCategory));
-			//if (parent.Parent.Navigation.NavigationStack.Last () is RootPage)
-			//	(parent.Navigation.NavigationStack.Last () as RootPage).LoadProductsPage (mProductDictionary, mCategory);*/
 			parent.LoadProductsPage(mProductDictionary,mCategory);
 		}
 
