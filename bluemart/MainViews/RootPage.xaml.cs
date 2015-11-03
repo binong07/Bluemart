@@ -25,6 +25,8 @@ namespace bluemart.MainViews
 		public Xamarin.Forms.Grid mGrid;
 		public TopNavigationBar mTopNavigationBar;
 		public MainMenuHeader mRootHeader;
+		private List<string> mPageList;
+		//private int mActivePageIndex = 2;
 
 		private View mContentGrid;
 
@@ -41,6 +43,8 @@ namespace bluemart.MainViews
 			mHistoryPage = new HistoryPage (this);
 			mTrackPage = new TrackPage (this);
 			mCartPage = new CartPage (this);
+			mPageList = new List<string> (){ "History","Track","BrowseCategories","Favorites","Settings" };
+
 			RootHeader.mParent = this;
 			ProductHeader.mParent = this;
 			mTopNavigationBar = ProductHeader;
@@ -52,9 +56,11 @@ namespace bluemart.MainViews
 
 			mContentGrid = mBrowseCategoriesPage.Content;
 			Grid1.Children.Add(mContentGrid,0,1);
-			/*Grid1.Swiped += (sender, e) => {
-				DisplayAlert ("as", e.Direction.ToString(), "a");
-			};*/
+			Grid1.Swiped += (sender, e) => {
+				int indexOfCurrentPage = mPageList.IndexOf(mCurrentPage);
+				indexOfCurrentPage = ( indexOfCurrentPage + 1 ) % mPageList.Count;
+				SwitchTab( mPageList[indexOfCurrentPage] );
+			};
 		}
 
 		/*void OnleftSwipe(object sender, MR.Gestures.SwipeEventArgs e)
@@ -77,6 +83,23 @@ namespace bluemart.MainViews
 			Grid1.Children.Add(mContentGrid,0,1);
 		}
 
+		private string GetPageName( Page page )
+		{
+			string pageName = "";
+			if (page is BrowseCategoriesPage)
+				pageName = "BrowseCategories";
+			else if (page is SettingsPage)
+				pageName = "Settings";
+			else if (page is FavoritesPage)
+				pageName = "Favorites";
+			else if (page is HistoryPage)
+				pageName = "History";
+			else if (page is TrackPage)
+				pageName = "Track";
+
+			return pageName;
+		}
+
 		public void SwitchTab( string pageName )
 		{
 			if (pageName == mCurrentPage)
@@ -87,30 +110,35 @@ namespace bluemart.MainViews
 				SwitchHeaderVisibility (true);
 				mBrowseProductPage = null;
 				mBrowseCategoriesPage.RefreshSearchText ();
+				mFooter.ChangeColorOfLabel (mFooter.mCategoriesLabel);
 				SwitchContentGrid (mBrowseCategoriesPage.Content);
 				mCurrentPage = pageName;
 				break;
 			case "Settings":
 				SwitchHeaderVisibility (true);
 				mSettingsPage.SetInitialTexts ();
+				mFooter.ChangeColorOfLabel (mFooter.mSettingsLabel);
 				SwitchContentGrid (mSettingsPage.Content);
 				mCurrentPage = pageName;
 				break;
 			case "Favorites":
 				SwitchHeaderVisibility (true);
 				mFavoritesPage.RefreshFavoritesGrid ();
+				mFooter.ChangeColorOfLabel (mFooter.mFavoritesLabel);
 				SwitchContentGrid (mFavoritesPage.Content);
 				mCurrentPage = pageName;
 				break;
 			case "History":
 				SwitchHeaderVisibility (true);
 				mHistoryPage.PopulateListView ();
+				mFooter.ChangeColorOfLabel (mFooter.mHistoryLabel);
 				SwitchContentGrid (mHistoryPage.Content);
 				mCurrentPage = pageName;
 				break;
 			case "Track":
 				SwitchHeaderVisibility (true);
 				mTrackPage.PopulateListView ();
+				mFooter.ChangeColorOfLabel (mFooter.mTrackLabel);
 				SwitchContentGrid (mTrackPage.Content);
 				mCurrentPage = pageName;
 				break;

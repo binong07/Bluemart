@@ -64,7 +64,6 @@ namespace bluemart.Common
 			CategoryGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
 			FavoritesGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
 			SettingsGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
-			//HistoryButton.Aspect = Aspect.Fill;
 			CategoryButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			SettingsButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			FavoritesButton.WidthRequest = MyDevice.ScreenWidth / 5;
@@ -79,8 +78,6 @@ namespace bluemart.Common
 			categoryButtonTapRecognizer.Tapped += (sender, e) => {
 
 				CategoryGrid.Opacity = 0.5f;
-				ChangeColorOfLabel(CategoryLabel);
-
 				if( Navigation.NavigationStack.Last() is RootPage )
 					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("BrowseCategories");
 				
@@ -92,7 +89,6 @@ namespace bluemart.Common
 			SettingsGridTapRecognizer.Tapped += (sender, e) => {
 
 				SettingsGrid.Opacity = 0.5f;
-				ChangeColorOfLabel(SettingsLabel);
 				if( Navigation.NavigationStack.Last() is RootPage )
 					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("Settings");
 				
@@ -104,7 +100,6 @@ namespace bluemart.Common
 			FavoritesGridTapRecognizer.Tapped += (sender, e) => {
 
 				FavoritesGrid.Opacity = 0.5f;
-				ChangeColorOfLabel(FavoritesLabel);
 				if( Navigation.NavigationStack.Last() is RootPage )
 					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("Favorites");
 
@@ -116,7 +111,6 @@ namespace bluemart.Common
 			HistoryGridTapRecognizer.Tapped += (sender, e) => {
 
 				HistoryGrid.Opacity = 0.5f;
-				ChangeColorOfLabel(HistoryLabel);
 				if( Navigation.NavigationStack.Last() is RootPage )
 					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("History");
 
@@ -128,7 +122,6 @@ namespace bluemart.Common
 			TrackGridTapRecognizer.Tapped += (sender, e) => {
 
 				TrackGrid.Opacity = 0.5f;
-				ChangeColorOfLabel(TrackLabel);
 				if( Navigation.NavigationStack.Last() is RootPage )
 					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("Track");
 

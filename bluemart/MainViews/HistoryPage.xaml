@@ -11,8 +11,16 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-			<ScrollView x:Name = "MainScrollView" VerticalOptions = "StartAndExpand" HorizontalOptions = "FillAndExpand" BackgroundColor = "White">
-				<StackLayout x:Name = "MainStackLayout" Orientation = "Vertical" VerticalOptions = "FillAndExpand" HorizontalOptions = "FillAndExpand" BackgroundColor = "White" Spacing = "0"/>
-			</ScrollView>           	
+			<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+			<Grid.RowDefinitions>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>		
+				</Grid.ColumnDefinitions>
+			<ScrollView  Grid.Row = "0" Grid.Column = "0" x:Name = "MainScrollView" VerticalOptions = "Start" HorizontalOptions = "Center">
+				<StackLayout x:Name = "MainStackLayout" Orientation = "Vertical" VerticalOptions = "FillAndExpand" HorizontalOptions = "Center" Spacing = "0"/>
+			</ScrollView> 
+		</Grid>           	
 	</ContentPage.Content>
 </ContentPage>

@@ -47,7 +47,7 @@ namespace bluemart.Common.ViewCells
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label))*2 });
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto });
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto });
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label)) });
+			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Small,typeof(Label))*2 });
 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  width });
 
 			Label productNameLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)), HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center , TextColor = MyDevice.RedColor, XAlign=TextAlignment.Center };
@@ -91,7 +91,8 @@ namespace bluemart.Common.ViewCells
 
 
 			Image productImage = new Image ();
-			productImage.Aspect = Aspect.Fill;
+			//productImage.Aspect = Aspect.AspectFit;
+			productImage.HeightRequest = width / 5 * 3;
 			productImage.WidthRequest = width / 5 * 3;
 			productImage.Source = ImageSource.FromFile(product.ProductImagePath);
 			mainCellGrid.Children.Add (productImage, 0, 2);

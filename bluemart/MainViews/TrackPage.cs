@@ -18,15 +18,24 @@ namespace bluemart.MainViews
 		{						
 			InitializeComponent ();
 			mParent = parent;
+			MainStackLayout.Spacing = MyDevice.ViewPadding;
+			SetGrid1Definitions ();
 		}
 
 		public void PopulateListView()
-		{
+		{						
 			MainStackLayout.Children.Clear ();
 			var orderStatusList = OrderModel.GetOrdersForTracking ();
 			foreach (var status in orderStatusList) {
 				MainStackLayout.Children.Add( new TrackCell(status,this ).View );
 			}
+		}
+
+		private void SetGrid1Definitions()
+		{
+			Grid1.RowDefinitions [0].Height = GridLength.Auto;
+			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
+			Grid1.BackgroundColor = MyDevice.BlueColor;
 		}
 			
 	}

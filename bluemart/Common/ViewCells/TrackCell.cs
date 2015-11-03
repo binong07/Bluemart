@@ -22,8 +22,8 @@ namespace bluemart.Common.ViewCells
 			mStatus = status;
 
 			Grid mainGrid = new Grid (){	
-				Padding = new Thickness(1,1,1,1),
-				HorizontalOptions = LayoutOptions.FillAndExpand,
+				//Padding = new Thickness(0,0,0,0),
+				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				RowSpacing = 0,
 				RowDefinitions = 
@@ -35,9 +35,9 @@ namespace bluemart.Common.ViewCells
 				},
 				ColumnDefinitions = 
 				{
-					new ColumnDefinition(){ Width = MyDevice.ScreenWidth}
+					new ColumnDefinition(){ Width = MyDevice.ScreenWidth-MyDevice.ViewPadding*2}
 				},
-				BackgroundColor = MyDevice.RedColor
+				BackgroundColor = MyDevice.BlueColor
 			};
 
 			mTotalPriceLabel = new Label (){ 

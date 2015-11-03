@@ -101,7 +101,7 @@ namespace bluemart.MainViews
 				mButtonList.Add (button);
 				BoxView boxView = new BoxView (){
 					HeightRequest = 3,
-					Color = Color.Olive,
+					Color = MyDevice.RedColor,
 					IsVisible = false
 				};
 				mBoxViewList.Add (boxView);

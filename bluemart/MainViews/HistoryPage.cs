@@ -18,6 +18,8 @@ namespace bluemart.MainViews
 		{						
 			InitializeComponent ();
 			mParent = parent;
+			MainStackLayout.Spacing = MyDevice.ViewPadding;
+			SetGrid1Definitions ();
 		}
 
 		public void PopulateListView()
@@ -27,6 +29,13 @@ namespace bluemart.MainViews
 			foreach (var history in orderHistoryList) {
 				MainStackLayout.Children.Add( new HistoryCell(history,this ).View );
 			}
+		}
+
+		private void SetGrid1Definitions()
+		{
+			Grid1.RowDefinitions [0].Height = GridLength.Auto;
+			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
+			Grid1.BackgroundColor = MyDevice.BlueColor;
 		}
 			
 	}
