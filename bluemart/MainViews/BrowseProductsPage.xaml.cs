@@ -14,7 +14,7 @@ namespace bluemart.MainViews
 		private int mRowCount;
 		public List<ProductCell> mProductCellList;
 		private List<BoxView> mBoxViewList;
-		private List<Button> mButtonList;
+		private List<Label> mButtonList;
 		private BoxView mEnabledBoxView;
 		private List<int> mCategoryIndexList;
 		private double mPreviousScrollPositionY = 0;
@@ -30,7 +30,7 @@ namespace bluemart.MainViews
 			//NavigationBar.mParent = parent;
 			mProductCellList = new List<ProductCell> ();
 			mBoxViewList = new List<BoxView> ();
-			mButtonList = new List<Button> ();
+			mButtonList = new List<Label> ();
 			mCategoryIndexList = new List<int> ();
 			//NavigationBar.NavigationText.Text = category.Name;
 			parent.mTopNavigationBar.NavigationText.Text = category.Name;
@@ -62,7 +62,7 @@ namespace bluemart.MainViews
 		private void SetGrid1Definitions()
 		{
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
-			Grid1.RowDefinitions [1].Height = MyDevice.ScreenHeight / 15;
+			Grid1.RowDefinitions [1].Height = GridLength.Auto;//MyDevice.ScreenHeight / 25;
 			Grid1.RowDefinitions [2].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.BackgroundColor = MyDevice.BlueColor;
@@ -80,48 +80,50 @@ namespace bluemart.MainViews
 
 				var relativeLayout = new RelativeLayout(){					
 					VerticalOptions = LayoutOptions.Fill,
-					BackgroundColor = Color.White,
+					BackgroundColor = Color.Blue,
 					Padding = 0
 				};
 
-				Button button = new Button (){
-					VerticalOptions = LayoutOptions.Fill,
+				Label label = new Label () {
+					VerticalOptions = LayoutOptions.FillAndExpand,
 					BackgroundColor = Color.White,
 					Text = productPair.Key,
-					BorderWidth = 0,
-					BorderRadius = 0,
 					TextColor = MyDevice.RedColor,
 					FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label))
 				};
 
-				button.Clicked += (sender, e) => {
-					FocusSelectedButton(sender as Button);
+				var tapRecognizer = new TapGestureRecognizer ();
+				tapRecognizer.Tapped += (sender, e) => {
+					FocusSelectedButton(sender as Label);
 				};
 
-				mButtonList.Add (button);
+				label.GestureRecognizers.Add (tapRecognizer);
+
+				mButtonList.Add (label);
 				BoxView boxView = new BoxView (){
 					HeightRequest = 3,
 					Color = MyDevice.RedColor,
 					IsVisible = false
 				};
 				mBoxViewList.Add (boxView);
-				relativeLayout.Children.Add (button,Constraint.RelativeToParent( (parent) =>{
-					return 0;
+
+				relativeLayout.Children.Add(label, Constraint.RelativeToParent(parent => {
+					return 0;	
 				}));
-				relativeLayout.Children.Add(boxView, 
-					Constraint.RelativeToView(button, (parent, sibling) =>
-						{
-							return sibling.Bounds.Left + 5;
-						}),
-					Constraint.RelativeToView(button, (parent, sibling) =>
-						{
-							return sibling.Bounds.Bottom - 3;
-						}),
-					Constraint.RelativeToView(button, (parent, sibling) =>
-						{
-							return sibling.Width - 10;
-						}));
-				
+
+				relativeLayout.Children.Add (boxView, 
+					Constraint.RelativeToView (label, (parent, sibling) => {
+						return sibling.Bounds.Left + 5;
+					}),
+					Constraint.RelativeToView (label, (parent, sibling) => {
+						return sibling.Bounds.Bottom - 3;
+					}),
+					Constraint.RelativeToView (label, (parent, sibling) => {
+						return sibling.Width - 10;
+					}));
+
+				//relativeLayout.WidthRequest = my
+
 				SubCategoryStackLayout.Children.Add (relativeLayout);
 			}
 
@@ -181,7 +183,7 @@ namespace bluemart.MainViews
 			return rotation;
 		}
 
-		private void FocusSelectedButton(Button selectedButton)
+		private void FocusSelectedButton(Label selectedButton)
 		{
 			mEnabledBoxView.IsVisible = false;
 			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);
@@ -228,6 +230,8 @@ namespace bluemart.MainViews
 
 		private void SetGrid2Definitions()
 		{
+			SubCategoryStackLayout.Spacing = MyDevice.ViewPadding*3;
+			ScrollView1.Padding = MyDevice.ViewPadding/2;
 			for (int i = 0; i < mRowCount; i++) 
 			{
 				Grid2.RowDefinitions.Add (new RowDefinition ());

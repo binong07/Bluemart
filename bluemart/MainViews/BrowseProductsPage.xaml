@@ -22,7 +22,7 @@
 				</Grid.ColumnDefinitions> 
 				<common:SearchBar x:Name = "SearchBar" Grid.Row = "0" Grid.Column = "0"/>      
                	<ScrollView x:Name = "ScrollView1" Grid.Row = "1" Grid.Column = "0" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" BackgroundColor = "White">
-	               	<StackLayout x:Name = "SubCategoryStackLayout" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Spacing = "0">
+	               	<StackLayout x:Name = "SubCategoryStackLayout" Orientation = "Horizontal" HorizontalOptions = "StartAndExpand" VerticalOptions = "FillAndExpand" Spacing = "0">
 	               	</StackLayout>
                	</ScrollView>
                	<ScrollView x:Name = "ProductScrollView" Grid.Row = "2" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Scrolled = "OnScrolled">

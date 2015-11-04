@@ -48,13 +48,17 @@ namespace bluemart.MainViews
 
 		protected override bool OnBackButtonPressed ()
 		{
+			if (Navigation.NavigationStack.Last<Page> () is RootPage) {
+				//Check if product page is active
+				if( mRootPage.mTopNavigationBar.IsVisible == true ){
+					mRootPage.SwitchTab ("BrowseCategories");
+				}
+				return true;	
+			}
+
 			if (mPopupLayout.IsPopupActive) {
 				DismissPopup();
 				return true;
-			}
-
-			if (Device.OS == TargetPlatform.Android) {
-				
 			}
 
 			return base.OnBackButtonPressed ();

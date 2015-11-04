@@ -28,7 +28,7 @@ namespace bluemart.MainViews
 		private List<string> mPageList;
 		//private int mActivePageIndex = 2;
 
-		private View mContentGrid;
+		public View mContentGrid;
 
 		public RootPage ()
 		{
@@ -61,13 +61,7 @@ namespace bluemart.MainViews
 				indexOfCurrentPage = ( indexOfCurrentPage + 1 ) % mPageList.Count;
 				SwitchTab( mPageList[indexOfCurrentPage] );
 			};
-		}
-
-		/*void OnleftSwipe(object sender, MR.Gestures.SwipeEventArgs e)
-		{
-			//DisplayAlert ("as", e.Direction.ToString(), "a");
-			System.Diagnostics.Debug.WriteLine("BoxViewXaml.Red_Swiped method called, swiped " + e.Direction);
-		}*/
+		}			
 
 		private void SetGrid1Definitions()
 		{
@@ -81,24 +75,7 @@ namespace bluemart.MainViews
 			Grid1.Children.Remove(mContentGrid);
 			mContentGrid = content;
 			Grid1.Children.Add(mContentGrid,0,1);
-		}
-
-		private string GetPageName( Page page )
-		{
-			string pageName = "";
-			if (page is BrowseCategoriesPage)
-				pageName = "BrowseCategories";
-			else if (page is SettingsPage)
-				pageName = "Settings";
-			else if (page is FavoritesPage)
-				pageName = "Favorites";
-			else if (page is HistoryPage)
-				pageName = "History";
-			else if (page is TrackPage)
-				pageName = "Track";
-
-			return pageName;
-		}
+		}			
 
 		public void SwitchTab( string pageName )
 		{
