@@ -13,6 +13,7 @@ namespace bluemart
 	public partial class ReceiptView : ContentPage
 	{
 		private UserClass mUserModel = new UserClass();
+		private AddressClass mAddressModel = new AddressClass();
 		private RootPage mParent;
 		private Object mObject = null;
 
@@ -109,10 +110,11 @@ namespace bluemart
 		{
 			if (obj == null) {
 				DateText.Text = DateTime.Now.ToString ();
-				NameText.Text = mUserModel.Name;
+				AddressClass address = mAddressModel.GetActiveAddress (mUserModel.ActiveRegion);
+				NameText.Text = address.Name;
 				//change
 				//AddressText.Text = mUserModel.Address;
-				PhoneText.Text = mUserModel.PhoneNumber;
+				PhoneText.Text = address.PhoneNumber;
 			} else {
 				if (obj is HistoryClass) {
 					HistoryClass history = obj as HistoryClass;

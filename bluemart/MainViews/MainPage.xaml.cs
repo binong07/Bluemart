@@ -147,8 +147,8 @@ namespace bluemart.MainViews
 					DismissPopup();
 					string region = (mPopupListView.SelectedItem as RegionClass).Region;
 					mUserModel.AddActiveRegionToUser (region);
-					AddressClass address = new AddressClass();
-					address = address.GetAddress(region);
+					/*AddressClass address = new AddressClass();
+					var addressList = address.GetAddressList(region);
 					if( address != null )
 						address.AddAddress();
 					else
@@ -158,9 +158,9 @@ namespace bluemart.MainViews
 						address.Address = "";
 						address.AddressDescription = "";
 						address.AddAddress();
-					}
+					}*/
 					CategoryModel.CategoryLocation = mPopupListView.SelectedItem.ToString();
-					mRootPage.mSettingsPage.SetInitialTexts();
+					mRootPage.mAddAddressPage.SetInitialTexts();
 					Navigation.PushAsync( mRootPage );
 				}
 			};

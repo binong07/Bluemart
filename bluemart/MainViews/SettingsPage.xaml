@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:headers = "clr-namespace:bluemart.Common.Headers;assembly=bluemart"
-			 xmlns:common = "clr-namespace:bluemart.Common;assembly=bluemart"
 			 x:Class="bluemart.MainViews.SettingsPage">
 	<ContentPage.Padding>
 	        <OnPlatform x:TypeArguments="Thickness"
@@ -12,35 +11,22 @@
   	</ContentPage.Padding>
 	<ContentPage.Content>
 		<ScrollView x:Name = "ScrollView1" Orientation = "Vertical"  HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" > 
-			<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+			<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "0">
 			 		<Grid.RowDefinitions>					
+						<RowDefinition/>
 						<RowDefinition/>
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>		
 					</Grid.ColumnDefinitions>               	       
 	               	<StackLayout Grid.Row = "0" Grid.Column = "0" x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand">
-	               		<Button x:Name = "ChangeLocationButton" Text = "Change Location" TextColor = "Red" BackgroundColor = "White" Clicked = "OnChangeLocationButtonClicked" />
-	               		<Label x:Name = "NameLabel" Text = "First Name:"></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "NameEntry" VerticalOptions = "Fill" 
-							   TextChanged = "OnNameTextChanged" Completed = "NameEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>
-						<Label x:Name = "SurNameLabel" Text = "Last Name:"></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "SurNameEntry" VerticalOptions = "Fill" 
-							   TextChanged = "OnSurnameTextChanged" Completed = "SurNameEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>
-						<Label x:Name = "RegionLabel" Text = "Region:" ></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "RegionEntry" VerticalOptions = "Fill"
-							   TextChanged = "OnRegionTextChanged" Completed = "RegionEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>
-						<Label x:Name = "AddressLabel" Text = "Address:" ></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "AddressEntry" VerticalOptions = "Fill"
-							   TextChanged = "OnAddressTextChanged" Completed = "AddressEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>					
-						<Label x:Name = "AddressDescriptionLabel" Text = "Address Description:" ></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "AddressDescriptionEntry" VerticalOptions = "Fill"
-							   TextChanged = "OnAddressDescriptionTextChanged" Completed = "AddressDescriptionEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>
-						<Label x:Name = "PhoneLabel" Text = "Telephone:"></Label>
-						<Entry Grid.Row = "0" Grid.Column = "1" Keyboard="Telephone" BackgroundColor = "White" x:Name = "PhoneEntry" VerticalOptions = "Fill" 
-								   TextChanged = "OnTelephoneTextChanged" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>					
-						<Button x:Name = "SubmitButton" HorizontalOptions = "End" Text = "Submit" Clicked = "OnSubmitClicked" BorderWidth = "2" ></Button>
+	               		<Button x:Name = "ChangeLocationButton" Text = "You're in JLT(Bluemart - Dubai Marina Area). Tap To Change." TextColor = "Red" BackgroundColor = "White" Clicked = "OnChangeLocationButtonClicked" />
+	               		<Button x:Name = "AddAddressButton" Text = "Add Address" TextColor = "Red" BackgroundColor = "White" Clicked = "OnAddAddressButtonClicked" />
+	               		<Label x:Name = "AddressExplanationLabel" Text = "Your Bluemart - Dubai Marina Adresses :" TextColor="White" HorizontalOptions = "Center" VerticalOptions = "Fill"/>
 					</StackLayout>
+					<ScrollView Grid.Row = "1" Grid.Column = "0" x:Name = "ScrollView2" Orientation = "Vertical" VerticalOptions = "FillAndExpand">
+						<StackLayout x:Name = "StackLayout2" Orientation = "Vertical" VerticalOptions = "FillAndExpand" HorizontalOptions = "Center" Spacing = "0"/>
+					</ScrollView>
         	</Grid>
     	</ScrollView> 
 	</ContentPage.Content>

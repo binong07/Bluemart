@@ -28,6 +28,27 @@ namespace bluemart.Common.Utilities
 		 * bm greens(2) => greens, springs, meadows, lakes, emirates hills
 		 */
 
+		public static string DecideShopName( int shopNumber )
+		{
+			string shopName = "";
+
+			switch (shopNumber) {
+			case 0:
+				shopName = "Dubai Marina";
+				break;
+			case 1:
+				shopName = "tecom";
+				break;
+			case 2:
+				shopName = "BM Greens";
+				break;
+			default:
+				break;
+			}
+
+			return shopName;
+		}
+
 		public static int DecideShopNumber( string location )
 		{
 			int shopNumber = 0;

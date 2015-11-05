@@ -13,12 +13,13 @@ namespace bluemart.Models.Remote
 	public static class OrderModel
 	{		
 		public enum OrderStatus { WAITING_CONFIRMATION, CONFIRMED, IN_TRANSIT, COMPLETED };
-
+		private static AddressClass mAddressModel = new AddressClass();
 		//public static int ActiveOrderStatus = OrderStatus.WAITING_CONFIRMATION;
 
 		public static async Task<bool> SendOrderToRemote(UserClass user)
-		{			
-			var fullname = user.Name.Split (' ');
+		{	
+			AddressClass address = mAddressModel.GetActiveAddress (user.ActiveRegion);
+			var fullname = address.Name.Split (' ');
 			List<string> OrderList = new List<string> ();
 
 			foreach (var product in Cart.ProductsInCart) {				
@@ -38,7 +39,7 @@ namespace bluemart.Models.Remote
 			order [ParseConstants.ORDERS_ATTRIBUTE_REGION] = user.ActiveRegion;
 			order [ParseConstants.ORDERS_ATTRIBUTE_USERNAME] = fullname[0];
 			order [ParseConstants.ORDERS_ATTRIBUTE_SURNAME] = fullname[1];
-			order [ParseConstants.ORDERS_ATTRIBUTE_PHONE] = user.PhoneNumber;
+			order [ParseConstants.ORDERS_ATTRIBUTE_PHONE] = address.PhoneNumber;
 			order [ParseConstants.ORDERS_ATTRIBUTE_STORE] = RegionHelper.DecideShopNumber (user.ActiveRegion);
 			order [ParseConstants.ORDERS_ATTRIBUTE_STATUS] = (int)OrderStatus.WAITING_CONFIRMATION;
 			order [ParseConstants.ORDERS_ATTRIBUTE_USERID] =  MyDevice.DeviceID;

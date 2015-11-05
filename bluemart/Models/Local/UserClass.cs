@@ -12,8 +12,7 @@ namespace bluemart.Models.Local
 		[PrimaryKey, AutoIncrement, Column("_id")]
 		public int Id { get; set; }
 		public string ActiveRegion { get; set; }
-		public string Name { get; set; }
-		public string PhoneNumber{ get; set; }
+
 		public DateTime? ImagesUpdateDate { get; set; }
 		public DateTime? CategoriesUpdateDate { get; set; }
 		public DateTime? ProductsUpdateDate { get; set; }
@@ -34,8 +33,6 @@ namespace bluemart.Models.Local
 				db.CreateTable<UserClass> ();	
 				var newUser = new UserClass ();
 				newUser.ActiveRegion = "";
-				newUser.Name = "";
-				newUser.PhoneNumber = "";
 				newUser.Id = 1;
 				newUser.ImagesUpdateDate = ReleaseConfig.LAST_UPDATEDATE;
 				newUser.CategoriesUpdateDate = new DateTime? (DateTime.MinValue);
@@ -167,7 +164,7 @@ namespace bluemart.Models.Local
 		}
 		#endregion
 
-		public void AddUserInfo(string activeRegion,string name, string phoneNumber)
+		public void AddUserInfo(string activeRegion)
 		{
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
@@ -179,8 +176,7 @@ namespace bluemart.Models.Local
 			UserClass user = userList [0];
 
 			user.ActiveRegion = activeRegion;
-			user.Name = name;
-			user.PhoneNumber = phoneNumber;
+
 			db.InsertOrReplace (user);
 				
 			db.Close ();

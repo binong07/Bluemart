@@ -14,6 +14,7 @@ namespace bluemart.MainViews
 	public partial class CartPage : ContentPage
 	{
 		UserClass mUserModel = new UserClass();
+		AddressClass mAddressModel = new AddressClass();
 		private List<CartCell> mCartCellList = new List<CartCell> ();
 		private Label mTotalPriceLabel;
 		private StackLayout mStackLayout;
@@ -60,10 +61,14 @@ namespace bluemart.MainViews
 			mStackLayout.Children.Clear ();
 
 			UserClass user = mUserModel.GetUser ();
-			if (user.Name.Length > 0) 
-				LocationLabel.Text = user.Name.Split (' ') [0].ToUpper () + "'S BASKET";
-			else
-				LocationLabel.Text = "BASKET";
+			AddressClass activeAdress = mAddressModel.GetActiveAddress (user.ActiveRegion);
+
+			if (activeAdress != null) {
+				if (activeAdress.Name.Length > 0)
+					LocationLabel.Text = activeAdress.Name.Split (' ') [0].ToUpper () + "'S BASKET";
+				else
+					LocationLabel.Text = "BASKET";
+			}
 
 			Cart.ProductTotalPrice = new Decimal(0.0);
 

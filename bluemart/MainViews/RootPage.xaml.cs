@@ -19,6 +19,7 @@ namespace bluemart.MainViews
 		HistoryPage mHistoryPage;
 		TrackPage mTrackPage;
 		public BrowseProductsPage mBrowseProductPage;
+		public AddAddressPage mAddAddressPage;
 		public CartPage mCartPage;
 		private string mCurrentPage = "";
 		public Footer mFooter;
@@ -59,7 +60,7 @@ namespace bluemart.MainViews
 			Grid1.Swiped += (sender, e) => {
 				int indexOfCurrentPage = mPageList.IndexOf(mCurrentPage);
 				indexOfCurrentPage = ( indexOfCurrentPage + 1 ) % mPageList.Count;
-				SwitchTab( mPageList[indexOfCurrentPage] );
+				//SwitchTab( mPageList[indexOfCurrentPage] );
 			};
 		}			
 
@@ -93,7 +94,6 @@ namespace bluemart.MainViews
 				break;
 			case "Settings":
 				SwitchHeaderVisibility (true);
-				mSettingsPage.SetInitialTexts ();
 				mFooter.ChangeColorOfLabel (mFooter.mSettingsLabel);
 				SwitchContentGrid (mSettingsPage.Content);
 				mCurrentPage = pageName;
@@ -137,6 +137,15 @@ namespace bluemart.MainViews
 			SwitchHeaderVisibility (false);
 			mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
 			SwitchContentGrid (mBrowseProductPage.Content);
+		}
+
+		public void LoadAddAddress(AddressClass address = null)
+		{
+			mCurrentPage = "";
+			Footer.SetLabelProperties ();
+			SwitchHeaderVisibility (false);
+			mAddAddressPage = (new AddAddressPage (address,this)); 
+			SwitchContentGrid (mAddAddressPage.Content);
 		}
 
 		public void LoadCartPage()
