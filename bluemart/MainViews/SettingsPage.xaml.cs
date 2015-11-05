@@ -13,7 +13,7 @@ namespace bluemart.MainViews
 	{
 		UserClass mUserModel = new UserClass ();
 		AddressClass mAddressModel = new AddressClass ();
-		RootPage mParent;
+		public RootPage mParent;
 
 
 		public SettingsPage (RootPage parent)
@@ -23,17 +23,22 @@ namespace bluemart.MainViews
 			StackLayout2.Spacing = MyDevice.ViewPadding;
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
-			PopulateListView ();
+
 		}
 
 		public void PopulateListView()
 		{
 			StackLayout2.Children.Clear ();
-			string region = mUserModel.ActiveRegion;
-			var addressList = mAddressModel.GetAddressList (RegionHelper.DecideShopNumber (region));
+			string region = mUserModel.GetUser().ActiveRegion;
+			int shopNumber = RegionHelper.DecideShopNumber (region);
+			string shopName = RegionHelper.DecideShopName (shopNumber);
+			ChangeLocationButton.Text = "You're in " + region + "(Bluemart - " + shopName + " Area). Tap To Change.";
+			AddressExplanationLabel.Text = "Your Bluemart - " + shopName + " Adresses :";
+			var addressList = mAddressModel.GetAddressList (shopNumber);
 
 			foreach (var address in addressList) {
-				StackLayout2.Children.Add (new AddressCell (address).View);	
+				if( address != null )
+					StackLayout2.Children.Add (new AddressCell (address,this).View);	
 			}
 			/*for (int i = 0; i < 10; i++) {
 				StackLayout2.Children.Add (new AddressCell ().View);

@@ -94,7 +94,8 @@ namespace bluemart.MainViews
 				break;
 			case "Settings":
 				SwitchHeaderVisibility (true);
-				mFooter.ChangeColorOfLabel (mFooter.mSettingsLabel);
+				mFooter.ChangeColorOfLabel (mFooter.mSettingsLabel);			
+				mSettingsPage.PopulateListView();
 				SwitchContentGrid (mSettingsPage.Content);
 				mCurrentPage = pageName;
 				break;

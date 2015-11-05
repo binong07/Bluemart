@@ -37,7 +37,7 @@ namespace bluemart.Common.Utilities
 				shopName = "Dubai Marina";
 				break;
 			case 1:
-				shopName = "tecom";
+				shopName = "Tecom";
 				break;
 			case 2:
 				shopName = "BM Greens";

@@ -160,7 +160,7 @@ namespace bluemart.MainViews
 						address.AddAddress();
 					}*/
 					CategoryModel.CategoryLocation = mPopupListView.SelectedItem.ToString();
-					mRootPage.mAddAddressPage.SetInitialTexts();
+					mRootPage.mSettingsPage.PopulateListView();
 					Navigation.PushAsync( mRootPage );
 				}
 			};

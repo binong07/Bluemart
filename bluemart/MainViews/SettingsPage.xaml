@@ -20,9 +20,9 @@
 						<ColumnDefinition/>		
 					</Grid.ColumnDefinitions>               	       
 	               	<StackLayout Grid.Row = "0" Grid.Column = "0" x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand">
-	               		<Button x:Name = "ChangeLocationButton" Text = "You're in JLT(Bluemart - Dubai Marina Area). Tap To Change." TextColor = "Red" BackgroundColor = "White" Clicked = "OnChangeLocationButtonClicked" />
+	               		<Button x:Name = "ChangeLocationButton" TextColor = "Red" BackgroundColor = "White" Clicked = "OnChangeLocationButtonClicked" />
 	               		<Button x:Name = "AddAddressButton" Text = "Add Address" TextColor = "Red" BackgroundColor = "White" Clicked = "OnAddAddressButtonClicked" />
-	               		<Label x:Name = "AddressExplanationLabel" Text = "Your Bluemart - Dubai Marina Adresses :" TextColor="White" HorizontalOptions = "Center" VerticalOptions = "Fill"/>
+	               		<Label x:Name = "AddressExplanationLabel" TextColor="White" HorizontalOptions = "Center" VerticalOptions = "Fill"/>
 					</StackLayout>
 					<ScrollView Grid.Row = "1" Grid.Column = "0" x:Name = "ScrollView2" Orientation = "Vertical" VerticalOptions = "FillAndExpand">
 						<StackLayout x:Name = "StackLayout2" Orientation = "Vertical" VerticalOptions = "FillAndExpand" HorizontalOptions = "Center" Spacing = "0"/>

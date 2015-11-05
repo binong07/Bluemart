@@ -13,29 +13,37 @@ namespace bluemart.Common.ViewCells
 		public Label mAddressLabel;
 		public Label mPhoneLabel;
 		public AddressClass mAddressClass;
-		//private HistoryPage mRootPage;
-		//private HistoryClass mHistoryClass;
+		private SettingsPage mRootPage;
 
-		public AddressCell (AddressClass address)
+		public AddressCell (AddressClass address, SettingsPage rootPage)
 		{
-			//mRootPage = rootPage;
-			//mHistoryClass = history;
+			mRootPage = rootPage;
 			mAddressClass = address;
+
+			var imageSize = MyDevice.ScreenWidth / 12;
+
+			RelativeLayout relLayout = new RelativeLayout () {
+				VerticalOptions = LayoutOptions.Fill,
+				HorizontalOptions = LayoutOptions.Center,
+				BackgroundColor = Color.White,
+				Padding = 0,
+				WidthRequest = MyDevice.ScreenWidth - MyDevice.ViewPadding*2
+			};
 
 			Grid mainGrid = new Grid (){	
 				//Padding = new Thickness(1,1,1,1),
-				HorizontalOptions = LayoutOptions.Center,
+				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				RowSpacing = 0,
 				RowDefinitions = 
 				{ 
-					new RowDefinition(){Height = GridLength.Auto}, 
-					new RowDefinition(){Height = GridLength.Auto}, 
-					new RowDefinition(){Height = GridLength.Auto}, 
+					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}, 
+					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}, 
+					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}, 
 				},
 				ColumnDefinitions = 
 				{
-					new ColumnDefinition(){ Width = MyDevice.ScreenWidth-MyDevice.ViewPadding*2}
+					new ColumnDefinition(){ Width = MyDevice.ScreenWidth - MyDevice.ViewPadding*2 - imageSize }
 				},
 				BackgroundColor = MyDevice.BlueColor
 			};
@@ -77,12 +85,31 @@ namespace bluemart.Common.ViewCells
 				mainGrid.Opacity = 0.5f;
 				await Task.Delay (MyDevice.DelayTime);
 				SwitchColor();
+				mRootPage.mParent.LoadAddAddress(mAddressClass);
 				//mRootPage.mParent.LoadReceiptPage(mHistoryClass);
 				mainGrid.Opacity = 1f;
 			};
 			mainGrid.GestureRecognizers.Add (tapGestureRecognizer);
 
-			this.View = mainGrid;
+			var activeAddressImage = new Image () {
+				Source = "ActiveAddress"	
+			};
+
+			relLayout.Children.Add(activeAddressImage, 
+				Constraint.RelativeToView(mainGrid, (parent,sibling) => {
+					return sibling.Bounds.Right;
+				}),
+				Constraint.RelativeToView(mainGrid, (parent,sibling) => {
+					return sibling.Bounds.Top + 5;
+				})
+			);
+			relLayout.Children.Add(mainGrid, Constraint.RelativeToParent(parent => {
+				return 0;	
+			}));
+
+			activeAddressImage.IsVisible = mAddressClass.IsActive;
+
+			this.View = relLayout;
 		}
 
 		private void SwitchColor()

@@ -33,25 +33,51 @@ namespace bluemart.Models.Local
 				db.CreateTable<AddressClass>();
 			}
 				
-			var a = db.InsertOrReplace (address);
+			db.Insert (address);
+
+			db.Close ();
+		}
+
+		public void UpdateAddress( AddressClass address )
+		{
+			var db = new SQLiteConnection (DBConstants.DB_PATH);
+
+			if (!TableExists<AddressClass> (db,"AddressTable")) {
+				db.CreateTable<AddressClass>();
+			}
+
+			AddressClass tempAddress = (from a in db.Table<AddressClass> ()
+			                            where a.Id == address.Id
+			                            select a).SingleOrDefault ();
+			tempAddress = address;
+
+			db.Update (tempAddress);
+
 
 			db.Close ();
 		}
 
 		public List<AddressClass> GetAddressList( int shopNumber )
 		{
-			List<AddressClass> addressList = null;
+			List<AddressClass> addressList = new List<AddressClass>();
 
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<AddressClass> (db,"AddressTable")) {
 				return addressList;			
 			}
+			//Get active address
+			AddressClass activeAddress = (from a in db.Table<AddressClass> ()
+				where a.IsActive == true && a.ShopNumber == shopNumber	
+											select a).SingleOrDefault ();
 
-			var query = from AddressTable in db.Table<AddressClass> ()
-					where AddressTable.ShopNumber == shopNumber select AddressTable;
+			addressList.Add (activeAddress);
 
-			foreach (var tempAdd in query)
+			var passiveAddresses = from AddressTable in db.Table<AddressClass> ()
+					where AddressTable.ShopNumber == shopNumber && AddressTable.IsActive == false
+					select AddressTable;
+
+			foreach (var tempAdd in passiveAddresses)
 				addressList.Add(tempAdd);			
 
  			db.Close ();

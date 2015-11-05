@@ -26,7 +26,7 @@
 							   TextChanged = "OnSurnameTextChanged" Completed = "SurNameEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>
 						<Label x:Name = "RegionLabel" Text = "Region:" ></Label>
 						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "RegionEntry" VerticalOptions = "Fill"
-							   TextChanged = "OnRegionTextChanged" Completed = "RegionEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>
+							   TextChanged = "OnRegionTextChanged" Completed = "RegionEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused" IsEnabled = "false"></Entry>
 						<Label x:Name = "AddressLabel" Text = "Address:" ></Label>
 						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "AddressEntry" VerticalOptions = "Fill"
 							   TextChanged = "OnAddressTextChanged" Completed = "AddressEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>					

@@ -23,21 +23,29 @@ namespace bluemart.MainViews
 		{
 			InitializeComponent ();
 			mParent = parent;
+
 			mAddressModel = address;
+
+			
 			NavigationPage.SetHasNavigationBar (this, false);
 			SetGrid1Definitions ();
-			if( mAddressModel != null )
+			SetRegionText ();
+			if( address != null )
 				SetInitialTexts ();
+		}
+
+		public void SetRegionText()
+		{
+			UserClass user = mUserModel.GetUser ();
+			string activeRegion = user.ActiveRegion;
+			RegionEntry.Text = activeRegion;
 		}
 
 		public void SetInitialTexts()
 		{
-			UserClass user = mUserModel.GetUser ();
-			string activeRegion = user.ActiveRegion;
-
 			AddressEntry.Text = mAddressModel.Address;
 			AddressDescriptionEntry.Text = mAddressModel.AddressDescription;
-			RegionEntry.Text = activeRegion;
+
 
 			if (mAddressModel.Name.Length > 0) {
 				NameEntry.Text = mAddressModel.Name.Split (' ') [0];
@@ -119,10 +127,20 @@ namespace bluemart.MainViews
 			addressClass.Address = address;
 			addressClass.AddressDescription = addressDescription;
 			addressClass.ShopNumber = RegionHelper.DecideShopNumber (activeRegion);
-			mAddressModel.MakeActive (addressClass);
-			mAddressModel.AddAddress (addressClass);
+			addressClass.IsActive = false;
 
-			mUserModel.AddUserInfo (activeRegion);
+
+			if (mAddressModel == null) {
+				mAddressModel = new AddressClass ();
+				mAddressModel.AddAddress (addressClass);
+			} else {
+				addressClass.Id = mAddressModel.Id;
+				mAddressModel.UpdateAddress (addressClass);
+			}
+
+			mAddressModel.MakeActive (addressClass);
+
+
 			await DisplayAlert ("User Infor Submitted", "You have successfully submitted your information", "OK");
 
 			mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
