@@ -33,9 +33,9 @@ namespace bluemart.Models.Remote
 
 
 			ParseObject order= new ParseObject(ParseConstants.ORDERS_CLASS_NAME);
-			//change
-			//order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESS] = user.Address;
-			//order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESSDESC] = user.AddressDescription;
+
+			order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESS] = address.Address;
+			order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESSDESC] = address.AddressDescription;
 			order [ParseConstants.ORDERS_ATTRIBUTE_REGION] = user.ActiveRegion;
 			order [ParseConstants.ORDERS_ATTRIBUTE_USERNAME] = fullname[0];
 			order [ParseConstants.ORDERS_ATTRIBUTE_SURNAME] = fullname[1];
@@ -63,8 +63,9 @@ namespace bluemart.Models.Remote
 
 			if (MyDevice.GetNetworkStatus () != "NotReachable") {
 				var orderQuery = ParseObject.GetQuery (ParseConstants.ORDERS_CLASS_NAME).
-				WhereEqualTo (ParseConstants.ORDERS_ATTRIBUTE_USERID, MyDevice.DeviceID).
-				WhereLessThan (ParseConstants.ORDERS_ATTRIBUTE_STATUS, 3);
+					WhereEqualTo (ParseConstants.ORDERS_ATTRIBUTE_USERID, MyDevice.DeviceID).
+					WhereLessThan (ParseConstants.ORDERS_ATTRIBUTE_STATUS, 3).
+					OrderByDescending("updatedAt");
 
 				var orderObjects = orderQuery.FindAsync ().Result;
 
@@ -93,7 +94,8 @@ namespace bluemart.Models.Remote
 			if (MyDevice.GetNetworkStatus () != "NotReachable") {
 				var orderQuery = ParseObject.GetQuery (ParseConstants.ORDERS_CLASS_NAME).
 					WhereEqualTo (ParseConstants.ORDERS_ATTRIBUTE_USERID, MyDevice.DeviceID).
-					WhereEqualTo (ParseConstants.ORDERS_ATTRIBUTE_STATUS, 3);
+					WhereEqualTo (ParseConstants.ORDERS_ATTRIBUTE_STATUS, 3).
+					OrderByDescending("updatedAt");
 
 				var orderObjects = orderQuery.FindAsync ().Result;
 

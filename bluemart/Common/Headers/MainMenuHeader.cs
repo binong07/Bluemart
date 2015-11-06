@@ -23,6 +23,7 @@ namespace bluemart.Common.Headers
 		}
 
 
+
 		private void SetGridDefinitions()
 		{
 			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 12;

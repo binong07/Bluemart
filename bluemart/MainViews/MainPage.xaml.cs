@@ -48,20 +48,21 @@ namespace bluemart.MainViews
 
 		protected override bool OnBackButtonPressed ()
 		{
-			if (Navigation.NavigationStack.Last<Page> () is RootPage) {
+			if (Navigation.NavigationStack.Last<Page> () is RootPage) {				
 				//Check if product page is active
-				if( mRootPage.mTopNavigationBar.IsVisible == true ){
-					mRootPage.SwitchTab ("BrowseCategories");
+				if( mRootPage.mTopNavigationBar.IsVisible == true ){					
+					mRootPage.SwitchTab (mRootPage.mCurrentPageParent);
 				}
-				return true;	
+
+				//return true;	
 			}
 
 			if (mPopupLayout.IsPopupActive) {
 				DismissPopup();
-				return true;
-			}
 
-			return base.OnBackButtonPressed ();
+			}
+			return true;
+			//return base.OnBackButtonPressed ();
 		}
 
 		private void PopulatePopup()

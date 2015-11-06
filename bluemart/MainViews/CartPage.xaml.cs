@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using bluemart.Common.ViewCells;
 using bluemart.Models.Local;
 using System.Linq;
+using XLabs.Forms.Controls;
 
 namespace bluemart.MainViews
 {
@@ -18,7 +19,7 @@ namespace bluemart.MainViews
 		private List<CartCell> mCartCellList = new List<CartCell> ();
 		private Label mTotalPriceLabel;
 		private StackLayout mStackLayout;
-
+		PopupLayout mPopupLayout = new PopupLayout();
 		public RootPage mParent;
 
 		public CartPage (RootPage parent)
@@ -99,19 +100,19 @@ namespace bluemart.MainViews
 			Button OrderButton = new Button (){HorizontalOptions = LayoutOptions.End, VerticalOptions = LayoutOptions.Center,Text = "ORDER NOW", TextColor = MyDevice.RedColor, BorderWidth = 2, BorderColor = MyDevice.BlueColor, BackgroundColor = Color.White};
 			OrderButton.WidthRequest = RemoveButton.Width;
 			OrderButton.HeightRequest = RemoveButton.Height;
-			OrderButton.Clicked += (sender, e) => {
+			OrderButton.Clicked += async (sender, e) =>  {
 				if( Cart.ProductTotalPrice == 0 )
 				{
-					DisplayAlert("Failed","You don't have any product on cart","OK");
+					await DisplayAlert("Failed","You don't have any product on cart","OK");
+				}			
+				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
+				{					
+					await DisplayAlert("Failed","Please Enter Your Address On Settings Page","OK");
+					mParent.SwitchTab("Settings");
 				}
-				//change
-				/*else if( String.IsNullOrWhiteSpace(mUserModel.GetUser().Address)  )
-				{
-					DisplayAlert("Failed","Please Enter Your Address On Settings Page","OK");
-				}*/
 				else if( Cart.ProductTotalPrice < 50 )
 				{
-					DisplayAlert("Failed","Please order AED 50, as this is the minimum order.","OK");
+					await DisplayAlert("Failed","Please order AED 50, as this is the minimum order.","OK");
 				}
 				else
 				{

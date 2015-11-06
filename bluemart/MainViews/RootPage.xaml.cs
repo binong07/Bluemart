@@ -22,6 +22,7 @@ namespace bluemart.MainViews
 		public AddAddressPage mAddAddressPage;
 		public CartPage mCartPage;
 		private string mCurrentPage = "";
+		public string mCurrentPageParent = "";
 		public Footer mFooter;
 		public Xamarin.Forms.Grid mGrid;
 		public TopNavigationBar mTopNavigationBar;
@@ -76,7 +77,17 @@ namespace bluemart.MainViews
 			Grid1.Children.Remove(mContentGrid);
 			mContentGrid = content;
 			Grid1.Children.Add(mContentGrid,0,1);
-		}			
+		}	
+		protected override bool OnBackButtonPressed ()
+		{
+					
+			//Check if product page is active
+			if( mTopNavigationBar.IsVisible == true ){					
+				SwitchTab (mCurrentPageParent);
+			}					
+								
+			return true;
+		}
 
 		public void SwitchTab( string pageName )
 		{
@@ -136,6 +147,7 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (false);
+			mCurrentPageParent = "BrowseCategories";
 			mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
 			SwitchContentGrid (mBrowseProductPage.Content);
 		}
@@ -145,6 +157,7 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (false);
+			mCurrentPageParent = "Settings";
 			mAddAddressPage = (new AddAddressPage (address,this)); 
 			SwitchContentGrid (mAddAddressPage.Content);
 		}

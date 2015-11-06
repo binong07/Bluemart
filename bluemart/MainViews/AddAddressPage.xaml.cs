@@ -143,8 +143,7 @@ namespace bluemart.MainViews
 
 			await DisplayAlert ("User Infor Submitted", "You have successfully submitted your information", "OK");
 
-			mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
-			mParent.SwitchTab ("BrowseCategories");
+			mParent.SwitchTab (mParent.mCurrentPageParent);
 		}
 
 		private void OnNameTextChanged(Object sender,EventArgs e)

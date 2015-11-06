@@ -13,6 +13,7 @@ namespace bluemart.MainViews
 	{
 		UserClass mUserModel = new UserClass ();
 		AddressClass mAddressModel = new AddressClass ();
+		public AddressCell mActiveAddressCell;
 		public RootPage mParent;
 
 
@@ -37,8 +38,14 @@ namespace bluemart.MainViews
 			var addressList = mAddressModel.GetAddressList (shopNumber);
 
 			foreach (var address in addressList) {
-				if( address != null )
-					StackLayout2.Children.Add (new AddressCell (address,this).View);	
+				if (address != null) {
+					if (address.IsActive) {
+						mActiveAddressCell = new AddressCell (address, this);
+						StackLayout2.Children.Add (mActiveAddressCell.View);	
+					}
+					else
+						StackLayout2.Children.Add (new AddressCell (address, this).View);	
+				}
 			}
 			/*for (int i = 0; i < 10; i++) {
 				StackLayout2.Children.Add (new AddressCell ().View);
@@ -57,7 +64,8 @@ namespace bluemart.MainViews
 			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.BackgroundColor = MyDevice.BlueColor;
 			AddressExplanationLabel.FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label));
-
+			ChangeLocationButton.WidthRequest = MyDevice.ScreenWidth - MyDevice.ViewPadding * 2;
+			AddAddressButton.WidthRequest = MyDevice.ScreenWidth - MyDevice.ViewPadding * 2;
 		}
 			
 		private void OnChangeLocationButtonClicked( Object sender, EventArgs e )

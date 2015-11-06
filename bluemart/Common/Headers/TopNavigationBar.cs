@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using PCLStorage;
 using System.Linq;
 
+
 namespace bluemart.Common.Headers
 {
 	public partial class TopNavigationBar : Grid
@@ -23,7 +24,6 @@ namespace bluemart.Common.Headers
 			SetGridDefinitions ();
 			SetImageSize ();
 			AddTapRecognizers ();
-
 		}
 
 
@@ -68,7 +68,7 @@ namespace bluemart.Common.Headers
 
 				BackButton.Opacity = 0.5f;
 				await Task.Delay(MyDevice.DelayTime);			
-				mParent.SwitchTab("BrowseCategories");
+				mParent.SwitchTab (mParent.mCurrentPageParent);
 				BackButton.Opacity = 1f;
 			};
 			BackButton.GestureRecognizers.Add (backButtonTapGestureRecognizer);

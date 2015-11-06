@@ -12,7 +12,10 @@ namespace bluemart.Common.ViewCells
 		public Label mNameLabel;
 		public Label mAddressLabel;
 		public Label mPhoneLabel;
+		public Label mEditLabel;
+		public Image mActiveAddressImage;
 		public AddressClass mAddressClass;
+		public AddressClass mAddressModel = new AddressClass();
 		private SettingsPage mRootPage;
 
 		public AddressCell (AddressClass address, SettingsPage rootPage)
@@ -40,12 +43,13 @@ namespace bluemart.Common.ViewCells
 					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}, 
 					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}, 
 					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}, 
+					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}
 				},
 				ColumnDefinitions = 
 				{
 					new ColumnDefinition(){ Width = MyDevice.ScreenWidth - MyDevice.ViewPadding*2 - imageSize }
 				},
-				BackgroundColor = MyDevice.BlueColor
+				BackgroundColor = Color.White
 			};
 
 			mNameLabel = new Label (){ 
@@ -53,7 +57,7 @@ namespace bluemart.Common.ViewCells
 				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = address.Name,
+				Text = "   " + address.Name,
 				BackgroundColor = Color.White
 			};
 
@@ -62,7 +66,7 @@ namespace bluemart.Common.ViewCells
 				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = address.Address,
+				Text = "   " + address.Address,
 				BackgroundColor = Color.White
 			};
 
@@ -71,31 +75,51 @@ namespace bluemart.Common.ViewCells
 				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = address.PhoneNumber,
+				Text = "   " + address.PhoneNumber,
+				BackgroundColor = Color.White
+			};
+
+			mEditLabel = new Label (){ 
+				TextColor = MyDevice.RedColor,
+				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				HorizontalOptions = LayoutOptions.Start,
+				Text = "       Edit     ",
+				FontAttributes = FontAttributes.Italic,
 				BackgroundColor = Color.White
 			};
 
 			mainGrid.Children.Add (mNameLabel, 0, 0);
 			mainGrid.Children.Add (mAddressLabel, 0, 1);
 			mainGrid.Children.Add (mPhoneLabel, 0, 2);
+			mainGrid.Children.Add (mEditLabel, 0, 3);
 
 			var tapGestureRecognizer = new TapGestureRecognizer ();
 			tapGestureRecognizer.Tapped += async (sender, e) => {
 
 				mainGrid.Opacity = 0.5f;
 				await Task.Delay (MyDevice.DelayTime);
-				SwitchColor();
-				mRootPage.mParent.LoadAddAddress(mAddressClass);
-				//mRootPage.mParent.LoadReceiptPage(mHistoryClass);
+				mAddressModel.MakeActive(mAddressClass);
+				mRootPage.PopulateListView();
 				mainGrid.Opacity = 1f;
 			};
 			mainGrid.GestureRecognizers.Add (tapGestureRecognizer);
 
-			var activeAddressImage = new Image () {
+			var editTapGestureRecognizer = new TapGestureRecognizer ();
+			editTapGestureRecognizer.Tapped += async (sender, e) => {
+
+				mainGrid.Opacity = 0.5f;
+				await Task.Delay (MyDevice.DelayTime);
+				mRootPage.mParent.LoadAddAddress(mAddressClass);
+				mainGrid.Opacity = 1f;
+			};
+			mEditLabel.GestureRecognizers.Add (editTapGestureRecognizer);
+
+			mActiveAddressImage = new Image () {
 				Source = "ActiveAddress"	
 			};
 
-			relLayout.Children.Add(activeAddressImage, 
+			relLayout.Children.Add(mActiveAddressImage, 
 				Constraint.RelativeToView(mainGrid, (parent,sibling) => {
 					return sibling.Bounds.Right;
 				}),
@@ -107,24 +131,9 @@ namespace bluemart.Common.ViewCells
 				return 0;	
 			}));
 
-			activeAddressImage.IsVisible = mAddressClass.IsActive;
+			mActiveAddressImage.IsVisible = mAddressClass.IsActive;
 
 			this.View = relLayout;
-		}
-
-		private void SwitchColor()
-		{
-			/*if (mRootPage.mActiveHistoryCell != null) {
-				mRootPage.mActiveHistoryCell.mTotalPriceLabel.BackgroundColor = Color.White;
-				mRootPage.mActiveHistoryCell.mDateLabel.BackgroundColor = Color.White;
-				mRootPage.mActiveHistoryCell.mRegionLabel.BackgroundColor = Color.White;
-			}
-
-			mRootPage.mActiveHistoryCell = this;
-
-			mNameLabel.BackgroundColor = MyDevice.RedColor;
-			mAddressLabel.BackgroundColor = MyDevice.RedColor;
-			mPhoneLabel.BackgroundColor = MyDevice.RedColor;*/
 		}
 	}
 }

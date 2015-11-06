@@ -112,8 +112,7 @@ namespace bluemart
 				DateText.Text = DateTime.Now.ToString ();
 				AddressClass address = mAddressModel.GetActiveAddress (mUserModel.ActiveRegion);
 				NameText.Text = address.Name;
-				//change
-				//AddressText.Text = mUserModel.Address;
+				AddressText.Text = address.Address;
 				PhoneText.Text = address.PhoneNumber;
 			} else {
 				if (obj is HistoryClass) {
@@ -158,7 +157,9 @@ namespace bluemart
 					name = Cart.ProductsInCart [row].Name;
 					description = Cart.ProductsInCart [row].Quantity;
 					cost = (Cart.ProductsInCart [row].ProductNumberInCart * Cart.ProductsInCart [row].Price).ToString ();
+					ChangeAddressButton.IsVisible = true;
 				} else {
+					ChangeAddressButton.IsVisible = false;
 					if (obj is HistoryClass) {
 						var firstSplitArray = (obj as HistoryClass).ProductOrderList [row].Split (',');
 						quantity = firstSplitArray [0].Split (':') [1];
@@ -312,6 +313,10 @@ namespace bluemart
 			DisagreeButton.HeightRequest = MyDevice.ScreenHeight / 10;
 		}
 			
+		public void OnChangeAddressButtonClicked( Object sender, EventArgs e)
+		{
+			mParent.SwitchTab ("Settings");
+		}
 	}
 }
 

@@ -20,6 +20,7 @@
 					<Grid.RowDefinitions>
 						<RowDefinition />
 						<RowDefinition />
+						<RowDefinition />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
@@ -41,6 +42,8 @@
 						<Label x:Name = "PhoneLabel" Text = "Phone:" HorizontalOptions = "Center" TextColor = "Black" FontAttributes = "Bold"/>
 						<Label x:Name = "PhoneText" Text = "" HorizontalOptions = "Center" TextColor = "Black"/>
 					</StackLayout>
+					<Button x:Name = "ChangeAddressButton" Grid.Row = "2" Grid.Column = "0" Grid.ColumnSpan = "2" HorizontalOptions = "Center" VerticalOptions = "Fill"
+							Text = "Change Address" BorderWidth = "2" BorderColor = "Blue" BackgroundColor = "White" Clicked = "OnChangeAddressButtonClicked"/>
 				</Grid>
 				<Grid x:Name = "MiddleGrid" Grid.Row = "1" Grid.Column = "0" RowSpacing="0" ColumnSpacing = "0" Padding = "0" VerticalOptions = "StartAndExpand">
 					<Grid.RowDefinitions>

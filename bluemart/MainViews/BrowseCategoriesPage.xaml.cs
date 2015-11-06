@@ -26,6 +26,11 @@ namespace bluemart.MainViews
 			PopulateGrid ();
 		}
 
+		/*protected override void OnAppearing()
+		{
+			mParent.mRootHeader.mPriceLabel.Text = "DH:"+Cart.ProductTotalPrice;
+		}*/
+
 		public void RefreshSearchText()
 		{
 			SearchBar.mSearchEntry.Text = "Search Products";
