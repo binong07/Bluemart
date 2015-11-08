@@ -148,6 +148,7 @@ namespace bluemart.MainViews
 					DismissPopup();
 					string region = (mPopupListView.SelectedItem as RegionClass).Region;
 					mUserModel.AddActiveRegionToUser (region);
+
 					/*AddressClass address = new AddressClass();
 					var addressList = address.GetAddressList(region);
 					if( address != null )
@@ -212,7 +213,7 @@ namespace bluemart.MainViews
 		public void OnMapButtonClicked(Object sender,EventArgs e )
 		{
 			//todo: add map view
-			Navigation.PushAsync( new MapView(mRootPage));
+			Navigation.PushAsync( new MapView(mRootPage,mUserModel));
 		}
 	}
 }

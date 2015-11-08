@@ -40,7 +40,7 @@ namespace bluemart.Common.Utilities
 				shopName = "Tecom";
 				break;
 			case 2:
-				shopName = "BM Greens";
+				shopName = "Greens";
 				break;
 			default:
 				break;
