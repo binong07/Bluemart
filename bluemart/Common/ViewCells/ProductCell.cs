@@ -129,7 +129,14 @@ namespace bluemart.Common.ViewCells
 
 			AddTapRecognizers ();
 
-			this.View = mainCellGrid;
+			var frame = new Frame { 
+				Padding = new Thickness (3, 3, 3, 3),
+				OutlineColor = Color.Aqua,
+				BackgroundColor = Color.Aqua,
+				Content = mainCellGrid
+			};
+
+			this.View = frame;
 		}
 
 		private void AddTapRecognizers()
