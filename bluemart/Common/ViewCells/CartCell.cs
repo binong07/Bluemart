@@ -18,11 +18,15 @@ namespace bluemart
 		private Product mProduct;
 		private CartPage mParentPage;
 		private bool bIsFavorite;
+		int mQuantity = 0;
+		string mQuantityLabel;
 
 		private FavoritesClass mFavoriteModel = new FavoritesClass();
 
 		public CartCell (Product product,Page parent)
 		{
+			mQuantity = Convert.ToInt32 (product.Quantity.Split (' ') [0]);
+			mQuantityLabel = product.Quantity.Split (' ') [1];
 			mProduct = product; 
 			mParentPage = parent as CartPage;
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
@@ -89,19 +93,19 @@ namespace bluemart
 			UpdateNumberLabel();
 			AddTapRecognizers ();
 			//Calculate Total Price
-			Cart.ProductTotalPrice += product.Price * product.ProductNumberInCart;
+			Cart.ProductTotalPrice += product.Price * product.ProductNumberInCart / mQuantity;
 
 			this.View = mainCellView;
 		}
 
 		private void UpdateNumberLabel()
 		{
-			mProductNumberLabel.Text = "x" + mProduct.ProductNumberInCart.ToString();
+			mProductNumberLabel.Text = mProduct.ProductNumberInCart.ToString()+ " " + mQuantityLabel;
 		}
 
 		private void UpdatePriceLabel()
 		{
-			mProductPriceLabel.Text = "DH " + (mProduct.Price * mProduct.ProductNumberInCart).ToString();
+			mProductPriceLabel.Text = "DH " + (mProduct.Price * mProduct.ProductNumberInCart/mQuantity).ToString();
 
 		}
 
@@ -155,13 +159,13 @@ namespace bluemart
 		private void RemoveProductFromCart()
 		{
 			if (mProduct.ProductNumberInCart > 0)
-				mProduct.ProductNumberInCart--;
+				mProduct.ProductNumberInCart -= Convert.ToInt32 (mProduct.Quantity.Split (' ') [0]);
 			if (mProduct.ProductNumberInCart == 0) {
 				mParentPage.RemoveProductFromCart (this.View);
 				Cart.ProductsInCart.Remove (mProduct);
 			}
 			UpdateNumberLabel ();
-			Cart.ProductTotalPrice -= mProduct.Price ;
+			Cart.ProductTotalPrice -= mProduct.Price;
 			mParentPage.UpdateTotalPriceLabel ();
 
 			UpdatePriceLabel();
@@ -174,7 +178,7 @@ namespace bluemart
 				Cart.ProductsInCart.Add (mProduct);
 			}
 
-			mProduct.ProductNumberInCart++;	
+			mProduct.ProductNumberInCart += Convert.ToInt32 (mProduct.Quantity.Split (' ') [0]);
 			UpdateNumberLabel ();
 			Cart.ProductTotalPrice += mProduct.Price;
 			mParentPage.UpdateTotalPriceLabel ();

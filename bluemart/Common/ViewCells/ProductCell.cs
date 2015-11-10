@@ -20,11 +20,15 @@ namespace bluemart.Common.ViewCells
 		private FavoritesClass mFavoriteModel;
 		private bool bIsFavorite;
 		public Page mParent;
+		int mQuantity = 0;
+		string mQuantityLabel;
 
 		public ProductCell (Grid parentGrid, Product product, Page parent)
 		{		
 				
 			double width = (MyDevice.ScreenWidth-parentGrid.ColumnSpacing-MyDevice.ViewPadding)/2;
+			mQuantity = Convert.ToInt32 (product.Quantity.Split (' ') [0]);
+			mQuantityLabel = product.Quantity.Split (' ') [1];
 
 			if (Cart.ProductsInCart.Count != 0) {
 				foreach (Product p in Cart.ProductsInCart) {
@@ -133,6 +137,9 @@ namespace bluemart.Common.ViewCells
 				Padding = new Thickness (3, 3, 3, 3),
 				OutlineColor = Color.Aqua,
 				BackgroundColor = Color.Aqua,
+				VerticalOptions = LayoutOptions.Start,
+				//HeightRequest = mainCellGrid.Height,
+				//WidthRequest = mainCellGrid.Width,
 				Content = mainCellGrid
 			};
 
@@ -200,14 +207,16 @@ namespace bluemart.Common.ViewCells
 
 		public void UpdateNumberLabel()
 		{
-			mProductNumberLabel.Text = mProduct.ProductNumberInCart.ToString ();
+			mProductNumberLabel.Text = mProduct.ProductNumberInCart.ToString () + " " + mQuantityLabel;
 		}
 
 		private void RemoveProductFromCart()
 		{
 			if (mProduct.ProductNumberInCart > 0) {
-				mProduct.ProductNumberInCart--;
+				
+				mProduct.ProductNumberInCart -= mQuantity;
 				Cart.ProductTotalPrice -= mProduct.Price;
+
 				if (mParent is BrowseProductsPage)
 					(mParent as BrowseProductsPage).UpdatePriceLabel ();
 				else if (mParent is FavoritesPage)
@@ -228,8 +237,9 @@ namespace bluemart.Common.ViewCells
 			{
 				Cart.ProductsInCart.Add (mProduct);
 			}
+								
+			mProduct.ProductNumberInCart += mQuantity;
 
-			mProduct.ProductNumberInCart++;
 			Cart.ProductTotalPrice += mProduct.Price;
 
 			if (mParent is BrowseProductsPage)

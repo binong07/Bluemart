@@ -20,6 +20,7 @@ namespace bluemart
 		public ReceiptView (RootPage parent)
 		{			
 			InitializeComponent ();
+
 			mParent = parent;
 			mUserModel = mUserModel.GetUser ();
 			NavigationPage.SetHasNavigationBar (this, false);
@@ -151,12 +152,14 @@ namespace bluemart
 				string name = "";
 				string description = "";
 				string cost = "";
-
+				string productQuantityLabel = Cart.ProductsInCart [row].Quantity.Split (' ') [1] ;
 				if (obj == null) {
 					quantity = Cart.ProductsInCart [row].ProductNumberInCart.ToString ();
 					name = Cart.ProductsInCart [row].Name;
 					description = Cart.ProductsInCart [row].Quantity;
-					cost = (Cart.ProductsInCart [row].ProductNumberInCart * Cart.ProductsInCart [row].Price).ToString ();
+					int productQuantity = Convert.ToInt32( Cart.ProductsInCart [row].Quantity.Split (' ') [0] );
+
+					cost = (Cart.ProductsInCart [row].ProductNumberInCart * Cart.ProductsInCart [row].Price / productQuantity ).ToString ();
 					ChangeAddressButton.IsVisible = true;
 				} else {
 					ChangeAddressButton.IsVisible = false;
@@ -178,7 +181,7 @@ namespace bluemart
 				}
 
 				Label quantityLabel = new Label () {
-					Text = quantity,
+					Text = quantity + " " + productQuantityLabel,
 					FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label)),
 					HorizontalOptions = LayoutOptions.Start,
 					TextColor = Color.Black
