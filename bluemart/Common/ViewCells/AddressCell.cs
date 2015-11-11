@@ -100,7 +100,8 @@ namespace bluemart.Common.ViewCells
 				mainGrid.Opacity = 0.5f;
 				await Task.Delay (MyDevice.DelayTime);
 				mAddressModel.MakeActive(mAddressClass);
-				mRootPage.PopulateListView();
+				mRootPage.SwitchActiveAddress(this);
+				//mRootPage.PopulateListView();
 				mainGrid.Opacity = 1f;
 			};
 			mainGrid.GestureRecognizers.Add (tapGestureRecognizer);

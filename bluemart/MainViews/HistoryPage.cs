@@ -27,7 +27,7 @@ namespace bluemart.MainViews
 			MainStackLayout.Children.Clear ();
 			var orderHistoryList = OrderModel.GetOrdersForHistory ();
 			foreach (var history in orderHistoryList) {
-				MainStackLayout.Children.Add( new HistoryCell(history,this ).View );
+				//MainStackLayout.Children.Add( new HistoryCell(history,this ).View );
 			}
 		}
 

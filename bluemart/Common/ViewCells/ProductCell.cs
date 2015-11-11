@@ -20,15 +20,18 @@ namespace bluemart.Common.ViewCells
 		private FavoritesClass mFavoriteModel;
 		private bool bIsFavorite;
 		public Page mParent;
-		int mQuantity = 0;
-		string mQuantityLabel;
+		private Grid mInsideGrid2;
+		//change PriceLabel
+		//int mQuantity = 0;
+		//string mQuantityLabel;
 
 		public ProductCell (Grid parentGrid, Product product, Page parent)
 		{		
 				
 			double width = (MyDevice.ScreenWidth-parentGrid.ColumnSpacing-MyDevice.ViewPadding)/2;
-			mQuantity = Convert.ToInt32 (product.Quantity.Split (' ') [0]);
-			mQuantityLabel = product.Quantity.Split (' ') [1];
+			//change PriceLabel
+			//mQuantity = Convert.ToInt32 (product.Quantity.Split (' ') [0]);
+			//mQuantityLabel = product.Quantity.Split (' ') [1];
 
 			if (Cart.ProductsInCart.Count != 0) {
 				foreach (Product p in Cart.ProductsInCart) {
@@ -103,19 +106,34 @@ namespace bluemart.Common.ViewCells
 
 			#region row3insidegrid
 			Grid insideGrid2 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
+			mInsideGrid2 = insideGrid2;
 			insideGrid2.Padding = new Thickness (0);
-			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding });
-			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - 2*MyDevice.ViewPadding) / 4 });
-			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - 2*MyDevice.ViewPadding) / 2 });//{ Width = ParentWidth - ((ParentHeight - ParentWidth) / 3 * 2)}
-			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - 2*MyDevice.ViewPadding) / 4 });
-			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding });
-			insideGrid2.RowDefinitions.Add( new RowDefinition() { Height = Device.GetNamedSize(NamedSize.Large,typeof(Label)) } );
+			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding/2 });
+			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 4 });
+			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 2 });//{ Width = ParentWidth - ((ParentHeight - ParentWidth) / 3 * 2)}
+			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 4 });
+			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding/2 });
+			insideGrid2.RowDefinitions.Add( new RowDefinition() { Height = 2*Device.GetNamedSize(NamedSize.Small,typeof(Label)) } );
 
 
-			mRemoveImage = new Image (){VerticalOptions = LayoutOptions.Center};
-			mRemoveImage.Aspect = Aspect.AspectFill;
+
+
+			mRemoveImage = new Image (){VerticalOptions = LayoutOptions.Center,HorizontalOptions = LayoutOptions.Center};
+			mRemoveImage.Aspect = Aspect.AspectFit;
 			mRemoveImage.Source = "minus";
-			insideGrid2.Children.Add (mRemoveImage,1,0);
+
+			var removeImageLayout = new RelativeLayout(){
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Padding = 0
+			};
+
+			removeImageLayout.Children.Add( mRemoveImage,
+				Constraint.RelativeToParent (p => {
+					return p.Bounds.Left + MyDevice.ViewPadding/2;
+				})
+			);
+
+			insideGrid2.Children.Add (removeImageLayout,1,0);
 
 			mProductNumberLabel = new Label(){VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)), TextColor = MyDevice.RedColor };
 
@@ -123,10 +141,22 @@ namespace bluemart.Common.ViewCells
 			insideGrid2.Children.Add (mProductNumberLabel,2,0);
 
 
-			mAddImage = new Image (){HorizontalOptions = LayoutOptions.End};
-			mAddImage.Aspect = Aspect.AspectFill;
+			mAddImage = new Image (){VerticalOptions = LayoutOptions.Center,HorizontalOptions = LayoutOptions.Center};
+			mAddImage.Aspect = Aspect.AspectFit;
 			mAddImage.Source = "plus";
-			insideGrid2.Children.Add (mAddImage,3,0);
+
+			var addImageLayout = new RelativeLayout(){
+				HorizontalOptions = LayoutOptions.Fill,
+				Padding = 0
+			};
+
+			addImageLayout.Children.Add( mAddImage,
+				Constraint.RelativeToParent (p => {					
+					return MyDevice.ViewPadding;
+				})
+			);
+
+			insideGrid2.Children.Add (addImageLayout,3,0);
 
 			mainCellGrid.Children.Add( insideGrid2, 0, 3 );
 			#endregion
@@ -134,7 +164,7 @@ namespace bluemart.Common.ViewCells
 			AddTapRecognizers ();
 
 			var frame = new Frame { 
-				Padding = new Thickness (3, 3, 3, 3),
+				Padding = 2,
 				OutlineColor = Color.Aqua,
 				BackgroundColor = Color.Aqua,
 				VerticalOptions = LayoutOptions.Start,
@@ -150,26 +180,36 @@ namespace bluemart.Common.ViewCells
 		{
 			var addButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			addButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-
+				if( CheckIfSearchEntryIsFocused() )
+					return;
+				
 				mAddImage.Opacity = 0.5f;
 				AddProductInCart();
 				await Task.Delay(MyDevice.DelayTime);
 				mAddImage.Opacity = 1f;
 			};
-			mAddImage.GestureRecognizers.Add (addButtonTapGestureRecognizer);
+
+
+			mInsideGrid2.Children[2].GestureRecognizers.Add (addButtonTapGestureRecognizer);
 
 			var removeButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			removeButtonTapGestureRecognizer.Tapped += async (sender, e) => {
+				if( CheckIfSearchEntryIsFocused() )
+					return;
 
 				mRemoveImage.Opacity = 0.5f;
 				RemoveProductFromCart();
 				await Task.Delay(MyDevice.DelayTime);
 				mRemoveImage.Opacity = 1f;
 			};
-			mRemoveImage.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
+			mInsideGrid2.Children [0].GestureRecognizers.Add (removeButtonTapGestureRecognizer);
+		//	mRemoveImage.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
 
 			var favoriteButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			favoriteButtonTapGestureRecognizer.Tapped += async (sender, e) => {
+				if( CheckIfSearchEntryIsFocused() )
+					return;
+
 				if( !bIsFavorite )
 				{
 					mFavoriteImage.Opacity = 0.5f;
@@ -207,14 +247,17 @@ namespace bluemart.Common.ViewCells
 
 		public void UpdateNumberLabel()
 		{
-			mProductNumberLabel.Text = mProduct.ProductNumberInCart.ToString () + " " + mQuantityLabel;
+			mProductNumberLabel.Text = mProduct.ProductNumberInCart.ToString ();
+			//change PriceLabel
+			//mProductNumberLabel.Text = mProduct.ProductNumberInCart.ToString () + " " + mQuantityLabel;
 		}
 
 		private void RemoveProductFromCart()
 		{
 			if (mProduct.ProductNumberInCart > 0) {
-				
-				mProduct.ProductNumberInCart -= mQuantity;
+				mProduct.ProductNumberInCart--;
+				//change PriceLabel
+				//mProduct.ProductNumberInCart -= mQuantity;
 				Cart.ProductTotalPrice -= mProduct.Price;
 
 				if (mParent is BrowseProductsPage)
@@ -230,6 +273,16 @@ namespace bluemart.Common.ViewCells
 
 			UpdateNumberLabel ();
 		}
+
+		private bool CheckIfSearchEntryIsFocused()
+		{
+			bool bFocused = false;
+
+			if (mParent is BrowseProductsPage)
+				bFocused = (mParent as BrowseProductsPage).mSearchBar.mSearchEntry.IsFocused;		
+
+			return bFocused;
+		}
 		 
 		private void AddProductInCart()
 		{
@@ -237,8 +290,10 @@ namespace bluemart.Common.ViewCells
 			{
 				Cart.ProductsInCart.Add (mProduct);
 			}
-								
-			mProduct.ProductNumberInCart += mQuantity;
+
+			mProduct.ProductNumberInCart++;
+			//change PriceLabel		
+			//mProduct.ProductNumberInCart += mQuantity;
 
 			Cart.ProductTotalPrice += mProduct.Price;
 

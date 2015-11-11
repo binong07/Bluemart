@@ -41,6 +41,9 @@ namespace bluemart.Common.ViewCells
 			var tapGestureRecognizer = new TapGestureRecognizer ();
 			tapGestureRecognizer.Tapped += async (sender, e) => {
 
+				if ( parent.mBrowseCategoriesPage.mSearchBar.mSearchEntry.IsFocused )
+					return;
+
 				mainCellGrid.Opacity = 0.5f;
 				await Task.Delay (MyDevice.DelayTime);
 				LoadProductsPage(category.CategoryID,parent);

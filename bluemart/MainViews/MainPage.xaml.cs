@@ -50,9 +50,12 @@ namespace bluemart.MainViews
 		{
 			if (Navigation.NavigationStack.Last<Page> () is RootPage) {				
 				//Check if product page is active
-				if( mRootPage.mTopNavigationBar.IsVisible == true ){					
-					mRootPage.SwitchTab (mRootPage.mCurrentPageParent);
-				}
+				//if( mRootPage.mTopNavigationBar.IsVisible == true ){	
+				if (mRootPage.mCurrentPage != "BrowseCategories")
+					mRootPage.SwitchTab ("BrowseCategories");
+				else
+					Navigation.PopAsync ();
+				//}
 
 				//return true;	
 			}

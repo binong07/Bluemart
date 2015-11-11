@@ -10,7 +10,7 @@
 	                    iOS="0, 20, 0, 0"
 	                    Android="0, 0, 0, 0"
 	                    WinPhone="0, 0, 0, 0" />
-  	</ContentPage.Padding>  		
+  	</ContentPage.Padding>    		
 	<mr:Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "2">
 	 		<Grid.RowDefinitions>
 				<RowDefinition/>

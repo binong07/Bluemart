@@ -152,14 +152,17 @@ namespace bluemart
 				string name = "";
 				string description = "";
 				string cost = "";
-				string productQuantityLabel = Cart.ProductsInCart [row].Quantity.Split (' ') [1] ;
+				//change PriceLabel
+				//string productQuantityLabel = Cart.ProductsInCart [row].Quantity.Split (' ') [1] ;
 				if (obj == null) {
 					quantity = Cart.ProductsInCart [row].ProductNumberInCart.ToString ();
 					name = Cart.ProductsInCart [row].Name;
 					description = Cart.ProductsInCart [row].Quantity;
-					int productQuantity = Convert.ToInt32( Cart.ProductsInCart [row].Quantity.Split (' ') [0] );
+					cost = (Cart.ProductsInCart [row].ProductNumberInCart * Cart.ProductsInCart [row].Price).ToString ();
+					//change PriceLabel
+					//int productQuantity = Convert.ToInt32( Cart.ProductsInCart [row].Quantity.Split (' ') [0] );
+					//cost = (Cart.ProductsInCart [row].ProductNumberInCart * Cart.ProductsInCart [row].Price / productQuantity ).ToString ();
 
-					cost = (Cart.ProductsInCart [row].ProductNumberInCart * Cart.ProductsInCart [row].Price / productQuantity ).ToString ();
 					ChangeAddressButton.IsVisible = true;
 				} else {
 					ChangeAddressButton.IsVisible = false;
@@ -181,7 +184,9 @@ namespace bluemart
 				}
 
 				Label quantityLabel = new Label () {
-					Text = quantity + " " + productQuantityLabel,
+					Text = quantity,
+					//change PriceLabel
+					//Text = quantity + " " + productQuantityLabel,
 					FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label)),
 					HorizontalOptions = LayoutOptions.Start,
 					TextColor = Color.Black
@@ -293,7 +298,7 @@ namespace bluemart
 				}
 			} else {
 				if (mObject is HistoryClass) {
-					mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mHistoryLabel);
+					mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCartLabel);
 					mParent.SwitchTab ("History");
 				} else if (mObject is StatusClass) {
 					mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mTrackLabel);

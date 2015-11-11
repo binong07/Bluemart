@@ -49,7 +49,9 @@ namespace bluemart.Common.Headers
 		{
 			var CartGridGestureRecognizer = new TapGestureRecognizer ();
 			CartGridGestureRecognizer.Tapped += (sender, e) => {
-
+				if( mParent.mBrowseCategoriesPage.mSearchBar.mSearchEntry.IsFocused )
+					return;
+				
 				CartGrid.Opacity = 0.5f;
 				mParent.LoadCartPage();
 				CartGrid.Opacity = 1f;

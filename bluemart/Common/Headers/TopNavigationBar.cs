@@ -54,7 +54,8 @@ namespace bluemart.Common.Headers
 
 			var CartGridTapGestureRecognizer = new TapGestureRecognizer ();
 			CartGridTapGestureRecognizer.Tapped += async (sender, e) => {
-
+				if( mParent.mBrowseProductPage.mSearchBar.mSearchEntry.IsFocused )
+					return;
 				CartGrid.Opacity = 0.5f;
 				await Task.Delay(MyDevice.DelayTime);
 				mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
@@ -65,7 +66,8 @@ namespace bluemart.Common.Headers
 
 			var backButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			backButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-
+				if( mParent.mBrowseProductPage.mSearchBar.mSearchEntry.IsFocused )
+					return;
 				BackButton.Opacity = 0.5f;
 				await Task.Delay(MyDevice.DelayTime);			
 				mParent.SwitchTab (mParent.mCurrentPageParent);

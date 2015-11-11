@@ -77,6 +77,13 @@ namespace bluemart.MainViews
 		{
 			mParent.LoadAddAddress ();
 		}
+
+		public void SwitchActiveAddress(AddressCell address)
+		{
+			mActiveAddressCell.mActiveAddressImage.IsVisible = false;
+			mActiveAddressCell = address;
+			mActiveAddressCell.mActiveAddressImage.IsVisible = true;
+		}
 	}
 }
 

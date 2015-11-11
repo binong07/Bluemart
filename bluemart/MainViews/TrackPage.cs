@@ -13,10 +13,27 @@ namespace bluemart.MainViews
 	{				
 		public RootPage mParent;
 		public TrackCell mActiveTrackCell;
+		private Label mTrackLabel;
+		private Label mHistoryLabel;
 
 		public TrackPage (RootPage parent)
 		{						
 			InitializeComponent ();
+
+			mTrackLabel = new Label () {
+				HorizontalOptions = LayoutOptions.Center,
+				TextColor = Color.White,
+				Text = "TRACK",
+				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label))
+			};
+
+			mHistoryLabel = new Label () {
+				HorizontalOptions = LayoutOptions.Center,
+				TextColor = Color.White,
+				Text = "HISTORY",
+				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label))
+			};
+
 			mParent = parent;
 			MainStackLayout.Spacing = MyDevice.ViewPadding;
 			SetGrid1Definitions ();
@@ -25,9 +42,18 @@ namespace bluemart.MainViews
 		public void PopulateListView()
 		{						
 			MainStackLayout.Children.Clear ();
+
+			MainStackLayout.Children.Add (mTrackLabel);
 			var orderStatusList = OrderModel.GetOrdersForTracking ();
 			foreach (var status in orderStatusList) {
 				MainStackLayout.Children.Add( new TrackCell(status,this ).View );
+			}
+
+			MainStackLayout.Children.Add (mHistoryLabel);
+
+			var orderHistoryList = OrderModel.GetOrdersForHistory ();
+			foreach (var history in orderHistoryList) {
+				MainStackLayout.Children.Add( new HistoryCell(history,this ).View );
 			}
 		}
 

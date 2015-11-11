@@ -12,10 +12,10 @@ namespace bluemart.Common.ViewCells
 		public Label mTotalPriceLabel;
 		public Label mDateLabel;
 		public Label mRegionLabel;
-		private HistoryPage mRootPage;
+		private TrackPage mRootPage;
 		private HistoryClass mHistoryClass;
 
-		public HistoryCell (HistoryClass history, HistoryPage rootPage)
+		public HistoryCell (HistoryClass history, TrackPage rootPage)
 		{
 			mRootPage = rootPage;
 			mHistoryClass = history;
@@ -74,7 +74,7 @@ namespace bluemart.Common.ViewCells
 
 				mainGrid.Opacity = 0.5f;
 				await Task.Delay (MyDevice.DelayTime);
-				SwitchColor();
+				//SwitchColor();
 				mRootPage.mParent.LoadReceiptPage(mHistoryClass);
 				mainGrid.Opacity = 1f;
 			};
@@ -83,7 +83,7 @@ namespace bluemart.Common.ViewCells
 			this.View = mainGrid;
 		}
 
-		private void SwitchColor()
+		/*private void SwitchColor()
 		{
 			if (mRootPage.mActiveHistoryCell != null) {
 				mRootPage.mActiveHistoryCell.mTotalPriceLabel.BackgroundColor = Color.White;
@@ -96,7 +96,7 @@ namespace bluemart.Common.ViewCells
 			mTotalPriceLabel.BackgroundColor = MyDevice.RedColor;
 			mDateLabel.BackgroundColor = MyDevice.RedColor;
 			mRegionLabel.BackgroundColor = MyDevice.RedColor;
-		}
+		}*/
 	}
 }
 

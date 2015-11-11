@@ -15,7 +15,7 @@ namespace bluemart.Common
 		public Label mCategoriesLabel;
 		public Label mSettingsLabel;
 		public Label mFavoritesLabel;
-		public Label mHistoryLabel;
+		public Label mCartLabel;
 		public Label mTrackLabel;
 
 		public Footer ()
@@ -25,7 +25,7 @@ namespace bluemart.Common
 			mCategoriesLabel = CategoryLabel;
 			mSettingsLabel = SettingsLabel;
 			mFavoritesLabel = FavoritesLabel;
-			mHistoryLabel = HistoryLabel;
+			mCartLabel = CartLabel;
 			mTrackLabel = TrackLabel;
 
 			SetImageSize ();
@@ -47,19 +47,19 @@ namespace bluemart.Common
 			CategoryLabel.TextColor = MyDevice.RedColor;
 			SettingsLabel.TextColor = MyDevice.RedColor;
 			FavoritesLabel.TextColor = MyDevice.RedColor;
-			HistoryLabel.TextColor = MyDevice.RedColor;
+			CartLabel.TextColor = MyDevice.RedColor;
 			TrackLabel.TextColor = MyDevice.RedColor;
 
 			CategoryLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
 			SettingsLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
 			FavoritesLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
-			HistoryLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			CartLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
 			TrackLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
 		}
 
 		private void SetImageSize()
 		{
-			HistoryGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
+			CartGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
 			TrackGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
 			CategoryGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
 			FavoritesGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
@@ -67,7 +67,7 @@ namespace bluemart.Common
 			CategoryButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			SettingsButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			FavoritesButton.WidthRequest = MyDevice.ScreenWidth / 5;
-			HistoryButton.WidthRequest = MyDevice.ScreenWidth / 5;
+			CartButton.WidthRequest = MyDevice.ScreenWidth / 5;
 			TrackButton.WidthRequest = MyDevice.ScreenWidth / 5;
 		}			
 
@@ -107,16 +107,16 @@ namespace bluemart.Common
 			};
 			FavoritesGrid.GestureRecognizers.Add (FavoritesGridTapRecognizer);
 
-			var HistoryGridTapRecognizer = new TapGestureRecognizer ();
-			HistoryGridTapRecognizer.Tapped += (sender, e) => {
+			var CartGridTapRecognizer = new TapGestureRecognizer ();
+			CartGridTapRecognizer.Tapped += (sender, e) => {
 
-				HistoryGrid.Opacity = 0.5f;
+				CartGrid.Opacity = 0.5f;
 				if( Navigation.NavigationStack.Last() is RootPage )
-					(Navigation.NavigationStack.Last() as RootPage).SwitchTab("History");
+					(Navigation.NavigationStack.Last() as RootPage).LoadCartPage();
 
-				HistoryGrid.Opacity = 1f;
+				CartGrid.Opacity = 1f;
 			};
-			HistoryGrid.GestureRecognizers.Add (HistoryGridTapRecognizer);
+			CartGrid.GestureRecognizers.Add (CartGridTapRecognizer);
 
 			var TrackGridTapRecognizer = new TapGestureRecognizer ();
 			TrackGridTapRecognizer.Tapped += (sender, e) => {

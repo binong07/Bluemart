@@ -21,11 +21,13 @@ namespace bluemart.MainViews
 		private int mActiveButtonIndex = 0;
 		RootPage mParent;
 		public string mCategoryID;
+		public Common.SearchBar mSearchBar;
 
 		public BrowseProductsPage (Dictionary<string,List<Product>> productDictionary,Category category, RootPage parent)
 		{					
 			InitializeComponent ();
 			mParent = parent;
+			mSearchBar = SearchBar;
 			SearchBar.mParent = parent;
 			//NavigationBar.mParent = parent;
 			mProductCellList = new List<ProductCell> ();
@@ -94,6 +96,8 @@ namespace bluemart.MainViews
 
 				var tapRecognizer = new TapGestureRecognizer ();
 				tapRecognizer.Tapped += (sender, e) => {
+					if( mSearchBar.mSearchEntry.IsFocused )
+						return;
 					FocusSelectedButton(sender as Label);
 				};
 

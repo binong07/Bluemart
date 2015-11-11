@@ -18,15 +18,17 @@ namespace bluemart
 		private Product mProduct;
 		private CartPage mParentPage;
 		private bool bIsFavorite;
-		int mQuantity = 0;
-		string mQuantityLabel;
+		//change PriceLabel
+		//int mQuantity = 0;
+		//string mQuantityLabel;
 
 		private FavoritesClass mFavoriteModel = new FavoritesClass();
 
 		public CartCell (Product product,Page parent)
 		{
-			mQuantity = Convert.ToInt32 (product.Quantity.Split (' ') [0]);
-			mQuantityLabel = product.Quantity.Split (' ') [1];
+			//change PriceLabel
+			//mQuantity = Convert.ToInt32 (product.Quantity.Split (' ') [0]);
+			//mQuantityLabel = product.Quantity.Split (' ') [1];
 			mProduct = product; 
 			mParentPage = parent as CartPage;
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
@@ -92,21 +94,27 @@ namespace bluemart
 
 			UpdateNumberLabel();
 			AddTapRecognizers ();
-			//Calculate Total Price
-			Cart.ProductTotalPrice += product.Price * product.ProductNumberInCart / mQuantity;
+			//Calculate Total Price 		
+			//change PriceLabel
+			//Cart.ProductTotalPrice += product.Price * product.ProductNumberInCart / mQuantity;
+
+			Cart.ProductTotalPrice += product.Price * product.ProductNumberInCart;
 
 			this.View = mainCellView;
 		}
 
 		private void UpdateNumberLabel()
 		{
-			mProductNumberLabel.Text = mProduct.ProductNumberInCart.ToString()+ " " + mQuantityLabel;
+			mProductNumberLabel.Text = "x" + mProduct.ProductNumberInCart.ToString();
+			//change PriceLabel
+			//mProductNumberLabel.Text = mProduct.ProductNumberInCart.ToString()+ " " + mQuantityLabel;
 		}
 
 		private void UpdatePriceLabel()
 		{
-			mProductPriceLabel.Text = "DH " + (mProduct.Price * mProduct.ProductNumberInCart/mQuantity).ToString();
-
+			mProductPriceLabel.Text = "DH " + (mProduct.Price * mProduct.ProductNumberInCart).ToString();
+			//change PriceLabel
+			//mProductPriceLabel.Text = "DH " + (mProduct.Price * mProduct.ProductNumberInCart/mQuantity).ToString();
 		}
 
 		private void AddTapRecognizers()
@@ -159,7 +167,9 @@ namespace bluemart
 		private void RemoveProductFromCart()
 		{
 			if (mProduct.ProductNumberInCart > 0)
-				mProduct.ProductNumberInCart -= Convert.ToInt32 (mProduct.Quantity.Split (' ') [0]);
+				mProduct.ProductNumberInCart--;
+				//change PriceLabel
+				//mProduct.ProductNumberInCart -= Convert.ToInt32 (mProduct.Quantity.Split (' ') [0]);
 			if (mProduct.ProductNumberInCart == 0) {
 				mParentPage.RemoveProductFromCart (this.View);
 				Cart.ProductsInCart.Remove (mProduct);
@@ -178,7 +188,9 @@ namespace bluemart
 				Cart.ProductsInCart.Add (mProduct);
 			}
 
-			mProduct.ProductNumberInCart += Convert.ToInt32 (mProduct.Quantity.Split (' ') [0]);
+			mProduct.ProductNumberInCart++;    
+			//change PriceLabel
+			//mProduct.ProductNumberInCart += Convert.ToInt32 (mProduct.Quantity.Split (' ') [0]);
 			UpdateNumberLabel ();
 			Cart.ProductTotalPrice += mProduct.Price;
 			mParentPage.UpdateTotalPriceLabel ();

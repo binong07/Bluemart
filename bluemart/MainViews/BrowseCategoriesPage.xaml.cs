@@ -12,10 +12,13 @@ namespace bluemart.MainViews
 	{		
 		List<Category> mCategories;
 		RootPage mParent;
+		public Common.SearchBar mSearchBar;
 
 		public BrowseCategoriesPage (RootPage parent)
 		{						
 			InitializeComponent ();
+			mSearchBar = SearchBar;
+
 			mParent = parent;
 			SearchBar.mParent = parent;
 			//Header.mParent = parent;
@@ -55,7 +58,6 @@ namespace bluemart.MainViews
 					StackLayout1.Children.Add (categoryCell.View);	
 				}
 			}
-
 		}
 	}
 }

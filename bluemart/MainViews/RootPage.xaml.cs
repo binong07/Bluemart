@@ -13,7 +13,7 @@ namespace bluemart.MainViews
 {
 	public partial class RootPage : Xamarin.Forms.ContentPage
 	{
-		BrowseCategoriesPage mBrowseCategoriesPage;
+		public BrowseCategoriesPage mBrowseCategoriesPage;
 		public SettingsPage mSettingsPage;
 		FavoritesPage mFavoritesPage;
 		HistoryPage mHistoryPage;
@@ -21,7 +21,7 @@ namespace bluemart.MainViews
 		public BrowseProductsPage mBrowseProductPage;
 		public AddAddressPage mAddAddressPage;
 		public CartPage mCartPage;
-		private string mCurrentPage = "";
+		public string mCurrentPage = "";
 		public string mCurrentPageParent = "";
 		public Footer mFooter;
 		public Xamarin.Forms.Grid mGrid;
@@ -80,11 +80,14 @@ namespace bluemart.MainViews
 		}	
 		protected override bool OnBackButtonPressed ()
 		{
-					
+			if( mCurrentPage != "BrowseCategories" )
+				SwitchTab ("BrowseCategories");		
+			else
+				Navigation.PopAsync ();
 			//Check if product page is active
-			if( mTopNavigationBar.IsVisible == true ){					
+			/*if( mTopNavigationBar.IsVisible == true ){					
 				SwitchTab (mCurrentPageParent);
-			}					
+			}*/					
 								
 			return true;
 		}
@@ -120,7 +123,7 @@ namespace bluemart.MainViews
 			case "History":
 				SwitchHeaderVisibility (true);
 				mHistoryPage.PopulateListView ();
-				mFooter.ChangeColorOfLabel (mFooter.mHistoryLabel);
+				mFooter.ChangeColorOfLabel (mFooter.mCartLabel);
 				SwitchContentGrid (mHistoryPage.Content);
 				mCurrentPage = pageName;
 				break;
@@ -167,6 +170,7 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 			SwitchHeaderVisibility (true);
 			Footer.SetLabelProperties ();
+			mBrowseCategoriesPage.mSearchBar.mSearchEntry.Unfocus ();
 			SwitchContentGrid (mCartPage.Content);
 			mCartPage.PrintDictionaryContents ();
 		}
