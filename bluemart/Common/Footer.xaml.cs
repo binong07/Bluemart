@@ -22,6 +22,8 @@ namespace bluemart.Common
 		{
 			InitializeComponent ();
 
+			BackgroundColor = MyDevice.BlueColor;
+
 			mCategoriesLabel = CategoryLabel;
 			mSettingsLabel = SettingsLabel;
 			mFavoritesLabel = FavoritesLabel;
@@ -32,23 +34,23 @@ namespace bluemart.Common
 			SetLabelProperties ();
 			AddTapRecognizers ();
 			mActiveLabel = CategoryLabel;
-			mActiveLabel.TextColor = MyDevice.BlueColor;
+			mActiveLabel.TextColor = MyDevice.RedColor;
 		}
 
 		public void ChangeColorOfLabel(Label newActiveLabel)
 		{
-			mActiveLabel.TextColor = MyDevice.RedColor;
+			mActiveLabel.TextColor = Color.White;
 			mActiveLabel = newActiveLabel;
-			mActiveLabel.TextColor = MyDevice.BlueColor;
+			mActiveLabel.TextColor = MyDevice.RedColor;
 		}
 
 		public void SetLabelProperties()
 		{
-			CategoryLabel.TextColor = MyDevice.RedColor;
-			SettingsLabel.TextColor = MyDevice.RedColor;
-			FavoritesLabel.TextColor = MyDevice.RedColor;
-			CartLabel.TextColor = MyDevice.RedColor;
-			TrackLabel.TextColor = MyDevice.RedColor;
+			CategoryLabel.TextColor = Color.White;
+			SettingsLabel.TextColor = Color.White;
+			FavoritesLabel.TextColor = Color.White;
+			CartLabel.TextColor = Color.White;
+			TrackLabel.TextColor = Color.White;
 
 			CategoryLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
 			SettingsLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));

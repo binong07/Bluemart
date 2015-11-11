@@ -21,7 +21,7 @@
 				</Grid.ColumnDefinitions>
                 <common:SearchBar x:Name = "SearchBar" Grid.Row = "0" Grid.Column = "0"/>
                	<ScrollView x:Name="ScrollView1" Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" VerticalOptions="FillAndExpand"  >
-					<StackLayout x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Spacing = "5" Padding = "0,0,0,5">
+					<StackLayout x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Spacing = "0" Padding = "0,0,0,0">
 					</StackLayout>										
 				</ScrollView>
         </Grid>
