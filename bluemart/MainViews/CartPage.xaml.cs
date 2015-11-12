@@ -103,16 +103,16 @@ namespace bluemart.MainViews
 			OrderButton.Clicked += async (sender, e) =>  {
 				if( Cart.ProductTotalPrice == 0 )
 				{
-					await DisplayAlert("Failed","You don't have any product on cart","OK");
+					await DisplayAlert("Sorry","You don't have any product on cart","OK");
 				}			
 				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
 				{					
-					await DisplayAlert("Failed","Please Enter Your Address On Settings Page","OK");
+					await DisplayAlert("Sorry","Please Enter Your Address On Settings Page","OK");
 					mParent.SwitchTab("Settings");
 				}
 				else if( Cart.ProductTotalPrice < 50 )
 				{
-					await DisplayAlert("Failed","Please order AED 50, as this is the minimum order.","OK");
+					await DisplayAlert("Sorry","Please order AED 50, as this is the minimum order.","OK");
 				}
 				else
 				{
@@ -153,8 +153,8 @@ namespace bluemart.MainViews
 		public void UpdateTotalPriceLabel()
 		{
 			mTotalPriceLabel.Text = "Total Price: " + Cart.ProductTotalPrice.ToString ();
-			mParent.mRootHeader.mPriceLabel.Text = "DH " + Cart.ProductTotalPrice.ToString ();
-			mParent.mTopNavigationBar.mPriceLabel.Text = "DH " + Cart.ProductTotalPrice.ToString ();
+			mParent.mRootHeader.mPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
+			mParent.mTopNavigationBar.mPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 		}
 
 		public void RemoveProductFromCart(View CartCellView)

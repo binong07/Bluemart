@@ -52,8 +52,8 @@ namespace bluemart.MainViews
 
 		public void  UpdatePriceLabel()
 		{
-			mParent.mRootHeader.mPriceLabel.Text = "DH:" + Cart.ProductTotalPrice.ToString();
-			mParent.mTopNavigationBar.mPriceLabel.Text = "DH:" + Cart.ProductTotalPrice.ToString();
+			mParent.mRootHeader.mPriceLabel.Text = "AED:" + Cart.ProductTotalPrice.ToString();
+			mParent.mTopNavigationBar.mPriceLabel.Text = "AED:" + Cart.ProductTotalPrice.ToString();
 		}
 
 		protected override void OnAppearing()

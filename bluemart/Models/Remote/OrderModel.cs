@@ -28,7 +28,7 @@ namespace bluemart.Models.Remote
 				string description = product.Quantity;
 				string cost = (product.ProductNumberInCart * product.Price).ToString ();
 
-				OrderList.Add("Quantity:" + quantity + "," + "Product Name:" + productName + "," + "Description:" + description + "," + "Cost:" + cost);
+				OrderList.Add("Quantity:" + quantity + "," + "Product:" + productName + "," + "Description:" + description + "," + "Price:" + cost);
 			}		
 
 

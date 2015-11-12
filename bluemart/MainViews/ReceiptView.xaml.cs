@@ -207,7 +207,7 @@ namespace bluemart
 				};
 
 				Label costLabel = new Label () {
-					Text = "DH " + cost,
+					Text = "AED " + cost,
 					FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label)),
 					HorizontalOptions = LayoutOptions.Center,
 					TextColor = Color.Black
@@ -240,7 +240,7 @@ namespace bluemart
 
 			MiddleGrid.Children.Add (totalPriceLabel,2,3 );
 
-			string totalPrice = "DH ";
+			string totalPrice = "AED ";
 
 			if (obj == null)
 				totalPrice += Cart.ProductTotalPrice.ToString ();
@@ -269,7 +269,7 @@ namespace bluemart
 				DisagreeButton.IsVisible = false;
 			} else {
 				AgreeButton.Text = "Agree";
-				DisagreeButton.Text = "Disagree";
+				DisagreeButton.Text = "Change";
 			}
 
 			/*MiddleGrid.RowDefinitions[0].Height =  MyDevice.ScreenHeight / 10;
@@ -286,7 +286,7 @@ namespace bluemart
 					bool OrderSucceeded = OrderModel.SendOrderToRemote (mUserModel).Result;
 
 					if (OrderSucceeded)
-						await DisplayAlert ("Order Accepted", "Your order has been received!", "OK");
+						await DisplayAlert ("Order Sent", "Your order has been sent, please follow your order through the “Track” section.", "OK");
 					else
 						await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
 					

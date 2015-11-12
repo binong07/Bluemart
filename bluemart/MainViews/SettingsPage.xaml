@@ -21,7 +21,7 @@
 					</Grid.ColumnDefinitions>               	       
 	               	<StackLayout Grid.Row = "0" Grid.Column = "0" x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" >
 	               		<Button x:Name = "ChangeLocationButton" HorizontalOptions = "Center" TextColor = "Red" BackgroundColor = "White" Clicked = "OnChangeLocationButtonClicked" />
-	               		<Button x:Name = "AddAddressButton" HorizontalOptions = "Center" Text = "Add Address" TextColor = "Red" BackgroundColor = "White" Clicked = "OnAddAddressButtonClicked" />
+	               		<Button x:Name = "AddAddressButton" HorizontalOptions = "Center" Text = "Add New Delivery Address" TextColor = "Red" BackgroundColor = "White" Clicked = "OnAddAddressButtonClicked" />
 	               		<Label x:Name = "AddressExplanationLabel" TextColor="White" HorizontalOptions = "Center" VerticalOptions = "Fill"/>
 					</StackLayout>
 					<ScrollView Grid.Row = "1" Grid.Column = "0" x:Name = "ScrollView2" Orientation = "Vertical" VerticalOptions = "FillAndExpand">

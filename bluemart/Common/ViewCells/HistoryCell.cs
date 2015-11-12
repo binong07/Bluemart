@@ -43,7 +43,7 @@ namespace bluemart.Common.ViewCells
 				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = "Total Price: " + history.TotalPrice + " DH",
+				Text = "Total Price: " + history.TotalPrice + " AED",
 				BackgroundColor = Color.White
 			};
 

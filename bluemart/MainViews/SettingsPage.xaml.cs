@@ -33,7 +33,7 @@ namespace bluemart.MainViews
 			string region = mUserModel.GetUser().ActiveRegion;
 			int shopNumber = RegionHelper.DecideShopNumber (region);
 			string shopName = RegionHelper.DecideShopName (shopNumber);
-			ChangeLocationButton.Text = "You're in " + region + "(Bluemart - " + shopName + " Area). Tap To Change.";
+			ChangeLocationButton.Text = "You selected " + region + "\nServiced by Bluemart - " + shopName + " Location.\nTap To Change Location";
 			AddressExplanationLabel.Text = "Your Bluemart - " + shopName + " Adresses :";
 			var addressList = mAddressModel.GetAddressList (shopNumber);
 

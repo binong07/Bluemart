@@ -77,7 +77,7 @@ namespace bluemart.Common.ViewCells
 			insideGrid1.RowDefinitions.Add( new RowDefinition() { Height = Device.GetNamedSize(NamedSize.Medium ,typeof(Label)) } );
 
 			Label productPriceLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small ,typeof(Label)), HorizontalOptions = LayoutOptions.Start, VerticalOptions = LayoutOptions.Start, TextColor = MyDevice.RedColor };
-			productPriceLabel.Text = "DH " + product.Price.ToString();
+			productPriceLabel.Text = "AED " + product.Price.ToString();
 			insideGrid1.Children.Add(productPriceLabel,1,0);
 
 			mFavoriteImage = new Image();
@@ -165,8 +165,8 @@ namespace bluemart.Common.ViewCells
 
 			var frame = new Frame { 
 				Padding = 2,
-				OutlineColor = Color.Aqua,
-				BackgroundColor = Color.Aqua,
+				OutlineColor = MyDevice.RedColor,
+				BackgroundColor = MyDevice.RedColor,
 				VerticalOptions = LayoutOptions.Start,
 				//HeightRequest = mainCellGrid.Height,
 				//WidthRequest = mainCellGrid.Width,

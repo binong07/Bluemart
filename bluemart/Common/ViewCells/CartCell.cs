@@ -112,7 +112,7 @@ namespace bluemart
 
 		private void UpdatePriceLabel()
 		{
-			mProductPriceLabel.Text = "DH " + (mProduct.Price * mProduct.ProductNumberInCart).ToString();
+			mProductPriceLabel.Text = "AED " + (mProduct.Price * mProduct.ProductNumberInCart).ToString();
 			//change PriceLabel
 			//mProductPriceLabel.Text = "DH " + (mProduct.Price * mProduct.ProductNumberInCart/mQuantity).ToString();
 		}

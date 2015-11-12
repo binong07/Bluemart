@@ -46,7 +46,7 @@ namespace bluemart.MainViews
 			selectedPinIndex = index;
 			StartShopingButton.BorderWidth = 2;
 			StartShopingButton.BorderColor = MyDevice.BlueColor;
-			StartShopingButton.Text = "Start Shoping on " + pinDatas[index].text;
+			StartShopingButton.Text = "Start Shopping on " + pinDatas[index].text;
 			StartShopingButton.IsEnabled=true;
 		}
 		public MapView (RootPage parent, UserClass mUserModel)
@@ -59,7 +59,7 @@ namespace bluemart.MainViews
 			//InitalizeMemberVariables ();
 			pinDatas = new List<PinData>();
 			pinDatas.Add (new PinData(25.082742, 55.147174,"bm_pin","Dubai Marina BlueMart"));
-			pinDatas.Add (new PinData(25.099536, 55.178529,"bm_pin","Teacom BlueMart"));
+			pinDatas.Add (new PinData(25.099536, 55.178529,"bm_pin","Tecom BlueMart"));
 			pinDatas.Add (new PinData(25.094988, 55.172659,"bm_pin","Greens BlueMart"));
 			var map = new ExtendedMap (new Position (25.20, 55.26), 20, pinDatas,this);
 

@@ -46,7 +46,7 @@ namespace bluemart.Common.Headers
 		{
 			BackButton.HeightRequest = MyDevice.ScreenHeight / 20;
 			CartButton.HeightRequest = MyDevice.ScreenHeight / 18;
-			NavigationTitle.FontSize = Device.GetNamedSize (NamedSize.Large, typeof(Label));
+			NavigationTitle.FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label));
 		}
 
 		private void AddTapRecognizers()
@@ -66,7 +66,7 @@ namespace bluemart.Common.Headers
 
 			var backButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			backButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-				if( mParent.mBrowseProductPage.mSearchBar.mSearchEntry.IsFocused )
+				if( mParent.mCurrentPageParent == "BrowseCategories" && mParent.mBrowseProductPage.mSearchBar.mSearchEntry.IsFocused )
 					return;
 				BackButton.Opacity = 0.5f;
 				await Task.Delay(MyDevice.DelayTime);			
