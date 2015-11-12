@@ -18,7 +18,7 @@ namespace bluemart.Common
 			mSearchEntry = SearchEntry;
 			SearchEntry.XAlign = TextAlignment.Center;
 			SearchEntry.TextColor = MyDevice.BlueColor;
-
+			BackgroundColor = MyDevice.BlueColor;
 			SetGridDefinitions ();
 			AddTapRecognizers ();
 		}

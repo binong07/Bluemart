@@ -3,7 +3,6 @@
      xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
      x:Class="bluemart.Common.Footer"
      x:Name="FooterStackLayout"
-     BackgroundColor="White"
      Orientation = "Horizontal"
      Spacing = "0"
      Padding = "0">

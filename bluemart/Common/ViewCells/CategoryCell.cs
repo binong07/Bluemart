@@ -27,8 +27,7 @@ namespace bluemart.Common.ViewCells
 
 			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Gray, Padding = 0, RowSpacing = 0 };
 
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = 150});
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto});
+			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = 160});
 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  MyDevice.ScreenWidth});
 
 
@@ -54,12 +53,12 @@ namespace bluemart.Common.ViewCells
 
 			mainCellGrid.Children.Add (categoryImage, 0, 0);
 
-			Label lbl = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)), 
+			/*Label lbl = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)), 
 				BackgroundColor = Color.White, TextColor = MyDevice.RedColor, XAlign = TextAlignment.Center ,
 				YAlign = TextAlignment.Center, VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand };
 			lbl.Text = category.Name;
 
-			mainCellGrid.Children.Add (lbl, 0, 1);
+			mainCellGrid.Children.Add (lbl, 0, 1);*/
 
 			this.View = mainCellGrid;
 		}
