@@ -67,8 +67,8 @@ namespace bluemart.Models.Remote
 						WhereGreaterThan (ParseConstants.UPDATEDATE_NAME, localUpdate).
 						WhereLessThanOrEqualTo (ParseConstants.UPDATEDATE_NAME, remoteUpdate);
 
-					var imageObjects = imageQuery.FindAsync ().Result;
-
+					var imageObjects = imageQuery.Limit(1000).FindAsync ().Result;
+					int count = imageObjects.Count<ParseObject>();
 					foreach (ParseObject imageObject in imageObjects) {
 						ParseFile img = imageObject.Get<ParseFile> (ParseConstants.IMAGE_ATTRIBUTE_IMAGEFILE);
 						string imageName = imageObject.Get<string> (ParseConstants.IMAGE_ATTRIBUTE_IMAGENAME);

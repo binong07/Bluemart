@@ -62,7 +62,7 @@ namespace bluemart.Models.Remote
 				WhereLessThanOrEqualTo(ParseConstants.UPDATEDATE_NAME,remoteUpdate).
 				OrderBy(ParseConstants.CATEGORY_ATTRIBUTE_NAME);
 
-			var categoryObjects = categoryQuery.FindAsync ().Result;
+			var categoryObjects = categoryQuery.Limit(1000).FindAsync ().Result;
 
 			List<CategoryClass> tempList = new List<CategoryClass> ();
 			foreach (var categoryObject in categoryObjects) {

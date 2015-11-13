@@ -66,7 +66,7 @@ namespace bluemart.Models.Remote
 				WhereGreaterThan(ParseConstants.UPDATEDATE_NAME,localUpdate).
 				WhereLessThanOrEqualTo(ParseConstants.UPDATEDATE_NAME,remoteUpdate);
 
-			var productObjects = productQuery.FindAsync ().Result;
+			var productObjects = productQuery.Limit(1000).FindAsync ().Result;
 
 			List<ProductClass> tempList = new List<ProductClass> ();
 			foreach (var productObject in productObjects) {
