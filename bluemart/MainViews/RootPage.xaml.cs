@@ -40,12 +40,13 @@ namespace bluemart.MainViews
 			mFooter = Footer;
 			mGrid = Grid1;
 			mBrowseCategoriesPage = new BrowseCategoriesPage (this);
+			mBrowseProductPage = new BrowseProductsPage (this);
 			mSettingsPage = new SettingsPage(this);
 			mFavoritesPage = new FavoritesPage (this);
 			mHistoryPage = new HistoryPage (this);
 			mTrackPage = new TrackPage (this);
 			mCartPage = new CartPage (this);
-			mPageList = new List<string> (){ "History","Track","BrowseCategories","Favorites","Settings" };
+			mPageList = new List<string> (){ "Track","Settings","BrowseCategories","Favorites","Cart" };
 
 			RootHeader.mParent = this;
 			ProductHeader.mParent = this;
@@ -100,7 +101,13 @@ namespace bluemart.MainViews
 			switch (pageName) {
 			case "BrowseCategories":
 				SwitchHeaderVisibility (true);
-				mBrowseProductPage = null;
+
+				/*if (mBrowseProductPage != null) {
+					mBrowseProductPage.ClearContainers ();
+
+				//	mBrowseProductPage = null;
+				}*/
+
 				mBrowseCategoriesPage.RefreshSearchText ();
 				mFooter.ChangeColorOfLabel (mFooter.mCategoriesLabel);
 				SwitchContentGrid (mBrowseCategoriesPage.Content);
@@ -151,7 +158,8 @@ namespace bluemart.MainViews
 			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (false);
 			mCurrentPageParent = "BrowseCategories";
-			mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
+			mBrowseProductPage.PopulationOfNewProductPage (productDictionary, category);
+			//mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
 			SwitchContentGrid (mBrowseProductPage.Content);
 		}
 
@@ -170,6 +178,7 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 			SwitchHeaderVisibility (true);
 			Footer.SetLabelProperties ();
+			mFooter.ChangeColorOfLabel (mFooter.mCartLabel);
 			mBrowseCategoriesPage.mSearchBar.mSearchEntry.Unfocus ();
 			SwitchContentGrid (mCartPage.Content);
 			mCartPage.PrintDictionaryContents ();

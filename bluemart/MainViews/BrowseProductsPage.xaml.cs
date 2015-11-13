@@ -12,7 +12,6 @@ namespace bluemart.MainViews
 	{
 		private Dictionary<string,List<Product>> mProductDictionary;
 		private int mRowCount;
-		public List<ProductCell> mProductCellList;
 		private List<BoxView> mBoxViewList;
 		private List<Label> mButtonList;
 		private BoxView mEnabledBoxView;
@@ -23,19 +22,35 @@ namespace bluemart.MainViews
 		public string mCategoryID;
 		public Common.SearchBar mSearchBar;
 
-		public BrowseProductsPage (Dictionary<string,List<Product>> productDictionary,Category category, RootPage parent)
+		public BrowseProductsPage (RootPage parent)
 		{					
 			InitializeComponent ();
 			mParent = parent;
+			CreationInitialization ();
+		}
+
+		public void CreationInitialization()
+		{
+			NavigationPage.SetHasNavigationBar (this, false);
 			mSearchBar = SearchBar;
-			SearchBar.mParent = parent;
-			//NavigationBar.mParent = parent;
-			mProductCellList = new List<ProductCell> ();
+			SearchBar.mParent = mParent;
 			mBoxViewList = new List<BoxView> ();
 			mButtonList = new List<Label> ();
 			mCategoryIndexList = new List<int> ();
-			//NavigationBar.NavigationText.Text = category.Name;
-			parent.mTopNavigationBar.NavigationText.Text = category.Name;
+
+			SetGrid1Definitions ();
+		}
+
+
+		public void PopulationOfNewProductPage(Dictionary<string,List<Product>> productDictionary,Category category)
+		{
+			if (mProductDictionary.Count <= 1) {
+				ScrollView1.IsEnabled = false;
+				Grid1.RowDefinitions [1].Height = 0;
+				ScrollView1.IsVisible = false;
+			}
+
+			mParent.mTopNavigationBar.NavigationText.Text = category.Name;
 			mCategoryID = category.CategoryID;
 			mProductDictionary = productDictionary;
 			int count = 0;
@@ -44,10 +59,17 @@ namespace bluemart.MainViews
 			}
 			mRowCount = Convert.ToInt32(Math.Ceiling(count / 2.0f));
 
-			NavigationPage.SetHasNavigationBar (this, false);
-			SetGrid1Definitions ();
 			PopulateGrid ();
 			UpdatePriceLabel ();
+		}
+
+		public void ClearContainers()
+		{
+			Grid2.Children.Clear ();
+			mProductDictionary.Clear ();
+			mBoxViewList.Clear ();
+			mButtonList.Clear ();
+			mCategoryIndexList.Clear ();
 		}
 
 		public void  UpdatePriceLabel()
@@ -68,11 +90,6 @@ namespace bluemart.MainViews
 			Grid1.RowDefinitions [2].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.BackgroundColor = MyDevice.BlueColor;
-			if (mProductDictionary.Count <= 1) {
-				ScrollView1.IsEnabled = false;
-				Grid1.RowDefinitions [1].Height = 0;
-				ScrollView1.IsVisible = false;
-			}
 		}
 
 		private void PopulateSubCategoryButtons()
@@ -225,8 +242,7 @@ namespace bluemart.MainViews
 				var productList = productPair.Value;
 				foreach (var product in productList) {
 					ProductCell productCell = new ProductCell (Grid2, product, this);
-					int productIndex = tempProductList.IndexOf(product);
-					mProductCellList.Add (productCell);				
+					int productIndex = tempProductList.IndexOf(product);						
 					Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);
 				}					
 			}
