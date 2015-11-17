@@ -67,7 +67,8 @@ namespace bluemart.Common.ViewCells
 		void LoadProductsPage(string categoryID,RootPage parent)
 		{			
 			
-			PopulateProducts ();
+			//PopulateProducts ();
+			PopulateProductsTest();
 			parent.LoadProductsPage(mProductDictionary,mCategory);
 		}
 
@@ -126,6 +127,54 @@ namespace bluemart.Common.ViewCells
 			} else {
 				mCategoryList.Add (mCategory);	
 			}
+		}
+
+		private void PopulateProductsTest()
+		{
+			mProductDictionary.Clear ();
+			PopulateCategories ();
+
+			List<Product> product = new List<Product> ();
+			for (int i = 0; i < 1000; i++) {				
+				string ImagePath = "/data/data/com.app1001.bluemart/files/SavedImages/EnergyDrink_red-bull-sugarfree-250ml.jpg";
+				string ProductName = "test";
+				decimal price = new decimal(i);
+				string quantity = "abc";
+				product.Add (new Product ("asd", ProductName, ImagePath, price, quantity));
+			}
+			mProductDictionary.Add ("asd", product);
+			/*foreach( Category category in mCategoryList )
+			{
+				List<Product> product = new List<Product> ();
+
+				string location = mUser.GetActiveRegionFromUser ();
+				int store = RegionHelper.DecideShopNumber (location);
+
+				if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
+					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
+						string storeString = ProductModel.mProductStoresDictionary [productID];
+
+						if (String.IsNullOrEmpty(storeString))
+							continue;
+
+						//Get store string list
+						var storeList = storeString.Split (',').ToList ();
+						//Convert storelist to integer list
+						var storeNumberList = storeList.Select (int.Parse).ToList ();
+
+						if (!storeNumberList.Contains (store))
+							continue;
+
+						string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+						string ProductName = ProductModel.mProductNameDictionary [productID];
+						decimal price = ProductModel.mProductPriceDictionary [productID];
+						string quantity = ProductModel.mProductQuantityDictionary [productID];
+						product.Add (new Product (productID, ProductName, ImagePath, price, quantity)); 
+					}
+				}
+
+				mProductDictionary.Add (category.Name, product);
+			}*/
 		}
 	}
 }

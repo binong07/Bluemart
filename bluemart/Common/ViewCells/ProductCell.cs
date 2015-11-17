@@ -13,15 +13,20 @@ namespace bluemart.Common.ViewCells
 {
 	public class ProductCell : ViewCell
 	{
-		private Image mAddImage;
-		private Image mRemoveImage;
-		private Image mFavoriteImage;
+		public Image mAddImage;
+		public Image mRemoveImage;
+		public Image mFavoriteImage;
+		public Image mProductImage;
 		private Label mProductNumberLabel;
 		private Product mProduct;
 		private FavoritesClass mFavoriteModel;
 		private bool bIsFavorite;
 		public Page mParent;
+		private RootPage mRootPage;
 		private Grid mInsideGrid2;
+		public Stream mFavoriteStream;
+		public Stream mRemoveProductStream;
+		public Stream mAddProductStream;
 		//change PriceLabel
 		//int mQuantity = 0;
 		//string mQuantityLabel;
@@ -30,6 +35,8 @@ namespace bluemart.Common.ViewCells
 		{		
 				
 			double width = (MyDevice.ScreenWidth-parentGrid.ColumnSpacing-MyDevice.ViewPadding)/2;
+			mParent = parent;
+			SetRootPage ();
 			//change PriceLabel
 			//mQuantity = Convert.ToInt32 (product.Quantity.Split (' ') [0]);
 			//mQuantityLabel = product.Quantity.Split (' ') [1];
@@ -46,7 +53,7 @@ namespace bluemart.Common.ViewCells
 			} else
 				mProduct = product;
 			mFavoriteModel = new FavoritesClass ();
-			mParent = parent;
+
 
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
 
@@ -58,7 +65,7 @@ namespace bluemart.Common.ViewCells
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Small,typeof(Label))*2 });
 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  width });
 
-			Label productNameLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)), HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center , TextColor = MyDevice.RedColor, XAlign=TextAlignment.Center };
+			Label productNameLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)), HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center , TextColor = MyDevice.RedColor, HorizontalTextAlignment=TextAlignment.Center };
 
 			productNameLabel.Text = product.Name;
 			mainCellGrid.Children.Add (productNameLabel, 0, 0);
@@ -83,32 +90,18 @@ namespace bluemart.Common.ViewCells
 
 			mFavoriteImage = new Image();
 
-			//bluemart.SavedImages.bookmark_add.png
-			//mFavoriteImage.Aspect = Aspect.Fill;
-			if (!bIsFavorite) {				
-				Stream s = new MemoryStream();
-				if( mParent is BrowseProductsPage)
-				{					
-					(mParent as BrowseProductsPage).mParent.mAddFavoritesImage.Position = 0;
-					(mParent as BrowseProductsPage).mParent.mAddFavoritesImage.CopyTo(s);
-					s.Position = 0;
-					mFavoriteImage.Source = ImageSource.FromStream(() => s);				
-				}
-				else if( mParent is FavoritesPage)
-				{
-					//(mParent as FavoritesPage).mParent.mAddFavoritesImage.CopyTo(s);
-					//s = (mParent as FavoritesPage).mParent.mAddFavoritesImage;
-				}
-				else if( mParent is SearchPage )
-				{
-					//(mParent as SearchPage).mParent.mAddFavoritesImage.CopyTo(s);
-					//s = (mParent as SearchPage).mParent.mAddFavoritesImage;
-				}
-				//mFavoriteImage.Source = ImageSource.FromStream( () => s ); 
-
+			mFavoriteStream = new MemoryStream();									
+			if (!bIsFavorite) {								
+				mRootPage.mAddFavoritesImage.Position = 0;
+				mRootPage.mAddFavoritesImage.CopyToAsync(mFavoriteStream);								
 			} else {
-				mFavoriteImage.Source = "bookmark_remove";
+				mRootPage.mRemoveFavoritesImage.Position = 0;
+				mRootPage.mRemoveFavoritesImage.CopyToAsync(mFavoriteStream);	
 			}
+
+			mFavoriteStream.Position = 0;
+			mFavoriteImage.Source = StreamImageSource.FromStream(() => mFavoriteStream);
+
 			insideGrid1.Children.Add(mFavoriteImage,2,0);
 
 			Label productQuantityLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)), HorizontalOptions = LayoutOptions.End, VerticalOptions = LayoutOptions.Start, TextColor = MyDevice.RedColor };
@@ -119,13 +112,13 @@ namespace bluemart.Common.ViewCells
 			#endregion
 
 
-			Image productImage = new Image ();
+			mProductImage = new Image ();
 			//productImage.Aspect = Aspect.AspectFit;
-			productImage.HeightRequest = width / 5 * 3;
-			productImage.WidthRequest = width / 5 * 3;
+			mProductImage.HeightRequest = width / 5 * 3;
+			mProductImage.WidthRequest = width / 5 * 3;
 
-			productImage.Source = ImageSource.FromFile(product.ProductImagePath);
-			mainCellGrid.Children.Add (productImage, 0, 2);
+			mProductImage.Source = ImageSource.FromFile(product.ProductImagePath);
+			mainCellGrid.Children.Add (mProductImage, 0, 2);
 
 			#region row3insidegrid
 			Grid insideGrid2 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
@@ -143,7 +136,12 @@ namespace bluemart.Common.ViewCells
 
 			mRemoveImage = new Image (){VerticalOptions = LayoutOptions.Center,HorizontalOptions = LayoutOptions.Center};
 			mRemoveImage.Aspect = Aspect.AspectFit;
-			mRemoveImage.Source = "minus";
+
+			mRemoveProductStream = new MemoryStream();
+			mRootPage.mRemoveProductImage.Position = 0;
+			mRootPage.mRemoveProductImage.CopyToAsync(mRemoveProductStream);
+			mRemoveProductStream.Position = 0;
+			mRemoveImage.Source = ImageSource.FromStream(() => mRemoveProductStream);
 
 			var removeImageLayout = new RelativeLayout(){
 				HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -166,7 +164,12 @@ namespace bluemart.Common.ViewCells
 
 			mAddImage = new Image (){VerticalOptions = LayoutOptions.Center,HorizontalOptions = LayoutOptions.Center};
 			mAddImage.Aspect = Aspect.AspectFit;
-			mAddImage.Source = "plus";
+
+			mAddProductStream = new MemoryStream();
+			mRootPage.mAddProductImage.Position = 0;
+			mRootPage.mAddProductImage.CopyToAsync(mAddProductStream);
+			mAddProductStream.Position = 0;
+			mAddImage.Source = ImageSource.FromStream(() => mAddProductStream);
 
 			var addImageLayout = new RelativeLayout(){
 				HorizontalOptions = LayoutOptions.Fill,
@@ -197,6 +200,22 @@ namespace bluemart.Common.ViewCells
 			};
 
 			this.View = frame;
+		}
+
+		private void SetRootPage()
+		{
+			if( mParent is BrowseProductsPage)
+			{	
+				mRootPage = (mParent as BrowseProductsPage).mParent;
+			}
+			else if( mParent is FavoritesPage)
+			{
+				mRootPage = (mParent as FavoritesPage).mParent;
+			}
+			else if( mParent is SearchPage )
+			{
+				mRootPage = (mParent as SearchPage).mParent;
+			}
 		}
 
 		private void AddTapRecognizers()

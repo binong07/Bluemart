@@ -46,6 +46,9 @@ namespace bluemart.MainViews
 
 			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
 			mAddFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_add.png");
+			mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
+			mRemoveProductImage = assembly.GetManifestResourceStream("bluemart.SavedImages.minus.png");
+			mAddProductImage = assembly.GetManifestResourceStream("bluemart.SavedImages.plus.png");
 
 			mFooter = Footer;
 			mGrid = Grid1;
@@ -168,9 +171,10 @@ namespace bluemart.MainViews
 			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (false);
 			mCurrentPageParent = "BrowseCategories";
+			SwitchContentGrid (mBrowseProductPage.Content);
 			mBrowseProductPage.PopulationOfNewProductPage (productDictionary, category);
 			//mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
-			SwitchContentGrid (mBrowseProductPage.Content);
+
 		}
 
 		public void LoadAddAddress(AddressClass address = null)
