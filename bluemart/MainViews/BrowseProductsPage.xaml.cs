@@ -18,7 +18,7 @@ namespace bluemart.MainViews
 		private List<int> mCategoryIndexList;
 		private double mPreviousScrollPositionY = 0;
 		private int mActiveButtonIndex = 0;
-		RootPage mParent;
+		public RootPage mParent;
 		public string mCategoryID;
 		public Common.SearchBar mSearchBar;
 
@@ -43,29 +43,36 @@ namespace bluemart.MainViews
 
 
 		public void PopulationOfNewProductPage(Dictionary<string,List<Product>> productDictionary,Category category)
-		{
+		{	
+			mParent.mTopNavigationBar.NavigationText.Text = category.Name;
+			mCategoryID = category.CategoryID;
+			mProductDictionary = productDictionary;
+
 			if (mProductDictionary.Count <= 1) {
 				ScrollView1.IsEnabled = false;
 				Grid1.RowDefinitions [1].Height = 0;
 				ScrollView1.IsVisible = false;
 			}
 
-			mParent.mTopNavigationBar.NavigationText.Text = category.Name;
-			mCategoryID = category.CategoryID;
-			mProductDictionary = productDictionary;
+
 			int count = 0;
 			foreach (var product in productDictionary) {
 				count += product.Value.Count;
 			}
 			mRowCount = Convert.ToInt32(Math.Ceiling(count / 2.0f));
 
+
 			PopulateGrid ();
 			UpdatePriceLabel ();
 		}
 
 		public void ClearContainers()
-		{
+		{			
+			//Clear Product Grid
 			Grid2.Children.Clear ();
+			Grid2.RowDefinitions.Clear ();
+			Grid2.ColumnDefinitions.Clear ();
+			SubCategoryStackLayout.Children.Clear ();
 			mProductDictionary.Clear ();
 			mBoxViewList.Clear ();
 			mButtonList.Clear ();
@@ -241,10 +248,11 @@ namespace bluemart.MainViews
 			foreach (var productPair in mProductDictionary) {
 				var productList = productPair.Value;
 				foreach (var product in productList) {
+					
 					ProductCell productCell = new ProductCell (Grid2, product, this);
-					int productIndex = tempProductList.IndexOf(product);						
+					int productIndex = tempProductList.IndexOf(product);			
 					Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);
-				}					
+				}
 			}
 		}
 

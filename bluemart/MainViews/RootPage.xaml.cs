@@ -8,6 +8,8 @@ using bluemart.Common;
 using bluemart.Common.Headers;
 using bluemart.Models.Local;
 using MR.Gestures;
+using System.IO;
+using System.Reflection;
 
 namespace bluemart.MainViews
 {
@@ -28,6 +30,11 @@ namespace bluemart.MainViews
 		public TopNavigationBar mTopNavigationBar;
 		public MainMenuHeader mRootHeader;
 		private List<string> mPageList;
+
+		public Stream mAddFavoritesImage;
+		public Stream mRemoveFavoritesImage;
+		public Stream mRemoveProductImage;
+		public Stream mAddProductImage;
 		//private int mActivePageIndex = 2;
 
 		public View mContentGrid;
@@ -36,6 +43,9 @@ namespace bluemart.MainViews
 		{
 			InitializeComponent ();
 			SwitchHeaderVisibility (true);
+
+			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
+			mAddFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_add.png");
 
 			mFooter = Footer;
 			mGrid = Grid1;
@@ -102,11 +112,11 @@ namespace bluemart.MainViews
 			case "BrowseCategories":
 				SwitchHeaderVisibility (true);
 
-				/*if (mBrowseProductPage != null) {
+				if (mBrowseProductPage != null) {
 					mBrowseProductPage.ClearContainers ();
 
 				//	mBrowseProductPage = null;
-				}*/
+				}
 
 				mBrowseCategoriesPage.RefreshSearchText ();
 				mFooter.ChangeColorOfLabel (mFooter.mCategoriesLabel);

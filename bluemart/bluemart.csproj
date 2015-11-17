@@ -316,5 +316,9 @@
     <EmbeddedResource Include="MainViews\AddAddressPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="SavedImages\bookmark_add.png" />
+    <EmbeddedResource Include="SavedImages\bookmark_remove.png" />
+    <EmbeddedResource Include="SavedImages\minus.png" />
+    <EmbeddedResource Include="SavedImages\plus.png" />
   </ItemGroup>
 </Project>

@@ -20,7 +20,7 @@ namespace bluemart.MainViews
 		public List<ProductCell> mProductCellList = new List<ProductCell>();
 		private string mSearchString ;
 
-		RootPage mParent;
+		public RootPage mParent;
 
 		public SearchPage (string searchString, string categoryId,RootPage parent)
 		{

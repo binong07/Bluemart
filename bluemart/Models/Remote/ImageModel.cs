@@ -31,7 +31,6 @@ namespace bluemart.Models.Remote
 			var directoryPath = String.Concat (projectName, ".", ParseConstants.IMAGE_FOLDER_NAME, ".");
 
 			foreach (string fullImageName in imageNames) {	
-				
 				using (Stream s = assembly.GetManifestResourceStream(fullImageName) )
 				{
 					//Start from resource path length

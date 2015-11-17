@@ -6,6 +6,7 @@ using bluemart.MainViews;
 using Xamarin.Forms;
 using bluemart.Common.Utilities;
 using bluemart.Models.Local;
+using System.IO;
 
 
 namespace bluemart.Common.ViewCells
@@ -81,9 +82,30 @@ namespace bluemart.Common.ViewCells
 			insideGrid1.Children.Add(productPriceLabel,1,0);
 
 			mFavoriteImage = new Image();
+
+			//bluemart.SavedImages.bookmark_add.png
 			//mFavoriteImage.Aspect = Aspect.Fill;
-			if (!bIsFavorite) {
-				mFavoriteImage.Source = "bookmark_add";
+			if (!bIsFavorite) {				
+				Stream s = new MemoryStream();
+				if( mParent is BrowseProductsPage)
+				{					
+					(mParent as BrowseProductsPage).mParent.mAddFavoritesImage.Position = 0;
+					(mParent as BrowseProductsPage).mParent.mAddFavoritesImage.CopyTo(s);
+					s.Position = 0;
+					mFavoriteImage.Source = ImageSource.FromStream(() => s);				
+				}
+				else if( mParent is FavoritesPage)
+				{
+					//(mParent as FavoritesPage).mParent.mAddFavoritesImage.CopyTo(s);
+					//s = (mParent as FavoritesPage).mParent.mAddFavoritesImage;
+				}
+				else if( mParent is SearchPage )
+				{
+					//(mParent as SearchPage).mParent.mAddFavoritesImage.CopyTo(s);
+					//s = (mParent as SearchPage).mParent.mAddFavoritesImage;
+				}
+				//mFavoriteImage.Source = ImageSource.FromStream( () => s ); 
+
 			} else {
 				mFavoriteImage.Source = "bookmark_remove";
 			}
@@ -101,6 +123,7 @@ namespace bluemart.Common.ViewCells
 			//productImage.Aspect = Aspect.AspectFit;
 			productImage.HeightRequest = width / 5 * 3;
 			productImage.WidthRequest = width / 5 * 3;
+
 			productImage.Source = ImageSource.FromFile(product.ProductImagePath);
 			mainCellGrid.Children.Add (productImage, 0, 2);
 
@@ -163,7 +186,7 @@ namespace bluemart.Common.ViewCells
 
 			AddTapRecognizers ();
 
-			var frame = new Frame { 
+			var frame = new Frame { 				
 				Padding = 2,
 				OutlineColor = MyDevice.RedColor,
 				BackgroundColor = MyDevice.RedColor,

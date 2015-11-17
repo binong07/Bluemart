@@ -15,7 +15,7 @@ namespace bluemart.MainViews
 		private FavoritesClass mFavoritesModel = new FavoritesClass();
 		private int mRowCount;
 		private List<Product> mProductList = new List<Product>();
-		RootPage mParent;
+		public RootPage mParent;
 		//Grid Grid2;
 		public FavoritesPage (RootPage parent)
 		{
