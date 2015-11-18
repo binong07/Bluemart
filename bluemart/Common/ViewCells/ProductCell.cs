@@ -29,7 +29,7 @@ namespace bluemart.Common.ViewCells
 		public Stream mFavoriteStream;
 		public Stream mRemoveProductStream;
 		public Stream mAddProductStream;
-		public Stream mProductImageStream = new MemoryStream();
+		public Stream mProductImageStream;
 
 		//change PriceLabel
 		//int mQuantity = 0;
@@ -95,7 +95,7 @@ namespace bluemart.Common.ViewCells
 
 			mFavoriteImage = new Image();
 
-			mFavoriteStream = new MemoryStream();									
+			/*mFavoriteStream = new MemoryStream();									
 			if (!bIsFavorite) {								
 				mRootPage.mAddFavoritesImage.Position = 0;
 				mRootPage.mAddFavoritesImage.CopyToAsync(mFavoriteStream);								
@@ -105,7 +105,7 @@ namespace bluemart.Common.ViewCells
 			}
 
 			mFavoriteStream.Position = 0;
-			mFavoriteImage.Source = StreamImageSource.FromStream(() => mFavoriteStream);
+			mFavoriteImage.Source = StreamImageSource.FromStream(() => mFavoriteStream);*/
 
 			insideGrid1.Children.Add(mFavoriteImage,2,0);
 
@@ -121,14 +121,7 @@ namespace bluemart.Common.ViewCells
 			//productImage.Aspect = Aspect.AspectFit;
 			mProductImage.HeightRequest = width / 5 * 3;
 			mProductImage.WidthRequest = width / 5 * 3;
-			var file = mRootPage.mFolder.GetFileAsync (product.ProductImagePath).Result;
-			Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result;
 
-			stream.Position = 0;
-			stream.CopyTo (mProductImageStream);
-			mProductImageStream.Position = 0;
-			stream.Dispose ();
-			mProductImage.Source = StreamImageSource.FromStream (()=>mProductImageStream);
 
 			//mProductImage = file.OpenAsync (FileAccess.ReadAndWrite).Result;
 			//var assembly = typeof(ProductCell).GetTypeInfo().Assembly;
@@ -168,11 +161,11 @@ namespace bluemart.Common.ViewCells
 			mRemoveImage = new Image (){VerticalOptions = LayoutOptions.Center,HorizontalOptions = LayoutOptions.Center};
 			mRemoveImage.Aspect = Aspect.AspectFit;
 
-			mRemoveProductStream = new MemoryStream();
+			/*mRemoveProductStream = new MemoryStream();
 			mRootPage.mRemoveProductImage.Position = 0;
 			mRootPage.mRemoveProductImage.CopyToAsync(mRemoveProductStream);
 			mRemoveProductStream.Position = 0;
-			mRemoveImage.Source = ImageSource.FromStream(() => mRemoveProductStream);
+			mRemoveImage.Source = ImageSource.FromStream(() => mRemoveProductStream);*/
 
 			var removeImageLayout = new RelativeLayout(){
 				HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -196,11 +189,11 @@ namespace bluemart.Common.ViewCells
 			mAddImage = new Image (){VerticalOptions = LayoutOptions.Center,HorizontalOptions = LayoutOptions.Center};
 			mAddImage.Aspect = Aspect.AspectFit;
 
-			mAddProductStream = new MemoryStream();
+			/*mAddProductStream = new MemoryStream();
 			mRootPage.mAddProductImage.Position = 0;
 			mRootPage.mAddProductImage.CopyToAsync(mAddProductStream);
 			mAddProductStream.Position = 0;
-			mAddImage.Source = ImageSource.FromStream(() => mAddProductStream);
+			mAddImage.Source = ImageSource.FromStream(() => mAddProductStream);*/
 
 			var addImageLayout = new RelativeLayout(){
 				HorizontalOptions = LayoutOptions.Fill,
@@ -230,8 +223,66 @@ namespace bluemart.Common.ViewCells
 				Content = mainCellGrid
 			};
 
+			ProduceStreamsAndImages ();
+
 			this.View = frame;
 		}
+
+		public void ProduceStreamsAndImages()
+		{
+			mFavoriteStream = new MemoryStream();									
+			if (!bIsFavorite) {								
+				mRootPage.mAddFavoritesImage.Position = 0;
+				mRootPage.mAddFavoritesImage.CopyToAsync(mFavoriteStream);								
+			} else {
+				mRootPage.mRemoveFavoritesImage.Position = 0;
+				mRootPage.mRemoveFavoritesImage.CopyToAsync(mFavoriteStream);	
+			}
+
+			mFavoriteStream.Position = 0;
+			mFavoriteImage.Source = StreamImageSource.FromStream(() => mFavoriteStream);
+
+			mAddProductStream = new MemoryStream();
+			mRootPage.mAddProductImage.Position = 0;
+			mRootPage.mAddProductImage.CopyToAsync(mAddProductStream);
+			mAddProductStream.Position = 0;
+			mAddImage.Source = ImageSource.FromStream(() => mAddProductStream);
+
+			mRemoveProductStream = new MemoryStream();
+			mRootPage.mRemoveProductImage.Position = 0;
+			mRootPage.mRemoveProductImage.CopyToAsync(mRemoveProductStream);
+			mRemoveProductStream.Position = 0;
+			mRemoveImage.Source = ImageSource.FromStream(() => mRemoveProductStream);
+
+			var file = mRootPage.mFolder.GetFileAsync (mProduct.ProductImagePath).Result;
+			Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result;
+
+			stream.Position = 0;
+			mProductImageStream = new MemoryStream ();
+			stream.CopyTo (mProductImageStream);
+			mProductImageStream.Position = 0;
+			stream.Dispose ();
+			mProductImage.Source = StreamImageSource.FromStream (()=>mProductImageStream);
+		}
+
+		public void ClearStreamsAndImages()
+		{
+			Task.Run(() => c());
+			mFavoriteImage.Source = null;
+			mAddImage.Source = null;
+			mProductImage.Source = null;
+			mRemoveImage.Source = null;
+			GC.Collect ();
+		}
+		private void c()
+		{
+			mAddProductStream.Dispose ();
+			mRemoveProductStream.Dispose ();
+			mFavoriteStream.Dispose ();
+			mProductImageStream.Dispose ();
+		}
+
+
 
 		private void SetRootPage()
 		{
