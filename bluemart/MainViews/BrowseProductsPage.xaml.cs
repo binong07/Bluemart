@@ -5,13 +5,13 @@ using bluemart.Common.Objects;
 using bluemart.Common.ViewCells;
 using Xamarin.Forms;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace bluemart.MainViews
 {
 	public partial class BrowseProductsPage : ContentPage
 	{
 		private Dictionary<string,List<Product>> mProductDictionary;
-		private int mRowCount;
 		private List<BoxView> mBoxViewList;
 		private List<Label> mButtonList;
 		private BoxView mEnabledBoxView;
@@ -22,16 +22,19 @@ namespace bluemart.MainViews
 		public string mCategoryID;
 		public Common.SearchBar mSearchBar;
 		private List<Product> mProductList = new List<Product> ();
-		private int mLoadSize = 10;
+		private int mLoadSize = 20;
 		private int mLastLoadedIndex = 0;
-		private double mTopOfElement = 0.0f;
+		private double mTopOfElement = 3000f;
 		private List<ProductCell> mProductCellList = new List<ProductCell> ();
 
-		public BrowseProductsPage (RootPage parent)
+
+
+		public BrowseProductsPage (Dictionary<string, List<Product>> productDictionary, Category category,RootPage parent)
 		{					
 			InitializeComponent ();
 			mParent = parent;
 			CreationInitialization ();
+			PopulationOfNewProductPage (productDictionary, category);
 		}
 
 		public void CreationInitialization()
@@ -64,7 +67,6 @@ namespace bluemart.MainViews
 			foreach (var product in productDictionary) {
 				count += product.Value.Count;
 			}
-			mRowCount = Convert.ToInt32(Math.Ceiling(count / 2.0f));
 
 
 			PopulateGrid ();
@@ -73,15 +75,36 @@ namespace bluemart.MainViews
 
 		public void ClearContainers()
 		{			
+			/*mPreviousScrollPositionY = 0;
+			mActiveButtonIndex = 0;
+			mLoadSize = 20;
+			mLastLoadedIndex = 0;
+			mTopOfElement = 1000f;*/
+
 			//Clear Product Grid
-			Grid2.Children.Clear ();
-			Grid2.RowDefinitions.Clear ();
-			Grid2.ColumnDefinitions.Clear ();
+
+			//Grid2.
+			//Grid2.Children.Clear ();
+			//Grid2.RowDefinitions.Clear ();
+			//Grid2.ColumnDefinitions.Clear ();
+			//Grid2 = null;
+			//GC.Collect();
 			SubCategoryStackLayout.Children.Clear ();
 			mProductDictionary.Clear ();
 			mBoxViewList.Clear ();
 			mButtonList.Clear ();
 			mCategoryIndexList.Clear ();
+			foreach (var productCell in mProductCellList) {
+				productCell.mAddProductStream.Dispose ();
+				productCell.mRemoveProductStream.Dispose ();
+				productCell.mFavoriteStream.Dispose ();
+				productCell.mProductImageStream.Dispose ();
+
+			}	
+
+			GC.Collect ();
+			mProductCellList.Clear ();
+			mProductList.Clear ();
 		}
 
 		public void  UpdatePriceLabel()
@@ -92,6 +115,7 @@ namespace bluemart.MainViews
 
 		protected override void OnAppearing()
 		{			
+			
 			//UpdatePriceLabel ();
 			//mTopOfElement = Grid2.Children.ElementAt (mLastLoadedIndex-5).Bounds.Top;
 		}
@@ -186,10 +210,13 @@ namespace bluemart.MainViews
 					}
 				}
 
-				if (ProductScrollView.ScrollY >= mTopOfElement) {
+				if ( ProductScrollView.ScrollY >= mTopOfElement ) {											
 					LoadLimitedNumberOfProductCells ();
 					ClearBackwards ();
+					//Task.Run( () => ClearBackwards () );
+					mTopOfElement = Grid2.Children.ElementAt (0).Bounds.Height * ((mLastLoadedIndex-mLoadSize/2)/2);
 				}
+
 
 			}else {
 				if (mActiveButtonIndex != 0) {					
@@ -258,7 +285,6 @@ namespace bluemart.MainViews
 			}
 
 			LoadLimitedNumberOfProductCells ();
-
 			LoadLimitedNumberOfProductCells ();
 		}
 
@@ -266,8 +292,9 @@ namespace bluemart.MainViews
 		{
 			int startIndex = mLastLoadedIndex - 3*mLoadSize;
 			int endIndex = mLastLoadedIndex - 2*mLoadSize;
-
+			//int counter = 0;
 			foreach (var productCell in mProductCellList.Skip(startIndex) ) {
+				
 				if (mProductCellList.IndexOf (productCell) == endIndex)
 					break;
 				
@@ -275,31 +302,42 @@ namespace bluemart.MainViews
 				productCell.mAddProductStream.Dispose ();
 				productCell.mRemoveProductStream.Dispose ();
 				productCell.mFavoriteStream.Dispose ();
-				/*productCell.mAddImage.Source = "";
+				productCell.mAddImage.Source = "";
 				productCell.mRemoveImage.Source = "";
-				productCell.mFavoriteImage.Source = "";*/
+				productCell.mFavoriteImage.Source = "";
 			}
+		}
+
+		private ProductCell GenerateProduct( Grid g, Product p , Page pa )
+		{
+			return new ProductCell (Grid2, p, this);
 		}
 
 		private void LoadLimitedNumberOfProductCells()
 		{
+			int tempLastLoadedIndex = mLastLoadedIndex;
+			mLastLoadedIndex += mLoadSize;
 			
 			foreach (var productPair in mProductDictionary) {
 				var productList = productPair.Value;
-				foreach (var product in productList.Skip(mLastLoadedIndex)) {
+				foreach (var product in productList.Skip(tempLastLoadedIndex)) {
+					int productIndex = mProductList.IndexOf(product);
+					if (productIndex == tempLastLoadedIndex+mLoadSize)
+						break;
 					
+					//ProductCell productCell = Task.Run( () => GenerateProduct(Grid2,product,this)).Result;
 					ProductCell productCell = new ProductCell (Grid2, product, this);
 					mProductCellList.Add (productCell);
-					int productIndex = mProductList.IndexOf(product);
-					if (productIndex == mLastLoadedIndex+mLoadSize)
-						break;
+
+
 					Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);
 				}
-			}
+			}	
 
-			mLastLoadedIndex += mLoadSize;
-			mTopOfElement = Grid2.Children.ElementAt (mLastLoadedIndex-5).Bounds.Top;
+			/*if (mLastLoadedIndex > mLoadSize * 2)
+				ClearBackwards ();*/
 		}
+			
 
 		private void SetGrid2Definitions()
 		{

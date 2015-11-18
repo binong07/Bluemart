@@ -7,6 +7,8 @@ using Xamarin.Forms;
 using bluemart.Common.Utilities;
 using bluemart.Models.Local;
 using System.IO;
+using System.Reflection;
+using PCLStorage;
 
 
 namespace bluemart.Common.ViewCells
@@ -27,9 +29,12 @@ namespace bluemart.Common.ViewCells
 		public Stream mFavoriteStream;
 		public Stream mRemoveProductStream;
 		public Stream mAddProductStream;
+		public Stream mProductImageStream = new MemoryStream();
+
 		//change PriceLabel
 		//int mQuantity = 0;
 		//string mQuantityLabel;
+
 
 		public ProductCell (Grid parentGrid, Product product, Page parent)
 		{		
@@ -116,8 +121,34 @@ namespace bluemart.Common.ViewCells
 			//productImage.Aspect = Aspect.AspectFit;
 			mProductImage.HeightRequest = width / 5 * 3;
 			mProductImage.WidthRequest = width / 5 * 3;
+			var file = mRootPage.mFolder.GetFileAsync (product.ProductImagePath).Result;
+			Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result;
 
-			mProductImage.Source = ImageSource.FromFile(product.ProductImagePath);
+			stream.Position = 0;
+			stream.CopyTo (mProductImageStream);
+			mProductImageStream.Position = 0;
+			stream.Dispose ();
+			mProductImage.Source = StreamImageSource.FromStream (()=>mProductImageStream);
+
+			//mProductImage = file.OpenAsync (FileAccess.ReadAndWrite).Result;
+			//var assembly = typeof(ProductCell).GetTypeInfo().Assembly;
+
+			/*Stream s = new MemoryStream ();
+			mProductImageStream = new MemoryStream ();*/
+
+			//mProductImageStream = assembly.GetManifestResourceStream(product.ProductImagePath);
+			//mProductImageStream = File.
+			//var folder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;
+			/*var folder = mRootFolder.GetFolderAsync(ParseConstants.IMAGE_FOLDER_NAME).Result;
+			var file = folder.GetFileAsync (product.ProductImagePath).Result;
+			mProductImageStream = file.OpenAsync (FileAccess.ReadAndWrite).Result;
+			mProductImageStream.Position = 0;
+			mProductImageStream.CopyTo (s);
+			s.Position = 0;*/
+			//var a = file.OpenAsync ();
+			//var file = folder.GetFileAsync(
+			//mProductImage.Source = StreamImageSource.FromStream (() => s);
+			//mProductImage.Source = ImageSource.FromFile(product.ProductImagePath);
 			mainCellGrid.Children.Add (mProductImage, 0, 2);
 
 			#region row3insidegrid

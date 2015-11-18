@@ -10,6 +10,7 @@ using bluemart.Models.Local;
 using MR.Gestures;
 using System.IO;
 using System.Reflection;
+using PCLStorage;
 
 namespace bluemart.MainViews
 {
@@ -36,7 +37,9 @@ namespace bluemart.MainViews
 		public Stream mRemoveProductImage;
 		public Stream mAddProductImage;
 		//private int mActivePageIndex = 2;
-
+		private static IFolder mRootFolder =  FileSystem.Current.LocalStorage;
+		private static string mRootFolderPath = mRootFolder.Path;
+		public IFolder mFolder;
 		public View mContentGrid;
 
 		public RootPage ()
@@ -49,11 +52,13 @@ namespace bluemart.MainViews
 			mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
 			mRemoveProductImage = assembly.GetManifestResourceStream("bluemart.SavedImages.minus.png");
 			mAddProductImage = assembly.GetManifestResourceStream("bluemart.SavedImages.plus.png");
+			mFolder = mRootFolder.GetFolderAsync(ParseConstants.IMAGE_FOLDER_NAME).Result;
+
 
 			mFooter = Footer;
 			mGrid = Grid1;
 			mBrowseCategoriesPage = new BrowseCategoriesPage (this);
-			mBrowseProductPage = new BrowseProductsPage (this);
+			//mBrowseProductPage = new BrowseProductsPage (this);
 			mSettingsPage = new SettingsPage(this);
 			mFavoritesPage = new FavoritesPage (this);
 			mHistoryPage = new HistoryPage (this);
@@ -116,9 +121,14 @@ namespace bluemart.MainViews
 				SwitchHeaderVisibility (true);
 
 				if (mBrowseProductPage != null) {
-					mBrowseProductPage.ClearContainers ();
+			//		mBrowseProductPage.ClearContainers ();
 
-				//	mBrowseProductPage = null;
+			//		mBrowseProductPage = null;
+					mBrowseProductPage.ClearContainers();
+					mBrowseProductPage.Content = null;
+					mBrowseProductPage = null;
+					GC.Collect ();
+					//GC.GetTotalMemory (true);
 				}
 
 				mBrowseCategoriesPage.RefreshSearchText ();
@@ -171,9 +181,11 @@ namespace bluemart.MainViews
 			Footer.SetLabelProperties ();
 			SwitchHeaderVisibility (false);
 			mCurrentPageParent = "BrowseCategories";
+
+			//mBrowseProductPage.PopulationOfNewProductPage (productDictionary, category);
+
+			mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
 			SwitchContentGrid (mBrowseProductPage.Content);
-			mBrowseProductPage.PopulationOfNewProductPage (productDictionary, category);
-			//mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
 
 		}
 
