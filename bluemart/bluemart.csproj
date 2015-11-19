@@ -119,6 +119,7 @@
     <Compile Include="Common\ViewCells\AddressCell.cs" />
     <Compile Include="Common\ExtendedMap.cs" />
     <Compile Include="Common\HelperDataTypes.cs" />
+    <Compile Include="Common\ViewCells\TestCell.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -320,5 +321,6 @@
     <EmbeddedResource Include="SavedImages\bookmark_remove.png" />
     <EmbeddedResource Include="SavedImages\minus.png" />
     <EmbeddedResource Include="SavedImages\plus.png" />
+    <EmbeddedResource Include="SavedImages\border.png" />
   </ItemGroup>
 </Project>

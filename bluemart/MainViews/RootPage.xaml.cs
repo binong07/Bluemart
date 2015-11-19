@@ -36,6 +36,7 @@ namespace bluemart.MainViews
 		public Stream mRemoveFavoritesImage;
 		public Stream mRemoveProductImage;
 		public Stream mAddProductImage;
+		public Stream mBorderImage;
 		//private int mActivePageIndex = 2;
 		private static IFolder mRootFolder =  FileSystem.Current.LocalStorage;
 		private static string mRootFolderPath = mRootFolder.Path;
@@ -52,6 +53,7 @@ namespace bluemart.MainViews
 			mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
 			mRemoveProductImage = assembly.GetManifestResourceStream("bluemart.SavedImages.minus.png");
 			mAddProductImage = assembly.GetManifestResourceStream("bluemart.SavedImages.plus.png");
+			mBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.border.png");
 			mFolder = mRootFolder.GetFolderAsync(ParseConstants.IMAGE_FOLDER_NAME).Result;
 
 

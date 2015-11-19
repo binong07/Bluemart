@@ -67,8 +67,8 @@ namespace bluemart.Common.ViewCells
 		void LoadProductsPage(string categoryID,RootPage parent)
 		{			
 			
-			//PopulateProducts ();
-			PopulateProductsTest();
+			PopulateProducts ();
+			//PopulateProductsTest();
 			parent.LoadProductsPage(mProductDictionary,mCategory);
 		}
 

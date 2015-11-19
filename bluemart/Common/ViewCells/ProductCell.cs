@@ -19,6 +19,7 @@ namespace bluemart.Common.ViewCells
 		public Image mRemoveImage;
 		public Image mFavoriteImage;
 		public Image mProductImage;
+		public Image mBorderImage;
 		private Label mProductNumberLabel;
 		private Product mProduct;
 		private FavoritesClass mFavoriteModel;
@@ -30,6 +31,9 @@ namespace bluemart.Common.ViewCells
 		public Stream mRemoveProductStream;
 		public Stream mAddProductStream;
 		public Stream mProductImageStream;
+		public Stream mBorderStream;
+		private Grid mMainCellGrid;
+		private Frame mFrame;
 
 		//change PriceLabel
 		//int mQuantity = 0;
@@ -62,22 +66,24 @@ namespace bluemart.Common.ViewCells
 
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
 
-			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.StartAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.White, Padding = 0, RowSpacing = 0, ColumnSpacing =0 };
+			var mainRelativeLayout = new RelativeLayout(){
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Padding = 0
+			};
 
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label))*2 });
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto });
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto });
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Small,typeof(Label))*2 });
-			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  width });
+			mMainCellGrid = new Grid (){VerticalOptions = LayoutOptions.StartAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.White, Padding = 0, RowSpacing = 0, ColumnSpacing =0 };
+
+			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label))*2 });
+			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto });
+			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto });
+			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Small,typeof(Label))*2 });
+			mMainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  width });
 
 			Label productNameLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)), HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center , TextColor = MyDevice.RedColor, HorizontalTextAlignment=TextAlignment.Center };
 
 			productNameLabel.Text = product.Name;
-			mainCellGrid.Children.Add (productNameLabel, 0, 0);
-
-
-
-			//mainCellGrid.Children.Add(mFavoriteImage,0,1);
+			mMainCellGrid.Children.Add (productNameLabel, 0, 0);
+							
 
 			#region row1insidegrid
 			Grid insideGrid1 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand,Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
@@ -93,56 +99,22 @@ namespace bluemart.Common.ViewCells
 			productPriceLabel.Text = "AED " + product.Price.ToString();
 			insideGrid1.Children.Add(productPriceLabel,1,0);
 
-			mFavoriteImage = new Image();
-
-			/*mFavoriteStream = new MemoryStream();									
-			if (!bIsFavorite) {								
-				mRootPage.mAddFavoritesImage.Position = 0;
-				mRootPage.mAddFavoritesImage.CopyToAsync(mFavoriteStream);								
-			} else {
-				mRootPage.mRemoveFavoritesImage.Position = 0;
-				mRootPage.mRemoveFavoritesImage.CopyToAsync(mFavoriteStream);	
-			}
-
-			mFavoriteStream.Position = 0;
-			mFavoriteImage.Source = StreamImageSource.FromStream(() => mFavoriteStream);*/
-
+			mFavoriteImage = new Image();		
 			insideGrid1.Children.Add(mFavoriteImage,2,0);
 
 			Label productQuantityLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)), HorizontalOptions = LayoutOptions.End, VerticalOptions = LayoutOptions.Start, TextColor = MyDevice.RedColor };
 			productQuantityLabel.Text = product.Quantity;
 			insideGrid1.Children.Add(productQuantityLabel,3,0);
 
-			mainCellGrid.Children.Add( insideGrid1, 0,1);
+			mMainCellGrid.Children.Add( insideGrid1, 0,1);
 			#endregion
 
 
 			mProductImage = new Image ();
-			//productImage.Aspect = Aspect.AspectFit;
 			mProductImage.HeightRequest = width / 5 * 3;
 			mProductImage.WidthRequest = width / 5 * 3;
 
-
-			//mProductImage = file.OpenAsync (FileAccess.ReadAndWrite).Result;
-			//var assembly = typeof(ProductCell).GetTypeInfo().Assembly;
-
-			/*Stream s = new MemoryStream ();
-			mProductImageStream = new MemoryStream ();*/
-
-			//mProductImageStream = assembly.GetManifestResourceStream(product.ProductImagePath);
-			//mProductImageStream = File.
-			//var folder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;
-			/*var folder = mRootFolder.GetFolderAsync(ParseConstants.IMAGE_FOLDER_NAME).Result;
-			var file = folder.GetFileAsync (product.ProductImagePath).Result;
-			mProductImageStream = file.OpenAsync (FileAccess.ReadAndWrite).Result;
-			mProductImageStream.Position = 0;
-			mProductImageStream.CopyTo (s);
-			s.Position = 0;*/
-			//var a = file.OpenAsync ();
-			//var file = folder.GetFileAsync(
-			//mProductImage.Source = StreamImageSource.FromStream (() => s);
-			//mProductImage.Source = ImageSource.FromFile(product.ProductImagePath);
-			mainCellGrid.Children.Add (mProductImage, 0, 2);
+			mMainCellGrid.Children.Add (mProductImage, 0, 2);
 
 			#region row3insidegrid
 			Grid insideGrid2 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
@@ -153,7 +125,7 @@ namespace bluemart.Common.ViewCells
 			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 2 });//{ Width = ParentWidth - ((ParentHeight - ParentWidth) / 3 * 2)}
 			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 4 });
 			insideGrid2.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding/2 });
-			insideGrid2.RowDefinitions.Add( new RowDefinition() { Height = 2*Device.GetNamedSize(NamedSize.Small,typeof(Label)) } );
+			insideGrid2.RowDefinitions.Add( new RowDefinition() { Height = 2*Device.GetNamedSize(NamedSize.Small,typeof(Label)) } );				
 
 
 
@@ -161,11 +133,6 @@ namespace bluemart.Common.ViewCells
 			mRemoveImage = new Image (){VerticalOptions = LayoutOptions.Center,HorizontalOptions = LayoutOptions.Center};
 			mRemoveImage.Aspect = Aspect.AspectFit;
 
-			/*mRemoveProductStream = new MemoryStream();
-			mRootPage.mRemoveProductImage.Position = 0;
-			mRootPage.mRemoveProductImage.CopyToAsync(mRemoveProductStream);
-			mRemoveProductStream.Position = 0;
-			mRemoveImage.Source = ImageSource.FromStream(() => mRemoveProductStream);*/
 
 			var removeImageLayout = new RelativeLayout(){
 				HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -189,12 +156,6 @@ namespace bluemart.Common.ViewCells
 			mAddImage = new Image (){VerticalOptions = LayoutOptions.Center,HorizontalOptions = LayoutOptions.Center};
 			mAddImage.Aspect = Aspect.AspectFit;
 
-			/*mAddProductStream = new MemoryStream();
-			mRootPage.mAddProductImage.Position = 0;
-			mRootPage.mAddProductImage.CopyToAsync(mAddProductStream);
-			mAddProductStream.Position = 0;
-			mAddImage.Source = ImageSource.FromStream(() => mAddProductStream);*/
-
 			var addImageLayout = new RelativeLayout(){
 				HorizontalOptions = LayoutOptions.Fill,
 				Padding = 0
@@ -208,24 +169,51 @@ namespace bluemart.Common.ViewCells
 
 			insideGrid2.Children.Add (addImageLayout,3,0);
 
-			mainCellGrid.Children.Add( insideGrid2, 0, 3 );
+			mMainCellGrid.Children.Add( insideGrid2, 0, 3 );
 			#endregion
 
 			AddTapRecognizers ();
 
-			var frame = new Frame { 				
+			/*mFrame = new Frame { 				
 				Padding = 2,
 				OutlineColor = MyDevice.RedColor,
 				BackgroundColor = MyDevice.RedColor,
 				VerticalOptions = LayoutOptions.Start,
 				//HeightRequest = mainCellGrid.Height,
 				//WidthRequest = mainCellGrid.Width,
-				Content = mainCellGrid
-			};
+				Content = mMainCellGrid
+			};*/
+
+
+
+			mainRelativeLayout.Children.Add(mMainCellGrid, Constraint.RelativeToParent(p => {
+				return 0;	
+			}));
+
+			mBorderImage = new Image (){VerticalOptions = LayoutOptions.CenterAndExpand,HorizontalOptions = LayoutOptions.CenterAndExpand};
+			mBorderImage.Aspect = Aspect.Fill;
+			/*mainRelativeLayout.Children.Add(mMainCellGrid, Constraint.RelativeToParent(p => {
+				return 0;	
+			}));*/
+
+			mainRelativeLayout.Children.Add (mBorderImage, 
+				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
+					return sibling.Bounds.Left-3;
+				}),
+				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
+					return sibling.Bounds.Top-3;
+				}),
+				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
+					return width+6;
+				}),
+				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
+					return sibling.Height+6;
+				})
+			);
 
 			ProduceStreamsAndImages ();
 
-			this.View = frame;
+			this.View = mainRelativeLayout;
 		}
 
 		public void ProduceStreamsAndImages()
@@ -254,35 +242,70 @@ namespace bluemart.Common.ViewCells
 			mRemoveProductStream.Position = 0;
 			mRemoveImage.Source = ImageSource.FromStream(() => mRemoveProductStream);
 
+			mBorderStream = new MemoryStream();
+			mRootPage.mBorderImage.Position = 0;
+			mRootPage.mBorderImage.CopyToAsync(mBorderStream);
+			mBorderStream.Position = 0;
+			mBorderImage.Source = ImageSource.FromStream(() => mBorderStream);
+
 			var file = mRootPage.mFolder.GetFileAsync (mProduct.ProductImagePath).Result;
-			Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result;
+			Stream stream = new MemoryStream();
+			mProductImageStream = new MemoryStream ();
+			try
+			{
+				stream = file.OpenAsync (FileAccess.ReadAndWrite).Result;
+			}
+			catch
+			{
+				//ClearStreamsAndImages ();
+				//ProduceStreamsAndImages ();
+			}
 
 			stream.Position = 0;
-			mProductImageStream = new MemoryStream ();
 			stream.CopyTo (mProductImageStream);
-			mProductImageStream.Position = 0;
 			stream.Dispose ();
+			stream = null;
+
+			mProductImageStream.Position = 0;
+
 			mProductImage.Source = StreamImageSource.FromStream (()=>mProductImageStream);
 		}
 
 		public void ClearStreamsAndImages()
 		{
-			Task.Run(() => c());
+			//Task.Run(() => c());
+			try
+			{
+				mAddProductStream.Dispose ();
+				mRemoveProductStream.Dispose ();
+				mFavoriteStream.Dispose ();
+				mProductImageStream.Dispose ();
+				mBorderStream.Dispose ();
+			}
+			catch {
+				
+			}
+			try{
+				//Device.BeginInvokeOnMainThread (() => c ());
+				mFavoriteImage.Source = null;
+				mAddImage.Source = null;
+				mProductImage.Source = null;
+				mRemoveImage.Source = null;
+				mBorderImage.Source = null;
+			}
+			catch{
+				
+			}
+		}
+
+		private void c()
+		{
 			mFavoriteImage.Source = null;
 			mAddImage.Source = null;
 			mProductImage.Source = null;
 			mRemoveImage.Source = null;
-			GC.Collect ();
+			mBorderImage.Source = null;
 		}
-		private void c()
-		{
-			mAddProductStream.Dispose ();
-			mRemoveProductStream.Dispose ();
-			mFavoriteStream.Dispose ();
-			mProductImageStream.Dispose ();
-		}
-
-
 
 		private void SetRootPage()
 		{
