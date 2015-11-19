@@ -42,19 +42,9 @@ namespace bluemart.Common.ViewCells
 			mMainCellGrid.Children.Add (productNameLabel, 0, 0);
 
 
-			mFrame = new Frame { 				
-				Padding = 2,
-				OutlineColor = MyDevice.RedColor,
-				BackgroundColor = MyDevice.RedColor,
-				VerticalOptions = LayoutOptions.Start,
-				//HeightRequest = mainCellGrid.Height,
-				//WidthRequest = mainCellGrid.Width,
-				Content = mMainCellGrid
-			};
-
 			//ProduceStreamsAndImages ();
 
-			this.View = mFrame;
+			this.View = mMainCellGrid;
 			//this.View = mainCellGrid;
 		}
 

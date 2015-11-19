@@ -22,13 +22,13 @@ namespace bluemart.MainViews
 		public string mCategoryID;
 		public Common.SearchBar mSearchBar;
 		private List<Product> mProductList = new List<Product> ();
-		private int mLoadSize = 5;
+		private int mLoadSize = 20;
 		private int mLastLoadedIndex = 0;
 		private double mScrollDownY = 0f;
 		private double mScrollUpY = 0f;
 		private List<ProductCell> mProductCellList = new List<ProductCell> ();
-		private int mInitialBlockNumber = 9;
-
+		private int mInitialBlockNumber = 3;
+		private List<ProductCell> mTempProductCellList = new List<ProductCell> ();
 
 
 		public BrowseProductsPage (Dictionary<string, List<Product>> productDictionary, Category category,RootPage parent)
@@ -296,21 +296,7 @@ namespace bluemart.MainViews
 
 			}
 
-			Task a = new Task (LoadLimitedNumberOfProductCellsAndClearBackwards);
-			a.Start ();
-
-			for (int i = 0; i < mInitialBlockNumber - 1; i++) {
-				Task.WaitAll ();
-				a = new Task (LoadLimitedNumberOfProductCellsAndClearBackwards);
-				a.Start ();
-			}
-
-			//b.Wait (a);
-			/*for (int i = 0; i < mInitialBlockNumber; i++)
-				LoadLimitedNumberOfProductCellsAndClearBackwards ();*/
-			//Task a = new Task(LoadLimitedNumberOfProductCellsAndClearBackwards);
-			//a.Start ();
-			//Task b = a.ContinueWith//h (()=>LoadLimitedNumberOfProductCellsAndClearBackwards());
+			LoadLimitedNumberOfProductCellsAndClearBackwards (mInitialBlockNumber);		
 		}
 
 		private void ClearForward()
@@ -328,7 +314,7 @@ namespace bluemart.MainViews
 			}
 		}
 
-		private  void ClearBackwards()
+		private void ClearBackwards()
 		{			
 			int startIndex = mLastLoadedIndex - (mInitialBlockNumber+1)*mLoadSize;
 			int endIndex = mLastLoadedIndex - mInitialBlockNumber*mLoadSize;
@@ -362,16 +348,10 @@ namespace bluemart.MainViews
 		{
 			int tempLastLoadedIndex = mLastLoadedIndex;
 			mLastLoadedIndex += mLoadSize;
-
-			/*var tempList = new List<Product> ();
-			foreach (var productPair in mProductDictionary) {
-				var productList = productPair.Value;
-				foreach (var product in productList) {
-					tempList.Add (product);
-				}
-			}*/
+			mTempProductCellList.Clear ();
 
 			foreach (var product in mProductList.Skip(tempLastLoadedIndex)) {
+				System.Diagnostics.Debug.WriteLine ("22222222");
 				int productIndex = mProductList.IndexOf(product);
 
 				if (productIndex == tempLastLoadedIndex+mLoadSize)
@@ -379,20 +359,9 @@ namespace bluemart.MainViews
 
 				ProductCell productCell = new ProductCell(Grid2,product,this);
 				mProductCellList.Add (productCell);
-				Device.BeginInvokeOnMainThread (() => Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2));
+				mTempProductCellList.Add (productCell);
+				Device.BeginInvokeOnMainThread (()=>Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2));
 			}
-			/*foreach (var productPair in mProductDictionary) {
-				var productList = productPair.Value;
-				foreach (var product in productList.Skip(tempLastLoadedIndex)) {
-					int productIndex = mProductList.IndexOf(product);
-					if (productIndex == tempLastLoadedIndex+mLoadSize)
-						break;
-										
-					ProductCell productCell = new ProductCell(Grid2,product,this);
-					mProductCellList.Add (productCell);
-					Device.BeginInvokeOnMainThread (() => Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2));
-				}
-			}*/
 		}
 
 		private async void LoadLimitedNumberOfProductCellsAndClearForward()
@@ -403,12 +372,15 @@ namespace bluemart.MainViews
 
 
 
-		private async void LoadLimitedNumberOfProductCellsAndClearBackwards()
+		private async void LoadLimitedNumberOfProductCellsAndClearBackwards(int blockCount=1)
 		{
-			await Task.Run(() => LoadLimitedNumberOfProductCells());
+			for (int i = 0; i < blockCount; i++) {
+				await Task.Run (() => LoadLimitedNumberOfProductCells ());
+				foreach( var productCell in mTempProductCellList )
+					await Task.Run (() => productCell.ProduceStreamsAndImages ());
+			}
 
 			if( mLastLoadedIndex > mLoadSize*mInitialBlockNumber )
-				//await Task.Run(() => ClearBackwards());
 				ClearBackwards();
 		}
 			
@@ -424,6 +396,14 @@ namespace bluemart.MainViews
 			Grid2.Padding = new Thickness (MyDevice.ViewPadding / 2, 0, 0, 0);
 			Grid2.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-Grid2.ColumnSpacing-MyDevice.ViewPadding)/2});
 			Grid2.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-Grid2.ColumnSpacing-MyDevice.ViewPadding)/2}); 
+		}
+
+		private void AddnewRowDefinitions(int count)
+		{
+			for (int i = 0; i < count; i++) 
+			{
+				Grid2.RowDefinitions.Add (new RowDefinition ());
+			}
 		}
 
 
