@@ -215,6 +215,39 @@ namespace bluemart.Common.ViewCells
 			this.View = mainRelativeLayout;
 		}
 
+		public void ReproduceStreamsAndImages()
+		{
+			mBorderStream = new MemoryStream();
+			mRootPage.mBorderImage.Position = 0;
+			mRootPage.mBorderImage.CopyToAsync(mBorderStream);
+			mBorderStream.Position = 0;
+
+
+			var file = mRootPage.mFolder.GetFileAsync (mProduct.ProductImagePath).Result;
+			Stream stream = new MemoryStream();
+			mProductImageStream = new MemoryStream ();
+			try
+			{
+				stream = file.OpenAsync (FileAccess.ReadAndWrite).Result;
+			}
+			catch
+			{
+				//ClearStreamsAndImages ();
+				//ProduceStreamsAndImages ();
+			}
+
+			stream.Position = 0;
+			stream.CopyTo (mProductImageStream);
+			stream.Dispose ();
+			stream = null;
+
+			mProductImageStream.Position = 0;
+			//Device.BeginInvokeOnMainThread (() =>  {
+			mBorderImage.Source = StreamImageSource.FromStream(() => mBorderStream);
+			mProductImage.Source = StreamImageSource.FromStream (()=>mProductImageStream);
+			//});
+		}
+
 		public async void ProduceStreamsAndImages()
 		{
 			mFavoriteStream = new MemoryStream();									
@@ -266,41 +299,22 @@ namespace bluemart.Common.ViewCells
 			stream = null;
 
 			mProductImageStream.Position = 0;
-			Device.BeginInvokeOnMainThread (() =>  {
+			//Device.BeginInvokeOnMainThread (() =>  {
 				mFavoriteImage.Source =  StreamImageSource.FromStream(() => mFavoriteStream);
 				mAddImage.Source = StreamImageSource.FromStream(() => mAddProductStream);
 				mRemoveImage.Source = StreamImageSource.FromStream(() => mRemoveProductStream);
 				mBorderImage.Source = StreamImageSource.FromStream(() => mBorderStream);
 				mProductImage.Source = StreamImageSource.FromStream (()=>mProductImageStream);
-			});
+			//});
 		}
 
 		public void ClearStreamsAndImages()
 		{
-			//Task.Run(() => c());
-			try
-			{
-				mAddProductStream.Dispose ();
-				mRemoveProductStream.Dispose ();
-				mFavoriteStream.Dispose ();
+			
 				mProductImageStream.Dispose ();
 				mBorderStream.Dispose ();
-			}
-			catch {
-				
-			}
-			try{
-				Device.BeginInvokeOnMainThread ( () => {
-					mFavoriteImage.Source = null;
-					mAddImage.Source = null;
-					mProductImage.Source = null;
-					mRemoveImage.Source = null;
-					mBorderImage.Source = null;	
-				});
-			}
-			catch{
-				
-			}
+
+			
 		}
 
 		private void c()
