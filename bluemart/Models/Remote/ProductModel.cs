@@ -62,35 +62,46 @@ namespace bluemart.Models.Remote
 
 		public static void GetProductAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
 		{		
+			
+
 			var productQuery = ParseObject.GetQuery (ParseConstants.PRODUCTS_CLASS_NAME).
 				WhereGreaterThan(ParseConstants.UPDATEDATE_NAME,localUpdate).
 				WhereLessThanOrEqualTo(ParseConstants.UPDATEDATE_NAME,remoteUpdate);
 
-			var productObjects = productQuery.Limit(1000).FindAsync ().Result;
+			var productCount = productQuery.CountAsync().Result;
 
-			List<ProductClass> tempList = new List<ProductClass> ();
-			foreach (var productObject in productObjects) {
-				ProductClass tempProduct = new ProductClass ();
-				tempProduct.objectId = productObject.ObjectId;
-				tempProduct.Name = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_NAME);
-				tempProduct.ImageName = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_IMAGENAME);
-				tempProduct.ImageID = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_IMAGEID);
-				tempProduct.CategoryId = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_CATEGORYID);
-				tempProduct.Price = new Decimal(productObject.Get<double> (ParseConstants.PRODUCT_ATTRIBUTE_PRICE));
-				tempProduct.Quantity = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_QUANTITY);
-				var storeList = productObject.Get<IEnumerable<object>> (ParseConstants.PRODUCT_ATTRIBUTE_STORES).Cast<Int64>().ToList ();
+			int queryLimit = 1000;
 
-				foreach (Int64 store in storeList ) {
-					tempProduct.Stores += store.ToString ();
+			for (int i = 0; i < productCount; i += queryLimit) {
+				var productObjects = productQuery.Limit(queryLimit).Skip(i).FindAsync ().Result;
 
-					if (store != storeList.Last ())
-						tempProduct.Stores += ",";					
+				List<ProductClass> tempList = new List<ProductClass> ();
+				foreach (var productObject in productObjects) {
+					ProductClass tempProduct = new ProductClass ();
+					tempProduct.objectId = productObject.ObjectId;
+					tempProduct.Name = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_NAME);
+					tempProduct.ImageName = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_IMAGENAME);
+					tempProduct.ImageID = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_IMAGEID);
+					tempProduct.CategoryId = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_CATEGORYID);
+					tempProduct.Price = new Decimal(productObject.Get<double> (ParseConstants.PRODUCT_ATTRIBUTE_PRICE));
+					tempProduct.Quantity = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_QUANTITY);
+					var storeList = productObject.Get<IEnumerable<object>> (ParseConstants.PRODUCT_ATTRIBUTE_STORES).Cast<Int64>().ToList ();
+
+					foreach (Int64 store in storeList ) {
+						tempProduct.Stores += store.ToString ();
+
+						if (store != storeList.Last ())
+							tempProduct.Stores += ",";					
+					}
+
+					tempList.Add (tempProduct);
 				}
 
-				tempList.Add (tempProduct);
+				mProductClass.AddProduct (tempList);	
+				
 			}
 
-			mProductClass.AddProduct (tempList);	
+
 		}
 
 		public static void FetchProducts()

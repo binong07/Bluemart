@@ -11,6 +11,7 @@ using MR.Gestures;
 using System.IO;
 using System.Reflection;
 using PCLStorage;
+using System.Linq;
 
 namespace bluemart.MainViews
 {
@@ -22,6 +23,7 @@ namespace bluemart.MainViews
 		HistoryPage mHistoryPage;
 		TrackPage mTrackPage;
 		public BrowseProductsPage mBrowseProductPage;
+		public SearchPage mSearchPage;
 		public AddAddressPage mAddAddressPage;
 		public CartPage mCartPage;
 		public string mCurrentPage = "";
@@ -32,27 +34,63 @@ namespace bluemart.MainViews
 		public MainMenuHeader mRootHeader;
 		private List<string> mPageList;
 
-		public Stream mAddFavoritesImage;
-		public Stream mRemoveFavoritesImage;
-		public Stream mRemoveProductImage;
-		public Stream mAddProductImage;
+		//public Stream mAddFavoritesImage;
+		//public Stream mRemoveFavoritesImage;
 		public Stream mBorderImage;
 		//private int mActivePageIndex = 2;
 		private static IFolder mRootFolder =  FileSystem.Current.LocalStorage;
 		private static string mRootFolderPath = mRootFolder.Path;
 		public IFolder mFolder;
 		public View mContentGrid;
-
+		private double mGrid1Height;
+		private Xamarin.Forms.Image mCartBackgroundImage;
+		public Xamarin.Forms.Label mPriceLabel;
 		public RootPage ()
 		{
 			InitializeComponent ();
+
+			mCartBackgroundImage = new Xamarin.Forms.Image () {
+				Source = "CartBackground",
+				Aspect = Aspect.Fill
+			};
+					
+
+			mCartBackgroundImage.GestureRecognizers.Add (new TapGestureRecognizer());
+
+			RelativeLayout1.Children.Add (mCartBackgroundImage, 
+				Constraint.RelativeToView (Grid1, (parent, sibling) => {
+					return sibling.Bounds.Right - mCartBackgroundImage.Width;
+				}),
+				Constraint.RelativeToView (Grid1, (parent, sibling) => {
+					return sibling.Bounds.Bottom  - MyDevice.ScreenHeight / 14 - MyDevice.ScreenHeight / 28;
+				}),
+				Constraint.Constant(MyDevice.ScreenWidth*2/5+5),
+				Constraint.Constant(MyDevice.ScreenHeight / 28)
+			);
+
+			mPriceLabel = new Xamarin.Forms.Label () {
+				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Xamarin.Forms.Label)),
+				Text = "0",
+				TextColor = Color.White,
+				BackgroundColor = Color.Transparent,
+				HorizontalTextAlignment = TextAlignment.Start,
+				HorizontalOptions = LayoutOptions.Start
+			};
+
+			RelativeLayout1.Children.Add (mPriceLabel, 
+				Constraint.RelativeToView (mCartBackgroundImage, (parent, sibling) => {
+					return sibling.Bounds.Center.X + 15;
+				}),
+				Constraint.RelativeToView (mCartBackgroundImage, (parent, sibling) => {
+					return sibling.Bounds.Top + 2;
+				})
+			);
+
 			SwitchHeaderVisibility (true);
 
 			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
-			mAddFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_add.png");
-			mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
-			mRemoveProductImage = assembly.GetManifestResourceStream("bluemart.SavedImages.minus.png");
-			mAddProductImage = assembly.GetManifestResourceStream("bluemart.SavedImages.plus.png");
+			//mAddFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_add.png");
+			//mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
 			mBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.border.png");
 			mFolder = mRootFolder.GetFolderAsync(ParseConstants.IMAGE_FOLDER_NAME).Result;
 
@@ -84,20 +122,26 @@ namespace bluemart.MainViews
 				indexOfCurrentPage = ( indexOfCurrentPage + 1 ) % mPageList.Count;
 				//SwitchTab( mPageList[indexOfCurrentPage] );
 			};
+
+
 		}			
 
 		private void SetGrid1Definitions()
-		{
+		{			
 			Grid1.BackgroundColor = MyDevice.RedColor;
 			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 12;
 			Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 14;
+
 		}
 
 		private void SwitchContentGrid(View content)
-		{
+		{			
+			mGrid1Height = Grid1.Height;
 			Grid1.Children.Remove(mContentGrid);
 			mContentGrid = content;
+
 			Grid1.Children.Add(mContentGrid,0,1);
+			Grid1.HeightRequest = mGrid1Height;
 		}	
 		protected override bool OnBackButtonPressed ()
 		{
@@ -123,14 +167,10 @@ namespace bluemart.MainViews
 				SwitchHeaderVisibility (true);
 
 				if (mBrowseProductPage != null) {
-			//		mBrowseProductPage.ClearContainers ();
-
-			//		mBrowseProductPage = null;
 					mBrowseProductPage.ClearContainers();
 					mBrowseProductPage.Content = null;
 					mBrowseProductPage = null;
 					GC.Collect ();
-					//GC.GetTotalMemory (true);
 				}
 
 				mBrowseCategoriesPage.RefreshSearchText ();
@@ -191,6 +231,15 @@ namespace bluemart.MainViews
 
 		}
 
+		public void LoadSearchPage(string searchString,string categoryId = "")
+		{
+			mCurrentPage = "";
+			Footer.SetLabelProperties ();
+			SwitchHeaderVisibility (true);
+			mSearchPage = new SearchPage (searchString, categoryId, this);
+			SwitchContentGrid (mSearchPage.Content);
+		}
+
 		public void LoadAddAddress(AddressClass address = null)
 		{
 			mCurrentPage = "";
@@ -207,7 +256,6 @@ namespace bluemart.MainViews
 			SwitchHeaderVisibility (true);
 			Footer.SetLabelProperties ();
 			mFooter.ChangeColorOfLabel (mFooter.mCartLabel);
-			mBrowseCategoriesPage.mSearchBar.mSearchEntry.Unfocus ();
 			SwitchContentGrid (mCartPage.Content);
 			mCartPage.PrintDictionaryContents ();
 		}
@@ -225,13 +273,7 @@ namespace bluemart.MainViews
 				
 		}
 
-		public void LoadSearchPage(string searchString,string categoryId = "")
-		{
-			mCurrentPage = "";
-			Footer.SetLabelProperties ();
-			SwitchHeaderVisibility (true);
-			SwitchContentGrid ((new SearchPage (searchString,categoryId,this)).Content);
-		}
+
 
 		public void RemoveFooter()
 		{
@@ -240,7 +282,7 @@ namespace bluemart.MainViews
 		}
 		public void AddFooter()
 		{
-			Grid1.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenHeight / 10 });
+			Grid1.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenHeight / 14 });
 			Grid1.Children.Add (mFooter,0,2);
 		}
 	}

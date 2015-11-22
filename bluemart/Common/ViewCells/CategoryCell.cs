@@ -40,7 +40,7 @@ namespace bluemart.Common.ViewCells
 			var tapGestureRecognizer = new TapGestureRecognizer ();
 			tapGestureRecognizer.Tapped += async (sender, e) => {
 
-				if ( parent.mBrowseCategoriesPage.mSearchBar.mSearchEntry.IsFocused )
+				if ( parent.mRootHeader.mSearchEntry.IsFocused )
 					return;
 
 				mainCellGrid.Opacity = 0.5f;
@@ -65,8 +65,7 @@ namespace bluemart.Common.ViewCells
 
 
 		void LoadProductsPage(string categoryID,RootPage parent)
-		{			
-			
+		{						
 			PopulateProducts ();
 			//PopulateProductsTest();
 			parent.LoadProductsPage(mProductDictionary,mCategory);

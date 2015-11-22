@@ -20,16 +20,17 @@ namespace bluemart.MainViews
 		private int mActiveButtonIndex = 0;
 		public RootPage mParent;
 		public string mCategoryID;
-		public Common.SearchBar mSearchBar;
 		private List<Product> mProductList = new List<Product> ();
-		private int mLoadSize;
+		private int mLoadSize = 80;
 		private int mLastLoadedIndex = 0;
-		private int mEndIndex = 0;
-		private double mScrollDownY = 0f;
-		private double mScrollUpY = 0f;
-		private List<ProductCell> mProductCellList = new List<ProductCell> ();
+		private int mInitialLoadSize = 8;
 
-		private List<ProductCell> mTempProductCellList = new List<ProductCell> ();
+		private List<ProductCell> mProductCellList = new List<ProductCell> ();
+		private Queue<ProductCell> mTrashProductCellQueue = new Queue<ProductCell>();
+		private Queue<ProductCell> mPopulaterProductCellQueue = new Queue<ProductCell> ();
+		private Queue<ProductCell> mManagerProductCellQueue = new Queue<ProductCell> ();
+
+
 		static readonly Object _ListLock = new Object();
 
 		public BrowseProductsPage (Dictionary<string, List<Product>> productDictionary, Category category,RootPage parent)
@@ -43,8 +44,6 @@ namespace bluemart.MainViews
 		public void CreationInitialization()
 		{
 			NavigationPage.SetHasNavigationBar (this, false);
-			mSearchBar = SearchBar;
-			SearchBar.mParent = mParent;
 			mBoxViewList = new List<BoxView> ();
 			mButtonList = new List<Label> ();
 			mCategoryIndexList = new List<int> ();
@@ -61,7 +60,7 @@ namespace bluemart.MainViews
 
 			if (mProductDictionary.Count <= 1) {
 				ScrollView1.IsEnabled = false;
-				Grid1.RowDefinitions [1].Height = 0;
+				Grid1.RowDefinitions [0].Height = 0;
 				ScrollView1.IsVisible = false;
 			}
 
@@ -80,20 +79,7 @@ namespace bluemart.MainViews
 
 		public void ClearContainers()
 		{			
-			/*mPreviousScrollPositionY = 0;
-			mActiveButtonIndex = 0;
-			mLoadSize = 20;
-			mLastLoadedIndex = 0;
-			mTopOfElement = 1000f;*/
-
-			//Clear Product Grid
-
-			//Grid2.
-			//Grid2.Children.Clear ();
-			//Grid2.RowDefinitions.Clear ();
-			//Grid2.ColumnDefinitions.Clear ();
-			//Grid2 = null;
-			//GC.Collect();
+			
 			SubCategoryStackLayout.Children.Clear ();
 			mProductDictionary.Clear ();
 			mBoxViewList.Clear ();
@@ -101,32 +87,31 @@ namespace bluemart.MainViews
 			mCategoryIndexList.Clear ();
 			foreach (var productCell in mProductCellList) {
 				productCell.ClearStreamsAndImages ();
-				//GC.Collect ();
 			}	
 
 
 			mProductCellList.Clear ();
 			mProductList.Clear ();
+			mProductCellList.Clear();
+			mTrashProductCellQueue.Clear();
+			mPopulaterProductCellQueue.Clear();
+			mManagerProductCellQueue.Clear();
 		}
 
 		public void  UpdatePriceLabel()
 		{
-			mParent.mRootHeader.mPriceLabel.Text = "AED:" + Cart.ProductTotalPrice.ToString();
-			mParent.mTopNavigationBar.mPriceLabel.Text = "AED:" + Cart.ProductTotalPrice.ToString();
+			mParent.mPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 		}
 
 		protected override void OnAppearing()
 		{			
-			
-			//UpdatePriceLabel ();
-			//mTopOfElement = Grid2.Children.ElementAt (mLastLoadedIndex-5).Bounds.Top;
+			UpdatePriceLabel ();
 		}
 
 		private void SetGrid1Definitions()
 		{
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
-			Grid1.RowDefinitions [1].Height = GridLength.Auto;//MyDevice.ScreenHeight / 25;
-			Grid1.RowDefinitions [2].Height = GridLength.Auto;
+			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.BackgroundColor = MyDevice.BlueColor;
 		}
@@ -152,7 +137,7 @@ namespace bluemart.MainViews
 
 				var tapRecognizer = new TapGestureRecognizer ();
 				tapRecognizer.Tapped += (sender, e) => {
-					if( mSearchBar.mSearchEntry.IsFocused )
+					if( mParent.mTopNavigationBar.mSearchEntry.IsFocused )
 						return;
 					FocusSelectedButton(sender as Label);
 				};
@@ -191,40 +176,47 @@ namespace bluemart.MainViews
 			mBoxViewList [mActiveButtonIndex].IsVisible = true;
 		}
 
-		private void OnScrolled( Object sender, ScrolledEventArgs e)
+		private void  OnScrolled( Object sender, ScrolledEventArgs e)
 		{
-			if( mScrollDownY == 0 )
-				mScrollDownY = Grid2.Children.ElementAt (0).Bounds.Height * (mLastLoadedIndex/2 - 3);
-
 			if (DecideIfIsUpOrDown (sender as ScrollView) == "Down") {
 				if (mActiveButtonIndex + 1 != mCategoryIndexList.Count) {
 					int productCellIndex = mCategoryIndexList [mActiveButtonIndex + 1];
-					try{
-					double top = Grid2.Children.ElementAt (productCellIndex).Bounds.Top;					
-					if (ProductScrollView.ScrollY > top) {
-						mActiveButtonIndex += 1;
-						mEnabledBoxView.IsVisible = false;
-						mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
-						mEnabledBoxView.IsVisible = true;
+					try {
+						double top = Grid2.Children.ElementAt (productCellIndex).Bounds.Top;					
+						if (ProductScrollView.ScrollY > top) {
+							mActiveButtonIndex += 1;
+							mEnabledBoxView.IsVisible = false;
+							mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+							mEnabledBoxView.IsVisible = true;
 						}
-					}
-					catch
-					{
+					} catch {
 						System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");
 					}
 				}
+					
 
-				if ( ProductScrollView.ScrollY >= mScrollDownY ) {	
-					LoadLimitedNumberOfProductCells (15);
-					mScrollDownY = Grid2.Children.ElementAt (0).Bounds.Height * (mLastLoadedIndex/2 - 3);
-					mScrollUpY = mScrollDownY - (mLoadSize/2) * Grid2.Children.ElementAt (0).Bounds.Height;
+				if ( ProductScrollView.ScrollY >= Grid2.Children.ElementAt (mLastLoadedIndex).Bounds.Bottom-50 ) {
+					int startIndex = mLastLoadedIndex;
 
-					mEndIndex += mLoadSize;
-					ClearBackwards ();
-				}
+					int endIndex = (int)Math.Ceiling (ProductScrollView.ScrollY / (int)Math.Floor(Grid2.Children.ElementAt(0).Height-MyDevice.ViewPadding/2)) * 2 +1;
 
+					if (endIndex >= Grid2.Children.Count) {
+						endIndex = Grid2.Children.Count - 1;
+					} 
 
-			}else {
+					mLastLoadedIndex = endIndex;
+
+					for (int i = startIndex; i <= endIndex; i++) {						
+						if (!mTrashProductCellQueue.Contains (mProductCellList [i])) {							
+							lock (_ListLock) {									
+								mManagerProductCellQueue.Enqueue (mProductCellList [i]);
+							}
+						}
+					}
+
+			}
+			}else {				
+
 				if (mActiveButtonIndex != 0) {					
 					int productCellIndex = mCategoryIndexList [mActiveButtonIndex];
 					try{
@@ -239,21 +231,37 @@ namespace bluemart.MainViews
 					catch{
 						System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");	
 					}
-				
+
 				}
 
-				if ( mEndIndex != 0 && ProductScrollView.ScrollY <= mScrollUpY ) {
-					mLastLoadedIndex -= mLoadSize;
-					mScrollDownY = Grid2.Children.ElementAt (0).Bounds.Height * (mLastLoadedIndex/2 -3);
-					mScrollUpY = mScrollDownY - mLoadSize * Grid2.Children.ElementAt (0).Bounds.Height;
-					PopulateBackwards ();
-					//await Task.Delay (10);
-					mEndIndex -= mLoadSize;
-					ClearForward ();
-				}
-			}		
-		}
+				if (mLastLoadedIndex >= Grid2.Children.Count)
+					mLastLoadedIndex = Grid2.Children.Count - 1;
 
+				if (ProductScrollView.ScrollY <= Grid2.Children.ElementAt (mLastLoadedIndex).Bounds.Top) {
+					int startIndex = mLastLoadedIndex;
+					int endIndex = (int)Math.Floor (ProductScrollView.ScrollY / (int)Math.Floor(Grid2.Children.ElementAt(0).Height-MyDevice.ViewPadding/2)) * 2 - 1;
+
+					if (endIndex < 0) {
+						endIndex = 0;
+					}
+					else if( endIndex >= Grid2.Children.Count )
+						endIndex =	Grid2.Children.Count - 1;
+
+					mLastLoadedIndex = endIndex;
+
+					for (int i = startIndex; i >= endIndex; i--) {
+						
+						if (!mTrashProductCellQueue.Contains (mProductCellList [i])) {							
+							lock (_ListLock) {									
+								mManagerProductCellQueue.Enqueue (mProductCellList [i]);
+							}
+						}
+					}
+				}
+			}	
+
+
+		}				
 
 
 		private string DecideIfIsUpOrDown(ScrollView scrollView)
@@ -289,129 +297,112 @@ namespace bluemart.MainViews
 		{
 			SetGrid2Definitions ();
 			PopulateSubCategoryButtons ();
-
+	
 			//Populate a list with all products 
 			//To be able to define product index
 			var valueList = mProductDictionary.Values.Cast<List<Product>> ().ToList();
 			//var tempProductList = new List<Product> ();
-
 			foreach (var products in valueList) {
 				mCategoryIndexList.Add (mProductList.Count);
-				foreach (var tempProduct in products) {
+				foreach (var tempProduct in products) {					
 					mProductList.Add (tempProduct);	
 				}
 			}
 
-			LoadLimitedNumberOfProductCells (40);			
+			//LoadLimitedNumberOfProductCells (40);			
+			LoadAllProducts();
+			LoadInitialImages ();
+			ManageQueuesInBackground ();
+			PopulateProductCellInBackground ();
+			EraseProductCellInBackground ();
+
+			//LoadInitialImages ();
 		}
 
-		private async void ClearForward()
+		private async void ManageQueuesInBackground()
 		{
-			int endIndex = mLastLoadedIndex+mLoadSize;
-
-			int startIndex = mLastLoadedIndex;
-
-			for (int i = startIndex; i < endIndex; i++) {
-				ProductCell productCell;
-				//thread safe list
-				lock (_ListLock) {
-					if (mProductCellList.Count > i)
-						productCell = mProductCellList [i];
-					else
-						break;
+			while (true) {
+				while (mManagerProductCellQueue.Count > mLoadSize) {
+					lock (_ListLock) {
+						mManagerProductCellQueue.Dequeue ();
+					}
 				}
-				productCell.ClearStreamsAndImages ();
-				productCell.mProductImage.Source = null;
-				//await Task.Delay (10);
-				productCell.mBorderImage.Source = null;		
-				await Task.Delay (10);
-				/*productCell.mFavoriteImage.Source = null;
-				await Task.Delay (5);
-				productCell.mAddImage.Source = null;
-				await Task.Delay (5);
-				productCell.mRemoveImage.Source = null;
-				await Task.Delay (5);*/
+
+				if( mManagerProductCellQueue.Count > 0 ){
+					ProductCell productCell;
+
+					lock (_ListLock) {
+						productCell = mManagerProductCellQueue.Dequeue ();
+					}
+
+					if (!mPopulaterProductCellQueue.Contains (productCell)) {
+						mPopulaterProductCellQueue.Enqueue (productCell);	
+					}
+				}
+
+				await Task.Delay (100);	
 			}
 		}
 
-		private async void ClearBackwards()
-		{						
-			int startIndex = mEndIndex - mLoadSize;
-
-			for (int i = startIndex; i < mEndIndex; i++) {
-				ProductCell productCell;
-				//thread safe list
-				lock (_ListLock) {
-				productCell = mProductCellList [i];
-				}
-				productCell.ClearStreamsAndImages ();
-				productCell.mProductImage.Source = null;
-				//await Task.Delay (10);
-				productCell.mBorderImage.Source = null;		
-				await Task.Delay (10);
-				/*productCell.mFavoriteImage.Source = null;
-				await Task.Delay (1);
-				productCell.mAddImage.Source = null;
-				await Task.Delay (1);
-				productCell.mRemoveImage.Source = null;
-				await Task.Delay (5);*/
-			}
-		}
-
-		private async void PopulateBackwards()
+		private async void EraseProductCellInBackground()
 		{
-			
-			int startIndex = mEndIndex - mLoadSize;
+			while (true) {
+				if (mTrashProductCellQueue.Count > mLoadSize) {
+					var	productCell = mTrashProductCellQueue.Dequeue ();
 
-			for (int i = startIndex; i < mEndIndex; i++) {
-				System.Diagnostics.Debug.WriteLine ("Index:" + i);
-				ProductCell productCell;
-				//thread safe list
-				lock (_ListLock) {
-					productCell = mProductCellList [i];
+					if (productCell.bIsImageSet) {
+						productCell.bIsImageSet = false;
+						productCell.ClearStreamsAndImages ();
+						productCell.mProductImage.Source = null;
+					}
+
 				}
-
-				productCell.ReproduceStreamsAndImages ();
-				await Task.Delay (10).ConfigureAwait(false);
+				await Task.Delay (100);	
 			}
 		}
 
+		private async void PopulateProductCellInBackground()
+		{
+			while (true) {				
 
+				if (mPopulaterProductCellQueue.Count > 0) {
+					var productCell = mPopulaterProductCellQueue.Dequeue ();	
+					if (!productCell.bIsImageSet) {	
+						mTrashProductCellQueue.Enqueue (productCell);
+						productCell.ProduceProductImages ();
+					}
+				}
 
-		private async void LoadLimitedNumberOfProductCellsAndClearForward()
-		{			
-			/*await Task.Run(() => PopulateBackwards());
-			await Task.Run(() => ClearForward());*/
+				await Task.Delay (100);				
+
+			}
 		}
 
-
-
-		private async void LoadLimitedNumberOfProductCells(int loadSize)
+		private void LoadAllProducts()
 		{	
-			mLoadSize = loadSize;
-			
-			int tempLastLoadedIndex = mLastLoadedIndex;
-			mLastLoadedIndex += loadSize;
-			
-			foreach (var product in mProductList.Skip(tempLastLoadedIndex)) {
-
+			foreach (var product in mProductList) {
 				int productIndex = mProductList.IndexOf (product);
-
-				if (productIndex == tempLastLoadedIndex + loadSize)
-					break;
-
 				ProductCell productCell = new ProductCell (Grid2, product, this);
-				
-				lock (_ListLock) {
-					mProductCellList.Add (productCell);					
-				}
 
-				Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);					
-				await Task.Delay (10);
-				productCell.ProduceStreamsAndImages ();
-				await Task.Delay (10);
+				mProductCellList.Add (productCell);					
+
+
+				Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);			
+							
 			}
-			
+		}
+
+		private void LoadInitialImages()
+		{
+			foreach (var productCell in mProductCellList) {
+				int productIndex = mProductCellList.IndexOf (productCell);
+				if (productIndex < mInitialLoadSize) {
+					//lock (_ListLock) {						
+						mManagerProductCellQueue.Enqueue (productCell);
+					//}
+				}
+				productCell.ProduceStreamsAndImages ();
+			}
 		}
 			
 

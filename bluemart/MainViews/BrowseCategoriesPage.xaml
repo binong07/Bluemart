@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-			 xmlns:headers = "clr-namespace:bluemart.Common.Headers;assembly=bluemart"
-			 xmlns:common = "clr-namespace:bluemart.Common;assembly=bluemart"
+			 xmlns:headers = "clr-namespace:bluemart.Common.Headers;assembly=bluemart"			
 			 x:Class="bluemart.MainViews.BrowseCategoriesPage">
 	 <ContentPage.Padding>
 	        <OnPlatform x:TypeArguments="Thickness"
@@ -10,21 +9,10 @@
 	                    Android="0, 0, 0, 0"
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
-	<ContentPage.Content>
-		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "5">
-		 		<Grid.RowDefinitions>
-					<RowDefinition/>
-					<RowDefinition/>
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition/>		
-				</Grid.ColumnDefinitions>
-                <common:SearchBar x:Name = "SearchBar" Grid.Row = "0" Grid.Column = "0"/>
-               	<ScrollView x:Name="ScrollView1" Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" VerticalOptions="FillAndExpand"  >
-					<StackLayout x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Spacing = "0" Padding = "0,0,0,0">
-					</StackLayout>										
-				</ScrollView>
-        </Grid>
-		
+	<ContentPage.Content>		
+       	<ScrollView x:Name="ScrollView1" Orientation = "Vertical" VerticalOptions="FillAndExpand">
+			<StackLayout x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Spacing = "5" Padding = "0,0,0,0">
+			</StackLayout>										
+		</ScrollView>		
 	</ContentPage.Content>
 </ContentPage>

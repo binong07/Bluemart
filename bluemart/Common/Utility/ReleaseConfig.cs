@@ -12,7 +12,7 @@ namespace bluemart.Common.Utilities
 
 		static ReleaseConfig()
 		{
-			DateTime.TryParse ("2015-10-29T07:07:39.035Z", out LAST_UPDATEDATE);
+			DateTime.TryParse ("2015-11-14T18:56:57.003Z", out LAST_UPDATEDATE);
 		}
 	}
 }

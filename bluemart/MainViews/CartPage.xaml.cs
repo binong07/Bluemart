@@ -153,8 +153,9 @@ namespace bluemart.MainViews
 		public void UpdateTotalPriceLabel()
 		{
 			mTotalPriceLabel.Text = "Total Price: " + Cart.ProductTotalPrice.ToString ();
-			mParent.mRootHeader.mPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
-			mParent.mTopNavigationBar.mPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
+			mParent.mPriceLabel.Text = Cart.ProductTotalPrice.ToString ();
+			//mParent.mRootHeader.mPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
+			//mParent.mTopNavigationBar.mPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 		}
 
 		public void RemoveProductFromCart(View CartCellView)

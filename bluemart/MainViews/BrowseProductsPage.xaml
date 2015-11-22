@@ -12,20 +12,18 @@
   	</ContentPage.Padding>
 	<ContentPage.Content>
 		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "5">
-		 		<Grid.RowDefinitions>
-					<RowDefinition/>
+		 		<Grid.RowDefinitions>					
 					<RowDefinition/>
 					<RowDefinition/>
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>		
 				</Grid.ColumnDefinitions> 
-				<common:SearchBar x:Name = "SearchBar" Grid.Row = "0" Grid.Column = "0"/>      
-               	<ScrollView x:Name = "ScrollView1" Grid.Row = "1" Grid.Column = "0" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" BackgroundColor = "White">
+               	<ScrollView x:Name = "ScrollView1" Grid.Row = "0" Grid.Column = "0" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" BackgroundColor = "White">
 	               	<StackLayout x:Name = "SubCategoryStackLayout" Orientation = "Horizontal" HorizontalOptions = "StartAndExpand" VerticalOptions = "FillAndExpand" Spacing = "0">
 	               	</StackLayout>
                	</ScrollView>
-               	<ScrollView x:Name = "ProductScrollView" Grid.Row = "2" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Scrolled = "OnScrolled">
+               	<ScrollView x:Name = "ProductScrollView" Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Scrolled = "OnScrolled">
 					<Grid x:Name="Grid2" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Padding="0,0,0,0">				
 					</Grid>						
 				</ScrollView>

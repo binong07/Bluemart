@@ -12,20 +12,15 @@ namespace bluemart.MainViews
 	{		
 		List<Category> mCategories;
 		RootPage mParent;
-		public Common.SearchBar mSearchBar;
 
 		public BrowseCategoriesPage (RootPage parent)
 		{						
 			InitializeComponent ();
-			mSearchBar = SearchBar;
 
 			mParent = parent;
-			SearchBar.mParent = parent;
-			//Header.mParent = parent;
 			CategoryModel.PopulateCategories ();
 			mCategories = CategoryModel.CategoryList;
 			NavigationPage.SetHasNavigationBar (this, false);
-			SetGrid1Definitions ();
 			PopulateGrid ();
 		}
 
@@ -36,14 +31,12 @@ namespace bluemart.MainViews
 
 		public void RefreshSearchText()
 		{
-			SearchBar.mSearchEntry.Text = "Search Products";
+			mParent.mRootHeader.mSearchEntry.Text = "Search Products";
 		}
 
 		private void SetGrid1Definitions()
 		{
-			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 17;
 			ScrollView1.BackgroundColor = MyDevice.BlueColor;
-			Grid1.BackgroundColor = MyDevice.BlueColor;
 			Content.BackgroundColor = MyDevice.BlueColor;
 
 		}

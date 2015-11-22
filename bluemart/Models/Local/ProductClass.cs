@@ -50,9 +50,11 @@ namespace bluemart.Models.Local
 				return productList;			
 			}
 
-			var productTable = db.Table<ProductClass> ();
+			var query = from Products in  db.Table<ProductClass> ()
+				orderby Products.Name
+				select Products;
 
-			foreach (var product in productTable) {
+			foreach (var product in query) {
 				productList.Add (product);
 			}
 

@@ -187,6 +187,7 @@
     <AndroidResource Include="Resources\drawable\ActiveAddress.png" />
     <AndroidResource Include="Resources\drawable\bm_pin.png" />
     <AndroidResource Include="Resources\drawable\cart2.png" />
+    <AndroidResource Include="Resources\drawable\CartBackground.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\SQLitePCL.raw_basic.targets')" />

@@ -66,23 +66,28 @@ namespace bluemart.Models.Remote
 						WhereGreaterThan (ParseConstants.UPDATEDATE_NAME, localUpdate).
 						WhereLessThanOrEqualTo (ParseConstants.UPDATEDATE_NAME, remoteUpdate);
 
-					var imageObjects = imageQuery.Limit(1000).FindAsync ().Result;
-					int count = imageObjects.Count<ParseObject>();
-					foreach (ParseObject imageObject in imageObjects) {
-						ParseFile img = imageObject.Get<ParseFile> (ParseConstants.IMAGE_ATTRIBUTE_IMAGEFILE);
-						string imageName = imageObject.Get<string> (ParseConstants.IMAGE_ATTRIBUTE_IMAGENAME);
+					int queryCount = imageQuery.CountAsync ().Result;
+					int queryLimit = 1000;
 
-						byte[] data = new HttpClient ().GetByteArrayAsync (img.Url).Result;	
+					for (int i = 0; i < queryCount; i += queryLimit) {
+						var imageObjects = imageQuery.Limit(queryLimit).Skip(i).FindAsync ().Result;
 
-						var folder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;
+						foreach (ParseObject imageObject in imageObjects) {
+							ParseFile img = imageObject.Get<ParseFile> (ParseConstants.IMAGE_ATTRIBUTE_IMAGEFILE);
+							string imageName = imageObject.Get<string> (ParseConstants.IMAGE_ATTRIBUTE_IMAGENAME);
 
-						var file = folder.CreateFileAsync (imageName + ".jpg", CreationCollisionOption.ReplaceExisting).Result;
+							byte[] data = new HttpClient ().GetByteArrayAsync (img.Url).Result;	
 
-						using (System.IO.Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result) {
-							stream.Write (data, 0, data.Length);
+							var folder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;
+
+							var file = folder.CreateFileAsync (imageName + ".jpg", CreationCollisionOption.ReplaceExisting).Result;
+
+							using (System.IO.Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result) {
+								stream.Write (data, 0, data.Length);
+							}
 						}
+						mUserModel.AddImagesUpdateDateToUser (remoteUpdate);
 					}
-					mUserModel.AddImagesUpdateDateToUser (remoteUpdate);
 				}
 
 			} 

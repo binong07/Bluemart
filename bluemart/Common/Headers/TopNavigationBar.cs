@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using System.Threading.Tasks;
 using PCLStorage;
 using System.Linq;
+using XLabs.Forms.Controls;
 
 
 namespace bluemart.Common.Headers
@@ -15,11 +16,16 @@ namespace bluemart.Common.Headers
 		public Label NavigationText;
 		public Label mPriceLabel;
 		public RootPage mParent;
+		public ExtendedEntry mSearchEntry;
+
 		public TopNavigationBar ()
 		{
 			InitializeComponent ();
 			NavigationText = NavigationTitle;
-			mPriceLabel = PriceLabel;
+			mSearchEntry = SearchEntry;
+			SearchEntry.FontSize = Device.GetNamedSize (NamedSize.Large, typeof(Label));
+			SearchEntry.TextColor = MyDevice.BlueColor;
+			//mPriceLabel = PriceLabel;
 			NavigationTitle.TextColor = MyDevice.RedColor;
 			SetGridDefinitions ();
 			SetImageSize ();
@@ -35,38 +41,37 @@ namespace bluemart.Common.Headers
 			this.ColumnDefinitions [2].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight * 2 / 7 - MyDevice.MenuPadding*2;
 			this.ColumnDefinitions [3].Width = MyDevice.ScreenHeight   / 7;
 			this.ColumnDefinitions [4].Width = MyDevice.MenuPadding;
-			CartGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight / 18;
+			/*CartGrid.RowDefinitions [0].Height = MyDevice.ScreenHeight / 18;
 			CartGrid.RowDefinitions [1].Height = MyDevice.ScreenHeight / 36;
 
 			PriceLabel.TextColor = MyDevice.BlueColor;
-			PriceLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			PriceLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));*/
 		}
 
 		private void SetImageSize()
 		{
 			BackButton.HeightRequest = MyDevice.ScreenHeight / 20;
-			CartButton.HeightRequest = MyDevice.ScreenHeight / 18;
+			//CartButton.HeightRequest = MyDevice.ScreenHeight / 18;
 			NavigationTitle.FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label));
 		}
 
 		private void AddTapRecognizers()
 		{		
 
-			var CartGridTapGestureRecognizer = new TapGestureRecognizer ();
-			CartGridTapGestureRecognizer.Tapped += async (sender, e) => {
-				if( mParent.mBrowseProductPage.mSearchBar.mSearchEntry.IsFocused )
-					return;
-				CartGrid.Opacity = 0.5f;
-				await Task.Delay(MyDevice.DelayTime);
-				mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCategoriesLabel);
-				mParent.LoadCartPage();
-				CartGrid.Opacity = 1f;
+			var searchGridGestureRecognizer = new TapGestureRecognizer ();
+			searchGridGestureRecognizer.Tapped += (sender, e) => {
+				SearchEntry.IsVisible = !SearchEntry.IsVisible;
+				NavigationText.IsVisible = !NavigationText.IsVisible;
+				if( SearchEntry.IsFocused )
+					SearchEntry.Unfocus();
+				else
+					SearchEntry.Focus();
 			};
-			CartGrid.GestureRecognizers.Add (CartGridTapGestureRecognizer);
+			this.Children[3].GestureRecognizers.Add (searchGridGestureRecognizer);
 
 			var backButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			backButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-				if( mParent.mCurrentPageParent == "BrowseCategories" && mParent.mBrowseProductPage.mSearchBar.mSearchEntry.IsFocused )
+				if( mParent.mCurrentPageParent == "BrowseCategories" && mParent.mTopNavigationBar.mSearchEntry.IsFocused )
 					return;
 				BackButton.Opacity = 0.5f;
 				await Task.Delay(MyDevice.DelayTime);			
@@ -74,6 +79,33 @@ namespace bluemart.Common.Headers
 				BackButton.Opacity = 1f;
 			};
 			BackButton.GestureRecognizers.Add (backButtonTapGestureRecognizer);
+		}
+
+		private void SearchEntryCompleted(Object sender,EventArgs e)
+		{
+			if (SearchEntry.Text.Length >= 3) {
+
+				mParent.LoadSearchPage (SearchEntry.Text);
+			} else {
+				SearchEntry.Text = "Must be longer than 2 characters!";
+			}
+		}
+
+		private void SearchEntryFocused(Object sender,EventArgs e)
+		{
+			SearchEntry.Text = "";
+			mParent.RemoveFooter ();
+		}
+
+		private void SearchEntryUnfocused(Object sender,EventArgs e)
+		{
+			if (SearchEntry.Text == "")
+				SearchEntry.Text = "Search Products";
+
+			SearchEntry.IsVisible = !SearchEntry.IsVisible;
+			NavigationText.IsVisible = !NavigationText.IsVisible;
+
+			mParent.AddFooter ();
 		}
 	}
 }

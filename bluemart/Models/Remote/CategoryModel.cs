@@ -56,34 +56,42 @@ namespace bluemart.Models.Remote
 		}*/
 
 		public static void GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
-		{		
+		{				
+
 			var categoryQuery = ParseObject.GetQuery (ParseConstants.CATEGORIES_CLASS_NAME).
 				WhereGreaterThan(ParseConstants.UPDATEDATE_NAME,localUpdate).
 				WhereLessThanOrEqualTo(ParseConstants.UPDATEDATE_NAME,remoteUpdate).
 				OrderBy(ParseConstants.CATEGORY_ATTRIBUTE_NAME);
 
-			var categoryObjects = categoryQuery.Limit(1000).FindAsync ().Result;
+			var categoryCount = categoryQuery.CountAsync ().Result;
 
-			List<CategoryClass> tempList = new List<CategoryClass> ();
-			foreach (var categoryObject in categoryObjects) {
-				CategoryClass tempCategory = new CategoryClass ();
-				tempCategory.objectId = categoryObject.ObjectId;
-				tempCategory.Name = categoryObject.Get<string> (ParseConstants.CATEGORY_ATTRIBUTE_NAME);
-				tempCategory.ImageName = categoryObject.Get<string> (ParseConstants.CATEGORY_ATTRIBUTE_IMAGENAME);
-				tempCategory.ImageID = categoryObject.Get<string> (ParseConstants.CATEGORY_ATTRIBUTE_IMAGEID);
-				tempCategory.isSubCategory = categoryObject.Get<bool> (ParseConstants.CATEGORY_ATTRIBUTE_ISSUBCATEGORYNAME);
-				var subcategoryList = categoryObject.Get<IEnumerable<object>> (ParseConstants.CATEGORY_ATTRIBUTE_SUB).Cast<string> ().ToList ();
-				foreach (string sub in subcategoryList ) {
-					tempCategory.Sub += sub;
-					if (sub != subcategoryList.Last ())
-						tempCategory.Sub += ",";
+			int queryLimit = 1000;
+
+			for (int i = 0; i < categoryCount; i += queryLimit) {
+				var categoryObjects = categoryQuery.Limit(queryLimit).Skip(i).FindAsync ().Result;
+
+				List<CategoryClass> tempList = new List<CategoryClass> ();
+				foreach (var categoryObject in categoryObjects) {
+					CategoryClass tempCategory = new CategoryClass ();
+					tempCategory.objectId = categoryObject.ObjectId;
+					tempCategory.Name = categoryObject.Get<string> (ParseConstants.CATEGORY_ATTRIBUTE_NAME);
+					tempCategory.ImageName = categoryObject.Get<string> (ParseConstants.CATEGORY_ATTRIBUTE_IMAGENAME);
+					tempCategory.ImageID = categoryObject.Get<string> (ParseConstants.CATEGORY_ATTRIBUTE_IMAGEID);
+					tempCategory.isSubCategory = categoryObject.Get<bool> (ParseConstants.CATEGORY_ATTRIBUTE_ISSUBCATEGORYNAME);
+					var subcategoryList = categoryObject.Get<IEnumerable<object>> (ParseConstants.CATEGORY_ATTRIBUTE_SUB).Cast<string> ().ToList ();
+					foreach (string sub in subcategoryList ) {
+						tempCategory.Sub += sub;
+						if (sub != subcategoryList.Last ())
+							tempCategory.Sub += ",";
+					}
+
+
+					tempList.Add (tempCategory);
 				}
 
+				mCategoryClass.AddCategory (tempList);
 
-				tempList.Add (tempCategory);
 			}
-
-			mCategoryClass.AddCategory (tempList);	
 		}
 
 		private static void PopulateCategoryDictionaries()

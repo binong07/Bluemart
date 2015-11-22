@@ -40,7 +40,7 @@ namespace bluemart.MainViews
 
 		public void UpdatePriceLabel()
 		{
-			mParent.mRootHeader.mPriceLabel.Text = "AED:"+Cart.ProductTotalPrice;
+			mParent.mPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 		}
 
 
@@ -64,7 +64,9 @@ namespace bluemart.MainViews
 			{
 				for (int col = 0; col < 2; col++) 
 				{
-					ProductCell productCell = new ProductCell (Grid2,mProductList[counter++],this );	
+					ProductCell productCell = new ProductCell (Grid2,mProductList[counter++],this );
+					productCell.ProduceStreamsAndImages ();
+					productCell.ProduceProductImages ();
 					mProductCellList.Add (productCell);
 					Grid2.Children.Add (productCell.View, col, row);
 
