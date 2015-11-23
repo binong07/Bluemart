@@ -24,6 +24,8 @@ namespace bluemart.Droid
 		{
 			base.OnCreate (bundle);
 
+			FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Arial-Rounded-MT-Bold.ttf");
+
 			global::Xamarin.Forms.Forms.Init (this, bundle);
 				Xamarin.FormsMaps.Init(this, bundle);
 			//Necessary IOC Code To Get Device Properties

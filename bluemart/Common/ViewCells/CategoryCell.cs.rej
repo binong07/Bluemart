@@ -1,0 +1,9 @@
+diff a/bluemart/Common/ViewCells/CategoryCell.cs b/bluemart/Common/ViewCells/CategoryCell.cs	(rejected hunks)
+@@ -27,7 +27,6 @@
+ 
+ 			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Gray, Padding = 0, RowSpacing = 0 };
+ 
+-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto});
+ 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = 160});
+ 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  MyDevice.ScreenWidth});
+ 

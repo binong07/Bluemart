@@ -10,7 +10,7 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>		
-       	<ScrollView x:Name="ScrollView1" Orientation = "Vertical" VerticalOptions="FillAndExpand">
+       	<ScrollView x:Name="ScrollView1" Orientation = "Vertical" VerticalOptions="FillAndExpand" Padding = "0,5,0,0">
 			<StackLayout x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Spacing = "5" Padding = "0,0,0,0">
 			</StackLayout>										
 		</ScrollView>		

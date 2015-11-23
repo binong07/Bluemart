@@ -9,6 +9,8 @@ namespace bluemart.Common.Utilities
 	public static class ReleaseConfig
 	{
 		public static DateTime LAST_UPDATEDATE;
+		//public static string FONT_PATH = "Arial-Rounded-MT-Bold";
+		public static string FONT_PATH = "monospace";
 
 		static ReleaseConfig()
 		{

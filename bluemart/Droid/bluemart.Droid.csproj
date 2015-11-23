@@ -147,6 +147,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\ExtendedMapRenderer.cs" />
+    <Compile Include="FontsOverride.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -159,6 +160,8 @@
     <Folder Include="Resources\values\" />
     <Folder Include="Resources\style\" />
     <Folder Include="Renderers\" />
+    <Folder Include="Assets\fonts\" />
+    <Folder Include="Resources\fonts\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
@@ -188,14 +191,21 @@
     <AndroidResource Include="Resources\drawable\bm_pin.png" />
     <AndroidResource Include="Resources\drawable\cart2.png" />
     <AndroidResource Include="Resources\drawable\CartBackground.png" />
+    <AndroidResource Include="Resources\drawable\ChooseLocation.png" />
+    <AndroidResource Include="Resources\drawable\ChooseMap.png" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\SQLitePCL.raw_basic.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.0.0.6482\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6482\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>
     <XamarinComponentReference Include="parse">
       <Version>1.6.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\fonts\Arial-Rounded-MT-Bold.ttf" />
+    <AndroidAsset Include="Assets\fonts\Pacifico.ttf" />
+    <AndroidAsset Include="Resources\fonts\Pacifico.ttf" />
   </ItemGroup>
 </Project>

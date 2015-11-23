@@ -82,7 +82,7 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Center.X + 15;
 				}),
 				Constraint.RelativeToView (mCartBackgroundImage, (parent, sibling) => {
-					return sibling.Bounds.Top + 2;
+					return sibling.Bounds.Top + 4;
 				})
 			);
 
@@ -128,7 +128,7 @@ namespace bluemart.MainViews
 
 		private void SetGrid1Definitions()
 		{			
-			Grid1.BackgroundColor = MyDevice.RedColor;
+			Grid1.BackgroundColor = MyDevice.BlueColor;
 			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 12;
 			Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 14;
 

@@ -20,15 +20,20 @@ namespace bluemart.Common.ViewCells
 
 		public CategoryCell (StackLayout parentGrid, Category category, RootPage parent = null)
 		{
+			int framePadding = 2;
+			var fullWidth = MyDevice.ScreenWidth - MyDevice.ViewPadding * 2 - 2 * framePadding;
+
 			mCategory = category;
 			mCategoryList = new List<Category> ();
 			mProductDictionary = new Dictionary<string, List<Product>> ();
 			mUser = new UserClass ();
 
-			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Gray, Padding = 0, RowSpacing = 0 };
+			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.White, Padding = 0, RowSpacing = 0 };
 
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = 160});
-			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  MyDevice.ScreenWidth});
+			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = 160*MyDevice.ScreenHeight/592});
+			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))+5});
+			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width = fullWidth/10});
+			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width = fullWidth*9/10});
 
 
 			Image categoryImage = new Image ();
@@ -52,15 +57,28 @@ namespace bluemart.Common.ViewCells
 			mainCellGrid.GestureRecognizers.Add (tapGestureRecognizer);
 
 			mainCellGrid.Children.Add (categoryImage, 0, 0);
+			Grid.SetColumnSpan (categoryImage, 2);
 
-			/*Label lbl = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)), 
-				BackgroundColor = Color.White, TextColor = MyDevice.RedColor, XAlign = TextAlignment.Center ,
-				YAlign = TextAlignment.Center, VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand };
-			lbl.Text = category.Name;
+			Label lbl = new Label (){
+				FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)), 
+				BackgroundColor = Color.White, TextColor = MyDevice.BlueColor, 
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Center,
+				Text = category.Name
+			};
 
-			mainCellGrid.Children.Add (lbl, 0, 1);*/
+			mainCellGrid.Children.Add (lbl, 1, 1);
 
-			this.View = mainCellGrid;
+			var mainFrame = new Frame { 
+				
+				Padding = framePadding,
+				OutlineColor = MyDevice.BackgroundColor,
+				BackgroundColor = Color.White,
+				VerticalOptions = LayoutOptions.Start,
+				Content = mainCellGrid
+			};
+
+			this.View = mainFrame;
 		}
 
 

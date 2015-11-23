@@ -18,7 +18,7 @@ namespace bluemart.MainViews
 {
 	public partial class MainPage : ContentPage
 	{				
-		UserClass mUserModel;
+		UserClass mUserModel = new UserClass ();
 		PopupLayout mPopupLayout = new PopupLayout();
 		ListView mPopupListView = new ListView ();	
 		List<RegionClass> mRegions = new List<RegionClass> ();
@@ -26,24 +26,242 @@ namespace bluemart.MainViews
 		Button mOKButton;
 		Button mCancelButton;
 		RootPage mRootPage = new RootPage ();
-	
+
+		private Image mLogoImage;
+
 		public MainPage ()
 		{			
 			NavigationPage.SetHasNavigationBar (this, false);
-			InitalizeMemberVariables ();
+
 			if( mUserModel.GetActiveRegionFromUser() != "" )
 				Navigation.PushAsync( mRootPage );
+			
 			InitializeComponent ();
 
-			SetGrid1ButtonsSize ();
+			InitRelativeLayout ();
+		}
 
-			LocationButton.TextColor = MyDevice.RedColor;
-			LocationButton.BorderColor = MyDevice.BlueColor;
+		private void InitRelativeLayout()
+		{
+			MainRelativeLayout.BackgroundColor = MyDevice.BackgroundColor;
 
-			MapButton.TextColor = MyDevice.RedColor;
-			MapButton.BorderColor = MyDevice.BlueColor;
+			#region LogoImage
+			mLogoImage = new Image () {
+				Source = "logo",	
+				Aspect = Aspect.AspectFit,
+				VerticalOptions = LayoutOptions.Start
+			};
+
+			MainRelativeLayout.Children.Add(mLogoImage, 
+				Constraint.Constant( MyDevice.MenuPadding*2 ),
+				Constraint.Constant( MyDevice.ScreenHeight/12 ),
+				Constraint.Constant( MyDevice.ScreenWidth - MyDevice.MenuPadding*4)
+			);
+			#endregion
+
+			#region ChooseYourLocation Button Definition
+			var chooseYourLocationGrid = new Grid () {
+				BackgroundColor = Color.White,
+				RowSpacing = 0,
+				RowDefinitions = {
+					new RowDefinition ()
+					{
+						Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label)) * 4
+					},
+					new RowDefinition ()
+					{
+						Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label))*2
+					}
+				},
+				ColumnDefinitions ={					
+					new ColumnDefinition (){
+						Width = MyDevice.ScreenWidth - MyDevice.MenuPadding*8
+					}
+				}
+			};
+
+			var chooseYourLocationImage = new Image () {
+				Source = "ChooseLocation",
+				Aspect = Aspect.AspectFit,		
+				WidthRequest = ( MyDevice.ScreenWidth - MyDevice.MenuPadding*6) / 4,
+				VerticalOptions = LayoutOptions.Center,				
+				HorizontalOptions = LayoutOptions.Center
+			};
+
+			var chooseYourLocationLabel = new Label () {
+				Text = "Choose Your Location",
+				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)),
+				FontAttributes = FontAttributes.Bold,
+				TextColor = MyDevice.RedColor,
+				BackgroundColor = Color.Transparent,
+				HorizontalTextAlignment = TextAlignment.Center
+			};
+
+			chooseYourLocationGrid.Children.Add (chooseYourLocationImage, 0, 0);
+			chooseYourLocationGrid.Children.Add (chooseYourLocationLabel, 0, 1);
 
 
+
+			var chooseYourLocationFrame = new Frame { 				
+				Padding = 4,
+				OutlineColor = Color.White,
+				BackgroundColor = Color.White,
+				VerticalOptions = LayoutOptions.Start,
+				Content = chooseYourLocationGrid
+			};
+
+			MainRelativeLayout.Children.Add(chooseYourLocationFrame, 
+				Constraint.RelativeToView(mLogoImage, (parent,sibling) => {
+					return sibling.Bounds.Left + MyDevice.MenuPadding*2;
+				}),
+				Constraint.RelativeToView(mLogoImage, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.ScreenHeight/24;
+				})
+			);
+
+			var chooseYourLocationTapRecognizer= new TapGestureRecognizer ();
+			chooseYourLocationTapRecognizer.Tapped += async (sender, e) => {
+
+				chooseYourLocationImage.Opacity = 0.5f;
+				await Task.Delay (MyDevice.DelayTime);
+				PopulatePopup();
+				chooseYourLocationImage.Opacity = 1f;
+			};
+			chooseYourLocationGrid.GestureRecognizers.Add (chooseYourLocationTapRecognizer);
+			#endregion
+
+			#region OrLabel
+			var orLabel = new Label () {
+				Text = "or",
+				TextColor = Color.Gray,
+				HorizontalTextAlignment = TextAlignment.Center,
+				FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)),
+				FontAttributes = FontAttributes.Bold,
+				BackgroundColor = Color.Transparent
+			};
+
+			MainRelativeLayout.Children.Add(orLabel, 
+				Constraint.RelativeToView(chooseYourLocationFrame, (parent,sibling) => {
+					return sibling.Bounds.Center.X - MyDevice.ViewPadding;
+				}),
+				Constraint.RelativeToView(chooseYourLocationFrame, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.ScreenHeight/48;
+				})
+			);
+			#endregion
+
+			#region ChooseYourLocation Button Definition
+			var chooseFromMapGrid = new Grid () {
+				BackgroundColor = Color.White,
+				RowSpacing = 0,
+				RowDefinitions = {
+					new RowDefinition ()
+					{
+						Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label)) * 4
+					},
+					new RowDefinition ()
+					{
+						Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label))*2
+					}
+				},
+				ColumnDefinitions ={					
+					new ColumnDefinition (){
+					Width = MyDevice.ScreenWidth - MyDevice.MenuPadding*8
+					}
+				}
+			};
+
+			var chooseFromMapImage = new Image () {
+				Source = "ChooseMap",
+				Aspect = Aspect.AspectFit,		
+				WidthRequest = ( MyDevice.ScreenWidth - MyDevice.MenuPadding*6) / 4,
+				VerticalOptions = LayoutOptions.Center,				
+				HorizontalOptions = LayoutOptions.Center
+			};
+
+			var chooseFromMapLabel = new Label () {
+				Text = "Choose From Map",
+				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)),
+				FontAttributes = FontAttributes.Bold,
+				TextColor = MyDevice.RedColor,
+				BackgroundColor = Color.Transparent,
+				HorizontalTextAlignment = TextAlignment.Center
+			};
+
+			chooseFromMapGrid.Children.Add (chooseFromMapImage, 0, 0);
+			chooseFromMapGrid.Children.Add (chooseFromMapLabel, 0, 1);
+
+
+
+			var chooseFromMapFrame = new Frame { 				
+				Padding = 4,
+				OutlineColor = Color.White,
+				BackgroundColor = Color.White,
+				VerticalOptions = LayoutOptions.Start,
+				Content = chooseFromMapGrid
+			};
+
+			MainRelativeLayout.Children.Add(chooseFromMapFrame, 
+				Constraint.RelativeToView(chooseYourLocationFrame, (parent,sibling) => {
+					return sibling.Bounds.Left;
+				}),
+				Constraint.RelativeToView(orLabel, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.ScreenHeight/48;
+				})
+			);
+
+			var chooseFromMapTapRecognizer= new TapGestureRecognizer ();
+			chooseFromMapTapRecognizer.Tapped += async (sender, e) => {
+
+				chooseFromMapImage.Opacity = 0.5f;
+				await Task.Delay (MyDevice.DelayTime);
+				Navigation.PushAsync( new MapView(mRootPage,mUserModel));
+				chooseFromMapImage.Opacity = 1f;
+			};
+			chooseFromMapGrid.GestureRecognizers.Add (chooseFromMapTapRecognizer);
+			#endregion
+
+			#region MessageLabel
+			var messageLabel1 = new Label () {
+				Text = "Whatever you need,",
+				TextColor = MyDevice.BlueColor,
+				HorizontalTextAlignment = TextAlignment.Center,
+				FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)),
+				BackgroundColor = Color.Transparent
+			};
+
+			MainRelativeLayout.Children.Add(messageLabel1, 
+				Constraint.RelativeToView(chooseFromMapFrame, (parent,sibling) => {
+					return sibling.Bounds.Left;
+				}),
+				Constraint.RelativeToView(chooseFromMapFrame, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.ScreenHeight/24;
+				}),
+				Constraint.RelativeToView(chooseFromMapFrame, (parent,sibling) => {
+					return sibling.Width;
+				})
+			);
+
+			var messageLabel2 = new Label () {
+				Text = "we deliver under 1 hour!",
+				TextColor = MyDevice.BlueColor,
+				HorizontalTextAlignment = TextAlignment.Center,
+				FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)),
+				BackgroundColor = Color.Transparent
+			};
+
+			MainRelativeLayout.Children.Add(messageLabel2, 
+				Constraint.RelativeToView(messageLabel1, (parent,sibling) => {
+					return sibling.Bounds.Left - MyDevice.ViewPadding;
+				}),
+				Constraint.RelativeToView(messageLabel1, (parent,sibling) => {
+					return sibling.Bounds.Bottom;
+				}),
+				Constraint.RelativeToView(messageLabel1, (parent,sibling) => {
+					return sibling.Width + MyDevice.ViewPadding*2;
+				})
+			);
+			#endregion
 		}
 
 		protected override bool OnBackButtonPressed ()
@@ -70,11 +288,11 @@ namespace bluemart.MainViews
 
 		private void PopulatePopup()
 		{
-			//StackLayout1.BackgroundColor = MyDevice.BlueColor;
-			StackLayout1.BackgroundColor = Color.FromRgba ( MyDevice.BlueColor.R, MyDevice.BlueColor.G, MyDevice.BlueColor.B,0.5f);
+			MainRelativeLayout.BackgroundColor = MyDevice.BlueColor;
+			MainRelativeLayout.BackgroundColor = Color.FromRgba ( MyDevice.BlueColor.R, MyDevice.BlueColor.G, MyDevice.BlueColor.B,0.5f);
 			mRegions.Clear ();
 
-			mPopupLayout.WidthRequest = LocationButton.Width;
+			mPopupLayout.WidthRequest = mLogoImage.Width;
 
 			mPopupListView.SeparatorVisibility = SeparatorVisibility.None;
 			mPopupListView.SeparatorColor = Color.Transparent;
@@ -90,13 +308,13 @@ namespace bluemart.MainViews
 			mPopupListView.ItemsSource = mRegions;
 			mPopupListView.HorizontalOptions = LayoutOptions.Center;
 
-			mPopupLayout.Content = StackLayout1;
+			mPopupLayout.Content = MainRelativeLayout;
 			Content = mPopupLayout;
 
 			PopulateConfirmationGrid ();
 
 			var popup = new StackLayout {
-				WidthRequest = LocationButton.Width,
+				WidthRequest = mLogoImage.Width,
 				BackgroundColor = Color.White,
 				Orientation = StackOrientation.Vertical,
 				Children =
@@ -114,7 +332,7 @@ namespace bluemart.MainViews
 				}
 			}
 			
-			mPopupLayout.ShowPopup (popup,Constraint.Constant(LocationButton.Bounds.Left),Constraint.Constant(MyDevice.ScreenHeight/6));
+			mPopupLayout.ShowPopup (popup,Constraint.Constant(mLogoImage.Bounds.Left),Constraint.Constant(MyDevice.ScreenHeight/6));
 		}
 
 		private void PopulateConfirmationGrid()
@@ -132,8 +350,8 @@ namespace bluemart.MainViews
 				},
 				ColumnDefinitions =
 				{
-					new ColumnDefinition { Width = LocationButton.Width/2 - MyDevice.ViewPadding},
-					new ColumnDefinition { Width = LocationButton.Width/2 - MyDevice.ViewPadding},
+					new ColumnDefinition { Width = mLogoImage.Width/2 - MyDevice.ViewPadding},
+					new ColumnDefinition { Width = mLogoImage.Width/2 - MyDevice.ViewPadding},
 				}
 			};
 
@@ -189,29 +407,19 @@ namespace bluemart.MainViews
 
 		private void DismissPopup()
 		{
-			StackLayout1.BackgroundColor = Color.White;
+			MainRelativeLayout.BackgroundColor = MyDevice.BackgroundColor;
 			mPopupLayout.DismissPopup();
 		}
 
 		private void InitalizeMemberVariables()
 		{
-			mUserModel = new UserClass ();
+			
 		}
 
-		private void SetGrid1ButtonsSize()
-		{
-			StackLayout1.WidthRequest = MyDevice.ScreenWidth;
-			StackLayout1.HeightRequest = MyDevice.ScreenHeight;
-			StackLayout1.Padding = new Thickness(0,0,0,0);
-			LocationButton.WidthRequest = MyDevice.ScreenWidth * 2 / 3;
-			MapButton.WidthRequest = MyDevice.ScreenWidth * 2 / 3;
-			orLabel.FontSize = Device.GetNamedSize (NamedSize.Large, typeof(Label));
-		}	
-
-		public void OnLocationButtonClicked(Object sender,EventArgs e )
+		/*public void OnLocationButtonClicked(Object sender,EventArgs e )
 		{
 			PopulatePopup();
-		}
+		}*/
 
 		public void OnMapButtonClicked(Object sender,EventArgs e )
 		{

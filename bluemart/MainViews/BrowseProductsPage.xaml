@@ -19,7 +19,7 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>		
 				</Grid.ColumnDefinitions> 
-               	<ScrollView x:Name = "ScrollView1" Grid.Row = "0" Grid.Column = "0" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" BackgroundColor = "White">
+               	<ScrollView x:Name = "ScrollView1" Grid.Row = "0" Grid.Column = "0" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
 	               	<StackLayout x:Name = "SubCategoryStackLayout" Orientation = "Horizontal" HorizontalOptions = "StartAndExpand" VerticalOptions = "FillAndExpand" Spacing = "0">
 	               	</StackLayout>
                	</ScrollView>

@@ -12,7 +12,7 @@ namespace bluemart.MainViews
 	public partial class BrowseProductsPage : ContentPage
 	{
 		private Dictionary<string,List<Product>> mProductDictionary;
-		private List<BoxView> mBoxViewList;
+		//private List<BoxView> mBoxViewList;
 		private List<Label> mButtonList;
 		private BoxView mEnabledBoxView;
 		private List<int> mCategoryIndexList;
@@ -44,7 +44,7 @@ namespace bluemart.MainViews
 		public void CreationInitialization()
 		{
 			NavigationPage.SetHasNavigationBar (this, false);
-			mBoxViewList = new List<BoxView> ();
+			//mBoxViewList = new List<BoxView> ();
 			mButtonList = new List<Label> ();
 			mCategoryIndexList = new List<int> ();
 
@@ -82,7 +82,7 @@ namespace bluemart.MainViews
 			
 			SubCategoryStackLayout.Children.Clear ();
 			mProductDictionary.Clear ();
-			mBoxViewList.Clear ();
+			//mBoxViewList.Clear ();
 			mButtonList.Clear ();
 			mCategoryIndexList.Clear ();
 			foreach (var productCell in mProductCellList) {
@@ -113,12 +113,12 @@ namespace bluemart.MainViews
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
 			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
-			Grid1.BackgroundColor = MyDevice.BlueColor;
+			Grid1.BackgroundColor = MyDevice.BackgroundColor;
 		}
 
 		private void PopulateSubCategoryButtons()
 		{
-			mBoxViewList.Clear ();
+			//mBoxViewList.Clear ();
 			foreach (var productPair in mProductDictionary) {
 
 				var relativeLayout = new RelativeLayout(){					
@@ -131,7 +131,7 @@ namespace bluemart.MainViews
 					VerticalOptions = LayoutOptions.FillAndExpand,
 					BackgroundColor = Color.White,
 					Text = productPair.Key,
-					TextColor = MyDevice.RedColor,
+					TextColor = MyDevice.BlueColor,
 					FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label))
 				};
 
@@ -145,18 +145,18 @@ namespace bluemart.MainViews
 				label.GestureRecognizers.Add (tapRecognizer);
 
 				mButtonList.Add (label);
-				BoxView boxView = new BoxView (){
+				/*BoxView boxView = new BoxView (){
 					HeightRequest = 3,
 					Color = MyDevice.RedColor,
 					IsVisible = false
 				};
-				mBoxViewList.Add (boxView);
+				mBoxViewList.Add (boxView);*/
 
 				relativeLayout.Children.Add(label, Constraint.RelativeToParent(parent => {
 					return 0;	
 				}));
 
-				relativeLayout.Children.Add (boxView, 
+				/*relativeLayout.Children.Add (boxView, 
 					Constraint.RelativeToView (label, (parent, sibling) => {
 						return sibling.Bounds.Left + 5;
 					}),
@@ -165,15 +165,23 @@ namespace bluemart.MainViews
 					}),
 					Constraint.RelativeToView (label, (parent, sibling) => {
 						return sibling.Width - 10;
-					}));
+					}));*/
 
 				//relativeLayout.WidthRequest = my
 
-				SubCategoryStackLayout.Children.Add (relativeLayout);
+				var frame = new Frame { 				
+					Padding = 2,
+					OutlineColor = Color.Blue,
+					BackgroundColor = Color.Blue,
+					VerticalOptions = LayoutOptions.Start,
+					Content = relativeLayout
+				};
+
+				SubCategoryStackLayout.Children.Add (frame);
 			}
 
-			mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
-			mBoxViewList [mActiveButtonIndex].IsVisible = true;
+			//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+			//mBoxViewList [mActiveButtonIndex].IsVisible = true;
 		}
 
 		private void  OnScrolled( Object sender, ScrolledEventArgs e)
@@ -186,7 +194,7 @@ namespace bluemart.MainViews
 						if (ProductScrollView.ScrollY > top) {
 							mActiveButtonIndex += 1;
 							mEnabledBoxView.IsVisible = false;
-							mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+							//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
 							mEnabledBoxView.IsVisible = true;
 						}
 					} catch {
@@ -224,7 +232,7 @@ namespace bluemart.MainViews
 						if (ProductScrollView.ScrollY < top) {
 							mActiveButtonIndex -= 1;
 							mEnabledBoxView.IsVisible = false;
-							mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+							//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
 							mEnabledBoxView.IsVisible = true;
 						}
 					}
@@ -289,7 +297,7 @@ namespace bluemart.MainViews
 			catch{
 				System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");
 			}
-				mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+				//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
 				mEnabledBoxView.IsVisible = true;
 		}
 

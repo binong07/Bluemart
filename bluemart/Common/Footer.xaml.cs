@@ -52,11 +52,12 @@ namespace bluemart.Common
 			CartLabel.TextColor = Color.White;
 			TrackLabel.TextColor = Color.White;
 
-			CategoryLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
-			SettingsLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
-			FavoritesLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
-			CartLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
-			TrackLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+
+			CategoryLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
+			SettingsLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
+			FavoritesLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
+			CartLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
+			TrackLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
 		}
 
 		private void SetImageSize()
