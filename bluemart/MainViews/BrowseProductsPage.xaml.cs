@@ -41,7 +41,7 @@ namespace bluemart.MainViews
 			mParent = parent;
 			CreationInitialization ();
 			PopulationOfNewProductPage (productDictionary, category);
-			WaitBeforeInit ();
+			//WaitBeforeInit ();
 		}
 
 		public void CreationInitialization()
@@ -122,8 +122,9 @@ namespace bluemart.MainViews
 		private async void WaitBeforeInit()
 		{
 			await Task.Delay (200);
-			LoadAllProducts ();
-			LoadInitialImages ();
+			//LoadLimitedNumberOfProducts (50);
+			/*LoadAllProducts ();
+			LoadInitialImages ();*/
 		}
 
 		private void PopulateSubCategoryButtons()
@@ -214,8 +215,6 @@ namespace bluemart.MainViews
 					
 
 				if ( ProductScrollView.ScrollY >= Grid2.Children.ElementAt (mLastLoadedIndex).Bounds.Bottom-50 ) {
-					int startIndex = mLastLoadedIndex;
-
 					int endIndex = (int)Math.Ceiling (ProductScrollView.ScrollY / (int)Math.Floor(Grid2.Children.ElementAt(0).Height-MyDevice.ViewPadding/2)) * 2 +1 ;
 
 					if (endIndex >= Grid2.Children.Count) {
@@ -256,7 +255,6 @@ namespace bluemart.MainViews
 					mLastLoadedIndex = Grid2.Children.Count - 1;
 
 				if (ProductScrollView.ScrollY <= Grid2.Children.ElementAt (mLastLoadedIndex).Bounds.Top) {
-					int startIndex = mLastLoadedIndex;
 					int endIndex = (int)Math.Floor (ProductScrollView.ScrollY / (int)Math.Floor(Grid2.Children.ElementAt(0).Height-MyDevice.ViewPadding/2)) * 2 - 1;
 
 					if (endIndex < 0) {
@@ -327,8 +325,12 @@ namespace bluemart.MainViews
 				}
 			}
 
-			//LoadLimitedNumberOfProductCells (40);			
-
+			//LoadLimitedNumberOfProducts (1000);
+			LoadAllProducts();
+			ManageQueuesInBackground ();
+			PopulateProductCellInBackground ();
+			EraseProductCellInBackground ();
+			CheckIfLastIndexChanged ();
 
 			//LoadInitialImages ();
 		}
@@ -425,7 +427,25 @@ namespace bluemart.MainViews
 			}
 		}
 
-		private void LoadAllProducts()
+		private async void LoadLimitedNumberOfProducts(int count)
+		{	
+			foreach (var product in mProductList) {
+				int productIndex = mProductList.IndexOf (product);
+				if (productIndex == count)
+					break;
+
+				ProductCell productCell = new ProductCell (Grid2, product, this);
+
+				mProductCellList.Add (productCell);					
+			
+				Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);			
+				productCell.ProduceStreamsAndImages ();
+
+				await Task.Delay (100);
+			}
+		}
+
+		private async void LoadAllProducts()
 		{	
 			foreach (var product in mProductList) {
 				int productIndex = mProductList.IndexOf (product);
@@ -435,7 +455,9 @@ namespace bluemart.MainViews
 
 
 				Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);			
-							
+				productCell.ProduceStreamsAndImages ();	
+
+				await Task.Delay (100);
 			}
 		}
 
