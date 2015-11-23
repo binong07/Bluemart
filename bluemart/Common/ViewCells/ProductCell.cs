@@ -186,11 +186,11 @@ namespace bluemart.Common.ViewCells
 		}
 
 
-		public async void ProduceStreamsAndImages()
+		public void ProduceStreamsAndImages()
 		{			
 			mBorderStream = new MemoryStream();
 			mRootPage.mBorderImage.Position = 0;
-			await mRootPage.mBorderImage.CopyToAsync(mBorderStream);
+			mRootPage.mBorderImage.CopyToAsync(mBorderStream);
 			mBorderStream.Position = 0;
 
 			mBorderImage.Source = StreamImageSource.FromStream(() => mBorderStream);

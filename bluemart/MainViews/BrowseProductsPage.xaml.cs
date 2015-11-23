@@ -21,8 +21,10 @@ namespace bluemart.MainViews
 		public RootPage mParent;
 		public string mCategoryID;
 		private List<Product> mProductList = new List<Product> ();
-		private int mLoadSize = 80;
+		private int mLoadSize = 30;
 		private int mLastLoadedIndex = 0;
+		private int mLastScrollIndex = 0;
+		private bool bIsImagesProduced = false;
 		private int mInitialLoadSize = 8;
 
 		private List<ProductCell> mProductCellList = new List<ProductCell> ();
@@ -39,6 +41,7 @@ namespace bluemart.MainViews
 			mParent = parent;
 			CreationInitialization ();
 			PopulationOfNewProductPage (productDictionary, category);
+			WaitBeforeInit ();
 		}
 
 		public void CreationInitialization()
@@ -114,6 +117,13 @@ namespace bluemart.MainViews
 			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.BackgroundColor = MyDevice.BackgroundColor;
+		}
+
+		private async void WaitBeforeInit()
+		{
+			await Task.Delay (200);
+			LoadAllProducts ();
+			LoadInitialImages ();
 		}
 
 		private void PopulateSubCategoryButtons()
@@ -206,7 +216,7 @@ namespace bluemart.MainViews
 				if ( ProductScrollView.ScrollY >= Grid2.Children.ElementAt (mLastLoadedIndex).Bounds.Bottom-50 ) {
 					int startIndex = mLastLoadedIndex;
 
-					int endIndex = (int)Math.Ceiling (ProductScrollView.ScrollY / (int)Math.Floor(Grid2.Children.ElementAt(0).Height-MyDevice.ViewPadding/2)) * 2 +1;
+					int endIndex = (int)Math.Ceiling (ProductScrollView.ScrollY / (int)Math.Floor(Grid2.Children.ElementAt(0).Height-MyDevice.ViewPadding/2)) * 2 +1 ;
 
 					if (endIndex >= Grid2.Children.Count) {
 						endIndex = Grid2.Children.Count - 1;
@@ -214,13 +224,13 @@ namespace bluemart.MainViews
 
 					mLastLoadedIndex = endIndex;
 
-					for (int i = startIndex; i <= endIndex; i++) {						
+					/*for (int i = startIndex; i <= endIndex; i++) {						
 						if (!mTrashProductCellQueue.Contains (mProductCellList [i])) {							
 							lock (_ListLock) {									
 								mManagerProductCellQueue.Enqueue (mProductCellList [i]);
 							}
 						}
-					}
+					}*/
 
 			}
 			}else {				
@@ -257,14 +267,14 @@ namespace bluemart.MainViews
 
 					mLastLoadedIndex = endIndex;
 
-					for (int i = startIndex; i >= endIndex; i--) {
+					/*for (int i = startIndex; i >= endIndex; i--) {
 						
 						if (!mTrashProductCellQueue.Contains (mProductCellList [i])) {							
 							lock (_ListLock) {									
 								mManagerProductCellQueue.Enqueue (mProductCellList [i]);
 							}
 						}
-					}
+					}*/
 				}
 			}	
 
@@ -318,13 +328,42 @@ namespace bluemart.MainViews
 			}
 
 			//LoadLimitedNumberOfProductCells (40);			
-			LoadAllProducts();
-			LoadInitialImages ();
-			ManageQueuesInBackground ();
-			PopulateProductCellInBackground ();
-			EraseProductCellInBackground ();
+
 
 			//LoadInitialImages ();
+		}
+
+		private async void CheckIfLastIndexChanged(){
+			
+			while (true) {
+				if (mLastLoadedIndex != mLastScrollIndex) {
+					lock (_ListLock) {
+						mManagerProductCellQueue.Clear ();
+					}
+
+					mLastScrollIndex = mLastLoadedIndex;
+					bIsImagesProduced = false;
+				} else {
+					if (!bIsImagesProduced) {
+						bIsImagesProduced = true;
+						for (int i = 0; i < 8; i++) {
+							int next = mLastLoadedIndex + i;
+							int prev = mLastLoadedIndex - i;
+							if (next < mProductCellList.Count && !mTrashProductCellQueue.Contains (mProductCellList [mLastLoadedIndex + i])) {							
+								lock (_ListLock) {									
+									mManagerProductCellQueue.Enqueue (mProductCellList [next]);
+								}
+							}
+							if (prev > 0 && !mTrashProductCellQueue.Contains (mProductCellList [prev])) {							
+								lock (_ListLock) {									
+									mManagerProductCellQueue.Enqueue (mProductCellList [prev]);
+								}
+							}
+						}
+					}
+				}
+				await Task.Delay (100);
+			}
 		}
 
 		private async void ManageQueuesInBackground()
@@ -411,6 +450,11 @@ namespace bluemart.MainViews
 				}
 				productCell.ProduceStreamsAndImages ();
 			}
+
+			ManageQueuesInBackground ();
+			PopulateProductCellInBackground ();
+			EraseProductCellInBackground ();
+			CheckIfLastIndexChanged ();
 		}
 			
 
