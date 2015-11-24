@@ -48,7 +48,8 @@ namespace bluemart.MainViews
 				{					
 					ProductCell productCell = new ProductCell (Grid2,mProductList[counter++],this );					
 					Grid2.Children.Add (productCell.View, col, row);
-
+					productCell.ProduceStreamsAndImages ();
+					productCell.ProduceProductImages ();
 					if ( counter == mProductList.Count)
 						break;
 				}

@@ -11,7 +11,7 @@
 	                    Android="0, 0, 0, 0"
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
-  	<RelativeLayout x:Name = "RelativeLayout1" VerticalOptions = "FillAndExpand" HorizontalOptions = "FillAndExpand">
+  	<RelativeLayout x:Name = "RelativeLayout1" VerticalOptions = "FillAndExpand" HorizontalOptions = "FillAndExpand">  		
 		<mr:Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "2">
 		 		<Grid.RowDefinitions>
 					<RowDefinition/>
@@ -25,5 +25,6 @@
 				<headers:TopNavigationBar x:Name = "ProductHeader" Grid.Row = "0" Grid.Column = "0"/>
 				<common:Footer x:Name = "Footer" Grid.Row = "2" Grid.Column = "0"/>
 	    </mr:Grid>
+
     </RelativeLayout>
 </ContentPage>

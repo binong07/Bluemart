@@ -6,6 +6,7 @@ using bluemart.Common.ViewCells;
 using Xamarin.Forms;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace bluemart.MainViews
 {
@@ -14,7 +15,7 @@ namespace bluemart.MainViews
 		private Dictionary<string,List<Product>> mProductDictionary;
 		//private List<BoxView> mBoxViewList;
 		private List<Label> mButtonList;
-		private BoxView mEnabledBoxView;
+		private Label mEnabledButtonView;
 		private List<int> mCategoryIndexList;
 		private double mPreviousScrollPositionY = 0;
 		private int mActiveButtonIndex = 0;
@@ -25,13 +26,13 @@ namespace bluemart.MainViews
 		private int mLastLoadedIndex = 0;
 		private int mLastScrollIndex = 0;
 		private bool bIsImagesProduced = false;
-		private int mInitialLoadSize = 8;
+		private int mInitialLoadSize = 4;
 
 		private List<ProductCell> mProductCellList = new List<ProductCell> ();
 		private Queue<ProductCell> mTrashProductCellQueue = new Queue<ProductCell>();
 		private Queue<ProductCell> mPopulaterProductCellQueue = new Queue<ProductCell> ();
 		private Queue<ProductCell> mManagerProductCellQueue = new Queue<ProductCell> ();
-
+		CancellationTokenSource mLoadProductsToken = new CancellationTokenSource();
 
 		static readonly Object _ListLock = new Object();
 
@@ -53,6 +54,8 @@ namespace bluemart.MainViews
 
 			SetGrid1Definitions ();
 		}
+
+
 
 
 		public void PopulationOfNewProductPage(Dictionary<string,List<Product>> productDictionary,Category category)
@@ -82,10 +85,11 @@ namespace bluemart.MainViews
 
 		public void ClearContainers()
 		{			
-			
+			mLoadProductsToken.Cancel ();
+
 			SubCategoryStackLayout.Children.Clear ();
 			mProductDictionary.Clear ();
-			//mBoxViewList.Clear ();
+			mButtonList.Clear ();
 			mButtonList.Clear ();
 			mCategoryIndexList.Clear ();
 			foreach (var productCell in mProductCellList) {
@@ -94,7 +98,7 @@ namespace bluemart.MainViews
 
 
 			mProductCellList.Clear ();
-			mProductList.Clear ();
+
 			mProductCellList.Clear();
 			mTrashProductCellQueue.Clear();
 			mPopulaterProductCellQueue.Clear();
@@ -119,17 +123,18 @@ namespace bluemart.MainViews
 			Grid1.BackgroundColor = MyDevice.BackgroundColor;
 		}
 
-		private async void WaitBeforeInit()
+		private async Task WaitUntilCorrespondingSubCategoryLoaded(int productCellIndex)
 		{
-			await Task.Delay (200);
-			//LoadLimitedNumberOfProducts (50);
-			/*LoadAllProducts ();
-			LoadInitialImages ();*/
+			mParent.mActivityIndicator.IsRunning = true;
+			while (Grid2.Children.Count-2 < productCellIndex) {
+				await Task.Delay (100);
+			}
+			mParent.mActivityIndicator.IsRunning = false;
 		}
 
 		private void PopulateSubCategoryButtons()
 		{
-			//mBoxViewList.Clear ();
+			mButtonList.Clear ();
 			foreach (var productPair in mProductDictionary) {
 
 				var relativeLayout = new RelativeLayout(){					
@@ -155,7 +160,7 @@ namespace bluemart.MainViews
 
 				label.GestureRecognizers.Add (tapRecognizer);
 
-				mButtonList.Add (label);
+				//mButtonList.Add (label);
 				/*BoxView boxView = new BoxView (){
 					HeightRequest = 3,
 					Color = MyDevice.RedColor,
@@ -188,9 +193,15 @@ namespace bluemart.MainViews
 					Content = relativeLayout
 				};
 
+
+				mButtonList.Add (label);
+
 				SubCategoryStackLayout.Children.Add (frame);
 			}
 
+			mEnabledButtonView = mButtonList [mActiveButtonIndex];
+			mEnabledButtonView.BackgroundColor = MyDevice.BlueColor;
+			mEnabledButtonView.TextColor = Color.White;
 			//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
 			//mBoxViewList [mActiveButtonIndex].IsVisible = true;
 		}
@@ -204,9 +215,7 @@ namespace bluemart.MainViews
 						double top = Grid2.Children.ElementAt (productCellIndex).Bounds.Top;					
 						if (ProductScrollView.ScrollY > top) {
 							mActiveButtonIndex += 1;
-							mEnabledBoxView.IsVisible = false;
-							//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
-							mEnabledBoxView.IsVisible = true;
+							ChangeSelectedButton();
 						}
 					} catch {
 						System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");
@@ -215,21 +224,13 @@ namespace bluemart.MainViews
 					
 
 				if ( ProductScrollView.ScrollY >= Grid2.Children.ElementAt (mLastLoadedIndex).Bounds.Bottom-50 ) {
-					int endIndex = (int)Math.Ceiling (ProductScrollView.ScrollY / (int)Math.Floor(Grid2.Children.ElementAt(0).Height-MyDevice.ViewPadding/2)) * 2 +1 ;
+					int endIndex = (int)Math.Ceiling (ProductScrollView.ScrollY / (int)Math.Floor(Grid2.Children.ElementAt(0).Height-MyDevice.ViewPadding/2)) * 2 - 1;
 
 					if (endIndex >= Grid2.Children.Count) {
 						endIndex = Grid2.Children.Count - 1;
 					} 
 
 					mLastLoadedIndex = endIndex;
-
-					/*for (int i = startIndex; i <= endIndex; i++) {						
-						if (!mTrashProductCellQueue.Contains (mProductCellList [i])) {							
-							lock (_ListLock) {									
-								mManagerProductCellQueue.Enqueue (mProductCellList [i]);
-							}
-						}
-					}*/
 
 			}
 			}else {				
@@ -240,9 +241,7 @@ namespace bluemart.MainViews
 						double top = Grid2.Children.ElementAt (productCellIndex).Bounds.Top;
 						if (ProductScrollView.ScrollY < top) {
 							mActiveButtonIndex -= 1;
-							mEnabledBoxView.IsVisible = false;
-							//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
-							mEnabledBoxView.IsVisible = true;
+							ChangeSelectedButton();
 						}
 					}
 					catch{
@@ -264,15 +263,6 @@ namespace bluemart.MainViews
 						endIndex =	Grid2.Children.Count - 1;
 
 					mLastLoadedIndex = endIndex;
-
-					/*for (int i = startIndex; i >= endIndex; i--) {
-						
-						if (!mTrashProductCellQueue.Contains (mProductCellList [i])) {							
-							lock (_ListLock) {									
-								mManagerProductCellQueue.Enqueue (mProductCellList [i]);
-							}
-						}
-					}*/
 				}
 			}	
 
@@ -293,20 +283,41 @@ namespace bluemart.MainViews
 			return rotation;
 		}
 
-		private void FocusSelectedButton(Label selectedButton)
-		{
-			mEnabledBoxView.IsVisible = false;
-			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);
+
+
+		private async void FocusSelectedButton(Label selectedButton)
+		{			
+			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);			
 			int productCellIndex = mCategoryIndexList [mActiveButtonIndex];
+			ChangeSelectedButton ();
 			try
 			{
-				ProductScrollView.ScrollToAsync (Grid2.Children.ElementAt (productCellIndex), ScrollToPosition.Start, true);
+				if( productCellIndex < Grid2.Children.Count )
+					await ProductScrollView.ScrollToAsync (Grid2.Children.ElementAt (productCellIndex), ScrollToPosition.Start, true);
+				else
+				{
+					await WaitUntilCorrespondingSubCategoryLoaded(productCellIndex);
+					await ProductScrollView.ScrollToAsync (Grid2.Children.ElementAt (productCellIndex), ScrollToPosition.Start, true);
+				}
 			}
 			catch{
 				System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");
 			}
-				//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
-				mEnabledBoxView.IsVisible = true;
+
+			lock (_ListLock) {
+				mManagerProductCellQueue.Clear ();
+			}
+		}
+
+		private void ChangeSelectedButton()
+		{
+			mEnabledButtonView.BackgroundColor = Color.White;
+			mEnabledButtonView.TextColor = MyDevice.BlueColor;
+
+			mEnabledButtonView = mButtonList [mActiveButtonIndex];
+
+			mEnabledButtonView.BackgroundColor = MyDevice.BlueColor;
+			mEnabledButtonView.TextColor = Color.White;
 		}
 
 		private void PopulateGrid()
@@ -351,12 +362,12 @@ namespace bluemart.MainViews
 						for (int i = 0; i < 8; i++) {
 							int next = mLastLoadedIndex + i;
 							int prev = mLastLoadedIndex - i;
-							if (next < mProductCellList.Count && !mTrashProductCellQueue.Contains (mProductCellList [mLastLoadedIndex + i])) {							
+							if (next < mProductCellList.Count /*&& !mTrashProductCellQueue.Contains (mProductCellList [mLastLoadedIndex + i])*/) {							
 								lock (_ListLock) {									
 									mManagerProductCellQueue.Enqueue (mProductCellList [next]);
 								}
 							}
-							if (prev > 0 && !mTrashProductCellQueue.Contains (mProductCellList [prev])) {							
+							if (prev > 0 /*&& !mTrashProductCellQueue.Contains (mProductCellList [prev])*/) {							
 								lock (_ListLock) {									
 									mManagerProductCellQueue.Enqueue (mProductCellList [prev]);
 								}
@@ -417,6 +428,7 @@ namespace bluemart.MainViews
 				if (mPopulaterProductCellQueue.Count > 0) {
 					var productCell = mPopulaterProductCellQueue.Dequeue ();	
 					if (!productCell.bIsImageSet) {	
+						productCell.bIsImageSet = true;
 						mTrashProductCellQueue.Enqueue (productCell);
 						productCell.ProduceProductImages ();
 					}
@@ -440,7 +452,7 @@ namespace bluemart.MainViews
 			
 				Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);			
 				productCell.ProduceStreamsAndImages ();
-
+				 
 				await Task.Delay (100);
 			}
 		}
@@ -453,11 +465,19 @@ namespace bluemart.MainViews
 
 				mProductCellList.Add (productCell);					
 
-
-				Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);			
 				productCell.ProduceStreamsAndImages ();	
+				Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);			
 
-				await Task.Delay (100);
+				if( productIndex < mInitialLoadSize )
+					mManagerProductCellQueue.Enqueue (productCell);
+				
+				try{
+					await Task.Delay (50,mLoadProductsToken.Token);
+				}
+				catch {
+					mProductList.Clear ();
+					break;
+				}
 			}
 		}
 
@@ -471,6 +491,7 @@ namespace bluemart.MainViews
 					//}
 				}
 				productCell.ProduceStreamsAndImages ();
+				//mPopulaterProductCellQueue.Enqueue (productCell);
 			}
 
 			ManageQueuesInBackground ();

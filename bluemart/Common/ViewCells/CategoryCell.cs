@@ -69,16 +69,16 @@ namespace bluemart.Common.ViewCells
 
 			mainCellGrid.Children.Add (lbl, 1, 1);
 
-			var mainFrame = new Frame { 
+			/*var mainFrame = new Frame { 
 				
 				Padding = framePadding,
 				OutlineColor = MyDevice.BackgroundColor,
 				BackgroundColor = Color.White,
 				VerticalOptions = LayoutOptions.Start,
 				Content = mainCellGrid
-			};
+			};*/
 
-			this.View = mainFrame;
+			this.View = mainCellGrid;
 		}
 
 

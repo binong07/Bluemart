@@ -35,7 +35,7 @@ namespace bluemart.MainViews
 		private List<string> mPageList;
 
 		//public Stream mAddFavoritesImage;
-		//public Stream mRemoveFavoritesImage;
+		public Stream mRemoveFavoritesImage;
 		public Stream mBorderImage;
 		//private int mActivePageIndex = 2;
 		private static IFolder mRootFolder =  FileSystem.Current.LocalStorage;
@@ -45,10 +45,12 @@ namespace bluemart.MainViews
 		private double mGrid1Height;
 		private Xamarin.Forms.Image mCartBackgroundImage;
 		public Xamarin.Forms.Label mPriceLabel;
+		public Xamarin.Forms.ActivityIndicator mActivityIndicator;
+
 		public RootPage ()
 		{
 			InitializeComponent ();
-
+			mActivityIndicator = new Xamarin.Forms.ActivityIndicator();
 			mCartBackgroundImage = new Xamarin.Forms.Image () {
 				Source = "CartBackground",
 				Aspect = Aspect.Fill
@@ -90,7 +92,7 @@ namespace bluemart.MainViews
 
 			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
 			//mAddFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_add.png");
-			//mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
+			mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
 			mBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.border.png");
 			mFolder = mRootFolder.GetFolderAsync(ParseConstants.IMAGE_FOLDER_NAME).Result;
 
@@ -123,7 +125,14 @@ namespace bluemart.MainViews
 				//SwitchTab( mPageList[indexOfCurrentPage] );
 			};
 
-
+			RelativeLayout1.Children.Add (mActivityIndicator,
+				Constraint.RelativeToParent (parent => {
+					return parent.Width/2;		
+				}),
+				Constraint.RelativeToParent (parent => {
+					return parent.Height/2;		
+				})
+			);
 		}			
 
 		private void SetGrid1Definitions()
