@@ -37,6 +37,7 @@ namespace bluemart.MainViews
 		//public Stream mAddFavoritesImage;
 		public Stream mRemoveFavoritesImage;
 		public Stream mBorderImage;
+		public Stream mCategoryBorderImage;
 		//private int mActivePageIndex = 2;
 		private static IFolder mRootFolder =  FileSystem.Current.LocalStorage;
 		private static string mRootFolderPath = mRootFolder.Path;
@@ -64,10 +65,10 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Right - mCartBackgroundImage.Width;
 				}),
 				Constraint.RelativeToView (Grid1, (parent, sibling) => {
-					return sibling.Bounds.Bottom  - MyDevice.ScreenHeight / 14 - MyDevice.ScreenHeight / 28;
+					return sibling.Bounds.Bottom  - MyDevice.ScreenWidth * 0.249f;
 				}),
-				Constraint.Constant(MyDevice.ScreenWidth*2/5+5),
-				Constraint.Constant(MyDevice.ScreenHeight / 28)
+				Constraint.Constant(MyDevice.ScreenWidth*0.394444444f),
+				Constraint.Constant(MyDevice.ScreenWidth*0.065740741f)
 			);
 
 			mPriceLabel = new Xamarin.Forms.Label () {
@@ -81,17 +82,17 @@ namespace bluemart.MainViews
 
 			RelativeLayout1.Children.Add (mPriceLabel, 
 				Constraint.RelativeToView (mCartBackgroundImage, (parent, sibling) => {
-					return sibling.Bounds.Center.X + 15;
+					return sibling.Bounds.Center.X + MyDevice.ScreenWidth*0.032f;
 				}),
 				Constraint.RelativeToView (mCartBackgroundImage, (parent, sibling) => {
-					return sibling.Bounds.Top + 4;
+					return sibling.Bounds.Top + MyDevice.ScreenWidth*0.01f;
 				})
 			);
 
 			SwitchHeaderVisibility (true);
 
 			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
-			//mAddFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_add.png");
+			mCategoryBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.categoryBorder.png");
 			mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
 			mBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.border.png");
 			mFolder = mRootFolder.GetFolderAsync(ParseConstants.IMAGE_FOLDER_NAME).Result;
@@ -138,8 +139,8 @@ namespace bluemart.MainViews
 		private void SetGrid1Definitions()
 		{			
 			Grid1.BackgroundColor = MyDevice.BlueColor;
-			Grid1.RowDefinitions [0].Height = MyDevice.ScreenHeight / 12;
-			Grid1.RowDefinitions [2].Height = MyDevice.ScreenHeight / 14;
+			Grid1.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.148f;
+			Grid1.RowDefinitions [2].Height = MyDevice.ScreenWidth * 0.179f;
 
 		}
 

@@ -23,7 +23,7 @@ namespace bluemart.MainViews
 			mParent = parent;
 			//Header.mParent = parent;
 			NavigationPage.SetHasNavigationBar (this, false);
-			ScrollView1.BackgroundColor = MyDevice.BlueColor;
+			ScrollView1.BackgroundColor = MyDevice.BackgroundColor;
 			SetGrid2Definitions ();
 
 		}

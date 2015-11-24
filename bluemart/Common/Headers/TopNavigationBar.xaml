@@ -21,7 +21,7 @@
 	<controls:ExtendedEntry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "2" Text = "Search Products" XAlign = "Center"
 			BackgroundColor = "White"  VerticalOptions = "Fill" HorizontalOptions = "FillAndExpand" Completed = "SearchEntryCompleted" Focused = "SearchEntryFocused" Unfocused = "SearchEntryUnfocused" IsVisible="false"/>
 	<Label x:Name="NavigationTitle" Grid.Row = "0" Grid.Column = "2" VerticalOptions = "Center" HorizontalOptions = "Center"/>
-	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "3" Source="search" VerticalOptions = "Start" HorizontalOptions = "End"/>
+	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "3" Source="search" VerticalOptions = "Center" HorizontalOptions = "End"/>
 	<!--<Grid  x:Name="CartGrid"  Grid.Row = "0" Grid.Column = "3" BackgroundColor="White" Padding = "0,0,0,0" RowSpacing = "0" HorizontalOptions = "End">
 		<Grid.RowDefinitions>
 			<RowDefinition/>

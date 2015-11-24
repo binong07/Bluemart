@@ -43,7 +43,7 @@ namespace bluemart.MainViews
 			
 		private void PopulateGrid()
 		{			
-			ScrollView1.Padding = MyDevice.ViewPadding;
+			//ScrollView1.Padding = MyDevice.ViewPadding;
 			ScrollView1.BackgroundColor = MyDevice.BackgroundColor;
 			for (int i = 0; i < mCategories.Count; i++) {
 				if (!mCategories [i].IsSubCategory) {

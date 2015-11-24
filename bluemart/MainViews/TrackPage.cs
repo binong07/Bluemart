@@ -61,7 +61,7 @@ namespace bluemart.MainViews
 		{
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
-			Grid1.BackgroundColor = MyDevice.BlueColor;
+			Grid1.BackgroundColor = MyDevice.BackgroundColor;
 		}
 			
 	}

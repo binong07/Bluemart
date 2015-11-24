@@ -50,7 +50,10 @@ namespace bluemart.Common.Headers
 
 		private void SetImageSize()
 		{
-			BackButton.HeightRequest = MyDevice.ScreenHeight / 20;
+			SearchButton.Aspect = Aspect.Fill;
+			SearchButton.WidthRequest = MyDevice.ScreenWidth*0.087f;
+			SearchButton.HeightRequest = MyDevice.ScreenWidth*0.087f;
+			BackButton.HeightRequest = MyDevice.ScreenWidth*0.087f;
 			//CartButton.HeightRequest = MyDevice.ScreenHeight / 18;
 			NavigationTitle.FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label));
 		}

@@ -3,72 +3,65 @@
      xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
      x:Class="bluemart.Common.Footer"
      x:Name="FooterStackLayout"
-     Orientation = "Horizontal"
-     Spacing = "0"
-     Padding = "0">
+     Orientation = "Horizontal">
 
      <Grid x:Name = "TrackGrid" RowSpacing = "0" Padding = "0">
      	<Grid.RowDefinitions>
      		<RowDefinition/>
 			<RowDefinition/>
-			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "TrackButton" Grid.Row = "1" Grid.Column = "0" Source = "Track" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="TrackLabel" Grid.Row = "2" Grid.Column = "0" Text = "Track" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "TrackButton" Grid.Row = "0" Grid.Column = "0" Source = "Track" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Label x:Name="TrackLabel" Grid.Row = "1" Grid.Column = "0" Text = "Track" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
      <Grid x:Name = "SettingsGrid" RowSpacing = "0" Padding = "0">
      	<Grid.RowDefinitions>
      		<RowDefinition/>
      		<RowDefinition/>
-			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "SettingsButton" Grid.Row = "1" Grid.Column = "0" Source = "Settings" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="SettingsLabel" Grid.Row = "2" Grid.Column = "0" Text = "Settings" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "SettingsButton" Grid.Row = "0" Grid.Column = "0" Source = "Settings" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Label x:Name="SettingsLabel" Grid.Row = "1" Grid.Column = "0" Text = "Settings" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
      <Grid x:Name = "CategoryGrid" RowSpacing = "0" Padding = "0">
      	<Grid.RowDefinitions>
      		<RowDefinition/>
 			<RowDefinition/>
-			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "CategoryButton" Grid.Row = "1" Grid.Column = "0" Source = "Categories" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="CategoryLabel" Grid.Row = "2" Grid.Column = "0" Text = "Categories" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "CategoryButton" Grid.Row = "0" Grid.Column = "0" Source = "Categories" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Label x:Name="CategoryLabel" Grid.Row = "1" Grid.Column = "0" Text = "Categories" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand" VerticalTextAlignment = "Center"/>
      </Grid>
 
      <Grid x:Name = "FavoritesGrid" RowSpacing = "0" Padding = "0">
      	<Grid.RowDefinitions>
      		<RowDefinition/>
 			<RowDefinition/>
-			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "FavoritesButton" Grid.Row = "1" Grid.Column = "0" Source = "Favorites" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="FavoritesLabel" Grid.Row = "2" Grid.Column = "0" Text = "Favorites" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "FavoritesButton" Grid.Row = "0" Grid.Column = "0" Source = "Favorites" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Label x:Name="FavoritesLabel" Grid.Row = "1" Grid.Column = "0" Text = "Favorites" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
 	<Grid x:Name = "CartGrid" RowSpacing = "0" Padding = "0">
-     	<Grid.RowDefinitions>
-     		<RowDefinition/>
+     	<Grid.RowDefinitions>     		
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "CartButton" Grid.Row = "1" Grid.Column = "0" Source = "cart2" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="CartLabel" Grid.Row = "2" Grid.Column = "0" Text = "Checkout" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Image x:Name = "CartButton" Grid.Row = "0" Grid.Column = "0" Source = "cart2" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Label x:Name="CartLabel" Grid.Row = "1" Grid.Column = "0" Text = "Checkout" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 </StackLayout>

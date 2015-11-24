@@ -39,9 +39,12 @@ namespace bluemart.Common.Headers
 
 		private void SetImageSize()
 		{
-			//SearchButton.Aspect = Aspect.AspectFill;
-
-			LogoImage.HeightRequest = MyDevice.ScreenHeight / 15;
+			SearchButton.Aspect = Aspect.Fill;
+			SearchButton.WidthRequest = MyDevice.ScreenWidth*0.087f;
+			SearchButton.HeightRequest = MyDevice.ScreenWidth*0.087f;
+			LogoImage.Aspect = Aspect.Fill;
+			LogoImage.HeightRequest = MyDevice.ScreenWidth * 0.109f;
+			LogoImage.WidthRequest = MyDevice.ScreenWidth * 0.568f;
 		}
 
 		private void AddTapRecognizers()

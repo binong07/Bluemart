@@ -117,7 +117,7 @@ namespace bluemart.MainViews
 
 		private void SetGrid1Definitions()
 		{
-			Grid1.RowDefinitions [0].Height = GridLength.Auto;
+			Grid1.RowDefinitions [0].Height = HeightRequest = MyDevice.ScreenWidth * 0.16f;
 			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.BackgroundColor = MyDevice.BackgroundColor;
@@ -126,10 +126,14 @@ namespace bluemart.MainViews
 		private async Task WaitUntilCorrespondingSubCategoryLoaded(int productCellIndex)
 		{
 			mParent.mActivityIndicator.IsRunning = true;
+			double height = ProductScrollView.Height;
+			ProductScrollView.HeightRequest = 0;
 			while (Grid2.Children.Count-2 < productCellIndex) {
 				await Task.Delay (100);
 			}
 			mParent.mActivityIndicator.IsRunning = false;
+			ProductScrollView.HeightRequest = height;
+			//ProductScrollView.IsEnabled = true;
 		}
 
 		private void PopulateSubCategoryButtons()
@@ -139,21 +143,26 @@ namespace bluemart.MainViews
 
 				var relativeLayout = new RelativeLayout(){					
 					VerticalOptions = LayoutOptions.Fill,
-					BackgroundColor = Color.Blue,
+					BackgroundColor = MyDevice.BlueColor,
 					Padding = 0
 				};
 
 				Label label = new Label () {
-					VerticalOptions = LayoutOptions.FillAndExpand,
+					VerticalOptions = LayoutOptions.End,
 					BackgroundColor = Color.White,
 					Text = productPair.Key,
 					TextColor = MyDevice.BlueColor,
-					FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label))
+					FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)),
+					HeightRequest = MyDevice.ScreenWidth * 0.11f,
+					HorizontalTextAlignment = TextAlignment.Center,
+					VerticalTextAlignment  = TextAlignment.Center
 				};
 
 				var tapRecognizer = new TapGestureRecognizer ();
 				tapRecognizer.Tapped += (sender, e) => {
 					if( mParent.mTopNavigationBar.mSearchEntry.IsFocused )
+						return;
+					if( mParent.mActivityIndicator.IsRunning )
 						return;
 					FocusSelectedButton(sender as Label);
 				};
@@ -187,8 +196,8 @@ namespace bluemart.MainViews
 
 				var frame = new Frame { 				
 					Padding = 2,
-					OutlineColor = Color.Blue,
-					BackgroundColor = Color.Blue,
+					OutlineColor = MyDevice.BlueColor,
+					BackgroundColor = MyDevice.BlueColor,
 					VerticalOptions = LayoutOptions.Start,
 					Content = relativeLayout
 				};
@@ -503,13 +512,13 @@ namespace bluemart.MainViews
 
 		private void SetGrid2Definitions()
 		{
-			SubCategoryStackLayout.Spacing = MyDevice.ViewPadding*3;
+			SubCategoryStackLayout.Spacing = MyDevice.ViewPadding;
 			ScrollView1.Padding = MyDevice.ViewPadding/2;
 			/*for (int i = 0; i < mRowCount; i++) 
 			{
 				Grid2.RowDefinitions.Add (new RowDefinition ());
 			}*/
-			Grid2.Padding = new Thickness (MyDevice.ViewPadding / 2, 0, 0, 0);
+			Grid2.Padding = new Thickness (MyDevice.ViewPadding / 2, 0, 0, 0); 
 			Grid2.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-Grid2.ColumnSpacing-MyDevice.ViewPadding)/2});
 			Grid2.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-Grid2.ColumnSpacing-MyDevice.ViewPadding)/2}); 
 		}			

@@ -62,7 +62,7 @@ namespace bluemart.MainViews
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
 			Grid1.RowDefinitions [1].Height = GridLength.Auto;
-			Grid1.BackgroundColor = MyDevice.BlueColor;
+			Grid1.BackgroundColor = MyDevice.BackgroundColor;
 			AddressExplanationLabel.FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label));
 			ChangeLocationButton.WidthRequest = MyDevice.ScreenWidth - MyDevice.ViewPadding * 2;
 			AddAddressButton.WidthRequest = MyDevice.ScreenWidth - MyDevice.ViewPadding * 2;

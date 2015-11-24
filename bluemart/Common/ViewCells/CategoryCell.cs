@@ -8,6 +8,7 @@ using bluemart.Common.Utilities;
 using bluemart.Models.Remote;
 using System.Linq;
 using bluemart.Models.Local;
+using System.IO;
 
 namespace bluemart.Common.ViewCells
 {
@@ -17,27 +18,34 @@ namespace bluemart.Common.ViewCells
 		List<Category> mCategoryList;
 		UserClass mUser;
 		Dictionary<string, List<Product>> mProductDictionary;
+		private Stream mBorderStream;
 
 		public CategoryCell (StackLayout parentGrid, Category category, RootPage parent = null)
 		{
-			int framePadding = 2;
-			var fullWidth = MyDevice.ScreenWidth - MyDevice.ViewPadding * 2 - 2 * framePadding;
+			var fullWidth = MyDevice.ScreenWidth - MyDevice.ViewPadding * 2;
 
 			mCategory = category;
 			mCategoryList = new List<Category> ();
 			mProductDictionary = new Dictionary<string, List<Product>> ();
 			mUser = new UserClass ();
 
-			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.White, Padding = 0, RowSpacing = 0 };
+			var mainRelativeLayout = new RelativeLayout(){
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Padding = 0
+			};
 
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = 160*MyDevice.ScreenHeight/592});
+			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Transparent, Padding = 0, RowSpacing = 0 };
+
+			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ /*Height = 160*MyDevice.ScreenHeight/592*/});
 			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))+5});
-			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width = fullWidth/10});
-			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width = fullWidth*9/10});
+			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){Width =  MyDevice.ScreenWidth*0.95f/9} );
+			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){Width =  MyDevice.ScreenWidth*0.95f/9*8});
 
 
 			Image categoryImage = new Image ();
-			categoryImage.Aspect = Aspect.AspectFill;
+			categoryImage.WidthRequest = MyDevice.ScreenWidth*0.95f;
+			categoryImage.HeightRequest = MyDevice.ScreenWidth*0.5092592593f;
+			categoryImage.Aspect = Aspect.Fill;
 			categoryImage.Source = ImageSource.FromFile(category.CategoryImagePath);
 
 
@@ -61,24 +69,41 @@ namespace bluemart.Common.ViewCells
 
 			Label lbl = new Label (){
 				FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)), 
-				BackgroundColor = Color.White, TextColor = MyDevice.BlueColor, 
+				BackgroundColor = Color.Transparent, TextColor = MyDevice.BlueColor, 
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				Text = category.Name
 			};
 
 			mainCellGrid.Children.Add (lbl, 1, 1);
+			Image borderImage = new Image ();
+			borderImage.Aspect = Aspect.Fill;
+			mBorderStream = new MemoryStream();
+			parent.mCategoryBorderImage.Position = 0;
+			parent.mCategoryBorderImage.CopyToAsync(mBorderStream);
+			mBorderStream.Position = 0;
+			borderImage.Source = StreamImageSource.FromStream (() => mBorderStream);
+			mainRelativeLayout.Children.Add (borderImage, 
+				Constraint.Constant(MyDevice.ScreenWidth*0.006f),
+				/*Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
+					return sibling.Bounds.Left;
+				}),*/
+				Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
+					return sibling.Bounds.Top;
+				}),
+				/*Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
+					return sibling.Width;
+				}),*/
+				Constraint.Constant( MyDevice.ScreenWidth*0.9962f ),
+				Constraint.Constant( MyDevice.ScreenWidth*0.6f )
+			);
 
-			/*var mainFrame = new Frame { 
-				
-				Padding = framePadding,
-				OutlineColor = MyDevice.BackgroundColor,
-				BackgroundColor = Color.White,
-				VerticalOptions = LayoutOptions.Start,
-				Content = mainCellGrid
-			};*/
+			mainRelativeLayout.Children.Add(mainCellGrid, 
+				Constraint.Constant(MyDevice.ViewPadding)
+			);
 
-			this.View = mainCellGrid;
+
+			this.View = mainRelativeLayout;
 		}
 
 

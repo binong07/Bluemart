@@ -24,6 +24,9 @@ namespace bluemart.Common
 
 			BackgroundColor = MyDevice.BlueColor;
 
+			this.Padding = new Thickness (MyDevice.ViewPadding*2, 0, 0, 0);
+			this.Spacing = MyDevice.ViewPadding*3/2;
+
 			mCategoriesLabel = CategoryLabel;
 			mSettingsLabel = SettingsLabel;
 			mFavoritesLabel = FavoritesLabel;
@@ -53,25 +56,46 @@ namespace bluemart.Common
 			TrackLabel.TextColor = Color.White;
 
 
-			CategoryLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
-			SettingsLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
-			FavoritesLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
-			CartLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
-			TrackLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label))-1;
+			CategoryLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			SettingsLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			FavoritesLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			CartLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			TrackLabel.FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
 		}
 
 		private void SetImageSize()
 		{
-			CartGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
+			/*CartGrid.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.085f;
 			TrackGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
 			CategoryGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
 			FavoritesGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
-			SettingsGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3;
-			CategoryButton.WidthRequest = MyDevice.ScreenWidth / 5;
-			SettingsButton.WidthRequest = MyDevice.ScreenWidth / 5;
-			FavoritesButton.WidthRequest = MyDevice.ScreenWidth / 5;
-			CartButton.WidthRequest = MyDevice.ScreenWidth / 5;
-			TrackButton.WidthRequest = MyDevice.ScreenWidth / 5;
+			SettingsGrid.RowDefinitions [0].Height = MyDevice.ViewPadding/3*/;
+			//CategoryGrid.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.085f;
+			//CategoryGrid.RowDefinitions [1].Height = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+			TrackButton.Aspect = Aspect.Fill;
+			TrackButton.WidthRequest = MyDevice.ScreenWidth * 0.063888889f;
+			TrackGrid.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.11f;
+			TrackButton.HeightRequest = MyDevice.ScreenWidth * 0.064814815f;
+
+			SettingsButton.Aspect = Aspect.Fill;
+			SettingsButton.WidthRequest = MyDevice.ScreenWidth * 0.085185185f;
+			SettingsGrid.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.11f;
+			SettingsButton.HeightRequest = MyDevice.ScreenWidth * 0.085185185f;
+
+			CategoryButton.Aspect = Aspect.Fill;
+			CategoryButton.WidthRequest = MyDevice.ScreenWidth * 0.098148148f;
+			CategoryGrid.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.11f;
+			CategoryButton.HeightRequest = MyDevice.ScreenWidth * 0.085185185f;
+
+			FavoritesButton.Aspect = Aspect.Fill;
+			FavoritesButton.WidthRequest = MyDevice.ScreenWidth * 0.088888889f;
+			FavoritesGrid.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.11f;
+			FavoritesButton.HeightRequest = MyDevice.ScreenWidth * 0.085185185f;
+
+			CartButton.Aspect = Aspect.Fill;
+			CartButton.WidthRequest = MyDevice.ScreenWidth * 0.093518519f;
+			CartGrid.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.11f;
+			CartButton.HeightRequest = MyDevice.ScreenWidth * 0.085185185f;
 		}			
 
 		private void AddTapRecognizers()
