@@ -82,7 +82,7 @@ namespace bluemart.Common.ViewCells
 			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding*2) *6 / 7 });
 
 			mFavoriteImage = new Image();
-
+			mFavoriteImage.Aspect = Aspect.Fill;
 			//insideGrid1.Children.Add(mFavoriteImage,1,0);
 
 			Label productNameLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)), TextColor = Color.Black, HorizontalTextAlignment=TextAlignment.Center, VerticalTextAlignment = TextAlignment.Center };
@@ -95,8 +95,8 @@ namespace bluemart.Common.ViewCells
 
 			#region row2
 			mProductImage = new Image ();
-			mProductImage.HeightRequest = width / 5 * 3;
-			mProductImage.WidthRequest = width / 5 * 3;
+			mProductImage.HeightRequest = MyDevice.ScreenWidth*0.288f;
+			mProductImage.WidthRequest = MyDevice.ScreenWidth*0.4740740741f;
 
 			mMainCellGrid.Children.Add (mProductImage, 0, 1);
 			#endregion
@@ -176,8 +176,8 @@ namespace bluemart.Common.ViewCells
 
 			mBorderImage = new Image (){};
 			mBorderImage.Aspect = Aspect.Fill;
-			mBorderImage.WidthRequest = MyDevice.ScreenWidth * 0.4740740741f;
-			mBorderImage.HeightRequest = MyDevice.ScreenWidth * 0.607f;
+			mBorderImage.WidthRequest = MyDevice.ScreenWidth * 0.4731481481f;
+			mBorderImage.HeightRequest = MyDevice.ScreenWidth * 0.6074074074f;
 
 			mainRelativeLayout.Children.Add (mBorderImage, 
 				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
@@ -196,17 +196,13 @@ namespace bluemart.Common.ViewCells
 
 			mainRelativeLayout.Children.Add(mFavoriteImage,
 				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Left + MyDevice.ScreenWidth*0.032f;
+					return sibling.Bounds.Left + MyDevice.ScreenWidth*0.0275f;
 				}),
 				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Top + 7;
-				})/*,
-				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return width;
+					return sibling.Bounds.Top + MyDevice.ScreenWidth*0.024f;
 				}),
-				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Height;
-				})*/
+				Constraint.Constant( MyDevice.ScreenWidth * 0.06f),
+				Constraint.Constant( MyDevice.ScreenWidth * 0.06f)
 			);
 
 
