@@ -6,6 +6,7 @@ using Parse;
 using System.Net.Http;
 using System.Linq;
 using bluemart.Models.Local;
+using Xamarin.Forms;
 
 namespace bluemart.Models.Remote
 {
@@ -60,7 +61,7 @@ namespace bluemart.Models.Remote
 			mProductCategoryIDDictionary.Clear ();
 		}
 
-		public static int GetProductAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
+		public static async void GetProductAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate,LoadingPage loadingPage)
 		{		
 			
 
@@ -71,7 +72,7 @@ namespace bluemart.Models.Remote
 			var productCount = productQuery.CountAsync().Result;
 
 			int queryLimit = 1000;
-
+			int j = 0;
 			for (int i = 0; i < productCount; i += queryLimit) {
 				var productObjects = productQuery.Limit(queryLimit).Skip(i).FindAsync ().Result;
 
@@ -95,18 +96,19 @@ namespace bluemart.Models.Remote
 					}
 
 					tempList.Add (tempProduct);
+
+					double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, productCount)), 10), 1), j++),new decimal(0.9f)));
+					await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 				}
 
 				mProductClass.AddProduct (tempList);	
 				
 			}
-
-			return productCount;
+			loadingPage.mFirstTokenSource.Cancel ();
 		}
 
-		public static int FetchProducts()
+		public static void FetchProducts(LoadingPage loadingPage)
 		{
-			int productNumber = 0;
 
 			if (MyDevice.GetNetworkStatus() != "NotReachable") {
 				DateTime? localUpdate = mUserClass.GetProductsUpdatedDateFromUser ();
@@ -117,14 +119,17 @@ namespace bluemart.Models.Remote
 				//update category class
 				if (remoteUpdate > localUpdate) {
 					//pull from remote and add to database
-					productNumber = GetProductAttributesFromRemoteAndSaveToLocal( localUpdate,remoteUpdate);
+					GetProductAttributesFromRemoteAndSaveToLocal( localUpdate,remoteUpdate,loadingPage);
 					mUserClass.AddProductsUpdateDateToUser (remoteUpdate);
 				}
+				else
+					loadingPage.mFirstTokenSource.Cancel ();
 			}
+			else
+				loadingPage.mFirstTokenSource.Cancel ();
 
 			PopulateProductDictionaries ();
 
-			return productNumber;
 		}
 
 		public static void PopulateProductDictionaries()

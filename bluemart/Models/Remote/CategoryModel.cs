@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using bluemart.Models.Local;
 using System.Linq;
 using bluemart.Common.Objects;
+using Xamarin.Forms;
 
 namespace bluemart.Models.Remote
 {
@@ -55,7 +56,7 @@ namespace bluemart.Models.Remote
 			return fileExists;		
 		}*/
 
-		public static int GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
+		public static async void GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate,LoadingPage loadingPage)
 		{							
 
 			var categoryQuery = ParseObject.GetQuery (ParseConstants.CATEGORIES_CLASS_NAME).
@@ -66,7 +67,7 @@ namespace bluemart.Models.Remote
 			var categoryCount = categoryQuery.CountAsync ().Result;
 
 			int queryLimit = 1000;
-
+			int j = 0;
 			for (int i = 0; i < categoryCount; i += queryLimit) {
 				var categoryObjects = categoryQuery.Limit(queryLimit).Skip(i).FindAsync ().Result;
 
@@ -87,16 +88,18 @@ namespace bluemart.Models.Remote
 
 
 					tempList.Add (tempCategory);
+
+					double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, categoryCount)), 10), 1), j++),new decimal(0.8f)));
+					await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 				}
 
 				mCategoryClass.AddCategory (tempList);
 
 			}
-
-			return categoryCount;
+			loadingPage.mFirstTokenSource.Cancel ();	
 		}
 
-		private static void PopulateCategoryDictionaries()
+		public static void PopulateCategoryDictionaries()
 		{
 			//populate categories from database
 			mCategoryIDList.Clear ();
@@ -121,9 +124,8 @@ namespace bluemart.Models.Remote
 			}
 		}
 
-		public static int FetchCategories()
+		public static void FetchCategories(LoadingPage loadingPage)
 		{
-			int categoryNumber = 0;
 
 			if (MyDevice.GetNetworkStatus() != "NotReachable") {
 				DateTime? localUpdate = mUserModel.GetCategoriesUpdatedDateFromUser ();
@@ -133,14 +135,16 @@ namespace bluemart.Models.Remote
 				//update category class
 				if (remoteUpdate > localUpdate) {
 					//pull from remote and add to database
-					categoryNumber = GetCategoryAttributesFromRemoteAndSaveToLocal(localUpdate,remoteUpdate);
+					GetCategoryAttributesFromRemoteAndSaveToLocal(localUpdate,remoteUpdate,loadingPage);
 					mUserModel.AddCategoriesUpdateDateToUser (remoteUpdate);
 				}
+				else
+					loadingPage.mFirstTokenSource.Cancel ();
 			}
+			else
+				loadingPage.mFirstTokenSource.Cancel ();
 
 			PopulateCategoryDictionaries ();
-
-			return categoryNumber;
 		}
 		
 		/*public static void GetImagesAndSaveToLocal()

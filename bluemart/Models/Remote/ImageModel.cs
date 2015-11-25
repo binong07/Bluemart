@@ -93,10 +93,11 @@ namespace bluemart.Models.Remote
 							using (System.IO.Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result) {
 								stream.Write (data, 0, data.Length);
 							}
+							double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, queryCount)), 10), 5), j++),new decimal(0.2f)));
+							await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 						}
 						mUserModel.AddImagesUpdateDateToUser (remoteUpdate);
-						double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, queryCount)), 10), 3), j++),new decimal(0.2f)));
-						await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
+
 					}
 				}
 

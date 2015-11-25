@@ -49,14 +49,15 @@ namespace bluemart
 		{
 			mUserModel.CreateUserTable ();
 			await Task.Delay (100);
-			ImageModel.MoveImagesToLocal (this);
-			try{
-				await Task.Delay (60000,mFirstTokenSource.Token);
+			if (ImageModel.mRootFolder.CheckExistsAsync (ParseConstants.IMAGE_FOLDER_NAME).Result.ToString () != "FolderExists") {
+				ImageModel.MoveImagesToLocal (this);
+				try {
+					await Task.Delay (600000000, mFirstTokenSource.Token);
+				} catch {
+					mFirstTokenSource = new CancellationTokenSource ();
+				}
 			}
-			catch {
-				mFirstTokenSource = new CancellationTokenSource ();
-			}
-
+			await ProgressBar1.ProgressTo (0.2f, 250, Easing.Linear);
 			ImageModel.GetImagesFromRemote (this);
 			try{
 				await Task.Delay (600000000,mFirstTokenSource.Token);
@@ -64,6 +65,35 @@ namespace bluemart
 			catch {
 				mFirstTokenSource = new CancellationTokenSource ();
 			}
+
+			await ProgressBar1.ProgressTo (0.8f, 250, Easing.Linear);
+
+			CategoryModel.FetchCategories (this);
+
+			try{
+				await Task.Delay (600000000,mFirstTokenSource.Token);
+			}
+			catch {
+				CategoryModel.PopulateCategoryDictionaries ();
+				mFirstTokenSource = new CancellationTokenSource ();
+			}
+
+			await ProgressBar1.ProgressTo (0.9f, 250, Easing.Linear);
+
+			ProductModel.FetchProducts (this);
+
+			try{
+				await Task.Delay (600000000,mFirstTokenSource.Token);
+			}
+			catch {
+				ProductModel.PopulateProductDictionaries ();
+				mFirstTokenSource = new CancellationTokenSource ();
+			}
+
+			await ProgressBar1.ProgressTo (1f, 250, Easing.Linear);
+			Application.Current.MainPage = new NavigationPage (new MainPage ());
+
+
 
 			//await ProgressBar1.ProgressTo (.6, 5000, Easing.Linear);
 			//ImageModel.MoveImagesToLocal(this);
