@@ -19,12 +19,20 @@ namespace bluemart
 		UserClass mUserModel = new UserClass();
 		public ProgressBar ProgressBar1;
 		public CancellationTokenSource mFirstTokenSource = new CancellationTokenSource();
+		Image bgImage;
 		public LoadingPage ()
 		{
 			NavigationPage.SetHasNavigationBar (this, false);
 			InitializeComponent ();
 			ProgressBar1 = new ProgressBar () {
 				Progress = 0
+			};
+
+			bgImage = new Image {
+				Source = "loadingBackground",
+				HeightRequest = MyDevice.ScreenHeight,
+				WidthRequest = MyDevice.ScreenWidth*1.5f,
+				Aspect = Aspect.Fill
 			};
 
 			var frame = new Frame { 				
@@ -36,17 +44,35 @@ namespace bluemart
 
 			ProgressBar1.WidthRequest = MyDevice.ScreenWidth / 2;
 
+			relLayout1.Children.Add (bgImage, 
+				Constraint.Constant (0),
+				Constraint.Constant (0)
+			);
+
 			relLayout1.Children.Add (frame, 
 				Constraint.Constant (MyDevice.ScreenWidth/2-MyDevice.ScreenWidth/4),
 				Constraint.Constant (MyDevice.ScreenHeight/2)
 			);
-
+				
+			SlideImage ();
 			Load();
+		}
+
+		private async void SlideImage()
+		{
+			while (true) {
+				await bgImage.TranslateTo (MyDevice.ScreenWidth / 2 * -1, 0, 12000, Easing.Linear);
+				await bgImage.TranslateTo (0, 0, 12000, Easing.Linear);
+			}
+
 		}
 
 
 		private async void Load()
 		{
+			//await bgImage.TranslateTo (MyDevice.ScreenWidth * -1, 0, 6000, Easing.Linear);
+			//var newPos = new Rectangle (10, 0, 40, 40);
+			//await bgImage.LayoutTo ( newPos, 6000, Easing.Linear);
 			mUserModel.CreateUserTable ();
 			await Task.Delay (100);
 			if (ImageModel.mRootFolder.CheckExistsAsync (ParseConstants.IMAGE_FOLDER_NAME).Result.ToString () != "FolderExists") {
@@ -92,50 +118,6 @@ namespace bluemart
 
 			await ProgressBar1.ProgressTo (1f, 250, Easing.Linear);
 			Application.Current.MainPage = new NavigationPage (new MainPage ());
-
-
-
-			//await ProgressBar1.ProgressTo (.6, 5000, Easing.Linear);
-			//ImageModel.MoveImagesToLocal(this);
-
-			//await ImageModel.MoveImagesToLocal(this);
-			//Task a = ImageModel.MoveImagesToLocal(this);
-			//Task.WaitAny (a);
-			//if (ImageModel.mRootFolder.CheckExistsAsync (ParseConstants.IMAGE_FOLDER_NAME).Result.ToString () != "FolderExists") {
-				/*int recordCount = Task.Run(ImageModel.MoveImagesToLocal (this));
-				for (int i = 0; i < recordCount; i++) {				
-					double scrollPos = Decimal.ToDouble (Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, recordCount)), 10), 2), i));
-					await ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
-				}*/
-			//}
-			//await ProgressBar1.ProgressTo (.2, 1, Easing.Linear);
-
-			/*int remoteImageNumber = ImageModel.GetImagesFromRemote ();	
-			for (int i = 0; i < remoteImageNumber; i++) {				
-				double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, remoteImageNumber)), 10), 3), i),new decimal(0.2f)));
-				await ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
-			}
-
-			await ProgressBar1.ProgressTo (.5, 1, Easing.Linear);
-
-			int categoryNumber = CategoryModel.FetchCategories ();
-
-			for (int i = 0; i < categoryNumber; i++) {				
-				double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, categoryNumber)), 10), 2), i),new decimal(0.5f)));
-				await ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
-			}
-
-			await ProgressBar1.ProgressTo (.8, 1, Easing.Linear);
-
-			int productNumber = ProductModel.FetchProducts ();
-			for (int i = 0; i < productNumber; i++) {				
-				double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, productNumber)), 10), 3), i),new decimal(0.8f)));
-				await ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
-			}
-
-			await ProgressBar1.ProgressTo (1, 1, Easing.Linear);
-
-			Application.Current.MainPage = new NavigationPage (new MainPage ());*/
 		}			
 	}
 }
