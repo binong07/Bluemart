@@ -65,7 +65,7 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Right - mCartBackgroundImage.Width;
 				}),
 				Constraint.RelativeToView (Grid1, (parent, sibling) => {
-					return sibling.Bounds.Bottom  - MyDevice.ScreenWidth * 0.249f;
+					return sibling.Bounds.Bottom  - MyDevice.ScreenWidth * 0.179f - MyDevice.ScreenWidth*0.065740741f;
 				}),
 				Constraint.Constant(MyDevice.ScreenWidth*0.394444444f),
 				Constraint.Constant(MyDevice.ScreenWidth*0.065740741f)
@@ -128,18 +128,20 @@ namespace bluemart.MainViews
 
 			RelativeLayout1.Children.Add (mActivityIndicator,
 				Constraint.RelativeToParent (parent => {
-					return parent.Width/2;		
+					return parent.Width/2-MyDevice.ViewPadding*3;		
 				}),
 				Constraint.RelativeToParent (parent => {
-					return parent.Height/2;		
+					return parent.Height/2-MyDevice.ViewPadding*2;		
 				})
 			);
 		}			
 
 		private void SetGrid1Definitions()
-		{			
-			Grid1.BackgroundColor = MyDevice.BlueColor;
+		{	
+			RelativeLayout1.HeightRequest = MyDevice.ScreenHeight;
+			//Grid1.BackgroundColor = MyDevice.BlueColor;
 			Grid1.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.148f;
+			Grid1.RowDefinitions [1].Height = MyDevice.ScreenWidth * 1.25f;
 			Grid1.RowDefinitions [2].Height = MyDevice.ScreenWidth * 0.179f;
 
 		}
@@ -175,9 +177,9 @@ namespace bluemart.MainViews
 			switch (pageName) {
 			case "BrowseCategories":
 				SwitchHeaderVisibility (true);
-
+				mBrowseCategoriesPage.RefreshBorderStream ();
 				if (mBrowseProductPage != null) {
-					mBrowseProductPage.ClearContainers();
+					mBrowseProductPage.ClearContainers ();
 					mBrowseProductPage.Content = null;
 					mBrowseProductPage = null;
 					GC.Collect ();
@@ -287,12 +289,15 @@ namespace bluemart.MainViews
 
 		public void RemoveFooter()
 		{
+			//RelativeLayout1.Children [0].IsVisible = false;
+			mCartBackgroundImage.IsVisible = false;
 			Grid1.RowDefinitions.RemoveAt (2);
 			Grid1.Children.Remove (mFooter);
 		}
 		public void AddFooter()
 		{
-			Grid1.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenHeight / 14 });
+			mCartBackgroundImage.IsVisible = true;
+			Grid1.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenWidth * 0.179f });
 			Grid1.Children.Add (mFooter,0,2);
 		}
 	}

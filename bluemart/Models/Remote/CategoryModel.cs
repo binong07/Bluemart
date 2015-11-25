@@ -55,8 +55,8 @@ namespace bluemart.Models.Remote
 			return fileExists;		
 		}*/
 
-		public static void GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
-		{				
+		public static int GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
+		{							
 
 			var categoryQuery = ParseObject.GetQuery (ParseConstants.CATEGORIES_CLASS_NAME).
 				WhereGreaterThan(ParseConstants.UPDATEDATE_NAME,localUpdate).
@@ -92,6 +92,8 @@ namespace bluemart.Models.Remote
 				mCategoryClass.AddCategory (tempList);
 
 			}
+
+			return categoryCount;
 		}
 
 		private static void PopulateCategoryDictionaries()
@@ -119,8 +121,10 @@ namespace bluemart.Models.Remote
 			}
 		}
 
-		public static void FetchCategories()
+		public static int FetchCategories()
 		{
+			int categoryNumber = 0;
+
 			if (MyDevice.GetNetworkStatus() != "NotReachable") {
 				DateTime? localUpdate = mUserModel.GetCategoriesUpdatedDateFromUser ();
 				var query = ParseObject.GetQuery (ParseConstants.CATEGORIES_CLASS_NAME).OrderByDescending (ParseConstants.UPDATEDATE_NAME).Limit (1);
@@ -129,12 +133,14 @@ namespace bluemart.Models.Remote
 				//update category class
 				if (remoteUpdate > localUpdate) {
 					//pull from remote and add to database
-					GetCategoryAttributesFromRemoteAndSaveToLocal(localUpdate,remoteUpdate);
+					categoryNumber = GetCategoryAttributesFromRemoteAndSaveToLocal(localUpdate,remoteUpdate);
 					mUserModel.AddCategoriesUpdateDateToUser (remoteUpdate);
 				}
 			}
 
 			PopulateCategoryDictionaries ();
+
+			return categoryNumber;
 		}
 		
 		/*public static void GetImagesAndSaveToLocal()

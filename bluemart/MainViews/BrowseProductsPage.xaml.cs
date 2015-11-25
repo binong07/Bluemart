@@ -86,6 +86,7 @@ namespace bluemart.MainViews
 		public void ClearContainers()
 		{			
 			mLoadProductsToken.Cancel ();
+			mParent.mActivityIndicator.IsRunning = false;
 
 			SubCategoryStackLayout.Children.Clear ();
 			mProductDictionary.Clear ();
@@ -126,13 +127,16 @@ namespace bluemart.MainViews
 		private async Task WaitUntilCorrespondingSubCategoryLoaded(int productCellIndex)
 		{
 			mParent.mActivityIndicator.IsRunning = true;
-			double height = ProductScrollView.Height;
-			ProductScrollView.HeightRequest = 0;
+			//double height = ProductScrollView.Height;
+			ProductScrollView.IsVisible = false;
+			//ProductScrollView.HeightRequest = 0;
+			//ProductScrollView.HeightRequest = 0;
 			while (Grid2.Children.Count-2 < productCellIndex) {
 				await Task.Delay (100);
 			}
 			mParent.mActivityIndicator.IsRunning = false;
-			ProductScrollView.HeightRequest = height;
+			ProductScrollView.IsVisible = true;
+			//ProductScrollView.HeightRequest = height;
 			//ProductScrollView.IsEnabled = true;
 		}
 
@@ -140,78 +144,81 @@ namespace bluemart.MainViews
 		{
 			mButtonList.Clear ();
 			foreach (var productPair in mProductDictionary) {
+				if (productPair.Value.Count > 0) {
+					var relativeLayout = new RelativeLayout () {					
+						VerticalOptions = LayoutOptions.Fill,
+						BackgroundColor = MyDevice.BlueColor,
+						Padding = 0
+					};
 
-				var relativeLayout = new RelativeLayout(){					
-					VerticalOptions = LayoutOptions.Fill,
-					BackgroundColor = MyDevice.BlueColor,
-					Padding = 0
-				};
+					Label label = new Label () {
+						VerticalOptions = LayoutOptions.End,
+						BackgroundColor = Color.White,
+						Text = productPair.Key,
+						TextColor = MyDevice.BlueColor,
+						FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label)),
+						HeightRequest = MyDevice.ScreenWidth * 0.11f,
+						HorizontalTextAlignment = TextAlignment.Center,
+						VerticalTextAlignment = TextAlignment.Center
+					};
 
-				Label label = new Label () {
-					VerticalOptions = LayoutOptions.End,
-					BackgroundColor = Color.White,
-					Text = productPair.Key,
-					TextColor = MyDevice.BlueColor,
-					FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)),
-					HeightRequest = MyDevice.ScreenWidth * 0.11f,
-					HorizontalTextAlignment = TextAlignment.Center,
-					VerticalTextAlignment  = TextAlignment.Center
-				};
+					var tapRecognizer = new TapGestureRecognizer ();
+					tapRecognizer.Tapped += (sender, e) => {
+						if (mParent.mTopNavigationBar.mSearchEntry.IsFocused)
+							return;
+						if (mParent.mActivityIndicator.IsRunning)
+							return;
+						FocusSelectedButton (sender as Label);
+					};
 
-				var tapRecognizer = new TapGestureRecognizer ();
-				tapRecognizer.Tapped += (sender, e) => {
-					if( mParent.mTopNavigationBar.mSearchEntry.IsFocused )
-						return;
-					if( mParent.mActivityIndicator.IsRunning )
-						return;
-					FocusSelectedButton(sender as Label);
-				};
+					label.GestureRecognizers.Add (tapRecognizer);
 
-				label.GestureRecognizers.Add (tapRecognizer);
+					//mButtonList.Add (label);
+					/*BoxView boxView = new BoxView (){
+						HeightRequest = 3,
+						Color = MyDevice.RedColor,
+						IsVisible = false
+					};
+					mBoxViewList.Add (boxView);*/
 
-				//mButtonList.Add (label);
-				/*BoxView boxView = new BoxView (){
-					HeightRequest = 3,
-					Color = MyDevice.RedColor,
-					IsVisible = false
-				};
-				mBoxViewList.Add (boxView);*/
+					relativeLayout.Children.Add (label, Constraint.RelativeToParent (parent => {
+						return 0;	
+					}));
 
-				relativeLayout.Children.Add(label, Constraint.RelativeToParent(parent => {
-					return 0;	
-				}));
+					/*relativeLayout.Children.Add (boxView, 
+						Constraint.RelativeToView (label, (parent, sibling) => {
+							return sibling.Bounds.Left + 5;
+						}),
+						Constraint.RelativeToView (label, (parent, sibling) => {
+							return sibling.Bounds.Bottom - 3;
+						}),
+						Constraint.RelativeToView (label, (parent, sibling) => {
+							return sibling.Width - 10;
+						}));*/
 
-				/*relativeLayout.Children.Add (boxView, 
-					Constraint.RelativeToView (label, (parent, sibling) => {
-						return sibling.Bounds.Left + 5;
-					}),
-					Constraint.RelativeToView (label, (parent, sibling) => {
-						return sibling.Bounds.Bottom - 3;
-					}),
-					Constraint.RelativeToView (label, (parent, sibling) => {
-						return sibling.Width - 10;
-					}));*/
+					//relativeLayout.WidthRequest = my
 
-				//relativeLayout.WidthRequest = my
-
-				var frame = new Frame { 				
-					Padding = 2,
-					OutlineColor = MyDevice.BlueColor,
-					BackgroundColor = MyDevice.BlueColor,
-					VerticalOptions = LayoutOptions.Start,
-					Content = relativeLayout
-				};
+					var frame = new Frame { 				
+						Padding = 2,
+						OutlineColor = MyDevice.BlueColor,
+						BackgroundColor = MyDevice.BlueColor,
+						VerticalOptions = LayoutOptions.Start,
+						Content = relativeLayout
+					};
 
 
-				mButtonList.Add (label);
+					mButtonList.Add (label);
 
-				SubCategoryStackLayout.Children.Add (frame);
+					SubCategoryStackLayout.Children.Add (frame);
+				}
 			}
 
-			mEnabledButtonView = mButtonList [mActiveButtonIndex];
-			mEnabledButtonView.BackgroundColor = MyDevice.BlueColor;
-			mEnabledButtonView.TextColor = Color.White;
-			//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+			if (mButtonList.Count > 0) {
+				mEnabledButtonView = mButtonList [mActiveButtonIndex];
+				mEnabledButtonView.BackgroundColor = MyDevice.BlueColor;
+				mEnabledButtonView.TextColor = Color.White;
+			}
+				//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
 			//mBoxViewList [mActiveButtonIndex].IsVisible = true;
 		}
 
@@ -299,6 +306,11 @@ namespace bluemart.MainViews
 			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);			
 			int productCellIndex = mCategoryIndexList [mActiveButtonIndex];
 			ChangeSelectedButton ();
+
+			lock (_ListLock) {
+				mManagerProductCellQueue.Clear ();
+			}
+
 			try
 			{
 				if( productCellIndex < Grid2.Children.Count )
@@ -311,11 +323,7 @@ namespace bluemart.MainViews
 			}
 			catch{
 				System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");
-			}
-
-			lock (_ListLock) {
-				mManagerProductCellQueue.Clear ();
-			}
+			}				
 		}
 
 		private void ChangeSelectedButton()
@@ -339,9 +347,11 @@ namespace bluemart.MainViews
 			var valueList = mProductDictionary.Values.Cast<List<Product>> ().ToList();
 			//var tempProductList = new List<Product> ();
 			foreach (var products in valueList) {
-				mCategoryIndexList.Add (mProductList.Count);
-				foreach (var tempProduct in products) {					
-					mProductList.Add (tempProduct);	
+				if (products.Count > 0) {
+					mCategoryIndexList.Add (mProductList.Count);
+					foreach (var tempProduct in products) {					
+						mProductList.Add (tempProduct);	
+					}
 				}
 			}
 

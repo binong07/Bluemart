@@ -12,6 +12,7 @@ namespace bluemart.MainViews
 	{		
 		List<Category> mCategories;
 		RootPage mParent;
+		private List<CategoryCell> mCategoryCellList = new List<CategoryCell>();
 
 		public BrowseCategoriesPage (RootPage parent)
 		{						
@@ -34,6 +35,13 @@ namespace bluemart.MainViews
 			mParent.mRootHeader.mSearchEntry.Text = "Search Products";
 		}
 
+		public void RefreshBorderStream()
+		{
+			foreach (var categoryCell in mCategoryCellList) {
+				categoryCell.SetBorderStream ();
+			}
+		}
+
 		private void SetGrid1Definitions()
 		{
 			ScrollView1.BackgroundColor = MyDevice.BlueColor;
@@ -50,6 +58,7 @@ namespace bluemart.MainViews
 					CategoryCell categoryCell = new CategoryCell (StackLayout1,
 						mCategories [i],
 						mParent);
+					mCategoryCellList.Add (categoryCell);
 					StackLayout1.Children.Add (categoryCell.View);	
 				}
 			}

@@ -19,9 +19,11 @@ namespace bluemart.Common.ViewCells
 		UserClass mUser;
 		Dictionary<string, List<Product>> mProductDictionary;
 		private Stream mBorderStream;
+		RootPage mParent;
 
 		public CategoryCell (StackLayout parentGrid, Category category, RootPage parent = null)
 		{
+			mParent = parent;
 			var fullWidth = MyDevice.ScreenWidth - MyDevice.ViewPadding * 2;
 
 			mCategory = category;
@@ -78,22 +80,14 @@ namespace bluemart.Common.ViewCells
 			mainCellGrid.Children.Add (lbl, 1, 1);
 			Image borderImage = new Image ();
 			borderImage.Aspect = Aspect.Fill;
-			mBorderStream = new MemoryStream();
-			parent.mCategoryBorderImage.Position = 0;
-			parent.mCategoryBorderImage.CopyToAsync(mBorderStream);
-			mBorderStream.Position = 0;
+			SetBorderStream ();
 			borderImage.Source = StreamImageSource.FromStream (() => mBorderStream);
 			mainRelativeLayout.Children.Add (borderImage, 
 				Constraint.Constant(MyDevice.ScreenWidth*0.006f),
-				/*Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Left;
-				}),*/
+
 				Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
 					return sibling.Bounds.Top;
 				}),
-				/*Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
-					return sibling.Width;
-				}),*/
 				Constraint.Constant( MyDevice.ScreenWidth*0.9962f ),
 				Constraint.Constant( MyDevice.ScreenWidth*0.6f )
 			);
@@ -104,6 +98,14 @@ namespace bluemart.Common.ViewCells
 
 
 			this.View = mainRelativeLayout;
+		}
+			
+		public void SetBorderStream()
+		{
+			mBorderStream = new MemoryStream();
+			mParent.mCategoryBorderImage.Position = 0;
+			mParent.mCategoryBorderImage.CopyToAsync(mBorderStream);
+			mBorderStream.Position = 0;
 		}
 
 

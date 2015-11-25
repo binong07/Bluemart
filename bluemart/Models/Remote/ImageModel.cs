@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Net.Http;
+using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace bluemart.Models.Remote
 {
@@ -22,7 +24,7 @@ namespace bluemart.Models.Remote
 		 * Gets image from resource to stream
 		 * Copys it to local storage via stream
 		*/
-		public static void MoveImagesToLocal()
+		public static async void MoveImagesToLocal(LoadingPage loadingPage)
 		{
 			var assembly = typeof(ImageModel).GetTypeInfo().Assembly;
 			var projectName = assembly.GetName ().Name;
@@ -30,13 +32,15 @@ namespace bluemart.Models.Remote
 			//Generate resource path to be able to get length
 			var directoryPath = String.Concat (projectName, ".", ParseConstants.IMAGE_FOLDER_NAME, ".");
 
+			var imageCount = imageNames.Count<string>();
+			int i = 0;
 			foreach (string fullImageName in imageNames) {	
 				using (Stream s = assembly.GetManifestResourceStream(fullImageName) )
 				{
 					//Start from resource path length
 					//to be able to get image name from full name
 					var imageName = fullImageName.Substring (directoryPath.Length);
-
+				
 					if (s == null) {
 						System.Diagnostics.Debug.WriteLine ("imagename:" + imageName);
 						continue;
@@ -48,12 +52,16 @@ namespace bluemart.Models.Remote
 
 					using (System.IO.Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result) {
 						s.CopyTo (stream);
+					double scrollPos = Decimal.ToDouble (Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, imageCount)), 10), 2), i++));	
+					await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 					}		
 				}
 			}
+			loadingPage.mFirstTokenSource.Cancel ();
+			//return imageCount;
 		}
 
-		public static void GetImagesFromRemote()
+		public static async void GetImagesFromRemote(LoadingPage loadingPage)
 		{
 			if (MyDevice.GetNetworkStatus() != "NotReachable") {
 				DateTime? localUpdate = mUserModel.GetImageUpdatedDateFromUser ();
@@ -68,7 +76,7 @@ namespace bluemart.Models.Remote
 
 					int queryCount = imageQuery.CountAsync ().Result;
 					int queryLimit = 1000;
-
+					int j = 0;
 					for (int i = 0; i < queryCount; i += queryLimit) {
 						var imageObjects = imageQuery.Limit(queryLimit).Skip(i).FindAsync ().Result;
 
@@ -87,10 +95,14 @@ namespace bluemart.Models.Remote
 							}
 						}
 						mUserModel.AddImagesUpdateDateToUser (remoteUpdate);
+						double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, queryCount)), 10), 3), j++),new decimal(0.2f)));
+						await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 					}
 				}
 
 			} 
+
+			loadingPage.mFirstTokenSource.Cancel ();
 		}
 	}
 

@@ -60,7 +60,7 @@ namespace bluemart.Models.Remote
 			mProductCategoryIDDictionary.Clear ();
 		}
 
-		public static void GetProductAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
+		public static int GetProductAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate)
 		{		
 			
 
@@ -101,11 +101,13 @@ namespace bluemart.Models.Remote
 				
 			}
 
-
+			return productCount;
 		}
 
-		public static void FetchProducts()
+		public static int FetchProducts()
 		{
+			int productNumber = 0;
+
 			if (MyDevice.GetNetworkStatus() != "NotReachable") {
 				DateTime? localUpdate = mUserClass.GetProductsUpdatedDateFromUser ();
 				var query = ParseObject.GetQuery (ParseConstants.PRODUCTS_CLASS_NAME).OrderByDescending (ParseConstants.UPDATEDATE_NAME).Limit (1);
@@ -115,12 +117,14 @@ namespace bluemart.Models.Remote
 				//update category class
 				if (remoteUpdate > localUpdate) {
 					//pull from remote and add to database
-					GetProductAttributesFromRemoteAndSaveToLocal( localUpdate,remoteUpdate);
+					productNumber = GetProductAttributesFromRemoteAndSaveToLocal( localUpdate,remoteUpdate);
 					mUserClass.AddProductsUpdateDateToUser (remoteUpdate);
 				}
 			}
 
 			PopulateProductDictionaries ();
+
+			return productNumber;
 		}
 
 		public static void PopulateProductDictionaries()

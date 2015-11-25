@@ -14,8 +14,8 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>		
 				</Grid.ColumnDefinitions>     
-	             <ScrollView Grid.Row = "0" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "Start">
-					<Grid x:Name="Grid2" HorizontalOptions = "Start" VerticalOptions = "Start">				
+	             <ScrollView Grid.Row = "0" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
+					<Grid x:Name="Grid2" HorizontalOptions = "Start" VerticalOptions = "FillAndExpand">				
 					</Grid>						
 				</ScrollView>
         </Grid>
