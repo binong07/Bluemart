@@ -5,6 +5,7 @@ using bluemart.MainViews;
 using Xamarin.Forms;
 using bluemart.Common.Objects;
 using XLabs.Forms.Controls;
+using System.Linq;
 
 namespace bluemart.Common.Headers
 {
@@ -30,10 +31,10 @@ namespace bluemart.Common.Headers
 
 		private void SetGridDefinitions()
 		{
-			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 12;
+			this.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.148f;
 			this.ColumnDefinitions [0].Width = MyDevice.MenuPadding;
-			this.ColumnDefinitions [1].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight  / 7 - MyDevice.MenuPadding*2;
-			this.ColumnDefinitions [2].Width = MyDevice.ScreenHeight / 7;
+			this.ColumnDefinitions [1].Width = MyDevice.ScreenWidth - MyDevice.ScreenWidth*0.174f - MyDevice.MenuPadding*2;
+			this.ColumnDefinitions [2].Width = MyDevice.ScreenWidth*0.174f;
 			this.ColumnDefinitions [3].Width = MyDevice.MenuPadding;
 		}
 
@@ -42,6 +43,7 @@ namespace bluemart.Common.Headers
 			SearchButton.Aspect = Aspect.Fill;
 			SearchButton.WidthRequest = MyDevice.ScreenWidth*0.087f;
 			SearchButton.HeightRequest = MyDevice.ScreenWidth*0.087f;
+		
 			LogoImage.Aspect = Aspect.Fill;
 			LogoImage.HeightRequest = MyDevice.ScreenWidth * 0.109f;
 			LogoImage.WidthRequest = MyDevice.ScreenWidth * 0.568f;
@@ -58,7 +60,9 @@ namespace bluemart.Common.Headers
 				else
 					SearchEntry.Focus();
 			};
+
 			this.Children[2].GestureRecognizers.Add (searchGridGestureRecognizer);
+			//this.Children[2].GestureRecognizers.Add (searchGridGestureRecognizer);
 		}
 
 		private void SearchEntryCompleted(Object sender,EventArgs e)

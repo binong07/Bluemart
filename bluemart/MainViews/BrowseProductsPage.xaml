@@ -11,7 +11,7 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "5">				
+		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "0">				
 		 		<Grid.RowDefinitions>					
 					<RowDefinition/>
 					<RowDefinition/>

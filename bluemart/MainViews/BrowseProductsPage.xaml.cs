@@ -118,7 +118,7 @@ namespace bluemart.MainViews
 
 		private void SetGrid1Definitions()
 		{
-			Grid1.RowDefinitions [0].Height = HeightRequest = MyDevice.ScreenWidth * 0.16f;
+			Grid1.RowDefinitions [0].Height = HeightRequest = MyDevice.ScreenWidth * 0.15f;
 			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.BackgroundColor = MyDevice.BackgroundColor;
@@ -199,7 +199,7 @@ namespace bluemart.MainViews
 					//relativeLayout.WidthRequest = my
 
 					var frame = new Frame { 				
-						Padding = 2,
+						Padding = MyDevice.ScreenWidth*0.0055f,
 						OutlineColor = MyDevice.BlueColor,
 						BackgroundColor = MyDevice.BlueColor,
 						VerticalOptions = LayoutOptions.Start,

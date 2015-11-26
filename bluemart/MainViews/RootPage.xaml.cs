@@ -62,10 +62,10 @@ namespace bluemart.MainViews
 
 			RelativeLayout1.Children.Add (mCartBackgroundImage, 
 				Constraint.RelativeToView (Grid1, (parent, sibling) => {
-					return sibling.Bounds.Right - mCartBackgroundImage.Width;
+					return MyDevice.ScreenWidth - MyDevice.ScreenWidth*0.394444444f+MyDevice.ScreenWidth*0.002222f;
 				}),
 				Constraint.RelativeToView (Grid1, (parent, sibling) => {
-					return sibling.Bounds.Bottom  - MyDevice.ScreenWidth * 0.179f - MyDevice.ScreenWidth*0.065740741f;
+					return sibling.Bounds.Bottom  - MyDevice.ScreenWidth * 0.2096296296f - MyDevice.ScreenWidth*0.065740741f+MyDevice.ScreenWidth*0.002222f;
 				}),
 				Constraint.Constant(MyDevice.ScreenWidth*0.394444444f),
 				Constraint.Constant(MyDevice.ScreenWidth*0.065740741f)
@@ -139,10 +139,11 @@ namespace bluemart.MainViews
 		private void SetGrid1Definitions()
 		{	
 			RelativeLayout1.HeightRequest = MyDevice.ScreenHeight;
-			//Grid1.BackgroundColor = MyDevice.BlueColor;
-			Grid1.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.148f;
-			Grid1.RowDefinitions [1].Height = MyDevice.ScreenWidth * 1.25f;
-			Grid1.RowDefinitions [2].Height = MyDevice.ScreenWidth * 0.179f;
+
+			Grid1.RowSpacing = MyDevice.ScreenWidth * 0.0055f;
+			Grid1.HeightRequest = MyDevice.ScreenHeight;// - 2*Grid1.RowSpacing;
+			Grid1.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.148148148f;
+			Grid1.RowDefinitions [2].Height = MyDevice.ScreenWidth * 0.2096296296f;
 
 		}
 
@@ -290,12 +291,14 @@ namespace bluemart.MainViews
 		public void RemoveFooter()
 		{
 			//RelativeLayout1.Children [0].IsVisible = false;
+			//var a = Grid1.RowDefinitions [1].Height;
 			mCartBackgroundImage.IsVisible = false;
 			Grid1.RowDefinitions.RemoveAt (2);
 			Grid1.Children.Remove (mFooter);
 		}
 		public void AddFooter()
 		{
+			//var a = Grid1.RowDefinitions [1].Height;
 			mCartBackgroundImage.IsVisible = true;
 			Grid1.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenWidth * 0.179f });
 			Grid1.Children.Add (mFooter,0,2);

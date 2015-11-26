@@ -75,11 +75,11 @@ namespace bluemart.Common.ViewCells
 			mMainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  width });
 
 			#region row1
-			Grid insideGrid1 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand,Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
+			Grid insideGrid1 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand,Padding = 0, RowSpacing = 0, ColumnSpacing = MyDevice.ScreenWidth*0.0083f};
 			insideGrid1.Padding = new Thickness (0);
-			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding });
-			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding*2) / 7 });
-			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding*2) *6 / 7 });
+			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding - insideGrid1.ColumnSpacing });
+			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 7 });
+			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) *6 / 7 });
 
 			mFavoriteImage = new Image();
 			mFavoriteImage.Aspect = Aspect.Fill;
@@ -163,21 +163,14 @@ namespace bluemart.Common.ViewCells
 
 			AddTapRecognizers ();
 
-			/*mFrame = new Frame { 				
-				Padding = 2,
-				OutlineColor = MyDevice.RedColor,
-				BackgroundColor = MyDevice.RedColor,
-				VerticalOptions = LayoutOptions.Start,
-				//HeightRequest = mainCellGrid.Height,
-				//WidthRequest = mainCellGrid.Width,
-				Content = mMainCellGrid
-			};*/
-
+			//var decimalScreenWidth = new decimal (MyDevice.ScreenWidth);
+			var borderWidth = Decimal.Multiply(new decimal(MyDevice.ScreenWidth),new decimal(0.4731481481f));
+			var borderHeight = Decimal.Multiply(new decimal(MyDevice.ScreenWidth),new decimal(0.6074074074f));
 
 			mBorderImage = new Image (){};
 			mBorderImage.Aspect = Aspect.Fill;
-			mBorderImage.WidthRequest = MyDevice.ScreenWidth * 0.4731481481f;
-			mBorderImage.HeightRequest = MyDevice.ScreenWidth * 0.6074074074f;
+			mBorderImage.WidthRequest = Decimal.ToDouble(borderWidth);
+			mBorderImage.HeightRequest = Decimal.ToDouble(borderHeight);
 
 			mainRelativeLayout.Children.Add (mBorderImage, 
 				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
@@ -196,13 +189,13 @@ namespace bluemart.Common.ViewCells
 
 			mainRelativeLayout.Children.Add(mFavoriteImage,
 				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Left + MyDevice.ScreenWidth*0.0275f;
+					return sibling.Bounds.Left + MyDevice.ScreenWidth*0.0329f;
 				}),
 				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Top + MyDevice.ScreenWidth*0.024f;
+					return sibling.Bounds.Top + MyDevice.ScreenWidth*0.0317f;
 				}),
-				Constraint.Constant( MyDevice.ScreenWidth * 0.06f),
-				Constraint.Constant( MyDevice.ScreenWidth * 0.06f)
+				Constraint.Constant( MyDevice.ScreenWidth * 0.0522f),
+				Constraint.Constant( MyDevice.ScreenWidth * 0.0522f)
 			);
 
 

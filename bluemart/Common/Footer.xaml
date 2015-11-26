@@ -14,7 +14,7 @@
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<Image x:Name = "TrackButton" Grid.Row = "0" Grid.Column = "0" Source = "Track" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="TrackLabel" Grid.Row = "1" Grid.Column = "0" Text = "Track" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Label x:Name="TrackLabel" Grid.Row = "1" Grid.Column = "0" Text = "Track" VerticalOptions = "Start" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
      <Grid x:Name = "SettingsGrid" RowSpacing = "0" Padding = "0">
@@ -26,7 +26,7 @@
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<Image x:Name = "SettingsButton" Grid.Row = "0" Grid.Column = "0" Source = "Settings" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="SettingsLabel" Grid.Row = "1" Grid.Column = "0" Text = "Settings" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Label x:Name="SettingsLabel" Grid.Row = "1" Grid.Column = "0" Text = "Settings" VerticalOptions = "Start" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
      <Grid x:Name = "CategoryGrid" RowSpacing = "0" Padding = "0">
@@ -38,7 +38,7 @@
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<Image x:Name = "CategoryButton" Grid.Row = "0" Grid.Column = "0" Source = "Categories" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="CategoryLabel" Grid.Row = "1" Grid.Column = "0" Text = "Categories" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand" VerticalTextAlignment = "Center"/>
+		<Label x:Name="CategoryLabel" Grid.Row = "1" Grid.Column = "0" Text = "Categories" VerticalOptions = "Start" HorizontalOptions = "CenterAndExpand" VerticalTextAlignment = "Center"/>
      </Grid>
 
      <Grid x:Name = "FavoritesGrid" RowSpacing = "0" Padding = "0">
@@ -50,7 +50,7 @@
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<Image x:Name = "FavoritesButton" Grid.Row = "0" Grid.Column = "0" Source = "Favorites" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="FavoritesLabel" Grid.Row = "1" Grid.Column = "0" Text = "Favorites" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Label x:Name="FavoritesLabel" Grid.Row = "1" Grid.Column = "0" Text = "Favorites" VerticalOptions = "Start" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 
 	<Grid x:Name = "CartGrid" RowSpacing = "0" Padding = "0">
@@ -62,6 +62,6 @@
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<Image x:Name = "CartButton" Grid.Row = "0" Grid.Column = "0" Source = "cart2" HorizontalOptions = "Center" VerticalOptions = "Center" />
-		<Label x:Name="CartLabel" Grid.Row = "1" Grid.Column = "0" Text = "Checkout" VerticalOptions = "Center" HorizontalOptions = "CenterAndExpand"/>
+		<Label x:Name="CartLabel" Grid.Row = "1" Grid.Column = "0" Text = "Checkout" VerticalOptions = "Start" HorizontalOptions = "CenterAndExpand"/>
      </Grid>
 </StackLayout>

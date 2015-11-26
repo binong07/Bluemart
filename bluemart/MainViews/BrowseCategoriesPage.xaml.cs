@@ -45,6 +45,7 @@ namespace bluemart.MainViews
 		private void SetGrid1Definitions()
 		{
 			ScrollView1.BackgroundColor = MyDevice.BlueColor;
+			ScrollView1.Padding = new Thickness (0, MyDevice.ScreenWidth * 0.0138f, 0, 0);
 			Content.BackgroundColor = MyDevice.BlueColor;
 
 		}
@@ -53,6 +54,7 @@ namespace bluemart.MainViews
 		{			
 			//ScrollView1.Padding = MyDevice.ViewPadding;
 			ScrollView1.BackgroundColor = MyDevice.BackgroundColor;
+			StackLayout1.Spacing = MyDevice.ScreenWidth * 0.0139f;
 			for (int i = 0; i < mCategories.Count; i++) {
 				if (!mCategories [i].IsSubCategory) {
 					CategoryCell categoryCell = new CategoryCell (StackLayout1,

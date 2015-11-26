@@ -38,8 +38,8 @@ namespace bluemart.Common.ViewCells
 
 			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Transparent, Padding = 0, RowSpacing = 0 };
 
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ /*Height = 160*MyDevice.ScreenHeight/592*/});
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))+5});
+			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenWidth*0.5092592593f});
+			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))+MyDevice.ScreenWidth*0.0138f});
 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){Width =  MyDevice.ScreenWidth*0.95f/9} );
 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){Width =  MyDevice.ScreenWidth*0.95f/9*8});
 

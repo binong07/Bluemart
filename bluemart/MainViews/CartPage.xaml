@@ -9,7 +9,7 @@
                     WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<Grid x:Name = "Grid1"  BackgroundColor = "White" ColumnSpacing = "0" RowSpacing ="10" >
+		<Grid x:Name = "Grid1"  BackgroundColor = "White" ColumnSpacing = "0" >
 			<Grid.RowDefinitions>
 				<RowDefinition/>
 				<RowDefinition/>

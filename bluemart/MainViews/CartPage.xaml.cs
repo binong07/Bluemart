@@ -38,6 +38,7 @@ namespace bluemart.MainViews
 			Grid1.RowDefinitions [0].Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))*3;
 			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
+			Grid1.RowSpacing = MyDevice.ScreenWidth * 0.02778f;
 		}
 
 		private void SetGrid2Properties()

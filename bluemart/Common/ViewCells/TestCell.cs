@@ -18,7 +18,6 @@ namespace bluemart.Common.ViewCells
 		public Page mParent;
 		private RootPage mRootPage;
 		private Grid mMainCellGrid;
-		private Frame mFrame;
 
 		public TestCell (Grid parentGrid, Page parent)
 		{		

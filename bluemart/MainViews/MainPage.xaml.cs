@@ -103,7 +103,7 @@ namespace bluemart.MainViews
 
 
 			var chooseYourLocationFrame = new Frame { 				
-				Padding = 4,
+				Padding = MyDevice.ScreenWidth*0.0111f,
 				OutlineColor = Color.White,
 				BackgroundColor = Color.White,
 				VerticalOptions = LayoutOptions.Start,
@@ -194,7 +194,7 @@ namespace bluemart.MainViews
 
 
 			var chooseFromMapFrame = new Frame { 				
-				Padding = 4,
+				Padding = MyDevice.ScreenWidth*0.0111f,
 				OutlineColor = Color.White,
 				BackgroundColor = Color.White,
 				VerticalOptions = LayoutOptions.Start,

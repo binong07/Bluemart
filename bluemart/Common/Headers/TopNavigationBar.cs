@@ -35,7 +35,7 @@ namespace bluemart.Common.Headers
 
 		private void SetGridDefinitions()
 		{
-			this.RowDefinitions [0].Height = MyDevice.ScreenHeight / 12;
+			this.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.148f;;
 			this.ColumnDefinitions [0].Width = MyDevice.MenuPadding;
 			this.ColumnDefinitions [1].Width = MyDevice.ScreenHeight   / 7;
 			this.ColumnDefinitions [2].Width = MyDevice.ScreenWidth - MyDevice.ScreenHeight * 2 / 7 - MyDevice.MenuPadding*2;
