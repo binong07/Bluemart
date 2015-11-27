@@ -43,7 +43,6 @@ namespace bluemart.Common.ViewCells
 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){Width =  MyDevice.ScreenWidth*0.95f/9} );
 			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){Width =  MyDevice.ScreenWidth*0.95f/9*8});
 
-
 			Image categoryImage = new Image ();
 			categoryImage.WidthRequest = MyDevice.ScreenWidth*0.95f;
 			categoryImage.HeightRequest = MyDevice.ScreenWidth*0.5092592593f;
@@ -77,11 +76,17 @@ namespace bluemart.Common.ViewCells
 				Text = category.Name
 			};
 
-			mainCellGrid.Children.Add (lbl, 1, 1);
+			//mainCellGrid.Children.Add (lbl, 1, 1);
 			Image borderImage = new Image ();
 			borderImage.Aspect = Aspect.Fill;
 			SetBorderStream ();
 			borderImage.Source = StreamImageSource.FromStream (() => mBorderStream);
+
+
+			mainRelativeLayout.Children.Add(mainCellGrid, 
+				Constraint.Constant(MyDevice.ViewPadding)
+			);
+
 			mainRelativeLayout.Children.Add (borderImage, 
 				Constraint.Constant(MyDevice.ScreenWidth*0.006f),
 
@@ -92,8 +97,14 @@ namespace bluemart.Common.ViewCells
 				Constraint.Constant( MyDevice.ScreenWidth*0.6f )
 			);
 
-			mainRelativeLayout.Children.Add(mainCellGrid, 
-				Constraint.Constant(MyDevice.ViewPadding)
+			mainRelativeLayout.Children.Add (lbl, 
+				Constraint.RelativeToView(borderImage,(p,sibling) => {return sibling.Bounds.Left + MyDevice.MenuPadding*2;}),
+				Constraint.RelativeToView(borderImage,(p,sibling) => {return sibling.Bounds.Bottom - MyDevice.MenuPadding*2.3f;})
+				/*Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
+					return sibli;
+				}),*/
+				/*Constraint.Constant( MyDevice.ScreenWidth*0.9962f ),
+				Constraint.Constant( MyDevice.ScreenWidth*0.6f )*/
 			);
 
 
