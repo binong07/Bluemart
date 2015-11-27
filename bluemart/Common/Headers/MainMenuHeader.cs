@@ -14,6 +14,7 @@ namespace bluemart.Common.Headers
 		public Label mPriceLabel;
 		public RootPage mParent;
 		public ExtendedEntry mSearchEntry;
+		public RelativeLayout mSearchButtonLayout;
 
 		public MainMenuHeader ()
 		{			
@@ -36,13 +37,39 @@ namespace bluemart.Common.Headers
 			this.ColumnDefinitions [1].Width = MyDevice.ScreenWidth - MyDevice.ScreenWidth*0.174f - MyDevice.MenuPadding*2;
 			this.ColumnDefinitions [2].Width = MyDevice.ScreenWidth*0.174f;
 			this.ColumnDefinitions [3].Width = MyDevice.MenuPadding;
+
+			mSearchButtonLayout = new RelativeLayout(){
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				Padding = 0
+			};
+
+			var searchImage = new Image () {
+				Source = "search",
+				Aspect = Aspect.Fill
+			};
+
+			mSearchButtonLayout.Children.Add(searchImage,
+				Constraint.RelativeToParent( parent =>
+					{
+						return (MyDevice.ScreenWidth*0.174f-MyDevice.ScreenWidth*0.087f)/2;
+					}),
+				Constraint.RelativeToParent( parent =>
+					{
+						return (MyDevice.ScreenWidth*0.148f-MyDevice.ScreenWidth*0.087f)/2;					
+					}),
+				Constraint.Constant(MyDevice.ScreenWidth*0.087f),
+				Constraint.Constant(MyDevice.ScreenWidth*0.087f)
+				);
+
+			this.Children.Add (mSearchButtonLayout, 2, 0);
 		}
 
 		private void SetImageSize()
 		{
-			SearchButton.Aspect = Aspect.Fill;
-			SearchButton.WidthRequest = MyDevice.ScreenWidth*0.087f;
-			SearchButton.HeightRequest = MyDevice.ScreenWidth*0.087f;
+			//SearchButton.Aspect = Aspect.Fill;
+			//SearchButton.WidthRequest = MyDevice.ScreenWidth*0.087f;
+			//SearchButton.HeightRequest = MyDevice.ScreenWidth*0.087f;
 		
 			LogoImage.Aspect = Aspect.Fill;
 			LogoImage.HeightRequest = MyDevice.ScreenWidth * 0.109f;
@@ -61,8 +88,14 @@ namespace bluemart.Common.Headers
 					SearchEntry.Focus();
 			};
 
-			this.Children[2].GestureRecognizers.Add (searchGridGestureRecognizer);
 			//this.Children[2].GestureRecognizers.Add (searchGridGestureRecognizer);
+			mSearchButtonLayout.GestureRecognizers.Add (searchGridGestureRecognizer);
+
+			/*var emptyGestureRecognizer = new TapGestureRecognizer ();
+			//this.ColumnDefinitions[0]
+			emptyGestureRecognizer.Tapped += (sender, e) => {};
+			this.Children[0].GestureRecognizers.Add (emptyGestureRecognizer);
+			this.Children[1].GestureRecognizers.Add (emptyGestureRecognizer);*/
 		}
 
 		private void SearchEntryCompleted(Object sender,EventArgs e)

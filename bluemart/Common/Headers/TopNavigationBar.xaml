@@ -17,20 +17,7 @@
 		<ColumnDefinition/>
 		<ColumnDefinition/>
 	</Grid.ColumnDefinitions>
-	<Image x:Name = "BackButton" Grid.Row = "0" Grid.Column = "1" Source = "back" VerticalOptions = "Center" HorizontalOptions = "Start" />
 	<controls:ExtendedEntry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "2" Text = "Search Products" XAlign = "Center"
 			BackgroundColor = "White"  VerticalOptions = "Fill" HorizontalOptions = "FillAndExpand" Completed = "SearchEntryCompleted" Focused = "SearchEntryFocused" Unfocused = "SearchEntryUnfocused" IsVisible="false"/>
 	<Label x:Name="NavigationTitle" Grid.Row = "0" Grid.Column = "2" VerticalOptions = "Center" HorizontalOptions = "Center"/>
-	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "3" Source="search" VerticalOptions = "Center" HorizontalOptions = "End"/>
-	<!--<Grid  x:Name="CartGrid"  Grid.Row = "0" Grid.Column = "3" BackgroundColor="White" Padding = "0,0,0,0" RowSpacing = "0" HorizontalOptions = "End">
-		<Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-		</Grid.ColumnDefinitions>
-		<Image x:Name="CartButton" Grid.Row = "0" Grid.Column = "0" Source="cart" VerticalOptions = "Start" HorizontalOptions = "End"/>
-		<Label x:Name="PriceLabel" Grid.Row = "1" Grid.Column = "0" Text = "AED:0" VerticalOptions = "Center" HorizontalOptions = "EndAndExpand"/>
-	</Grid>-->
 </Grid>

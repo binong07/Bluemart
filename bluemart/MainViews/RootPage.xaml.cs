@@ -119,7 +119,7 @@ namespace bluemart.MainViews
 			SetGrid1Definitions ();
 
 			mContentGrid = mBrowseCategoriesPage.Content;
-			Grid1.Children.Add(mContentGrid,0,1);
+			Grid1.Children.Add(mContentGrid,0,2);
 			Grid1.Swiped += (sender, e) => {
 				int indexOfCurrentPage = mPageList.IndexOf(mCurrentPage);
 				indexOfCurrentPage = ( indexOfCurrentPage + 1 ) % mPageList.Count;
@@ -139,11 +139,12 @@ namespace bluemart.MainViews
 		private void SetGrid1Definitions()
 		{	
 			RelativeLayout1.HeightRequest = MyDevice.ScreenHeight;
-
-			Grid1.RowSpacing = MyDevice.ScreenWidth * 0.0055f;
+			Grid1.RowSpacing = 0;
+			//Grid1.RowSpacing = MyDevice.ScreenWidth * 0.0055f;
 			Grid1.HeightRequest = MyDevice.ScreenHeight;// - 2*Grid1.RowSpacing;
 			Grid1.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.148148148f;
-			Grid1.RowDefinitions [2].Height = MyDevice.ScreenWidth * 0.2096296296f;
+			Grid1.RowDefinitions[1].Height = MyDevice.ViewPadding;
+			Grid1.RowDefinitions [3].Height = MyDevice.ScreenWidth * 0.2096296296f;
 
 		}
 
@@ -153,8 +154,11 @@ namespace bluemart.MainViews
 			Grid1.Children.Remove(mContentGrid);
 			mContentGrid = content;
 
-			Grid1.Children.Add(mContentGrid,0,1);
+			Grid1.Children.Add(mContentGrid,0,2);
 			Grid1.HeightRequest = mGrid1Height;
+			Grid1.RowDefinitions [0].Height = MyDevice.ScreenWidth * 0.148148148f;
+			Grid1.RowDefinitions[1].Height = MyDevice.ViewPadding;
+			Grid1.RowDefinitions [3].Height = MyDevice.ScreenWidth * 0.2096296296f;
 		}	
 		protected override bool OnBackButtonPressed ()
 		{
@@ -295,19 +299,16 @@ namespace bluemart.MainViews
 
 
 		public void RemoveFooter()
-		{
-			//RelativeLayout1.Children [0].IsVisible = false;
-			//var a = Grid1.RowDefinitions [1].Height;
+		{			
 			mCartBackgroundImage.IsVisible = false;
-			Grid1.RowDefinitions.RemoveAt (2);
+			Grid1.RowDefinitions.RemoveAt (3);
 			Grid1.Children.Remove (mFooter);
 		}
 		public void AddFooter()
-		{
-			//var a = Grid1.RowDefinitions [1].Height;
+		{			
 			mCartBackgroundImage.IsVisible = true;
 			Grid1.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenWidth * 0.179f });
-			Grid1.Children.Add (mFooter,0,2);
+			Grid1.Children.Add (mFooter,0,3);
 		}
 	}
 }

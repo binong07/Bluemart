@@ -19,5 +19,4 @@
 	<controls:ExtendedEntry x:Name = "SearchEntry" TextColor = "Black" Grid.Row = "0" Grid.Column = "1" Text = "Search Products" XAlign = "Center"
 			BackgroundColor = "White"  VerticalOptions = "Fill" HorizontalOptions = "FillAndExpand" Completed = "SearchEntryCompleted" Focused = "SearchEntryFocused" Unfocused = "SearchEntryUnfocused" IsVisible="false"/>
 	<Image x:Name="LogoImage" Grid.Row = "0" Grid.Column = "1" Source="logo" VerticalOptions = "Center" HorizontalOptions = "Start"/>
-	<Image x:Name="SearchButton" Grid.Row = "0" Grid.Column = "2" Source="search" VerticalOptions = "CenterAndExpand" HorizontalOptions = "EndAndExpand"/>
 </Grid>

@@ -78,8 +78,9 @@ namespace bluemart.Common.ViewCells
 			Grid insideGrid1 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand,Padding = 0, RowSpacing = 0, ColumnSpacing = MyDevice.ScreenWidth*0.0083f};
 			insideGrid1.Padding = new Thickness (0);
 			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding - insideGrid1.ColumnSpacing });
-			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 7 });
-			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) *6 / 7 });
+			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - 2*MyDevice.ViewPadding) / 7 });
+			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - 2*MyDevice.ViewPadding) *6 / 7 });
+			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding - insideGrid1.ColumnSpacing });
 
 			mFavoriteImage = new Image();
 			mFavoriteImage.Aspect = Aspect.Fill;
