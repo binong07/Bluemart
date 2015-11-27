@@ -12,6 +12,7 @@ namespace bluemart.Common
 	public partial class Footer : StackLayout
 	{
 		private Label mActiveLabel;
+		private int mActiveButtonIndex;
 		public Label mCategoriesLabel;
 		public Label mSettingsLabel;
 		public Label mFavoritesLabel;
@@ -39,16 +40,59 @@ namespace bluemart.Common
 			SetLabelProperties ();
 			AddTapRecognizers ();
 			mActiveLabel = CategoryLabel;
-			mActiveLabel.TextColor = MyDevice.RedColor;
+			mActiveButtonIndex = 0;
+			mActiveLabel.TextColor = MyDevice.SelectedColor;
 		}
 
 		public void ChangeColorOfLabel(Label newActiveLabel)
 		{
 			mActiveLabel.TextColor = Color.White;
 			mActiveLabel = newActiveLabel;
-			mActiveLabel.TextColor = MyDevice.RedColor;
+			mActiveLabel.TextColor = MyDevice.SelectedColor;
 		}
+		public void ChangeImageOfButton(int i)
+		{
+			switch (mActiveButtonIndex) {
+			case 0://"BrowseCategories":
+				CategoryButton.Source = (FileImageSource) ImageSource.FromFile("Categories.png");
+				break;
+			case 1://"Settings":
+				SettingsButton.Source = (FileImageSource) ImageSource.FromFile("Settings.png");
+				break;
+			case 2://"Favorites":
+				FavoritesButton.Source = (FileImageSource) ImageSource.FromFile("Favorites.png");
+				break;
+			case 3://"History":
+				CartButton.Source = (FileImageSource) ImageSource.FromFile("cart2.png");
+				break;
+			case 4://"Track":
+				TrackButton.Source = (FileImageSource) ImageSource.FromFile("Track.png");
+				break;
+			default:
+				break;
+			}
+			mActiveButtonIndex = i;
+			switch (mActiveButtonIndex) {
+			case 0://"BrowseCategories":
+				CategoryButton.Source = (FileImageSource) ImageSource.FromFile("Categories_S.png");
+				break;
+			case 1://"Settings":
+				SettingsButton.Source = (FileImageSource) ImageSource.FromFile("Settings_S.png");
+				break;
+			case 2://"Favorites":
+				FavoritesButton.Source = (FileImageSource) ImageSource.FromFile("Favorites_S.png");
+				break;
+			case 3://"History":
+				CartButton.Source = (FileImageSource) ImageSource.FromFile("cart2_S.png");
+				break;
+			case 4://"Track":
+				TrackButton.Source = (FileImageSource) ImageSource.FromFile("Track_S.png");
+				break;
+			default:
+				break;
+			}
 
+		}
 		public void SetLabelProperties()
 		{
 			CategoryLabel.TextColor = Color.White;

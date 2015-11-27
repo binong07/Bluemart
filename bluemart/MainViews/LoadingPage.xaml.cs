@@ -31,17 +31,17 @@ namespace bluemart
 			bgImage = new Image {
 				Source = "loadingBackground",
 				HeightRequest = MyDevice.ScreenHeight,
-				WidthRequest = MyDevice.ScreenWidth*1.5f,
+				WidthRequest = MyDevice.ScreenHeight*1.5f,
 				Aspect = Aspect.Fill
 			};
-
+			/*
 			var frame = new Frame { 				
 				Padding = 1,
-				OutlineColor = Color.Gray,
-				BackgroundColor = Color.Gray,
+				OutlineColor = Color.Transparent,
+				BackgroundColor = Color.Transparent,
 				Content = ProgressBar1
 			};
-
+*/
 			ProgressBar1.WidthRequest = MyDevice.ScreenWidth / 2;
 
 			relLayout1.Children.Add (bgImage, 
@@ -49,7 +49,7 @@ namespace bluemart
 				Constraint.Constant (0)
 			);
 
-			relLayout1.Children.Add (frame, 
+			relLayout1.Children.Add (ProgressBar1, 
 				Constraint.Constant (MyDevice.ScreenWidth/2-MyDevice.ScreenWidth/4),
 				Constraint.Constant (MyDevice.ScreenHeight/2)
 			);
@@ -61,8 +61,8 @@ namespace bluemart
 		private async void SlideImage()
 		{
 			while (true) {
-				await bgImage.TranslateTo (MyDevice.ScreenWidth / 2 * -1, 0, 12000, Easing.Linear);
-				await bgImage.TranslateTo (0, 0, 12000, Easing.Linear);
+				await bgImage.TranslateTo (MyDevice.ScreenHeight*1.5f / 2 * -1, 0, 24000, Easing.Linear);
+				await bgImage.TranslateTo (0, 0, 24000, Easing.Linear);
 			}
 
 		}

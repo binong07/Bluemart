@@ -154,7 +154,7 @@ namespace bluemart.MainViews
 					Label label = new Label () {
 						VerticalOptions = LayoutOptions.End,
 						BackgroundColor = Color.White,
-						Text = productPair.Key,
+						Text = " "+productPair.Key+" ",
 						TextColor = MyDevice.BlueColor,
 						FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label)),
 						HeightRequest = MyDevice.ScreenWidth * 0.11f,

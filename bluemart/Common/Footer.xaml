@@ -37,7 +37,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Image x:Name = "CategoryButton" Grid.Row = "0" Grid.Column = "0" Source = "Categories" HorizontalOptions = "Center" VerticalOptions = "Center" />
+		<Image x:Name = "CategoryButton" Grid.Row = "0" Grid.Column = "0" Source = "Categories_S" HorizontalOptions = "Center" VerticalOptions = "Center" />
 		<Label x:Name="CategoryLabel" Grid.Row = "1" Grid.Column = "0" Text = "Categories" VerticalOptions = "Start" HorizontalOptions = "CenterAndExpand" VerticalTextAlignment = "Center"/>
      </Grid>
 

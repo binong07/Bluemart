@@ -243,7 +243,7 @@ namespace bluemart.MainViews
 			);
 
 			var messageLabel2 = new Label () {
-				Text = "we deliver under 1 hour!",
+				Text = "we deliver within 1 hour!",
 				TextColor = MyDevice.BlueColor,
 				HorizontalTextAlignment = TextAlignment.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)),

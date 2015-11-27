@@ -19,6 +19,7 @@ namespace bluemart.Common.Utilities
 		public static Color BlueColor =	Color.FromRgb (12,92,169);
 		public static Color RedColor = Color.FromRgb (204,27,39);
 		public static Color BackgroundColor = Color.FromRgb (230, 230, 230);
+		public static Color SelectedColor = Color.FromRgb (162, 183, 182);
 		public static int DelayTime = 10;
 		public static string DeviceID = Resolver.Resolve<IDevice> ().Id;
 		public static double MenuPadding = MyDevice.ScreenWidth / 25;

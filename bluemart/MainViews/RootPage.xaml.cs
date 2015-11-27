@@ -188,12 +188,14 @@ namespace bluemart.MainViews
 
 				mBrowseCategoriesPage.RefreshSearchText ();
 				mFooter.ChangeColorOfLabel (mFooter.mCategoriesLabel);
+				mFooter.ChangeImageOfButton (0);
 				SwitchContentGrid (mBrowseCategoriesPage.Content);
 				mCurrentPage = pageName;
 				break;
 			case "Settings":
 				SwitchHeaderVisibility (true);
-				mFooter.ChangeColorOfLabel (mFooter.mSettingsLabel);			
+				mFooter.ChangeColorOfLabel (mFooter.mSettingsLabel);
+				mFooter.ChangeImageOfButton (1);
 				mSettingsPage.PopulateListView();
 				SwitchContentGrid (mSettingsPage.Content);
 				mCurrentPage = pageName;
@@ -202,6 +204,7 @@ namespace bluemart.MainViews
 				SwitchHeaderVisibility (true);
 				mFavoritesPage.RefreshFavoritesGrid ();
 				mFooter.ChangeColorOfLabel (mFooter.mFavoritesLabel);
+				mFooter.ChangeImageOfButton (2);
 				SwitchContentGrid (mFavoritesPage.Content);
 				mCurrentPage = pageName;
 				break;
@@ -209,6 +212,7 @@ namespace bluemart.MainViews
 				SwitchHeaderVisibility (true);
 				mHistoryPage.PopulateListView ();
 				mFooter.ChangeColorOfLabel (mFooter.mCartLabel);
+				mFooter.ChangeImageOfButton (3);
 				SwitchContentGrid (mHistoryPage.Content);
 				mCurrentPage = pageName;
 				break;
@@ -216,6 +220,7 @@ namespace bluemart.MainViews
 				SwitchHeaderVisibility (true);
 				mTrackPage.PopulateListView ();
 				mFooter.ChangeColorOfLabel (mFooter.mTrackLabel);
+				mFooter.ChangeImageOfButton (4);
 				SwitchContentGrid (mTrackPage.Content);
 				mCurrentPage = pageName;
 				break;
@@ -269,6 +274,7 @@ namespace bluemart.MainViews
 			SwitchHeaderVisibility (true);
 			Footer.SetLabelProperties ();
 			mFooter.ChangeColorOfLabel (mFooter.mCartLabel);
+			mFooter.ChangeImageOfButton (3);
 			SwitchContentGrid (mCartPage.Content);
 			mCartPage.PrintDictionaryContents ();
 		}

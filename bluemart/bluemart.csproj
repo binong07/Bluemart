@@ -42,7 +42,6 @@
       <DependentUpon>BrowseProductsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\ViewCells\CategoryCell.cs" />
-    <Compile Include="Common\ViewCells\ProductCell.cs" />
     <Compile Include="Common\Headers\MainMenuHeader.cs">
       <DependentUpon>MainMenuHeader.xaml</DependentUpon>
     </Compile>
@@ -117,11 +116,12 @@
     <Compile Include="Common\ExtendedMap.cs" />
     <Compile Include="Common\HelperDataTypes.cs" />
     <Compile Include="Common\ViewCells\TestCell.cs" />
+    <Compile Include="Common\ViewCells\ProductCell.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Import Project="packages\Xamarin.Forms.2.0.0.6482\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.2.0.0.6482\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <Import Project="packages\Xamarin.Forms.2.0.0.6484\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.2.0.0.6484\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <ItemGroup>
     <Reference Include="ExifLib">
       <HintPath>packages\ExifLib.PCL.1.0.1\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
@@ -140,9 +140,6 @@
     </Reference>
     <Reference Include="SQLite-net">
       <HintPath>packages\sqlite-net-pcl.1.0.11\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCL.raw">
-      <HintPath>packages\SQLitePCL.raw_basic.0.8.2\lib\portable-net45+netcore45+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCL.raw.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
@@ -172,20 +169,23 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xamarin.Forms.Core">
-      <HintPath>packages\Xamarin.Forms.2.0.0.6482\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Platform">
-      <HintPath>packages\Xamarin.Forms.2.0.0.6482\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Xaml">
-      <HintPath>packages\Xamarin.Forms.2.0.0.6482\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Maps">
-      <HintPath>packages\Xamarin.Forms.Maps.2.0.0.6482\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Maps.dll</HintPath>
-    </Reference>
     <Reference Include="MR.Gestures">
       <HintPath>packages\MR.Gestures.1.2.5\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\MR.Gestures.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>packages\Xamarin.Forms.2.0.0.6484\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>packages\Xamarin.Forms.2.0.0.6484\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>packages\Xamarin.Forms.2.0.0.6484\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Maps">
+      <HintPath>packages\Xamarin.Forms.Maps.2.0.0.6484\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCL.raw">
+      <HintPath>packages\SQLitePCL.raw_basic.0.8.4\lib\portable-net45+netcore45+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCL.raw.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -762,7 +762,6 @@
     <EmbeddedResource Include="SavedImages\pantene-smooth-silky-shampoo-200ml.jpg" />
     <EmbeddedResource Include="SavedImages\parachute-coconut-hair-cream-140ml.jpg" />
     <EmbeddedResource Include="SavedImages\paysan-breton-emmental-francais-cheese-220g.jpg" />
-    <EmbeddedResource Include="SavedImages\paysan-breton-emmental-francais-râpé-200g.jpg" />
     <EmbeddedResource Include="SavedImages\pittas-fresh-anari-cheese-200g.jpg" />
     <EmbeddedResource Include="SavedImages\pittas-halloumi-cheese-200g.jpg" />
     <EmbeddedResource Include="SavedImages\pittas-halloumi-light-cheese200g.jpg" />
@@ -865,7 +864,6 @@
     <EmbeddedResource Include="SavedImages\Butter.jpg" />
     <EmbeddedResource Include="SavedImages\NormalWater.jpg" />
     <EmbeddedResource Include="SavedImages\categoryBorder.png" />
-    <EmbeddedResource Include="SavedImages\paysan-breton-emmental-francais-râpé-200g.jpg" />
     <EmbeddedResource Include="SavedImages\32 JAMIE OLIVER RED PESTO.jpg" />
     <EmbeddedResource Include="SavedImages\33 DOLMIO BOLOGNESE ORIGINAL.jpg" />
     <EmbeddedResource Include="SavedImages\34 DOLMIO BOLOGNESE ORIGINAL.jpg" />
@@ -881,15 +879,12 @@
     <EmbeddedResource Include="SavedImages\25 BARILLA MEDITERRANEAN VEGETABLE.jpg" />
     <EmbeddedResource Include="SavedImages\26 BARILLA BASILICO.jpg" />
     <EmbeddedResource Include="SavedImages\27 BARILLA ARRABBIATA.jpg" />
-    <EmbeddedResource Include="SavedImages\28 JAMIE OLIVER TOMATO, RICOTTA &amp; BASIL.jpg" />
-    <EmbeddedResource Include="SavedImages\29 JAMIE OLIVER TOMATO, OLIVE &amp; GARLIC.jpg" />
     <EmbeddedResource Include="SavedImages\30 JAMIE OLIVER TOMATO &amp; CHILLI.jpg" />
     <EmbeddedResource Include="SavedImages\31 JAMIE OLIVER RED ONION &amp; ROSEMARY.jpg" />
     <EmbeddedResource Include="SavedImages\7 BARILLA SPAGHETTINI NO.3.jpg" />
     <EmbeddedResource Include="SavedImages\8 barilla-spaghetti-n5-500g.jpg" />
     <EmbeddedResource Include="SavedImages\9 BARILLA SPAGHETTONI NO.7.jpeg" />
     <EmbeddedResource Include="SavedImages\10 BARILLA INTEGRALE SPAGHETTI NO.5.jpg" />
-    <EmbeddedResource Include="SavedImages\11 BARILLA LASAGNE ALL%27UOVO BOLOGNESI.jpg" />
     <EmbeddedResource Include="SavedImages\12 BARILLA LASAGNE CON SPINACI BOLOGNES.jpg" />
     <EmbeddedResource Include="SavedImages\13 BARILLA FETTUCCINE TOSCANE.jpeg" />
     <EmbeddedResource Include="SavedImages\14 BARILLA TAGLIATELLE ALL%27UOVO BOLOGNESI.jpg" />
@@ -933,7 +928,6 @@
     <EmbeddedResource Include="SavedImages\9 PINAR LABNEH 400G.jpg" />
     <EmbeddedResource Include="SavedImages\1 SAFA LABAN UP 200ML.jpg" />
     <EmbeddedResource Include="SavedImages\2 ACTIVIA LABAN 180ML.jpg" />
-    <EmbeddedResource Include="SavedImages\3 ACTIVIA LABAN LIGHT LOW FAT 180ML.jpeg" />
     <EmbeddedResource Include="SavedImages\4 ACTIVIA LABAN 375ML.jpg" />
     <EmbeddedResource Include="SavedImages\5 ACTIVIA LABAN LIGHT LOW FAT 375ML.jpg" />
     <EmbeddedResource Include="SavedImages\6 AL MARAI LABAN 360 ML.jpg" />
@@ -1052,7 +1046,6 @@
     <EmbeddedResource Include="SavedImages\63 trill-complete-finch-food-500g.jpg" />
     <EmbeddedResource Include="SavedImages\15 FRISKIES SEAFOOD SENSATION 1.42 KG.jpg" />
     <EmbeddedResource Include="SavedImages\17 FRISKIES OCEAN WHITEFISH AND TUNA DINNER PATE.jpg" />
-    <EmbeddedResource Include="SavedImages\23 FRISKIES SEAFOOD SENSATIONS FISH, TUNA SHRIMP CRAB AND SEAWEED 16.2 OZ.jpg" />
     <EmbeddedResource Include="SavedImages\24 FRISKIES TURKEY GIBLETS PATE 368GR 13OZ.jpg" />
     <EmbeddedResource Include="SavedImages\30 PEDIGREE BEEF FLAVOR ADULT OMEGA6 AND ZINC  3KG.jpg" />
     <EmbeddedResource Include="SavedImages\41 PURINA CAT CHOW INDOOR DRY FOOD 510G.jpg" />
@@ -1209,5 +1202,150 @@
     <EmbeddedResource Include="SavedImages\9 AL RIFAI SALTED CASHEWS.jpg" />
     <EmbeddedResource Include="SavedImages\11 BAYARA PISTACHIO KERNELS.jpg" />
     <EmbeddedResource Include="SavedImages\12 BAYARA UNSALTED CASHEWS.jpg" />
+    <EmbeddedResource Include="SavedImages\11 BARILLA LASAGNE ALLUOVO BOLOGNESI.jpg" />
+    <EmbeddedResource Include="SavedImages\1 IceCream_BOUNTYN ICECREAM 50 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\1 Yogurt_AL MARAI FULL FAT 500G.jpg" />
+    <EmbeddedResource Include="SavedImages\10 IceCream_SNICKERS CORN ICE CREAM 70G.jpg" />
+    <EmbeddedResource Include="SavedImages\100 Marlboro Black Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\101 Marlboro Touch Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\103 Marlboro White Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\104 Marlboro Double Ice Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\105 Marlboro Red Soft Pack Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\106 Marlboro Gold Soft Pack Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\107 Parliament Carat White Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\108 Parliament Carat Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\109 Parliament Platinium Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\11 IceCream_SNICKERS SINGLE ICE CREAM 48G.jpg" />
+    <EmbeddedResource Include="SavedImages\11 Yogurt ACTIVIA FLAVORED YOGHURT - STRAWBERRY.jpg" />
+    <EmbeddedResource Include="SavedImages\110 Parliament Aqua Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\111 Parliament Silver Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\112 LM Forward Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\113 LM Forward Slims Outer Naked Wrap.JPG" />
+    <EmbeddedResource Include="SavedImages\114 LM White Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\115 LM Red Outer Naked Wrap.JPG" />
+    <EmbeddedResource Include="SavedImages\116 LM Blue Outer Naked Wrap.JPG" />
+    <EmbeddedResource Include="SavedImages\117 Merit Silver Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\118 Merit Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\119 Chesterfield Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\95 Marlboro Filter Plus Red.JPG" />
+    <EmbeddedResource Include="SavedImages\96 Marlboro Red Flip Top Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\97 Marlboro Filter Plus Silver.JPG" />
+    <EmbeddedResource Include="SavedImages\98 Marlboro Gold Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\99 Marlboro Silver Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\120 Chesterfield Red Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\121 Red White Outer Naked Wrap.JPG" />
+    <EmbeddedResource Include="SavedImages\122 Phillip Morris Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\123 Dunhill Switch Silver Green Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\124 Dunhill Switch Silver Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\125 Dunhill Blonde Blend Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\126 Dunhill Switch Blue Black Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\127 Dunhill Carlton Blend.JPG" />
+    <EmbeddedResource Include="SavedImages\128 Dunhill Master Blend Silver Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\129 Dunhill Signature Blend Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\130 Dunhill Switch Green Black Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\132 Dunhill Flow Filter 4mg.JPG" />
+    <EmbeddedResource Include="SavedImages\133 Dunhill Carlton Blend Fine Cut Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\134 Dunhill Master Blend Fine Cut Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\135 Kent Nanotek Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\136 Kent Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\137 Kent Silver Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\138 Kent White Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\139 Vogue Menthe Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\140 Vogue Lilas Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\142 John Player Gold Leaf Maroon Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\143 Rothmans Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\144 Rothmans Royal Outer Naked Wrap.JPG" />
+    <EmbeddedResource Include="SavedImages\145 Rothmans 10s Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\146 BH Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\147 BH 10s Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\148 John Player Gold Leaf Navy Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\149 Davidoff White Superslims Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\150 Davidoff One Slims Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\151 Davidoff Violet Super Slims Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\152 Davidoff Gold Slims Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\153 Davidoff Menthol Slims Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\154 Davidoff One Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\155 Davidoff Gold Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\156 Davidoff Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\157 Davidoff Classic Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\158 Pine Superslims Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\159 Esse Silver Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\160 Esse Change Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\161 Esse Black Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\162 Esse Special Gold Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\163 Esse Menthol Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\165 Esse Aura Pink Strawberry Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\166 Esse Aura Green Apple Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\167 Gitanes Blondes Original.JPG" />
+    <EmbeddedResource Include="SavedImages\168 Gitanes Classic Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\169 Gitanes Azure Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\170 Gold Coast Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\171 Gold Coast Red Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\172 Winston One Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\173 Winston Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\174 Winston Expand Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\175 Winston Blue 100s Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\176 Winston Blue Slims Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\177 Winston Red Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\178 Camel Yellow Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\179 Camel Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\180 Three Star Gold Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\181 Three Star Red Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\182 Bon Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\183 Golden Gate Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\184 Gauloises Blondes Blue Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\185 Gauloises Red Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\186 Gauloises Duo Taste Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\187 Gauloises Yellow Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\188 Pine Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\NutsDriedFruits.jpg" />
+    <EmbeddedResource Include="SavedImages\TeaCoffee.jpg" />
+    <EmbeddedResource Include="SavedImages\3 ACTIVIA LABAN LIGHT LOW FAT 180ML.jpg" />
+    <EmbeddedResource Include="SavedImages\2 IceCream_SNICKERS CERAMAL ICECREME 48 GM.jpg" />
+    <EmbeddedResource Include="SavedImages\2 Yogurt AL MARAI FULL FAT 1KG.jpg" />
+    <EmbeddedResource Include="SavedImages\3 IceCream_GALAXY ALMOND ICE STICK 71G.jpg" />
+    <EmbeddedResource Include="SavedImages\3 Yogurt almarai-yoghurt-low-fat-500g.jpg" />
+    <EmbeddedResource Include="SavedImages\4 IceCream_GALAXY CARAMEL ICE STICK 71G.jpg" />
+    <EmbeddedResource Include="SavedImages\4 Yogurt almarai_yoghurt_low_fat_1kg.jpg" />
+    <EmbeddedResource Include="SavedImages\5 IceCream_GALAXY CONE HAZELNUT &amp; CHOCOLATE 73GM.jpg" />
+    <EmbeddedResource Include="SavedImages\5 Yogurt AL RAWABI FULL FAT 500G.jpg" />
+    <EmbeddedResource Include="SavedImages\6 IceCream_mars-ice-cream-bar-41.8-g.jpg" />
+    <EmbeddedResource Include="SavedImages\6 Yogurt AL RAWABI FULL FAT 1KG.jpg" />
+    <EmbeddedResource Include="SavedImages\7 IceCream_GALAXY VANILA STICK.jpg" />
+    <EmbeddedResource Include="SavedImages\7 Yogurt AL RAWABI LOW FAT 500G.jpg" />
+    <EmbeddedResource Include="SavedImages\8 IceCream_MALTESERS STICK ICE CRM 60G.jpg" />
+    <EmbeddedResource Include="SavedImages\8 Yogurt AL RAWABI LOW FAT 1KG.jpg" />
+    <EmbeddedResource Include="SavedImages\12 IceCream_HAAGEN DAZS STRAWBERRY CHEESECAKE.jpg" />
+    <EmbeddedResource Include="SavedImages\12 Yogurt ACTIVIA FLAVORED YOGHURT - MANGO.jpg" />
+    <EmbeddedResource Include="SavedImages\13 IceCream_HAAGEN DAZS BELGIAN CHOCOLATE.jpg" />
+    <EmbeddedResource Include="SavedImages\13 Yogurt ACTIVIA FLAVORED YOGHURT - PEACH &amp; APRICOT.jpg" />
+    <EmbeddedResource Include="SavedImages\14 IceCream_HAAGEN DAZS COOKIES &amp; VANILLA CREAM.jpg" />
+    <EmbeddedResource Include="SavedImages\15 IceCream_HAAGEN DAZS VANILLA &amp; CREAM.jpg" />
+    <EmbeddedResource Include="SavedImages\16 IceCream_HAAGEN DAZS MACADAMIA NUT BRITTLE.jpg" />
+    <EmbeddedResource Include="SavedImages\17 IceCream_HAAGEN DAZS STRAWBERRY CHEESECAKE 500ML.jpg" />
+    <EmbeddedResource Include="SavedImages\18 IceCream_HAAGEN DAZS BELGIAN CHOCOLATE 500ML.jpg" />
+    <EmbeddedResource Include="SavedImages\19 IceCream_HAAGEN DAZS COOKIES &amp; VANILLA CREAM 500ML.jpg" />
+    <EmbeddedResource Include="SavedImages\20 IceCream_HAAGEN DAZS VANILLA &amp; CREAM 500ML.jpg" />
+    <EmbeddedResource Include="SavedImages\21 IceCream_HAAGEN DAZS MACADAMIA NUT BRITTLE 500 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\22 IceCream_LONDON DAIRY TIRAMISU 125 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\23 IceCream_LONDON DAIRY PRALINES &amp; CREAM 125 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\24 IceCream_LONDON DAIRY DOUBLE CHOCOLATE 125 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\25 IceCream_LONDON DAIRY VANILLA 125 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\26 IceCream_LONDON DAIRY NATURAL STRAWBERRY 125 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\27 IceCream_LONDON DAIRY TIRAMISU 1 L.jpg" />
+    <EmbeddedResource Include="SavedImages\28 IceCream_LONDON DAIRY PRALINES &amp; CREAM 1L.jpg" />
+    <EmbeddedResource Include="SavedImages\29 IceCream_LONDON DAIRY DOUBLE CHOCOLATE 1L.jpg" />
+    <EmbeddedResource Include="SavedImages\30 IceCream_LONDON DAIRY VANILLA 1 L.jpg" />
+    <EmbeddedResource Include="SavedImages\31 IceCream_LONDON DAIRY NATURAL STRAWBERRY 1L.jpg" />
+    <EmbeddedResource Include="SavedImages\32 IceCream_MAGNUM CLASSIC ICE CREAM BAR 110ML.jpg" />
+    <EmbeddedResource Include="SavedImages\33 IceCream_MAGNUM ALMOND ICE CREAM BAR 110 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\34 IceCream_MAGNUM WHITE ICE CREAM BAR 110ML.jpg" />
+    <EmbeddedResource Include="SavedImages\35 IceCream_MAGNUM DOUBLE CHOCOLATE ICE CREAM BAR 110 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\36 IceCream_MAGNUM TIRAMISU 110 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\102 Marlboro Flavour Code Outer.JPG" />
+    <EmbeddedResource Include="SavedImages\9 BARILLA SPAGHETTONI NO.7.jpg" />
+    <EmbeddedResource Include="SavedImages\11 BARILLA LASAGNE ALL%27UOVO BOLOGNESI.jpg" />
+    <EmbeddedResource Include="SavedImages\13 BARILLA FETTUCCINE TOSCANE.jpg" />
+    <EmbeddedResource Include="SavedImages\22 BARILLA GORGONZOLA.jpg" />
   </ItemGroup>
 </Project>

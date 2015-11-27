@@ -230,6 +230,7 @@ namespace bluemart.Common.ViewCells
 
 		public void ProduceProductImages()
 		{			
+			System.Diagnostics.Debug.WriteLine (mProduct.ProductImagePath);
 			var file = mRootPage.mFolder.GetFileAsync (mProduct.ProductImagePath).Result;
 			Stream stream = new MemoryStream();
 			mProductImageStream = new MemoryStream ();
