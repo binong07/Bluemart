@@ -50,6 +50,8 @@ namespace bluemart.MainViews
 
 		public RootPage ()
 		{
+
+
 			InitializeComponent ();
 			mActivityIndicator = new Xamarin.Forms.ActivityIndicator();
 			mCartBackgroundImage = new Xamarin.Forms.Image () {
@@ -88,7 +90,6 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Top + MyDevice.ScreenWidth*0.01f;
 				})
 			);
-
 			SwitchHeaderVisibility (true);
 
 			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
@@ -113,7 +114,6 @@ namespace bluemart.MainViews
 			ProductHeader.mParent = this;
 			mTopNavigationBar = ProductHeader;
 			mRootHeader = RootHeader;
-
 			NavigationPage.SetHasNavigationBar (this, false);
 			mCurrentPage = "BrowseCategories";
 			SetGrid1Definitions ();
@@ -125,7 +125,6 @@ namespace bluemart.MainViews
 				indexOfCurrentPage = ( indexOfCurrentPage + 1 ) % mPageList.Count;
 				//SwitchTab( mPageList[indexOfCurrentPage] );
 			};
-
 			RelativeLayout1.Children.Add (mActivityIndicator,
 				Constraint.RelativeToParent (parent => {
 					return parent.Width/2-MyDevice.ViewPadding*3;		
@@ -300,15 +299,21 @@ namespace bluemart.MainViews
 
 		public void RemoveFooter()
 		{			
+			mFooter.IsVisible=false;
 			mCartBackgroundImage.IsVisible = false;
-			Grid1.RowDefinitions.RemoveAt (3);
-			Grid1.Children.Remove (mFooter);
+			/*Grid1.RowDefinitions.RemoveAt (3);
+			Grid1.Children.Remove (mFooter);*/
 		}
 		public void AddFooter()
-		{			
+		{		
+			mFooter.IsVisible=true;
+			mCartBackgroundImage.IsVisible = true;	
+			/*
 			mCartBackgroundImage.IsVisible = true;
 			Grid1.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenWidth * 0.179f });
 			Grid1.Children.Add (mFooter,0,3);
+*/
+
 		}
 	}
 }

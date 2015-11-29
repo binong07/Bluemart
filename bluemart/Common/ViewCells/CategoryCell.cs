@@ -69,8 +69,8 @@ namespace bluemart.Common.ViewCells
 			Grid.SetColumnSpan (categoryImage, 2);
 
 			Label lbl = new Label (){
-				FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label)), 
-				BackgroundColor = Color.Transparent, TextColor = MyDevice.BlueColor, 
+				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)), 
+				BackgroundColor = Color.Transparent, TextColor = Color.Black, 
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				Text = category.Name
@@ -93,7 +93,7 @@ namespace bluemart.Common.ViewCells
 				Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
 					return sibling.Bounds.Top;
 				}),
-				Constraint.Constant( MyDevice.ScreenWidth*0.9962f ),
+				Constraint.Constant( MyDevice.ScreenWidth*0.988f ),
 				Constraint.Constant( MyDevice.ScreenWidth*0.6f )
 			);
 

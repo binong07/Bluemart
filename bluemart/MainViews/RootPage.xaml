@@ -26,6 +26,5 @@
 				<headers:TopNavigationBar x:Name = "ProductHeader" Grid.Row = "0" Grid.Column = "0"/>
 				<common:Footer x:Name = "Footer" Grid.Row = "3" Grid.Column = "0"/>
 	    </mr:Grid>
-
     </RelativeLayout>
 </ContentPage>

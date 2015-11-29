@@ -115,6 +115,7 @@ namespace bluemart.Common.Headers
 
 		private void SearchEntryUnfocused(Object sender,EventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine ("SearchEntryUnfocused");
 			if (SearchEntry.Text == "")
 				SearchEntry.Text = "Search Products";
 

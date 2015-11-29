@@ -15,7 +15,7 @@ namespace bluemart.MainViews
 		private List<CategoryCell> mCategoryCellList = new List<CategoryCell>();
 
 		public BrowseCategoriesPage (RootPage parent)
-		{						
+		{		
 			InitializeComponent ();
 
 			mParent = parent;

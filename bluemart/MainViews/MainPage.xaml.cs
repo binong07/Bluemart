@@ -266,12 +266,14 @@ namespace bluemart.MainViews
 
 		protected override bool OnBackButtonPressed ()
 		{
-			if (Navigation.NavigationStack.Last<Page> () is RootPage) {				
+			if (Navigation.NavigationStack.Last<Page> () is RootPage) {	
+				
 				//Check if product page is active
 				//if( mRootPage.mTopNavigationBar.IsVisible == true ){	
 				if (mRootPage.mCurrentPage != "BrowseCategories")
 					mRootPage.SwitchTab ("BrowseCategories");
 				else
+					//Application.Current.MainPage = new NavigationPage (new MainPage ());
 					Navigation.PopAsync ();
 				//}
 
@@ -369,7 +371,6 @@ namespace bluemart.MainViews
 					DismissPopup();
 					string region = (mPopupListView.SelectedItem as RegionClass).Region;
 					mUserModel.AddActiveRegionToUser (region);
-
 					/*AddressClass address = new AddressClass();
 					var addressList = address.GetAddressList(region);
 					if( address != null )
