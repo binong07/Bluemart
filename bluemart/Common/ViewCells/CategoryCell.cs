@@ -143,6 +143,11 @@ namespace bluemart.Common.ViewCells
 					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
 						string storeString = ProductModel.mProductStoresDictionary [productID];
 
+						//string parentCategoryID = ProductModel.mProductParentCategoryIDsDictionary [productID];
+
+						/*if (parentCategoryID != "") {
+						}*/
+
 						if (String.IsNullOrEmpty(storeString))
 							continue;
 
@@ -158,7 +163,8 @@ namespace bluemart.Common.ViewCells
 						string ProductName = ProductModel.mProductNameDictionary [productID];
 						decimal price = ProductModel.mProductPriceDictionary [productID];
 						string quantity = ProductModel.mProductQuantityDictionary [productID];
-						product.Add (new Product (productID, ProductName, ImagePath, price, quantity)); 
+						string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
+						product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity)); 
 					}
 				}
 
@@ -195,7 +201,8 @@ namespace bluemart.Common.ViewCells
 				string ProductName = "test";
 				decimal price = new decimal(i);
 				string quantity = "abc";
-				product.Add (new Product ("asd", ProductName, ImagePath, price, quantity));
+				string parentCategory = "";
+				product.Add (new Product ("asd", ProductName, ImagePath, price, parentCategory, quantity));
 			}
 			mProductDictionary.Add ("asd", product);
 			/*foreach( Category category in mCategoryList )

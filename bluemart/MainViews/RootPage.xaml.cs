@@ -92,11 +92,7 @@ namespace bluemart.MainViews
 			);
 			SwitchHeaderVisibility (true);
 
-			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
-			mCategoryBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.categoryBorder.png");
-			mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
-			mBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.border.png");
-			mFolder = mRootFolder.GetFolderAsync(ParseConstants.IMAGE_FOLDER_NAME).Result;
+			ReloadStreams ();
 
 
 			mFooter = Footer;
@@ -133,7 +129,16 @@ namespace bluemart.MainViews
 					return parent.Height/2-MyDevice.ViewPadding*2;		
 				})
 			);
-		}			
+		}	
+
+		public void ReloadStreams()
+		{
+			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
+			mCategoryBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.categoryBorder.png");
+			mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.bookmark_remove.png");
+			mBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.border.png");
+			mFolder = mRootFolder.GetFolderAsync(ParseConstants.IMAGE_FOLDER_NAME).Result;
+		}
 
 		private void SetGrid1Definitions()
 		{	

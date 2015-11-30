@@ -70,13 +70,6 @@ namespace bluemart.MainViews
 				ScrollView1.IsVisible = false;
 			}
 
-
-			int count = 0;
-			foreach (var product in productDictionary) {
-				count += product.Value.Count;
-			}
-
-
 			PopulateGrid ();
 			UpdatePriceLabel ();
 
@@ -127,17 +120,12 @@ namespace bluemart.MainViews
 		private async Task WaitUntilCorrespondingSubCategoryLoaded(int productCellIndex)
 		{
 			mParent.mActivityIndicator.IsRunning = true;
-			//double height = ProductScrollView.Height;
 			ProductScrollView.IsVisible = false;
-			//ProductScrollView.HeightRequest = 0;
-			//ProductScrollView.HeightRequest = 0;
 			while (Grid2.Children.Count-2 < productCellIndex) {
 				await Task.Delay (100);
 			}
 			mParent.mActivityIndicator.IsRunning = false;
 			ProductScrollView.IsVisible = true;
-			//ProductScrollView.HeightRequest = height;
-			//ProductScrollView.IsEnabled = true;
 		}
 
 		private void PopulateSubCategoryButtons()
@@ -218,8 +206,6 @@ namespace bluemart.MainViews
 				mEnabledButtonView.BackgroundColor = MyDevice.BlueColor;
 				mEnabledButtonView.TextColor = Color.White;
 			}
-				//mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
-			//mBoxViewList [mActiveButtonIndex].IsVisible = true;
 		}
 
 		private void  OnScrolled( Object sender, ScrolledEventArgs e)
@@ -248,7 +234,7 @@ namespace bluemart.MainViews
 
 					mLastLoadedIndex = endIndex;
 
-			}
+				}
 			}else {				
 
 				if (mActiveButtonIndex != 0) {					
@@ -499,26 +485,6 @@ namespace bluemart.MainViews
 				}
 			}
 		}
-
-		private void LoadInitialImages()
-		{
-			foreach (var productCell in mProductCellList) {
-				int productIndex = mProductCellList.IndexOf (productCell);
-				if (productIndex < mInitialLoadSize) {
-					//lock (_ListLock) {						
-						mManagerProductCellQueue.Enqueue (productCell);
-					//}
-				}
-				productCell.ProduceStreamsAndImages ();
-				//mPopulaterProductCellQueue.Enqueue (productCell);
-			}
-
-			ManageQueuesInBackground ();
-			PopulateProductCellInBackground ();
-			EraseProductCellInBackground ();
-			CheckIfLastIndexChanged ();
-		}
-			
 
 		private void SetGrid2Definitions()
 		{

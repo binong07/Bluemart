@@ -22,6 +22,7 @@ namespace bluemart.Models.Remote
 		public static Dictionary<string,decimal> mProductPriceDictionary;
 		public static Dictionary<string,string> mProductQuantityDictionary;
 		public static Dictionary<string,string> mProductStoresDictionary;
+		public static Dictionary<string,string> mProductParentCategoryIDsDictionary;
 		public static Dictionary<string,HashSet<string>> mProductCategoryIDDictionary;
 		private static FavoritesClass mFavoritesModel = new FavoritesClass();
 		private static ProductClass mProductClass = new ProductClass();
@@ -45,6 +46,7 @@ namespace bluemart.Models.Remote
 			mProductPriceDictionary = new Dictionary<string, decimal> ();
 			mProductQuantityDictionary = new Dictionary<string, string> ();
 			mProductStoresDictionary = new Dictionary<string, string> ();
+			mProductParentCategoryIDsDictionary = new Dictionary<string, string> ();
 			mProductCategoryIDDictionary = new Dictionary<string,HashSet<string>> ();
 		}
 
@@ -58,6 +60,7 @@ namespace bluemart.Models.Remote
 			mProductPriceDictionary.Clear ();
 			mProductQuantityDictionary.Clear ();
 			mProductStoresDictionary.Clear ();
+			mProductParentCategoryIDsDictionary.Clear();
 			mProductCategoryIDDictionary.Clear ();
 		}
 
@@ -86,6 +89,12 @@ namespace bluemart.Models.Remote
 					tempProduct.CategoryId = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_CATEGORYID);
 					tempProduct.Price = new Decimal(productObject.Get<double> (ParseConstants.PRODUCT_ATTRIBUTE_PRICE));
 					tempProduct.Quantity = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_QUANTITY);
+					if (tempList.Count > 152) {
+					}
+					/*if (productObject.Get<object> (ParseConstants.PRODUCT_ATTRIBUTE_PARENTCATEGORY) == null)
+						tempProd*uct.ParentCategory = "";
+					else*/
+						tempProduct.ParentCategory = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_PARENTCATEGORY);
 					var storeList = productObject.Get<IEnumerable<object>> (ParseConstants.PRODUCT_ATTRIBUTE_STORES).Cast<Int64>().ToList ();
 
 					foreach (Int64 store in storeList ) {
@@ -142,7 +151,8 @@ namespace bluemart.Models.Remote
 				mProductImageIDDictionary.Add(product.objectId,product.ImageID);
 				mProductImageNameDictionary.Add(product.objectId,product.ImageName);
 				mProductPriceDictionary.Add(product.objectId,product.Price);
-				mProductQuantityDictionary.Add(product.objectId,product.Quantity);	
+				mProductQuantityDictionary.Add(product.objectId,product.Quantity);
+				mProductParentCategoryIDsDictionary.Add (product.objectId, product.ParentCategory);
 				mProductStoresDictionary.Add (product.objectId, product.Stores);
 
 				if (mProductCategoryIDDictionary.ContainsKey( product.CategoryId)) {

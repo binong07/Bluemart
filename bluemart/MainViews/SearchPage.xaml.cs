@@ -97,7 +97,8 @@ namespace bluemart.MainViews
 				string ProductName = ProductModel.mProductNameDictionary [productID];
 				decimal price = ProductModel.mProductPriceDictionary [productID];
 				string quantity = ProductModel.mProductQuantityDictionary [productID];
-				mProductList.Add (new Product (productID, ProductName, ImagePath, price, quantity)); 
+				string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
+				mProductList.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity)); 
 			}
 		}
 	}

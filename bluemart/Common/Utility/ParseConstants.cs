@@ -30,6 +30,7 @@ namespace bluemart.Common.Utilities
 		public const string PRODUCT_ATTRIBUTE_IMAGENAME = "ImageName";
 		public const string PRODUCT_ATTRIBUTE_PRICE = "Price";
 		public const string PRODUCT_ATTRIBUTE_QUANTITY = "Quantity";
+		public const string PRODUCT_ATTRIBUTE_PARENTCATEGORY = "ParentCategory";
 		public const string PRODUCT_ATTRIBUTE_STORES = "Stores";
 		//Orders Attribute Names
 		public const string ORDERS_ATTRIBUTE_ADDRESS = "Address";

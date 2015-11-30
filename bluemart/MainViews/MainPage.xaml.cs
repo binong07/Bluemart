@@ -385,6 +385,8 @@ namespace bluemart.MainViews
 					}*/
 					CategoryModel.CategoryLocation = mPopupListView.SelectedItem.ToString();
 					mRootPage.mSettingsPage.PopulateListView();
+					mRootPage.ReloadStreams();
+					mRootPage.mBrowseCategoriesPage.RefreshBorderStream();
 					Navigation.PushAsync( mRootPage );
 				}
 			};
