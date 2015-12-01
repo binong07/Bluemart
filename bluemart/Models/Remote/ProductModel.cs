@@ -20,6 +20,7 @@ namespace bluemart.Models.Remote
 		public static Dictionary<string,string> mProductImageIDDictionary;
 		public static Dictionary<string,string> mProductImageNameDictionary;
 		public static Dictionary<string,decimal> mProductPriceDictionary;
+		public static Dictionary<string,bool> mProductIsTopSellingDictionary;
 		public static Dictionary<string,string> mProductQuantityDictionary;
 		public static Dictionary<string,string> mProductStoresDictionary;
 		public static Dictionary<string,string> mProductParentCategoryIDsDictionary;
@@ -48,6 +49,7 @@ namespace bluemart.Models.Remote
 			mProductStoresDictionary = new Dictionary<string, string> ();
 			mProductParentCategoryIDsDictionary = new Dictionary<string, string> ();
 			mProductCategoryIDDictionary = new Dictionary<string,HashSet<string>> ();
+			mProductIsTopSellingDictionary = new Dictionary<string, bool> ();
 		}
 
 		private static void ClearContainers()
@@ -62,6 +64,7 @@ namespace bluemart.Models.Remote
 			mProductStoresDictionary.Clear ();
 			mProductParentCategoryIDsDictionary.Clear();
 			mProductCategoryIDDictionary.Clear ();
+			mProductIsTopSellingDictionary.Clear ();
 		}
 
 		public static async void GetProductAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate,LoadingPage loadingPage)
@@ -89,6 +92,7 @@ namespace bluemart.Models.Remote
 					tempProduct.CategoryId = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_CATEGORYID);
 					tempProduct.Price = new Decimal(productObject.Get<double> (ParseConstants.PRODUCT_ATTRIBUTE_PRICE));
 					tempProduct.Quantity = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_QUANTITY);
+					tempProduct.IsTopSelling = productObject.Get<bool> (ParseConstants.PRODUCT_ATTRIBUTE_ISTOPSELLING);
 					if (tempList.Count > 152) {
 					}
 					/*if (productObject.Get<object> (ParseConstants.PRODUCT_ATTRIBUTE_PARENTCATEGORY) == null)
@@ -154,6 +158,7 @@ namespace bluemart.Models.Remote
 				mProductQuantityDictionary.Add(product.objectId,product.Quantity);
 				mProductParentCategoryIDsDictionary.Add (product.objectId, product.ParentCategory);
 				mProductStoresDictionary.Add (product.objectId, product.Stores);
+				mProductIsTopSellingDictionary.Add (product.objectId, product.IsTopSelling);
 
 				if (mProductCategoryIDDictionary.ContainsKey( product.CategoryId)) {
 					mProductCategoryIDDictionary [product.CategoryId].Add (product.objectId);

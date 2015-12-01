@@ -21,10 +21,7 @@ namespace bluemart.Droid
 				IntPtr cls = JNIEnv.FindClass("android/graphics/Typeface"); 
 				IntPtr fld = JNIEnv.GetStaticFieldID(cls, staticTypefaceFieldName, "Landroid/graphics/Typeface;"); 
 				JNIEnv.SetStaticField(cls, fld, newTypeface.Handle);
-			} catch (NoSuchFieldException e) {
-				//e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				//e.printStackTrace();
+			} catch {
 			}
 		}
 	}

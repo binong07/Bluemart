@@ -12,22 +12,27 @@ namespace bluemart.MainViews
 {
 	public partial class BrowseProductsPage : ContentPage
 	{
-		private Dictionary<string,List<Product>> mProductDictionary;
+		
 		//private List<BoxView> mBoxViewList;
-		private List<Label> mButtonList;
+
 		private Label mEnabledButtonView;
-		private List<int> mCategoryIndexList;
+
 		private double mPreviousScrollPositionY = 0;
 		private int mActiveButtonIndex = 0;
 		public RootPage mParent;
 		public string mCategoryID;
-		private List<Product> mProductList = new List<Product> ();
+
 		private int mLoadSize = 30;
 		private int mLastLoadedIndex = 0;
 		private int mLastScrollIndex = 0;
 		private bool bIsImagesProduced = false;
 		private int mInitialLoadSize = 4;
-
+		//Containers
+		private Dictionary<string,List<Product>> mProductDictionary;
+		private List<Label> mButtonList;
+		private List<Product> mProductList = new List<Product> ();
+		private List<int> mCategoryIndexList;
+		//Queues
 		private List<ProductCell> mProductCellList = new List<ProductCell> ();
 		private Queue<ProductCell> mTrashProductCellQueue = new Queue<ProductCell>();
 		private Queue<ProductCell> mPopulaterProductCellQueue = new Queue<ProductCell> ();
@@ -35,6 +40,9 @@ namespace bluemart.MainViews
 		CancellationTokenSource mLoadProductsToken = new CancellationTokenSource();
 
 		static readonly Object _ListLock = new Object();
+
+		List<Product> mTopSellingProductList = new List<Product>();
+		List<ProductCell> mTopSellingProductCellList = new List<ProductCell> ();
 
 		public BrowseProductsPage (Dictionary<string, List<Product>> productDictionary, Category category,RootPage parent)
 		{					
@@ -128,11 +136,22 @@ namespace bluemart.MainViews
 			ProductScrollView.IsVisible = true;
 		}
 
+		private void PopulateTopSelling()
+		{
+			
+		}
+
 		private void PopulateSubCategoryButtons()
 		{
 			mButtonList.Clear ();
+			mTopSellingProductList.Clear ();
+			mTopSellingProductCellList.Clear ();
 			foreach (var productPair in mProductDictionary) {
 				if (productPair.Value.Count > 0) {
+					if (productPair.Key == "Top Selling") {
+						mTopSellingProductList = productPair.Value;
+					}
+
 					var relativeLayout = new RelativeLayout () {					
 						VerticalOptions = LayoutOptions.Fill,
 						BackgroundColor = MyDevice.BlueColor,
@@ -326,7 +345,7 @@ namespace bluemart.MainViews
 		private void PopulateGrid()
 		{
 			SetGrid2Definitions ();
-			PopulateSubCategoryButtons ();
+
 	
 			//Populate a list with all products 
 			//To be able to define product index
@@ -340,7 +359,7 @@ namespace bluemart.MainViews
 					}
 				}
 			}
-
+			PopulateSubCategoryButtons ();
 			//LoadLimitedNumberOfProducts (1000);
 			LoadAllProducts();
 			ManageQueuesInBackground ();
@@ -462,16 +481,47 @@ namespace bluemart.MainViews
 			}
 		}
 
-		private async void LoadAllProducts()
+		private int CheckIfProductIsInTopSellingListAndReturnIndex(Product p)
+		{			
+			int counter = 0;
+			foreach (var product in mTopSellingProductList) {				
+				if (p.ProductID == product.ProductID)
+					return counter;
+				counter++;
+			}
+
+			return counter;
+		}
+
+	 	private async void LoadAllProducts()
 		{	
 			foreach (var product in mProductList) {
 				int productIndex = mProductList.IndexOf (product);
-				ProductCell productCell = new ProductCell (Grid2, product, this);
+				ProductCell productCell;
+
+
+					
+				if (productIndex < mTopSellingProductList.Count) {
+					productCell = new ProductCell (Grid2, product, this);
+					mTopSellingProductCellList.Add (productCell);
+				} else {
+					int index = CheckIfProductIsInTopSellingListAndReturnIndex (product);
+
+					if (index != mTopSellingProductList.Count) {
+						productCell = new ProductCell (Grid2, mTopSellingProductCellList [index].mProduct, this);
+						productCell.mPairCell = mTopSellingProductCellList [index];
+						mTopSellingProductCellList [index].mPairCell = productCell;
+					}
+					else
+						productCell = new ProductCell (Grid2, product, this);					
+				}
 
 				mProductCellList.Add (productCell);					
 
 				productCell.ProduceStreamsAndImages ();	
 				Grid2.Children.Add (productCell.View, productIndex % 2, productIndex / 2);			
+
+
 
 				if( productIndex < mInitialLoadSize )
 					mManagerProductCellQueue.Enqueue (productCell);

@@ -132,6 +132,49 @@ namespace bluemart.Common.ViewCells
 			mProductDictionary.Clear ();
 			PopulateCategories ();
 
+			//For Top Selling
+			foreach (Category category in mCategoryList) {
+				List<Product> product = new List<Product> ();
+
+				string location = mUser.GetActiveRegionFromUser ();
+				int store = RegionHelper.DecideShopNumber (location);
+
+				if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
+					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
+						if (ProductModel.mProductIsTopSellingDictionary [productID]) {
+							string storeString = ProductModel.mProductStoresDictionary [productID];
+
+							if (String.IsNullOrEmpty(storeString))
+								continue;
+
+							//Get store string list
+							var storeList = storeString.Split (',').ToList ();
+							//Convert storelist to integer list
+							var storeNumberList = storeList.Select (int.Parse).ToList ();
+
+							if (!storeNumberList.Contains (store))
+								continue;
+
+							string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+							string ProductName = ProductModel.mProductNameDictionary [productID];
+							decimal price = ProductModel.mProductPriceDictionary [productID];
+							string quantity = ProductModel.mProductQuantityDictionary [productID];
+							string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
+							product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity));
+						}
+						 
+					}
+				}
+				if (!mProductDictionary.ContainsKey ("Top Selling"))
+					mProductDictionary.Add ("Top Selling", product);
+				else {
+					List<Product> tempProduct = mProductDictionary ["Top Selling"];
+					tempProduct.Concat (product);
+					mProductDictionary.Remove ("Top Selling");
+					mProductDictionary.Add ("Top Selling", tempProduct);
+				}					
+			}
+
 			foreach( Category category in mCategoryList )
 			{
 				List<Product> product = new List<Product> ();

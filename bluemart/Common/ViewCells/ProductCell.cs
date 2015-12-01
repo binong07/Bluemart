@@ -32,7 +32,7 @@ namespace bluemart.Common.ViewCells
 		public Stream mFavoriteStream;
 		private Grid mMainCellGrid;
 		public bool bIsImageSet=false;
-
+		public ProductCell mPairCell = null;
 
 
 		public ProductCell (Grid parentGrid, Product product, Page parent)
@@ -313,12 +313,16 @@ namespace bluemart.Common.ViewCells
 					bIsFavorite = true;
 					mFavoriteModel.AddProductID(mProduct.ProductID);
 					mFavoriteImage.IsVisible =  true;
+					if(mPairCell != null )
+						mPairCell.mFavoriteImage.IsVisible = true;
 				}
 				else
 				{		
 					bIsFavorite = false;
 					mFavoriteModel.RemoveProductID(mProduct.ProductID);
 					mFavoriteImage.IsVisible =  false;
+					if(mPairCell != null )
+						mPairCell.mFavoriteImage.IsVisible = false;
 
 					if( mParent is FavoritesPage )
 					{
@@ -362,6 +366,8 @@ namespace bluemart.Common.ViewCells
 
 
 			UpdateNumberLabel ();
+			if (mPairCell != null)
+				mPairCell.UpdateNumberLabel ();
 		}
 
 		private bool CheckIfSearchEntryIsFocused()
@@ -395,6 +401,8 @@ namespace bluemart.Common.ViewCells
 				(mParent as SearchPage).UpdatePriceLabel ();
 			
 			UpdateNumberLabel ();
+			if (mPairCell != null)
+				mPairCell.UpdateNumberLabel ();
 		}
 	}
 
