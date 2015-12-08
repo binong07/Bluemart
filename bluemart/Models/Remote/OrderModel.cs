@@ -14,22 +14,34 @@ namespace bluemart.Models.Remote
 	{		
 		public enum OrderStatus { WAITING_CONFIRMATION, CONFIRMED, IN_TRANSIT, COMPLETED };
 		private static AddressClass mAddressModel = new AddressClass();
+		private struct OrderObject
+		{
+			public string Quantity;
+			public string Product;
+			public string Description;
+			public string Price;
+		};
 		//public static int ActiveOrderStatus = OrderStatus.WAITING_CONFIRMATION;
 
 		public static async Task<bool> SendOrderToRemote(UserClass user)
 		{	
 			AddressClass address = mAddressModel.GetActiveAddress (user.ActiveRegion);
 			var fullname = address.Name.Split (' ');
-			List<string> OrderList = new List<string> ();
+			List<OrderObject> OrderList = new List<OrderObject> ();
 
 			foreach (var product in Cart.ProductsInCart) {				
 				string quantity = product.ProductNumberInCart.ToString();
 				string productName = product.Name;
 				string description = product.Quantity;
 				string cost = (product.ProductNumberInCart * product.Price).ToString ();
-
-				OrderList.Add("Quantity:" + quantity + "," + "Product:" + productName + "," + "Description:" + description + "," + "Price:" + cost);
-			}		
+				OrderObject orderObject;
+				orderObject.Quantity = quantity;
+				orderObject.Product = productName;
+				orderObject.Description = description;
+				orderObject.Price = cost;
+				OrderList.Add (orderObject);
+				//OrderList.Add("Quantity:" + quantity + "," + "Product:" + productName + "," + "Description:" + description + "," + "Price:" + cost);
+			}	
 
 
 			ParseObject order= new ParseObject(ParseConstants.ORDERS_CLASS_NAME);
@@ -43,7 +55,7 @@ namespace bluemart.Models.Remote
 			order [ParseConstants.ORDERS_ATTRIBUTE_STORE] = RegionHelper.DecideShopNumber (user.ActiveRegion);
 			order [ParseConstants.ORDERS_ATTRIBUTE_STATUS] = (int)OrderStatus.WAITING_CONFIRMATION;
 			order [ParseConstants.ORDERS_ATTRIBUTE_USERID] =  MyDevice.DeviceID;
-			order [ParseConstants.ORDERS_ATTRIBUTE_ORDERARRAY] = OrderList.ToArray ();
+			order [ParseConstants.ORDERS_ATTRIBUTE_ORDERARRAY] = Newtonsoft.Json.JsonConvert.SerializeObject (OrderList);
 
 			bool bIsSucceeded = false;
 			var tokenSource = new CancellationTokenSource ();

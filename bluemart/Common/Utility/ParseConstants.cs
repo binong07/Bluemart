@@ -37,7 +37,7 @@ namespace bluemart.Common.Utilities
 		public const string ORDERS_ATTRIBUTE_ADDRESS = "Address";
 		public const string ORDERS_ATTRIBUTE_ADDRESSDESC = "AddressDescription";
 		public const string ORDERS_ATTRIBUTE_USERNAME = "Name";
-		public const string ORDERS_ATTRIBUTE_ORDERARRAY = "OrderArray";
+		public const string ORDERS_ATTRIBUTE_ORDERARRAY = "OrderTest";
 		public const string ORDERS_ATTRIBUTE_PHONE = "Phone";
 		public const string ORDERS_ATTRIBUTE_REGION = "Region";
 		public const string ORDERS_ATTRIBUTE_STATUS = "Status";
