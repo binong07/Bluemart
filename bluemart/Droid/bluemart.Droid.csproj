@@ -99,37 +99,37 @@
     <Reference Include="XLabs.Forms.Droid">
       <HintPath>..\packages\XLabs.Forms.2.0.5782\lib\MonoAndroid\XLabs.Forms.Droid.dll</HintPath>
     </Reference>
-    <Reference Include="MR.Gestures.Android">
-      <HintPath>..\packages\MR.Gestures.1.2.5\lib\MonoAndroid10\MR.Gestures.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="MR.Gestures">
-      <HintPath>..\packages\MR.Gestures.1.2.5\lib\MonoAndroid10\MR.Gestures.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Maps">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Maps.26.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Maps.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Forms.Platform.Android">
-      <HintPath>..\packages\Xamarin.Forms.2.0.0.6484\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
-    </Reference>
     <Reference Include="FormsViewGroup">
-      <HintPath>..\packages\Xamarin.Forms.2.0.0.6484\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core">
-      <HintPath>..\packages\Xamarin.Forms.2.0.0.6484\lib\MonoAndroid10\Xamarin.Forms.Core.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Forms.Xaml">
-      <HintPath>..\packages\Xamarin.Forms.2.0.0.6484\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
+    <Reference Include="Xamarin.Forms.Platform.Android">
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform">
-      <HintPath>..\packages\Xamarin.Forms.2.0.0.6484\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Maps.Android">
-      <HintPath>..\packages\Xamarin.Forms.Maps.2.0.0.6484\lib\MonoAndroid10\Xamarin.Forms.Maps.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Forms.Maps.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Maps.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Maps">
-      <HintPath>..\packages\Xamarin.Forms.Maps.2.0.0.6484\lib\MonoAndroid10\Xamarin.Forms.Maps.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Forms.Maps.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Maps.dll</HintPath>
     </Reference>
-    <Reference Include="SQLitePCL.raw">
+    <Reference Include="MR.Gestures.Android">
+      <HintPath>..\packages\MR.Gestures.1.3.1\lib\MonoAndroid10\MR.Gestures.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="MR.Gestures">
+      <HintPath>..\packages\MR.Gestures.1.3.1\lib\MonoAndroid10\MR.Gestures.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCL">
       <HintPath>..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\pinvoke_packaged_sqlite3\anycpu\SQLitePCL.raw.dll</HintPath>
     </Reference>
     <Reference Include="SQLite-net">
@@ -199,10 +199,19 @@
     <AndroidResource Include="Resources\drawable\Favorites_S.png" />
     <AndroidResource Include="Resources\drawable\Settings_S.png" />
     <AndroidResource Include="Resources\drawable\Track_S.png" />
+    <AndroidResource Include="Resources\drawable\Screen1_BG.png" />
+    <AndroidResource Include="Resources\drawable\Screen1_BMLogo.png" />
+    <AndroidResource Include="Resources\drawable\Screen1_Button1.png" />
+    <AndroidResource Include="Resources\drawable\Screen1_Button2.png" />
+    <AndroidResource Include="Resources\drawable\Screen1_Dot.png" />
+    <AndroidResource Include="Resources\drawable\Screen1_Gri1.png" />
+    <AndroidResource Include="Resources\drawable\Screen1_Gri2.png" />
+    <AndroidResource Include="Resources\drawable\Screen1_SelectedDot.png" />
+    <AndroidResource Include="Resources\drawable\Screen1_BG_.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.Forms.2.0.0.6484\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6484\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\SQLitePCL.raw_basic.targets')" />
+  <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.4\build\MonoAndroid\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.4\build\MonoAndroid\SQLitePCL.raw_basic.targets')" />
   <ItemGroup>
     <XamarinComponentReference Include="parse">
       <Version>1.6.0</Version>

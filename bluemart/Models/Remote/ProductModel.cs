@@ -149,7 +149,10 @@ namespace bluemart.Models.Remote
 		{			
 			ClearContainers ();
 
-			foreach (ProductClass product in mProductClass.GetProducts()) {					
+			foreach (ProductClass product in mProductClass.GetProducts()) {	
+				if (product.Price <= 0)
+					continue;
+				
 				mProductIDList.Add (product.objectId);
 				mProductNameDictionary.Add(product.objectId,product.Name);
 				mProductImageIDDictionary.Add(product.objectId,product.ImageID);

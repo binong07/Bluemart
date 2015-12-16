@@ -11,8 +11,8 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-	   	<RelativeLayout x:Name = "MainRelativeLayout" Padding="0,0,0,0" VerticalOptions = "FillAndExpand" HorizontalOptions = "FillAndExpand">	   		
-        </RelativeLayout>   
+	   	<!--<RelativeLayout x:Name = "MainRelativeLayout" Padding="0,0,0,0" VerticalOptions = "Fill" HorizontalOptions = "Fill">	   		
+        </RelativeLayout>   -->
 	</ContentPage.Content>
 
 

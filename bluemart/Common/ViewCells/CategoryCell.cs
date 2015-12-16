@@ -201,10 +201,10 @@ namespace bluemart.Common.ViewCells
 
 						if (!storeNumberList.Contains (store))
 							continue;
-
-						string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
-						string ProductName = ProductModel.mProductNameDictionary [productID];
+						
 						decimal price = ProductModel.mProductPriceDictionary [productID];
+						string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+						string ProductName = ProductModel.mProductNameDictionary [productID];						
 						string quantity = ProductModel.mProductQuantityDictionary [productID];
 						string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
 						product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity)); 

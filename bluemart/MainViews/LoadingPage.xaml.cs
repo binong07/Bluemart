@@ -29,9 +29,9 @@ namespace bluemart
 			};
 
 			bgImage = new Image {
-				Source = "loadingBackground",
-				HeightRequest = MyDevice.ScreenHeight,
-				WidthRequest = MyDevice.ScreenHeight*1.5f,
+				Source = "Screen1_BG",
+				HeightRequest = MyDevice.GetScaledSize(1920),
+				WidthRequest = MyDevice.GetScaledSize(1080),
 				Aspect = Aspect.Fill
 			};
 			/*
@@ -54,7 +54,7 @@ namespace bluemart
 				Constraint.Constant (MyDevice.ScreenHeight/2)
 			);
 				
-			SlideImage ();
+			//SlideImage ();
 			Load();
 		}
 
