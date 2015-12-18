@@ -18,6 +18,7 @@ namespace bluemart.Models.Local
 		public string Quantity { get; set; }
 		public string ParentCategory{ get; set; }
 		public bool IsTopSelling{ get; set; }
+		public int Priority{ get; set; }
 		public string Stores { get; set; }
 
 		private bool TableExists<T> (SQLiteConnection connection,string tableName)
@@ -53,7 +54,7 @@ namespace bluemart.Models.Local
 			}
 
 			var query = from Products in  db.Table<ProductClass> ()
-				orderby Products.Name
+				orderby Products.Priority,Products.Name
 				select Products;
 
 			foreach (var product in query) {

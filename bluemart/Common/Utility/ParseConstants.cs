@@ -20,6 +20,7 @@ namespace bluemart.Common.Utilities
 		public const string CATEGORY_ATTRIBUTE_IMAGENAME = "ImageName";
 		public const string CATEGORY_ATTRIBUTE_ISSUBCATEGORYNAME = "isSubCategory";
 		public const string CATEGORY_ATTRIBUTE_SUB = "Sub";
+		public const string CATEGORY_ATTRIBUTE_PRIORITY = "Priority";
 		//Image Attribute Names
 		public const string IMAGE_ATTRIBUTE_IMAGEFILE = "Image"; 
 		public const string IMAGE_ATTRIBUTE_IMAGENAME = "Name";
@@ -33,6 +34,7 @@ namespace bluemart.Common.Utilities
 		public const string PRODUCT_ATTRIBUTE_PARENTCATEGORY = "ParentCategory";
 		public const string PRODUCT_ATTRIBUTE_STORES = "Stores";
 		public const string PRODUCT_ATTRIBUTE_ISTOPSELLING = "IsTopSelling";
+		public const string PRODUCT_ATTRIBUTE_PRIORITY = "Priority";
 		//Orders Attribute Names
 		public const string ORDERS_ATTRIBUTE_ADDRESS = "Address";
 		public const string ORDERS_ATTRIBUTE_ADDRESSDESC = "AddressDescription";

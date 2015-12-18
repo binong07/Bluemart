@@ -16,6 +16,7 @@ namespace bluemart.Models.Local
 		public string ImageID { get; set; }
 		public string ImageName { get; set; }
 		public string Name { get; set; }
+		public int Priority { get; set; }
 
 		private bool TableExists<T> (SQLiteConnection connection,string tableName)
 		{    
@@ -50,7 +51,7 @@ namespace bluemart.Models.Local
 			}
 
 			var query = from Categories in  db.Table<CategoryClass> ()
-				orderby Categories.Name
+				orderby Categories.Priority,Categories.Name
 				select Categories;
 
 			foreach (var category in query) {

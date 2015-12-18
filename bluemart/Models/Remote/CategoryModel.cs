@@ -23,6 +23,7 @@ namespace bluemart.Models.Remote
 		public static Dictionary<string,string> mImageNameDictionary;
 		public static Dictionary<string,string> mImageIDDictionary;
 		public static Dictionary<string,bool> mIsSubCategoryDictionary;
+		public static Dictionary<string,int> mPriorityDictionary;
 		public static Dictionary<string,List<string>> mSubCategoryDictionary;
 		private static UserClass mUserModel = new UserClass();
 		private static CategoryClass mCategoryClass = new CategoryClass();
@@ -40,6 +41,7 @@ namespace bluemart.Models.Remote
 			mImageNameDictionary = new Dictionary<string,string> ();
 			mImageIDDictionary = new Dictionary<string,string> ();
 			mIsSubCategoryDictionary = new Dictionary<string,bool> ();
+			mPriorityDictionary = new Dictionary<string, int> ();
 			mSubCategoryDictionary = new Dictionary<string,List<string>> ();
 		}
 
@@ -78,6 +80,7 @@ namespace bluemart.Models.Remote
 					tempCategory.Name = categoryObject.Get<string> (ParseConstants.CATEGORY_ATTRIBUTE_NAME);
 					tempCategory.ImageName = categoryObject.Get<string> (ParseConstants.CATEGORY_ATTRIBUTE_IMAGENAME);
 					tempCategory.ImageID = categoryObject.Get<string> (ParseConstants.CATEGORY_ATTRIBUTE_IMAGEID);
+					tempCategory.Priority = categoryObject.Get<int> (ParseConstants.CATEGORY_ATTRIBUTE_PRIORITY);
 					tempCategory.isSubCategory = categoryObject.Get<bool> (ParseConstants.CATEGORY_ATTRIBUTE_ISSUBCATEGORYNAME);
 					var subcategoryList = categoryObject.Get<IEnumerable<object>> (ParseConstants.CATEGORY_ATTRIBUTE_SUB).Cast<string> ().ToList ();
 					foreach (string sub in subcategoryList ) {
@@ -108,7 +111,7 @@ namespace bluemart.Models.Remote
 			mImageIDDictionary.Clear ();
 			mIsSubCategoryDictionary.Clear ();
 			mSubCategoryDictionary.Clear ();
-
+			mPriorityDictionary.Clear();
 
 			foreach (CategoryClass categoryObj in mCategoryClass.GetCategories()) {
 				mCategoryIDList.Add (categoryObj.objectId);
