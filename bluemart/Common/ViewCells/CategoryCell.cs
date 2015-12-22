@@ -18,106 +18,60 @@ namespace bluemart.Common.ViewCells
 		List<Category> mCategoryList;
 		UserClass mUser;
 		Dictionary<string, List<Product>> mProductDictionary;
-		private Stream mBorderStream;
 		RootPage mParent;
 
 		public CategoryCell (StackLayout parentGrid, Category category, RootPage parent = null)
 		{
 			mParent = parent;
-			var fullWidth = MyDevice.ScreenWidth - MyDevice.ViewPadding * 2;
-
+			var mainRelativeLayout = new RelativeLayout(){				
+				Padding = 0
+			};
+					
 			mCategory = category;
 			mCategoryList = new List<Category> ();
 			mProductDictionary = new Dictionary<string, List<Product>> ();
 			mUser = new UserClass ();
 
-			var mainRelativeLayout = new RelativeLayout(){
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Padding = 0
+			Image categoryImage = new Image ()
+			{
+				WidthRequest = MyDevice.GetScaledSize (619),
+				HeightRequest = MyDevice.GetScaledSize (202),
+				Aspect = Aspect.Fill,
+				Source = ImageSource.FromFile(category.CategoryImagePath)
 			};
 
-			Grid mainCellGrid = new Grid (){VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Transparent, Padding = 0, RowSpacing = 0 };
-
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.ScreenWidth*0.5092592593f});
-			mainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))+MyDevice.ScreenWidth*0.0138f});
-			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){Width =  MyDevice.ScreenWidth*0.95f/9} );
-			mainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){Width =  MyDevice.ScreenWidth*0.95f/9*8});
-
-			Image categoryImage = new Image ();
-			categoryImage.WidthRequest = MyDevice.ScreenWidth*0.95f;
-			categoryImage.HeightRequest = MyDevice.ScreenWidth*0.5092592593f;
-			categoryImage.Aspect = Aspect.Fill;
-			categoryImage.Source = ImageSource.FromFile(category.CategoryImagePath);
-
-
-
-			var tapGestureRecognizer = new TapGestureRecognizer ();
-			tapGestureRecognizer.Tapped += async (sender, e) => {
-
-				if ( parent.mRootHeader.mSearchEntry.IsFocused )
-					return;
-
-				mainCellGrid.Opacity = 0.5f;
-				await Task.Delay (MyDevice.DelayTime);
-				LoadProductsPage(category.CategoryID,parent);
-				mainCellGrid.Opacity = 1f;
-			};
-
-			mainCellGrid.GestureRecognizers.Add (tapGestureRecognizer);
-
-			mainCellGrid.Children.Add (categoryImage, 0, 0);
-			Grid.SetColumnSpan (categoryImage, 2);
-
-			Label lbl = new Label (){
+			Label categoryText = new Label (){
 				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)), 
-				BackgroundColor = Color.Transparent, TextColor = Color.Black, 
-				HorizontalTextAlignment = TextAlignment.Start,
-				VerticalTextAlignment = TextAlignment.Center,
+				BackgroundColor = Color.Transparent, 
+				TextColor = Color.White,
 				Text = category.Name
 			};
 
-			//mainCellGrid.Children.Add (lbl, 1, 1);
-			Image borderImage = new Image ();
-			borderImage.Aspect = Aspect.Fill;
-			SetBorderStream ();
-			borderImage.Source = StreamImageSource.FromStream (() => mBorderStream);
+			var tapGestureRecognizer = new TapGestureRecognizer ();
 
+			tapGestureRecognizer.Tapped += (sender, e) => {
+				LoadProductsPage(category.CategoryID,parent);
+			};
 
-			mainRelativeLayout.Children.Add(mainCellGrid, 
-				Constraint.Constant(MyDevice.ViewPadding)
+			categoryImage.GestureRecognizers.Add (tapGestureRecognizer);
+
+			mainRelativeLayout.Children.Add (categoryImage,
+				Constraint.Constant (MyDevice.GetScaledSize(11)),
+				Constraint.Constant (MyDevice.GetScaledSize(11))
 			);
 
-			mainRelativeLayout.Children.Add (borderImage, 
-				Constraint.Constant(MyDevice.ScreenWidth*0.006f),
-
-				Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Top;
+			mainRelativeLayout.Children.Add (categoryText,
+				Constraint.RelativeToView (categoryImage, (p, sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize (12);
 				}),
-				Constraint.Constant( MyDevice.ScreenWidth*0.988f ),
-				Constraint.Constant( MyDevice.ScreenWidth*0.6f )
+				Constraint.RelativeToView (categoryImage, (p, sibling) => {
+					return sibling.Bounds.Bottom - MyDevice.GetScaledSize (45);
+				})
 			);
-
-			mainRelativeLayout.Children.Add (lbl, 
-				Constraint.RelativeToView(borderImage,(p,sibling) => {return sibling.Bounds.Left + MyDevice.MenuPadding*2;}),
-				Constraint.RelativeToView(borderImage,(p,sibling) => {return sibling.Bounds.Bottom - MyDevice.MenuPadding*2.3f;})
-				/*Constraint.RelativeToView (mainCellGrid, (p, sibling) => {
-					return sibli;
-				}),*/
-				/*Constraint.Constant( MyDevice.ScreenWidth*0.9962f ),
-				Constraint.Constant( MyDevice.ScreenWidth*0.6f )*/
-			);
-
 
 			this.View = mainRelativeLayout;
 		}
 			
-		public void SetBorderStream()
-		{
-			mBorderStream = new MemoryStream();
-			mParent.mCategoryBorderImage.Position = 0;
-			mParent.mCategoryBorderImage.CopyToAsync(mBorderStream);
-			mBorderStream.Position = 0;
-		}
 
 
 		void LoadProductsPage(string categoryID,RootPage parent)

@@ -276,8 +276,6 @@
     <EmbeddedResource Include="MainViews\AddAddressPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="SavedImages\bookmark_remove.png" />
-    <EmbeddedResource Include="SavedImages\border.png" />
     <EmbeddedResource Include="SavedImages\activia-laban-180ml.jpg" />
     <EmbeddedResource Include="SavedImages\activia-laban-full-cream-375ml.jpg" />
     <EmbeddedResource Include="SavedImages\activia-shanina-laban-drink-375ml.jpg" />
@@ -1347,5 +1345,8 @@
     <EmbeddedResource Include="SavedImages\188 Pine Outer.jpg" />
     <EmbeddedResource Include="SavedImages\John Player Gold Leaf 10s Outer.jpg" />
     <EmbeddedResource Include="SavedImages\Volta Outer.jpg" />
+    <EmbeddedResource Include="SavedImages\ProductsPage_RemoveFavorites.png" />
+    <EmbeddedResource Include="SavedImages\ProductsPage_ProductCell.png" />
+    <EmbeddedResource Include="SavedImages\ProductsPage_ProductForeground.png" />
   </ItemGroup>
 </Project>

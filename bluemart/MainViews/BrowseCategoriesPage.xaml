@@ -9,10 +9,7 @@
 	                    Android="0, 0, 0, 0"
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
-	<ContentPage.Content>		
-       	<ScrollView x:Name="ScrollView1" Orientation = "Vertical" VerticalOptions="FillAndExpand">
-			<StackLayout x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Padding = "0,0,0,0">
-			</StackLayout>										
-		</ScrollView>		
+	<ContentPage.Content>
+		<RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>     
 	</ContentPage.Content>
 </ContentPage>

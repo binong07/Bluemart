@@ -76,17 +76,7 @@ namespace bluemart.MainViews
 			AddressDescriptionEntry.TextColor = Color.Black;
 			PhoneEntry.TextColor = Color.Black;
 		}
-
-		private void OnEntryFocused(Object sender,EventArgs e)
-		{
-			mParent.RemoveFooter ();
-		}
-
-		private void OnEntryUnfocused( Object sender, EventArgs e)
-		{
-			mParent.AddFooter ();
-		}
-
+			
 		private void NameEntryCompleted(Object sender, EventArgs e)
 		{
 			SurNameEntry.Focus ();

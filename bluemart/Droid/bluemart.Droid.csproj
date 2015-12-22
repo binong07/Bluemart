@@ -129,7 +129,7 @@
     <Reference Include="MR.Gestures">
       <HintPath>..\packages\MR.Gestures.1.3.1\lib\MonoAndroid10\MR.Gestures.dll</HintPath>
     </Reference>
-    <Reference Include="SQLitePCL">
+    <Reference Include="SQLitePCL.raw">
       <HintPath>..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\pinvoke_packaged_sqlite3\anycpu\SQLitePCL.raw.dll</HintPath>
     </Reference>
     <Reference Include="SQLite-net">
@@ -208,10 +208,20 @@
     <AndroidResource Include="Resources\drawable\Screen1_Gri2.png" />
     <AndroidResource Include="Resources\drawable\Screen1_SelectedDot.png" />
     <AndroidResource Include="Resources\drawable\Screen1_BG_.png" />
+    <AndroidResource Include="Resources\drawable\Loading_BG.jpg" />
+    <AndroidResource Include="Resources\drawable\Loading_Footer.png" />
+    <AndroidResource Include="Resources\drawable\MainPage_BG.jpg" />
+    <AndroidResource Include="Resources\drawable\MainPage_Footer.png" />
+    <AndroidResource Include="Resources\drawable\CategoriesPage_BasketIcon.png" />
+    <AndroidResource Include="Resources\drawable\CategoriesPage_MenuIcon.png" />
+    <AndroidResource Include="Resources\drawable\CategoriesPage_SearchBar.png" />
+    <AndroidResource Include="Resources\drawable\CategoriesPage_VerticalLine.png" />
+    <AndroidResource Include="Resources\drawable\ProductsPage_BasketIcon.png" />
+    <AndroidResource Include="Resources\drawable\ProductsPage_SearchBar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.4\build\MonoAndroid\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.4\build\MonoAndroid\SQLitePCL.raw_basic.targets')" />
+  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.2\build\MonoAndroid\SQLitePCL.raw_basic.targets')" />
   <ItemGroup>
     <XamarinComponentReference Include="parse">
       <Version>1.6.0</Version>

@@ -314,8 +314,7 @@ namespace bluemart.MainViews
 
 					var tapRecognizer = new TapGestureRecognizer ();
 					tapRecognizer.Tapped += (sender, e) => {
-						if (mParent.mTopNavigationBar.mSearchEntry.IsFocused)
-							return;
+						
 						if (mParent.mActivityIndicator.IsRunning)
 							return;
 						FocusSelectedButton (sender as Label);

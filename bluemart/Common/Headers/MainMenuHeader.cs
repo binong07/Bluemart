@@ -110,7 +110,7 @@ namespace bluemart.Common.Headers
 		private void SearchEntryFocused(Object sender,EventArgs e)
 		{
 			SearchEntry.Text = "";
-			mParent.RemoveFooter ();
+
 		}
 
 		private void SearchEntryUnfocused(Object sender,EventArgs e)
@@ -121,8 +121,6 @@ namespace bluemart.Common.Headers
 
 			SearchEntry.IsVisible = !SearchEntry.IsVisible;
 			LogoImage.IsVisible = !LogoImage.IsVisible;
-
-			mParent.AddFooter ();
 		}
 	}
 }

@@ -31,7 +31,7 @@ namespace bluemart.Common.Utilities
 		}
 
 		public static double GetScaledSize(double x){
-			return ScreenWidth * (x/1080.0);
+			return ScreenWidth * (x/640.0);
 		}
 	}
 }

@@ -11,7 +11,8 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "0">				
+		<RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>
+		<!--<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "0">				
 		 		<Grid.RowDefinitions>					
 					<RowDefinition/>
 					<RowDefinition/>
@@ -27,6 +28,6 @@
 					<Grid x:Name="Grid2" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Padding="0,0,0,0">				
 					</Grid>						
 				</ScrollView>
-        </Grid>		
+        </Grid>-->
 	</ContentPage.Content>
 </ContentPage>

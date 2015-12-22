@@ -129,7 +129,7 @@ namespace bluemart.Common.Headers
 
 			var backButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			backButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-				if( mParent.mCurrentPageParent == "BrowseCategories" && mParent.mTopNavigationBar.mSearchEntry.IsFocused )
+				if( mParent.mCurrentPageParent == "BrowseCategories" )
 					return;				
 				await Task.Delay(MyDevice.DelayTime);			
 				mParent.SwitchTab (mParent.mCurrentPageParent);
@@ -151,7 +151,6 @@ namespace bluemart.Common.Headers
 		private void SearchEntryFocused(Object sender,EventArgs e)
 		{
 			SearchEntry.Text = "";
-			mParent.RemoveFooter ();
 		}
 
 		private void SearchEntryUnfocused(Object sender,EventArgs e)
@@ -161,8 +160,6 @@ namespace bluemart.Common.Headers
 
 			SearchEntry.IsVisible = !SearchEntry.IsVisible;
 			NavigationText.IsVisible = !NavigationText.IsVisible;
-
-			mParent.AddFooter ();
 		}
 	}
 }

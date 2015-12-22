@@ -19,21 +19,23 @@ namespace bluemart.Common.ViewCells
 		public Image mFavoriteImage;
 		public Image mProductImage;
 		public Image mBorderImage;
+		public Image mProductForegroundImage;
+
 		private Label mProductNumberLabel;
 		public Product mProduct;
 		private FavoritesClass mFavoriteModel;
 		private bool bIsFavorite;
 		public Page mParent;
 		private RootPage mRootPage;
-		private Grid mInsideGrid2;
-		private Grid mInsideGrid1;
+
 		public Stream mProductImageStream;
 		public Stream mBorderStream;
 		public Stream mFavoriteStream;
-		private Grid mMainCellGrid;
+		public Stream mProductForegroundStream;
+
 		public bool bIsImageSet=false;
 		public ProductCell mPairCell = null;
-
+		private RelativeLayout mFavoriteButton;
 
 		public ProductCell (Grid parentGrid, Product product, Page parent)
 		{		
@@ -62,11 +64,158 @@ namespace bluemart.Common.ViewCells
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
 
 			var mainRelativeLayout = new RelativeLayout(){
-				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Padding = 0
 			};
 
-			mMainCellGrid = new Grid (){VerticalOptions = LayoutOptions.StartAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Transparent, Padding = 0, RowSpacing = 0, ColumnSpacing =0 };
+			mBorderImage = new Image ()
+			{
+				WidthRequest = MyDevice.GetScaledSize (300),
+				HeightRequest = MyDevice.GetScaledSize (377),
+				Aspect = Aspect.Fill
+			};					
+
+			mProductImage = new Image ()
+			{
+				WidthRequest = MyDevice.GetScaledSize(250),
+				HeightRequest = MyDevice.GetScaledSize(198),
+				Aspect = Aspect.Fill
+			};
+
+			Label productNameLabel = new Label (){ 
+				FontSize = Device.GetNamedSize(NamedSize.Micro,typeof(Label)), 
+				TextColor = Color.FromRgb(77,77,77), 
+				HorizontalTextAlignment=TextAlignment.Start, 
+				VerticalTextAlignment = TextAlignment.Center,
+				Text = product.Name,
+				WidthRequest = MyDevice.GetScaledSize(111),
+				HeightRequest = MyDevice.GetScaledSize(60)
+			};
+
+			Label productQuantityLabel = new Label (){ 
+				FontSize = Device.GetNamedSize(NamedSize.Micro,typeof(Label)),
+				VerticalTextAlignment = TextAlignment.Start, 
+				HorizontalTextAlignment = TextAlignment.Start, 
+				TextColor = Color.FromRgb(176,176,176),
+				Text = product.Quantity,
+				WidthRequest = MyDevice.GetScaledSize(111),
+				HeightRequest = MyDevice.GetScaledSize(18),
+				FontAttributes = FontAttributes.Italic
+			};
+
+			Label productPriceLabel = new Label (){ 
+				FontSize = Device.GetNamedSize(NamedSize.Micro ,typeof(Label)), 
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Start,
+				TextColor = Color.FromRgb(213,53,53),
+				Text = "AED " + product.Price.ToString(),
+				WidthRequest = MyDevice.GetScaledSize(111),
+				HeightRequest = MyDevice.GetScaledSize(20),
+				FontAttributes = FontAttributes.Bold
+			};
+
+			mFavoriteButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(74),
+				HeightRequest = MyDevice.GetScaledSize(65)
+			};
+
+			mFavoriteImage = new Image()
+			{
+				WidthRequest = MyDevice.GetScaledSize(42),
+				HeightRequest = MyDevice.GetScaledSize(35),
+				Aspect = Aspect.Fill			
+			};
+
+			mProductForegroundImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize (300),
+				HeightRequest = MyDevice.GetScaledSize (377),
+				Aspect = Aspect.Fill
+			};
+
+			mProductNumberLabel = new Label (){ 
+				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)),
+				VerticalTextAlignment = TextAlignment.Center, 
+				HorizontalTextAlignment = TextAlignment.Center, 
+				TextColor = Color.FromRgb(117,117,117),
+				WidthRequest = MyDevice.GetScaledSize(78),
+				HeightRequest = MyDevice.GetScaledSize(55)
+			};
+
+			mainRelativeLayout.Children.Add (mBorderImage,
+				Constraint.Constant (MyDevice.GetScaledSize(0)),
+				Constraint.Constant (MyDevice.GetScaledSize(0))
+			);
+
+			mainRelativeLayout.Children.Add (mProductImage,
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(24);
+				}),
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(52);
+				})
+			);
+
+			mainRelativeLayout.Children.Add (productNameLabel,
+				Constraint.RelativeToView(mProductImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(5);
+				}),
+				Constraint.RelativeToView(mProductImage, (p,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(5);
+				})
+			);
+
+			mainRelativeLayout.Children.Add (productQuantityLabel,
+				Constraint.RelativeToView(productNameLabel, (p,sibling) => {
+					return sibling.Bounds.Left;
+				}),
+				Constraint.RelativeToView(productNameLabel, (p,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(5);
+				})
+			);
+
+			mainRelativeLayout.Children.Add (productPriceLabel,
+				Constraint.RelativeToView(productQuantityLabel, (p,sibling) => {
+					return sibling.Bounds.Left;
+				}),
+				Constraint.RelativeToView(productQuantityLabel, (p,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(5);
+				})
+			);
+
+			mainRelativeLayout.Children.Add (mProductForegroundImage,
+				Constraint.Constant (MyDevice.GetScaledSize(0)),
+				Constraint.Constant (MyDevice.GetScaledSize(0))
+			);
+
+			mainRelativeLayout.Children.Add (mProductNumberLabel,
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(113);
+				}),
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(162);
+				})
+			);
+
+			mainRelativeLayout.Children.Add (mFavoriteButton,
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Right - MyDevice.GetScaledSize(74);
+				}),
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Top;
+				})
+			);
+
+			mainRelativeLayout.Children.Add (mFavoriteImage,
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Right - MyDevice.GetScaledSize(58);
+				}),
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(19);
+				})
+			);
+
+			AddTapRecognizers ();
+			UpdateNumberLabel ();
+			/*mMainCellGrid = new Grid (){VerticalOptions = LayoutOptions.StartAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Transparent, Padding = 0, RowSpacing = 0, ColumnSpacing =0 };
 
 			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label))*2 });
 			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto });
@@ -202,7 +351,7 @@ namespace bluemart.Common.ViewCells
 
 			mainRelativeLayout.Children.Add(mMainCellGrid, Constraint.RelativeToParent(p => {
 				return 0;	
-			}));
+			}));*/
 
 			this.View = mainRelativeLayout;
 		}
@@ -220,6 +369,11 @@ namespace bluemart.Common.ViewCells
 			mRootPage.mRemoveFavoritesImage.CopyToAsync(mFavoriteStream);
 			mFavoriteStream.Position = 0;
 
+			mProductForegroundStream = new MemoryStream ();
+			mRootPage.mProductCellForeground.Position = 0;
+			mRootPage.mProductCellForeground.CopyToAsync(mProductForegroundStream);
+			mProductForegroundStream.Position = 0;
+
 			mFavoriteImage.Source = StreamImageSource.FromStream (() => mFavoriteStream);
 
 			if (!bIsFavorite) {
@@ -227,6 +381,8 @@ namespace bluemart.Common.ViewCells
 			}
 			
 			mBorderImage.Source = StreamImageSource.FromStream(() => mBorderStream);
+
+			mProductForegroundImage.Source = StreamImageSource.FromStream(() => mProductForegroundStream);
 		}
 
 		public void ProduceProductImages()
@@ -258,7 +414,6 @@ namespace bluemart.Common.ViewCells
 			if (bIsImageSet) {	
 				mProductImageStream.Dispose ();									
 			}
-			mBorderStream.Dispose ();
 		}
 			
 		private void SetRootPage()
@@ -289,7 +444,7 @@ namespace bluemart.Common.ViewCells
 			};
 
 
-			mInsideGrid2.Children[2].GestureRecognizers.Add (addButtonTapGestureRecognizer);
+			//mInsideGrid2.Children[2].GestureRecognizers.Add (addButtonTapGestureRecognizer);
 
 			var removeButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			removeButtonTapGestureRecognizer.Tapped += async (sender, e) => {
@@ -299,7 +454,7 @@ namespace bluemart.Common.ViewCells
 				RemoveProductFromCart();
 				await Task.Delay(MyDevice.DelayTime);		
 			};
-			mInsideGrid2.Children [0].GestureRecognizers.Add (removeButtonTapGestureRecognizer);
+			//mInsideGrid2.Children [0].GestureRecognizers.Add (removeButtonTapGestureRecognizer);
 		//	mRemoveImage.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
 
 			var favoriteButtonTapGestureRecognizer = new TapGestureRecognizer ();
@@ -331,7 +486,8 @@ namespace bluemart.Common.ViewCells
 					}
 				}
 			};
-			mMainCellGrid.Children.ElementAt (0).GestureRecognizers.Add(favoriteButtonTapGestureRecognizer);
+			mFavoriteButton.GestureRecognizers.Add (favoriteButtonTapGestureRecognizer);
+			//mMainCellGrid.Children.ElementAt (0).GestureRecognizers.Add(favoriteButtonTapGestureRecognizer);
 		}
 
 		private void AddProductToFavorites()
@@ -374,8 +530,7 @@ namespace bluemart.Common.ViewCells
 		{
 			bool bFocused = false;
 
-			if (mParent is BrowseProductsPage)
-				bFocused = (mParent as BrowseProductsPage).mParent.mTopNavigationBar.mSearchEntry.IsFocused;		
+				
 
 			return bFocused;
 		}

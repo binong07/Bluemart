@@ -29,32 +29,62 @@ namespace bluemart
 			};
 
 			bgImage = new Image {
-				Source = "Screen1_BG",
-				HeightRequest = MyDevice.GetScaledSize(1920),
-				WidthRequest = MyDevice.GetScaledSize(1080),
+				Source = "Loading_BG",
+				WidthRequest = MyDevice.GetScaledSize(640),
 				Aspect = Aspect.Fill
 			};
-			/*
-			var frame = new Frame { 				
-				Padding = 1,
-				OutlineColor = Color.Transparent,
-				BackgroundColor = Color.Transparent,
-				Content = ProgressBar1
+
+			var footerImage = new Image () {
+				Source = "Loading_Footer",
+				WidthRequest = MyDevice.GetScaledSize(421),
+				HeightRequest = MyDevice.GetScaledSize(94)
 			};
-*/
-			ProgressBar1.WidthRequest = MyDevice.ScreenWidth / 2;
+
+			var versionText = new Label () {
+				Text = "Ver 1.0",
+				FontSize = Device.GetNamedSize(NamedSize.Micro,typeof(Label)),
+				HorizontalTextAlignment = TextAlignment.Center,
+				WidthRequest = MyDevice.GetScaledSize(80),
+				HeightRequest = MyDevice.GetScaledSize(30),
+				TextColor = Color.White,
+				FontAttributes = FontAttributes.Bold
+			};
+
+			ProgressBar1.WidthRequest = MyDevice.GetScaledSize (415);
+			ProgressBar1.HeightRequest = MyDevice.GetScaledSize (90);
 
 			relLayout1.Children.Add (bgImage, 
 				Constraint.Constant (0),
 				Constraint.Constant (0)
 			);
 
+			relLayout1.Children.Add (footerImage,
+				Constraint.RelativeToParent (parent => {
+					return parent.Bounds.Left +  MyDevice.GetScaledSize(114);
+				}),
+				Constraint.RelativeToParent (parent => {
+					return parent.Bounds.Bottom - MyDevice.GetScaledSize(170);
+				})
+			);
+
+			relLayout1.Children.Add (versionText,
+				Constraint.RelativeToView (footerImage, (parent, sibling) => {
+					return sibling.Bounds.Right - MyDevice.GetScaledSize (80);
+				}),
+				Constraint.RelativeToView (footerImage, (parent, sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (10);
+				})
+			);
+
 			relLayout1.Children.Add (ProgressBar1, 
-				Constraint.Constant (MyDevice.ScreenWidth/2-MyDevice.ScreenWidth/4),
-				Constraint.Constant (MyDevice.ScreenHeight/2)
+				Constraint.RelativeToParent (parent => {
+					return parent.Bounds.Left +  MyDevice.GetScaledSize(117);
+				}),
+				Constraint.RelativeToParent (parent => {
+					return parent.Bounds.Bottom - MyDevice.GetScaledSize(130);
+				})
 			);
 				
-			//SlideImage ();
 			Load();
 		}
 
