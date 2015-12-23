@@ -62,6 +62,8 @@ namespace bluemart.MainViews
 		private RelativeLayout mSearchLayout;
 		private ExtendedEntry SearchEntry;
 		private Label SearchLabel;
+		private Label ProductCountLabel;
+		private Label PriceLabel;
 
 		public BrowseProductsPage (Dictionary<string, List<Product>> productDictionary, Category category,RootPage parent)
 		{					
@@ -127,7 +129,7 @@ namespace bluemart.MainViews
 				FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label))
 			};
 
-			var priceLabel = new Label () {
+			PriceLabel = new Label () {
 				Text = "0\nAED",	
 				TextColor = Color.White,
 				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
@@ -148,8 +150,7 @@ namespace bluemart.MainViews
 				Source = "ProductsPage_BasketIcon"
 			};
 
-			var productCount = new Label () {
-				Text = "15",	
+			ProductCountLabel = new Label () {					
 				TextColor = Color.White,
 				FontSize = Device.GetNamedSize(NamedSize.Micro,typeof(Label)),
 				HorizontalTextAlignment = TextAlignment.Center,
@@ -157,6 +158,8 @@ namespace bluemart.MainViews
 				WidthRequest = MyDevice.GetScaledSize(37),
 				HeightRequest = MyDevice.GetScaledSize(27)
 			};
+
+
 
 			mainRelativeLayout.Children.Add (mTopLayout,
 				Constraint.Constant (0),
@@ -199,7 +202,7 @@ namespace bluemart.MainViews
 				})
 			);
 
-			mainRelativeLayout.Children.Add (priceLabel,
+			mainRelativeLayout.Children.Add (PriceLabel,
 				Constraint.RelativeToView (verticalLine, (parent, sibling) => {
 					return sibling.Bounds.Left - MyDevice.GetScaledSize (75);
 				}),
@@ -208,7 +211,7 @@ namespace bluemart.MainViews
 				})
 			);
 
-			mainRelativeLayout.Children.Add (productCount,
+			mainRelativeLayout.Children.Add (ProductCountLabel,
 				Constraint.RelativeToView (cartImage, (parent, sibling) => {
 					return sibling.Bounds.Right - MyDevice.GetScaledSize (37);
 				}),
@@ -216,7 +219,12 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Bottom - MyDevice.GetScaledSize (27);
 				})
 			);	
+
+			UpdateProductCountLabel ();
+			UpdatePriceLabel ();
 		}
+
+
 
 		private void InitializeSearchLayout()
 		{
@@ -469,7 +477,7 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(64);
 				}),
 				Constraint.Constant(MyDevice.GetScaledSize(630)),
-				Constraint.Constant(MyDevice.ScreenHeight-MyDevice.GetScaledSize(87)-MyDevice.GetScaledSize(73)-MyDevice.GetScaledSize(1)-MyDevice.GetScaledSize(51))
+				Constraint.Constant(MyDevice.ScreenHeight-MyDevice.GetScaledSize(87)-MyDevice.GetScaledSize(73)-MyDevice.GetScaledSize(1)-MyDevice.GetScaledSize(117))
 			);
 		}
 
@@ -519,7 +527,6 @@ namespace bluemart.MainViews
 			}
 
 			//PopulateGrid ();
-			UpdatePriceLabel ();
 		}
 
 		public void ClearContainers()
@@ -547,7 +554,18 @@ namespace bluemart.MainViews
 
 		public void  UpdatePriceLabel()
 		{
-			//mParent.mPriceLabel.Text = Cart.ProductTotalPrice.ToString();
+			PriceLabel.Text = Cart.ProductTotalPrice.ToString()+"\nAED";
+		}
+
+		public void UpdateProductCountLabel()
+		{
+			int count = 0;
+
+			foreach (var product in Cart.ProductsInCart) {
+				count += product.ProductNumberInCart;	
+			}
+
+			ProductCountLabel.Text = count.ToString ();
 		}
 
 		protected override void OnAppearing()
@@ -890,9 +908,12 @@ namespace bluemart.MainViews
 			{
 				Grid2.RowDefinitions.Add (new RowDefinition ());
 			}*/
-			ProductGrid.Padding = new Thickness (MyDevice.ViewPadding / 2, 0, 0, 0); 
-			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2});
-			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2}); 
+			ProductGrid.Padding = new Thickness (MyDevice.GetScaledSize(12), 0, 0, 0); 
+			ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (0);
+			/*ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2});
+			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2}); */
+			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.ScreenWidth/2});
+			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.ScreenWidth/2});
 		}			
 	}
 }

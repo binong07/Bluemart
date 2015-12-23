@@ -36,6 +36,9 @@ namespace bluemart.Common.ViewCells
 		public bool bIsImageSet=false;
 		public ProductCell mPairCell = null;
 		private RelativeLayout mFavoriteButton;
+		private RelativeLayout mMinusButton;
+		private RelativeLayout mPlusButton;
+		private RelativeLayout mainRelativeLayout;
 
 		public ProductCell (Grid parentGrid, Product product, Page parent)
 		{		
@@ -63,7 +66,7 @@ namespace bluemart.Common.ViewCells
 
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
 
-			var mainRelativeLayout = new RelativeLayout(){
+			mainRelativeLayout = new RelativeLayout(){
 				Padding = 0
 			};
 
@@ -137,8 +140,34 @@ namespace bluemart.Common.ViewCells
 				HorizontalTextAlignment = TextAlignment.Center, 
 				TextColor = Color.FromRgb(117,117,117),
 				WidthRequest = MyDevice.GetScaledSize(78),
-				HeightRequest = MyDevice.GetScaledSize(55)
+				HeightRequest = MyDevice.GetScaledSize(55),
+				IsVisible = false
 			};
+
+			var addButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(118),
+				HeightRequest = MyDevice.GetScaledSize(64)
+			};
+
+			mMinusButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(64),
+				HeightRequest = MyDevice.GetScaledSize(64)
+			};
+
+			mPlusButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(64),
+				HeightRequest = MyDevice.GetScaledSize(64)
+			};
+
+			var addButtonTapGestureRecognizer = new TapGestureRecognizer ();
+			addButtonTapGestureRecognizer.Tapped += (sender, e) => {
+				if( mProductNumberLabel.IsVisible )
+					return;
+				
+				AddProductInCart ();
+				ActivateAddMenu();
+			};		
+			addButton.GestureRecognizers.Add (addButtonTapGestureRecognizer);
 
 			mainRelativeLayout.Children.Add (mBorderImage,
 				Constraint.Constant (MyDevice.GetScaledSize(0)),
@@ -213,149 +242,76 @@ namespace bluemart.Common.ViewCells
 				})
 			);
 
-			AddTapRecognizers ();
-			UpdateNumberLabel ();
-			/*mMainCellGrid = new Grid (){VerticalOptions = LayoutOptions.StartAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, BackgroundColor = Color.Transparent, Padding = 0, RowSpacing = 0, ColumnSpacing =0 };
-
-			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Medium,typeof(Label))*2 });
-			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto });
-			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Small,typeof(Label))*2 });
-			mMainCellGrid.RowDefinitions.Add (new RowDefinition (){ Height = Device.GetNamedSize(NamedSize.Small,typeof(Label))*2 });
-			mMainCellGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width =  width });
-
-			#region row1
-			Grid insideGrid1 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand,Padding = 0, RowSpacing = 0, ColumnSpacing = MyDevice.ScreenWidth*0.0083f};
-			insideGrid1.Padding = new Thickness (0);
-			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding - insideGrid1.ColumnSpacing });
-			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - 2*MyDevice.ViewPadding) / 7 });
-			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - 2*MyDevice.ViewPadding) *6 / 7 });
-			insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding - insideGrid1.ColumnSpacing });
-
-			mFavoriteImage = new Image();
-			mFavoriteImage.Aspect = Aspect.Fill;
-			//insideGrid1.Children.Add(mFavoriteImage,1,0);
-
-			Label productNameLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)), TextColor = Color.Black, HorizontalTextAlignment=TextAlignment.Center, VerticalTextAlignment = TextAlignment.Center };
-
-			productNameLabel.Text = product.Name;
-			insideGrid1.Children.Add(productNameLabel,2,0);
-			mMainCellGrid.Children.Add (insideGrid1, 0, 0);
-			#endregion
-
-
-			#region row2
-			mProductImage = new Image ();
-			mProductImage.HeightRequest = MyDevice.ScreenWidth*0.288f;
-			mProductImage.WidthRequest = MyDevice.ScreenWidth*0.4740740741f;
-
-			mMainCellGrid.Children.Add (mProductImage, 0, 1);
-			#endregion
-							
-
-			#region row3
-			Grid insideGrid3 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand,Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
-			insideGrid3.Padding = new Thickness (0);
-			insideGrid3.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding });
-			insideGrid3.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding*2) / 2 });
-			insideGrid3.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding*2) / 2 });
-			//insideGrid1.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding*2) / 3 });
-			insideGrid3.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding });
-			insideGrid3.RowDefinitions.Add( new RowDefinition() { Height = Device.GetNamedSize(NamedSize.Medium ,typeof(Label)) } );
-
-			mInsideGrid1 = insideGrid3;
-
-			Label productPriceLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small ,typeof(Label)), HorizontalTextAlignment = TextAlignment.Start, TextColor = MyDevice.RedColor };
-			productPriceLabel.Text = "AED " + product.Price.ToString();
-			insideGrid3.Children.Add(productPriceLabel,1,0);
-
-
-
-			Label productQuantityLabel = new Label (){ FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),VerticalTextAlignment = TextAlignment.Start, HorizontalTextAlignment = TextAlignment.End, TextColor = MyDevice.RedColor };
-			productQuantityLabel.Text = product.Quantity;
-			insideGrid3.Children.Add(productQuantityLabel,2,0);
-
-			mMainCellGrid.Children.Add( insideGrid3, 0,2);
-			#endregion
-
-
-			#region row4insidegrid
-			Grid insideGrid4 = new Grid(){VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.FillAndExpand, Padding = 0, RowSpacing = 0, ColumnSpacing = 0};
-			mInsideGrid2 = insideGrid4;
-			insideGrid4.Padding = new Thickness (0);
-			insideGrid4.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding/2 });
-			insideGrid4.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 4 });
-			insideGrid4.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 2 });//{ Width = ParentWidth - ((ParentHeight - ParentWidth) / 3 * 2)}
-			insideGrid4.ColumnDefinitions.Add( new ColumnDefinition() { Width = (width - MyDevice.ViewPadding) / 4 });
-			insideGrid4.ColumnDefinitions.Add( new ColumnDefinition() { Width = MyDevice.ViewPadding/2 });
-			insideGrid4.RowDefinitions.Add( new RowDefinition() { Height = 2*Device.GetNamedSize(NamedSize.Small,typeof(Label)) } );				
-
-			var removeImageLayout = new RelativeLayout(){
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Padding = 0
-			};
-
-			insideGrid4.Children.Add (removeImageLayout,1,0);
-
-			mProductNumberLabel = new Label(){VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)), TextColor = MyDevice.RedColor };
-
-			UpdateNumberLabel();
-			insideGrid4.Children.Add (mProductNumberLabel,2,0);
-
-			var addImageLayout = new RelativeLayout(){
-				HorizontalOptions = LayoutOptions.Fill,
-				Padding = 0
-			};					
-
-			insideGrid4.Children.Add (addImageLayout,3,0);
-
-			mMainCellGrid.Children.Add( insideGrid4, 0, 3 );
-			#endregion
-
-			AddTapRecognizers ();
-
-			//var decimalScreenWidth = new decimal (MyDevice.ScreenWidth);
-			var borderWidth = Decimal.Multiply(new decimal(MyDevice.ScreenWidth),new decimal(0.4731481481f));
-			var borderHeight = Decimal.Multiply(new decimal(MyDevice.ScreenWidth),new decimal(0.6074074074f));
-
-			mBorderImage = new Image (){};
-			mBorderImage.Aspect = Aspect.Fill;
-			mBorderImage.WidthRequest = Decimal.ToDouble(borderWidth);
-			mBorderImage.HeightRequest = Decimal.ToDouble(borderHeight);
-
-			mainRelativeLayout.Children.Add (mBorderImage, 
-				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Left;
+			mainRelativeLayout.Children.Add (addButton,
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(159);
 				}),
-				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Top;
-				}),
-				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Width;
-				}),
-				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Height;
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(307);
 				})
 			);
 
-			mainRelativeLayout.Children.Add(mFavoriteImage,
-				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Left + MyDevice.ScreenWidth*0.0329f;
-				}),
-				Constraint.RelativeToView (mMainCellGrid, (p, sibling) => {
-					return sibling.Bounds.Top + MyDevice.ScreenWidth*0.0317f;
-				}),
-				Constraint.Constant( MyDevice.ScreenWidth * 0.0522f),
-				Constraint.Constant( MyDevice.ScreenWidth * 0.0522f)
-			);
 
 
-			mainRelativeLayout.Children.Add(mMainCellGrid, Constraint.RelativeToParent(p => {
-				return 0;	
-			}));*/
+			AddTapRecognizers ();
+			UpdateNumberLabel ();
+
+			if (mProduct.ProductNumberInCart > 0)
+				ActivateAddMenu ();
 
 			this.View = mainRelativeLayout;
 		}
 
+		private void ActivateAddMenu()
+		{			
+			mProductForegroundStream = new MemoryStream ();
+			mRootPage.mProductCellForeground.Position = 0;
+			mRootPage.mProductCellForeground.CopyToAsync(mProductForegroundStream);
+			mProductForegroundStream.Position = 0;
+			mProductForegroundImage.Source = StreamImageSource.FromStream(() => mProductForegroundStream);
+			mProductNumberLabel.IsVisible = true;
+
+			mainRelativeLayout.Children.Add (mMinusButton,
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(28);
+				}),
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(152);
+				})
+			);
+
+			mainRelativeLayout.Children.Add (mPlusButton,
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(209);
+				}),
+				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(160);
+				})
+			);
+		}
+
+		private void DeactivateAddMenu()
+		{
+			mProductForegroundImage.Source = null;
+			mProductNumberLabel.IsVisible = false;
+
+			mainRelativeLayout.Children.Remove (mPlusButton);
+			mainRelativeLayout.Children.Remove (mMinusButton);
+		}
+
+		public void ActivateFavorite()
+		{
+			mFavoriteStream = new MemoryStream ();
+			mRootPage.mRemoveFavoritesImage.Position = 0;
+			mRootPage.mRemoveFavoritesImage.CopyToAsync(mFavoriteStream);
+			mFavoriteStream.Position = 0;
+			mFavoriteImage.Source = StreamImageSource.FromStream (() => mFavoriteStream);
+		}
+
+		public void DeactivateFavorite()
+		{
+			mFavoriteImage.Source = null;
+		}
 
 		public void ProduceStreamsAndImages()
 		{			
@@ -363,26 +319,10 @@ namespace bluemart.Common.ViewCells
 			mRootPage.mBorderImage.Position = 0;
 			mRootPage.mBorderImage.CopyToAsync(mBorderStream);
 			mBorderStream.Position = 0;
-
-			mFavoriteStream = new MemoryStream ();
-			mRootPage.mRemoveFavoritesImage.Position = 0;
-			mRootPage.mRemoveFavoritesImage.CopyToAsync(mFavoriteStream);
-			mFavoriteStream.Position = 0;
-
-			mProductForegroundStream = new MemoryStream ();
-			mRootPage.mProductCellForeground.Position = 0;
-			mRootPage.mProductCellForeground.CopyToAsync(mProductForegroundStream);
-			mProductForegroundStream.Position = 0;
-
-			mFavoriteImage.Source = StreamImageSource.FromStream (() => mFavoriteStream);
-
-			if (!bIsFavorite) {
-				mFavoriteImage.IsVisible = false;
-			}
 			
 			mBorderImage.Source = StreamImageSource.FromStream(() => mBorderStream);
 
-			mProductForegroundImage.Source = StreamImageSource.FromStream(() => mProductForegroundStream);
+			//mProductForegroundImage.Source = StreamImageSource.FromStream(() => mProductForegroundStream);
 		}
 
 		public void ProduceProductImages()
@@ -443,7 +383,7 @@ namespace bluemart.Common.ViewCells
 				await Task.Delay(MyDevice.DelayTime);
 			};
 
-
+			mPlusButton.GestureRecognizers.Add (addButtonTapGestureRecognizer);
 			//mInsideGrid2.Children[2].GestureRecognizers.Add (addButtonTapGestureRecognizer);
 
 			var removeButtonTapGestureRecognizer = new TapGestureRecognizer ();
@@ -454,6 +394,7 @@ namespace bluemart.Common.ViewCells
 				RemoveProductFromCart();
 				await Task.Delay(MyDevice.DelayTime);		
 			};
+			mMinusButton.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
 			//mInsideGrid2.Children [0].GestureRecognizers.Add (removeButtonTapGestureRecognizer);
 		//	mRemoveImage.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
 
@@ -467,17 +408,17 @@ namespace bluemart.Common.ViewCells
 				{
 					bIsFavorite = true;
 					mFavoriteModel.AddProductID(mProduct.ProductID);
-					mFavoriteImage.IsVisible =  true;
+					ActivateFavorite();
 					if(mPairCell != null )
-						mPairCell.mFavoriteImage.IsVisible = true;
+						mPairCell.ActivateFavorite();
 				}
 				else
 				{		
 					bIsFavorite = false;
 					mFavoriteModel.RemoveProductID(mProduct.ProductID);
-					mFavoriteImage.IsVisible =  false;
+					DeactivateFavorite();
 					if(mPairCell != null )
-						mPairCell.mFavoriteImage.IsVisible = false;
+						mPairCell.DeactivateFavorite();
 
 					if( mParent is FavoritesPage )
 					{
@@ -510,15 +451,19 @@ namespace bluemart.Common.ViewCells
 				//mProduct.ProductNumberInCart -= mQuantity;
 				Cart.ProductTotalPrice -= mProduct.Price;
 
-				if (mParent is BrowseProductsPage)
+				if (mParent is BrowseProductsPage) {
 					(mParent as BrowseProductsPage).UpdatePriceLabel ();
+					(mParent as BrowseProductsPage).UpdateProductCountLabel ();
+				}
 				else if (mParent is FavoritesPage)
 					(mParent as FavoritesPage).UpdatePriceLabel ();
 				else if (mParent is SearchPage)
 					(mParent as SearchPage).UpdatePriceLabel ();
 			}
-			if (mProduct.ProductNumberInCart == 0)
+			if (mProduct.ProductNumberInCart == 0) {
+				DeactivateAddMenu ();
 				Cart.ProductsInCart.Remove (mProduct);
+			}
 
 
 			UpdateNumberLabel ();
@@ -548,8 +493,10 @@ namespace bluemart.Common.ViewCells
 
 			Cart.ProductTotalPrice += mProduct.Price;
 
-			if (mParent is BrowseProductsPage)
+			if (mParent is BrowseProductsPage) {
 				(mParent as BrowseProductsPage).UpdatePriceLabel ();
+				(mParent as BrowseProductsPage).UpdateProductCountLabel ();
+			}
 			else if (mParent is FavoritesPage)
 				(mParent as FavoritesPage).UpdatePriceLabel ();
 			else if (mParent is SearchPage)
@@ -557,7 +504,7 @@ namespace bluemart.Common.ViewCells
 			
 			UpdateNumberLabel ();
 			if (mPairCell != null)
-				mPairCell.UpdateNumberLabel ();
+				mPairCell.UpdateNumberLabel ();			
 		}
 	}
 

@@ -56,7 +56,9 @@ namespace bluemart.MainViews
 			mActivityIndicator = new Xamarin.Forms.ActivityIndicator();
 
 			mBrowseCategoriesPage = new BrowseCategoriesPage (this);
-			SwitchContent (mBrowseCategoriesPage.Content);
+
+			SwitchTab ("BrowseCategories");
+			//SwitchContent (mBrowseCategoriesPage.Content);
 
 
 			/*mActivityIndicator = new Xamarin.Forms.ActivityIndicator();
@@ -199,7 +201,8 @@ namespace bluemart.MainViews
 					mBrowseProductPage = null;
 					GC.Collect ();
 				}
-
+				mBrowseCategoriesPage.UpdatePriceLabel ();
+				mBrowseCategoriesPage.UpdateProductCountLabel ();
 				mBrowseCategoriesPage.RefreshSearchText ();
 				//mFooter.ChangeColorOfLabel (mFooter.mCategoriesLabel);
 				//mFooter.ChangeImageOfButton (0);

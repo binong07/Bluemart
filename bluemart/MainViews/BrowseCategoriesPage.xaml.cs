@@ -22,6 +22,8 @@ namespace bluemart.MainViews
 		private RelativeLayout mSearchLayout;
 		private ExtendedEntry SearchEntry;
 		private Label SearchLabel;
+		private Label PriceLabel;
+		private Label ProductCountLabel;
 
 		public BrowseCategoriesPage (RootPage parent)
 		{		
@@ -76,8 +78,7 @@ namespace bluemart.MainViews
 				FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label))
 			};
 
-			var priceLabel = new Label () {
-				Text = "0\nAED",	
+			PriceLabel = new Label () {
 				TextColor = Color.White,
 				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
 				HorizontalTextAlignment = TextAlignment.Center
@@ -97,8 +98,7 @@ namespace bluemart.MainViews
 				Source = "CategoriesPage_BasketIcon"
 			};
 
-			var productCount = new Label () {
-				Text = "15",	
+			ProductCountLabel = new Label () {
 				TextColor = Color.White,
 				FontSize = Device.GetNamedSize(NamedSize.Micro,typeof(Label)),
 				HorizontalTextAlignment = TextAlignment.Center,
@@ -148,7 +148,7 @@ namespace bluemart.MainViews
 				})
 			);
 
-			mainRelativeLayout.Children.Add (priceLabel,
+			mainRelativeLayout.Children.Add (PriceLabel,
 				Constraint.RelativeToView (verticalLine, (parent, sibling) => {
 					return sibling.Bounds.Left - MyDevice.GetScaledSize (75);
 				}),
@@ -157,7 +157,7 @@ namespace bluemart.MainViews
 				})
 			);
 
-			mainRelativeLayout.Children.Add (productCount,
+			mainRelativeLayout.Children.Add (ProductCountLabel,
 				Constraint.RelativeToView (cartImage, (parent, sibling) => {
 					return sibling.Bounds.Right - MyDevice.GetScaledSize (37);
 				}),
@@ -165,6 +165,22 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Bottom - MyDevice.GetScaledSize (27);
 				})
 			);
+		}
+
+		public void  UpdatePriceLabel()
+		{
+			PriceLabel.Text = Cart.ProductTotalPrice.ToString()+"\nAED";
+		}
+
+		public void UpdateProductCountLabel()
+		{
+			int count = 0;
+
+			foreach (var product in Cart.ProductsInCart) {
+				count += product.ProductNumberInCart;	
+			}
+
+			ProductCountLabel.Text = count.ToString ();
 		}
 
 		private void InitializeSearchLayout()
