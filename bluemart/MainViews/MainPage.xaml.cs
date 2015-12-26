@@ -231,10 +231,9 @@ namespace bluemart.MainViews
 					DismissPopup();
 					string region = (mPopupListView.SelectedItem as RegionClass).Region;
 					mUserModel.AddActiveRegionToUser (region);
-
 					CategoryModel.CategoryLocation = mPopupListView.SelectedItem.ToString();
-					mRootPage.mSettingsPage.PopulateListView();
 					mRootPage.ReloadStreams();
+					mRootPage.SwitchTab("BrowseCategories");
 					Navigation.PushAsync( mRootPage );
 				}
 			};

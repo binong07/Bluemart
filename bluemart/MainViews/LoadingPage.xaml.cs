@@ -42,7 +42,7 @@ namespace bluemart
 
 			var versionText = new Label () {
 				Text = "Ver 1.0",
-				FontSize = Device.GetNamedSize(NamedSize.Micro,typeof(Label)),
+				FontSize = MyDevice.FontSizeMicro,
 				HorizontalTextAlignment = TextAlignment.Center,
 				WidthRequest = MyDevice.GetScaledSize(80),
 				HeightRequest = MyDevice.GetScaledSize(30),

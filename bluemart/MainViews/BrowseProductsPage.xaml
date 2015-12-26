@@ -12,22 +12,5 @@
   	</ContentPage.Padding>
 	<ContentPage.Content>
 		<RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>
-		<!--<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "0">				
-		 		<Grid.RowDefinitions>					
-					<RowDefinition/>
-					<RowDefinition/>
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition/>		
-				</Grid.ColumnDefinitions> 
-               	<ScrollView x:Name = "ScrollView1" Grid.Row = "0" Grid.Column = "0" Orientation = "Horizontal" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
-	               	<StackLayout x:Name = "SubCategoryStackLayout" Orientation = "Horizontal" HorizontalOptions = "StartAndExpand" VerticalOptions = "FillAndExpand" Spacing = "0">
-	               	</StackLayout>
-               	</ScrollView>
-               	<ScrollView x:Name = "ProductScrollView" Padding = "0,0,0,25" Grid.Row = "1" Grid.Column = "0" Orientation = "Vertical" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Scrolled = "OnScrolled">
-					<Grid x:Name="Grid2" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" Padding="0,0,0,0">				
-					</Grid>						
-				</ScrollView>
-        </Grid>-->
 	</ContentPage.Content>
 </ContentPage>

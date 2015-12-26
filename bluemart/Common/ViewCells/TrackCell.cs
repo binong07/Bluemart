@@ -42,7 +42,7 @@ namespace bluemart.Common.ViewCells
 
 			mTotalPriceLabel = new Label (){ 
 				TextColor = MyDevice.BlueColor,
-				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
+				FontSize = MyDevice.FontSizeSmall,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Total Price: " + status.TotalPrice + " AED",
@@ -51,7 +51,7 @@ namespace bluemart.Common.ViewCells
 
 			mDateLabel = new Label (){ 
 				TextColor = MyDevice.BlueColor,
-				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
+				FontSize = MyDevice.FontSizeSmall,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Date: " + status.Date,
@@ -60,7 +60,7 @@ namespace bluemart.Common.ViewCells
 
 			mRegionLabel = new Label (){ 
 				TextColor = MyDevice.BlueColor,
-				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
+				FontSize = MyDevice.FontSizeSmall,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Region: " + status.Region,
@@ -69,7 +69,7 @@ namespace bluemart.Common.ViewCells
 
 			mStatusLabel = new Label (){ 
 				TextColor = MyDevice.BlueColor,
-				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
+				FontSize = MyDevice.FontSizeSmall,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = status.Status,

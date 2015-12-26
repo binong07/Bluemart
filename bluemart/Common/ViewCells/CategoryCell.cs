@@ -14,7 +14,7 @@ namespace bluemart.Common.ViewCells
 {
 	public class CategoryCell : ViewCell
 	{	
-		Category mCategory;
+		public Category mCategory;
 		List<Category> mCategoryList;
 		UserClass mUser;
 		Dictionary<string, List<Product>> mProductDictionary;
@@ -41,7 +41,7 @@ namespace bluemart.Common.ViewCells
 			};
 
 			Label categoryText = new Label (){
-				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)), 
+				FontSize = MyDevice.FontSizeMedium, 
 				BackgroundColor = Color.Transparent, 
 				TextColor = Color.White,
 				Text = category.Name
@@ -74,7 +74,7 @@ namespace bluemart.Common.ViewCells
 			
 
 
-		void LoadProductsPage(string categoryID,RootPage parent)
+		public void LoadProductsPage(string categoryID,RootPage parent)
 		{						
 			PopulateProducts ();
 			//PopulateProductsTest();

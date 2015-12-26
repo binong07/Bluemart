@@ -7,7 +7,8 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<Grid x:Name = "MainGrid" BackgroundColor = "White" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "0" ColumnSpacing = "0" Padding = "0">
+		<RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>
+		<!--<Grid x:Name = "MainGrid" BackgroundColor = "White" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "0" ColumnSpacing = "0" Padding = "0">
 			<Grid.RowDefinitions>
 				<RowDefinition />
 				<RowDefinition />
@@ -80,6 +81,6 @@
 				 	<Button x:Name = "AgreeButton" Grid.Row = "0" Grid.Column = "1" Text = "ACCEPT" VerticalOptions = "Center" HorizontalOptions = "Start" BackgroundColor = "Green" TextColor = "White" Clicked = "AgreeClicked" />
 				 	<Button x:Name = "DisagreeButton" Grid.Row = "0" Grid.Column = "2" Text = "DON'T ACCEPT" VerticalOptions = "Center" HorizontalOptions = "End" BackgroundColor = "Red" TextColor = "White" Clicked = "DisagreeClicked" />
 				</Grid>
-		</Grid>
+		</Grid>-->
 	</ContentPage.Content>
 </ContentPage>

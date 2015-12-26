@@ -24,14 +24,14 @@ namespace bluemart.MainViews
 				HorizontalOptions = LayoutOptions.Center,
 				TextColor = Color.White,
 				Text = "TRACK",
-				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label))
+				FontSize = MyDevice.FontSizeMedium
 			};
 
 			mHistoryLabel = new Label () {
 				HorizontalOptions = LayoutOptions.Center,
 				TextColor = Color.White,
 				Text = "HISTORY",
-				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label))
+				FontSize = MyDevice.FontSizeMedium
 			};
 
 			mParent = parent;

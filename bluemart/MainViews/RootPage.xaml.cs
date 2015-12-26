@@ -54,8 +54,10 @@ namespace bluemart.MainViews
 			InitializeComponent ();
 			ReloadStreams ();
 			mActivityIndicator = new Xamarin.Forms.ActivityIndicator();
+			NavigationPage.SetHasNavigationBar (this, false);
 
 			mBrowseCategoriesPage = new BrowseCategoriesPage (this);
+			//mFavoritesPage = new FavoritesPage (this);
 
 			SwitchTab ("BrowseCategories");
 			//SwitchContent (mBrowseCategoriesPage.Content);
@@ -118,7 +120,7 @@ namespace bluemart.MainViews
 			ProductHeader.mParent = this;
 			mTopNavigationBar = ProductHeader;
 			mRootHeader = RootHeader;
-			NavigationPage.SetHasNavigationBar (this, false);
+
 			mCurrentPage = "BrowseCategories";
 			SetGrid1Definitions ();
 
@@ -189,10 +191,7 @@ namespace bluemart.MainViews
 		}
 
 		public void SwitchTab( string pageName )
-		{
-			if (pageName == mCurrentPage)
-				return;
-			
+		{			
 			switch (pageName) {
 			case "BrowseCategories":				
 				if (mBrowseProductPage != null) {
@@ -201,28 +200,20 @@ namespace bluemart.MainViews
 					mBrowseProductPage = null;
 					GC.Collect ();
 				}
+
+				mBrowseCategoriesPage.RefreshViews ();
 				mBrowseCategoriesPage.UpdatePriceLabel ();
 				mBrowseCategoriesPage.UpdateProductCountLabel ();
-				mBrowseCategoriesPage.RefreshSearchText ();
+
+				if(mBrowseCategoriesPage.IsCartOpen)
+					mBrowseCategoriesPage.ActivateOrDeactivateCart ();
+				if(mBrowseCategoriesPage.IsMenuOpen)
+					mBrowseCategoriesPage.ActivateOrDeactivateMenu ();
 				//mFooter.ChangeColorOfLabel (mFooter.mCategoriesLabel);
 				//mFooter.ChangeImageOfButton (0);
 				SwitchContent (mBrowseCategoriesPage.Content);
 				mCurrentPage = pageName;
-				break;
-			case "Settings":
-				mFooter.ChangeColorOfLabel (mFooter.mSettingsLabel);
-				mFooter.ChangeImageOfButton (1);
-				mSettingsPage.PopulateListView();
-				SwitchContent (mSettingsPage.Content);
-				mCurrentPage = pageName;
-				break;
-			case "Favorites":
-				mFavoritesPage.RefreshFavoritesGrid ();
-				mFooter.ChangeColorOfLabel (mFooter.mFavoritesLabel);
-				mFooter.ChangeImageOfButton (2);
-				SwitchContent (mFavoritesPage.Content);
-				mCurrentPage = pageName;
-				break;
+				break;			
 			case "History":
 				mHistoryPage.PopulateListView ();
 				mFooter.ChangeColorOfLabel (mFooter.mCartLabel);
@@ -240,6 +231,37 @@ namespace bluemart.MainViews
 			default:
 				break;
 			}
+		}
+
+		public void LoadSettingsPage ()
+		{
+			if (mBrowseProductPage != null) {
+				mBrowseProductPage.ClearContainers ();
+				mBrowseProductPage.Content = null;
+				mBrowseProductPage = null;
+				GC.Collect ();
+			}
+			mCurrentPage = "";
+
+			mCurrentPageParent = "BrowseCategories";
+
+			mSettingsPage = new SettingsPage (this);
+			SwitchContent (mSettingsPage.Content);
+		}
+
+		public void LoadFavoritesPage()
+		{
+			if (mBrowseProductPage != null) {
+				mBrowseProductPage.ClearContainers ();
+				mBrowseProductPage.Content = null;
+				mBrowseProductPage = null;
+				GC.Collect ();
+			}
+			mCurrentPage = "";
+
+			mCurrentPageParent = "BrowseCategories";
+			mFavoritesPage = new FavoritesPage (this);
+			SwitchContent (mFavoritesPage.Content);
 		}
 			
 		public void LoadProductsPage( Dictionary<string, List<Product>> productDictionary, Category category )
@@ -259,6 +281,7 @@ namespace bluemart.MainViews
 		{
 			mCurrentPage = "";
 
+			mCurrentPageParent = "BrowseCategories";
 
 			mSearchPage = new SearchPage (searchString, categoryId, this);
 			SwitchContent (mSearchPage.Content);
@@ -277,6 +300,8 @@ namespace bluemart.MainViews
 		{
 			mCurrentPage = "";
 
+			mCurrentPageParent = "BrowseCategories";
+
 			mFooter.ChangeColorOfLabel (mFooter.mCartLabel);
 			mFooter.ChangeImageOfButton (3);
 			SwitchContent (mCartPage.Content);
@@ -286,6 +311,8 @@ namespace bluemart.MainViews
 		public void LoadReceiptPage(Object obj = null)
 		{
 			mCurrentPage = "";
+
+			mCurrentPageParent = "BrowseCategories";
 
 			if (obj == null)
 				SwitchContent ((new ReceiptView (this)).Content);

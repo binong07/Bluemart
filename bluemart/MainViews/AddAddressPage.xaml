@@ -9,7 +9,8 @@
                 WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<ScrollView x:Name = "ScrollView1" Orientation = "Vertical"  HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" > 
+		<RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>
+		<!--<ScrollView x:Name = "ScrollView1" Orientation = "Vertical"  HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" > 
 			<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
 			 		<Grid.RowDefinitions>					
 						<RowDefinition/>
@@ -39,6 +40,6 @@
 						<Button x:Name = "SubmitButton" HorizontalOptions = "End" Text = "Submit" Clicked = "OnSubmitClicked" BorderWidth = "2" ></Button>
 					</StackLayout>
         	</Grid>
-    	</ScrollView>
+    	</ScrollView>-->
 	</ContentPage.Content>
 </ContentPage>

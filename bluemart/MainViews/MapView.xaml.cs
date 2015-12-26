@@ -38,7 +38,7 @@ namespace bluemart.MainViews
 			}
 			mUserModel.AddActiveRegionToUser (region);
 			CategoryModel.CategoryLocation = "bluemart.Models.Local.RegionClass";
-			mParent.mSettingsPage.PopulateListView();
+			//mParent.mSettingsPage.PopulateListView();
 			Navigation.PushAsync( mParent );
 		}
 		public void OnPinClicked(int index )

@@ -13,7 +13,7 @@ namespace bluemart.Common.ViewCells
 		public Label mAddressLabel;
 		public Label mPhoneLabel;
 		public Label mEditLabel;
-		public Image mActiveAddressImage;
+		public RelativeLayout mActiveAddressImage;
 		public AddressClass mAddressClass;
 		public AddressClass mAddressModel = new AddressClass();
 		private SettingsPage mRootPage;
@@ -23,118 +23,133 @@ namespace bluemart.Common.ViewCells
 			mRootPage = rootPage;
 			mAddressClass = address;
 
-			var imageSize = MyDevice.ScreenWidth / 12;
-
-			RelativeLayout relLayout = new RelativeLayout () {
-				VerticalOptions = LayoutOptions.Fill,
-				HorizontalOptions = LayoutOptions.Center,
-				BackgroundColor = Color.White,
-				Padding = 0,
-				WidthRequest = MyDevice.ScreenWidth - MyDevice.ViewPadding*2
+			var mainLayout = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(600),
+				HeightRequest = MyDevice.GetScaledSize(122),
+				Padding = 0
 			};
 
-			Grid mainGrid = new Grid (){	
-				//Padding = new Thickness(1,1,1,1),
-				HorizontalOptions = LayoutOptions.Start,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				RowSpacing = 0,
-				RowDefinitions = 
-				{ 
-					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}, 
-					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}, 
-					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}, 
-					new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))}
-				},
-				ColumnDefinitions = 
-				{
-					new ColumnDefinition(){ Width = MyDevice.ScreenWidth - MyDevice.ViewPadding*2 - imageSize }
-				},
+			var backgroundImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(600),
+				HeightRequest = MyDevice.GetScaledSize(122),
+				Aspect = Aspect.Fill,
+				Source = "SettingsPage_AddressCellBackground"
+			};
+
+			var editButton = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (48),
+				HeightRequest = MyDevice.GetScaledSize(68),
+				HorizontalTextAlignment = TextAlignment.Center,
+				VerticalTextAlignment = TextAlignment.End,
+				TextColor = Color.FromRgb(98,98,98),
+				Text = "edit",
+				FontSize = MyDevice.FontSizeMicro
+			};
+
+			mActiveAddressImage = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(82),
+				HeightRequest = MyDevice.GetScaledSize(90),
 				BackgroundColor = Color.White
 			};
 
-			mNameLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = "   " + address.Name,
-				BackgroundColor = Color.White
+			var nameLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (300),
+				HeightRequest = MyDevice.GetScaledSize(28),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.FromRgb(98,98,98),
+				Text = address.Name,
+				FontSize = MyDevice.FontSizeSmall
 			};
 
-			mAddressLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = "   " + address.Address,
-				BackgroundColor = Color.White
+			var addressLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (360),
+				HeightRequest = MyDevice.GetScaledSize(28),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.FromRgb(98,98,98),
+				Text = address.Address,
+				FontSize = MyDevice.FontSizeSmall
 			};
 
-			mPhoneLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = "   " + address.PhoneNumber,
-				BackgroundColor = Color.White
+			var phoneLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (360),
+				HeightRequest = MyDevice.GetScaledSize(28),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.FromRgb(98,98,98),
+				Text = address.PhoneNumber,
+				FontSize = MyDevice.FontSizeSmall
 			};
-
-			mEditLabel = new Label (){ 
-				TextColor = MyDevice.RedColor,
-				FontSize = Device.GetNamedSize(NamedSize.Small,typeof(Label)),
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.Start,
-				Text = "       Edit     ",
-				FontAttributes = FontAttributes.Italic,
-				BackgroundColor = Color.White
-			};
-
-			mainGrid.Children.Add (mNameLabel, 0, 0);
-			mainGrid.Children.Add (mAddressLabel, 0, 1);
-			mainGrid.Children.Add (mPhoneLabel, 0, 2);
-			mainGrid.Children.Add (mEditLabel, 0, 3);
 
 			var tapGestureRecognizer = new TapGestureRecognizer ();
-			tapGestureRecognizer.Tapped += async (sender, e) => {
+			tapGestureRecognizer.Tapped += (sender, e) => {
 
-				mainGrid.Opacity = 0.5f;
-				await Task.Delay (MyDevice.DelayTime);
+
 				mAddressModel.MakeActive(mAddressClass);
 				mRootPage.SwitchActiveAddress(this);
-				//mRootPage.PopulateListView();
-				mainGrid.Opacity = 1f;
+
 			};
-			mainGrid.GestureRecognizers.Add (tapGestureRecognizer);
+			mainLayout.GestureRecognizers.Add (tapGestureRecognizer);
 
 			var editTapGestureRecognizer = new TapGestureRecognizer ();
-			editTapGestureRecognizer.Tapped += async (sender, e) => {
-
-				mainGrid.Opacity = 0.5f;
-				await Task.Delay (MyDevice.DelayTime);
+			editTapGestureRecognizer.Tapped += (sender, e) => {
 				mRootPage.mParent.LoadAddAddress(mAddressClass);
-				mainGrid.Opacity = 1f;
 			};
-			mEditLabel.GestureRecognizers.Add (editTapGestureRecognizer);
+			editButton.GestureRecognizers.Add (editTapGestureRecognizer);
 
-			mActiveAddressImage = new Image () {
-				Source = "ActiveAddress"	
-			};
+			mainLayout.Children.Add (backgroundImage, 
+				Constraint.Constant (0),
+				Constraint.Constant (0)
+			);
 
-			relLayout.Children.Add(mActiveAddressImage, 
-				Constraint.RelativeToView(mainGrid, (parent,sibling) => {
-					return sibling.Bounds.Right;
+			mainLayout.Children.Add (editButton,
+				Constraint.RelativeToView (backgroundImage, (p, sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize (26);	
 				}),
-				Constraint.RelativeToView(mainGrid, (parent,sibling) => {
-					return sibling.Bounds.Top + 5;
+				Constraint.RelativeToView (backgroundImage, (p, sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize (26);	
 				})
 			);
-			relLayout.Children.Add(mainGrid, Constraint.RelativeToParent(parent => {
-				return 0;	
-			}));
 
-			mActiveAddressImage.IsVisible = mAddressClass.IsActive;
+			mainLayout.Children.Add (mActiveAddressImage,
+				Constraint.RelativeToView (backgroundImage, (p, sibling) => {
+					return sibling.Bounds.Right - MyDevice.GetScaledSize (105);	
+				}),
+				Constraint.RelativeToView (backgroundImage, (p, sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize (13);	
+				})
+			);
 
-			this.View = relLayout;
+			mainLayout.Children.Add (nameLabel,
+				Constraint.RelativeToView (backgroundImage, (p, sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize (105);	
+				}),
+				Constraint.RelativeToView (backgroundImage, (p, sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize (16);	
+				})
+			);
+			mainLayout.Children.Add (addressLabel,
+				Constraint.RelativeToView (nameLabel, (p, sibling) => {
+					return sibling.Bounds.Left;	
+				}),
+				Constraint.RelativeToView (nameLabel, (p, sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (2);	
+				})
+			);
+			mainLayout.Children.Add (phoneLabel,
+				Constraint.RelativeToView (addressLabel, (p, sibling) => {
+					return sibling.Bounds.Left;	
+				}),
+				Constraint.RelativeToView (addressLabel, (p, sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (2);	
+				})
+			);
+
+			mActiveAddressImage.IsVisible = !mAddressClass.IsActive;
+
+
+			this.View = mainLayout;
 		}
 	}
 }

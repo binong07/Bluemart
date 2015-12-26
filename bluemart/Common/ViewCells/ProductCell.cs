@@ -66,6 +66,8 @@ namespace bluemart.Common.ViewCells
 
 			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
 
+
+
 			mainRelativeLayout = new RelativeLayout(){
 				Padding = 0
 			};
@@ -85,34 +87,34 @@ namespace bluemart.Common.ViewCells
 			};
 
 			Label productNameLabel = new Label (){ 
-				FontSize = Device.GetNamedSize(NamedSize.Micro,typeof(Label)), 
+				FontSize = MyDevice.FontSizeMicro, 
 				TextColor = Color.FromRgb(77,77,77), 
 				HorizontalTextAlignment=TextAlignment.Start, 
 				VerticalTextAlignment = TextAlignment.Center,
 				Text = product.Name,
-				WidthRequest = MyDevice.GetScaledSize(111),
+				WidthRequest = MyDevice.GetScaledSize(240),
 				HeightRequest = MyDevice.GetScaledSize(60)
 			};
 
 			Label productQuantityLabel = new Label (){ 
-				FontSize = Device.GetNamedSize(NamedSize.Micro,typeof(Label)),
+				FontSize = MyDevice.FontSizeMicro,
 				VerticalTextAlignment = TextAlignment.Start, 
 				HorizontalTextAlignment = TextAlignment.Start, 
 				TextColor = Color.FromRgb(176,176,176),
 				Text = product.Quantity,
 				WidthRequest = MyDevice.GetScaledSize(111),
-				HeightRequest = MyDevice.GetScaledSize(18),
+				HeightRequest = MyDevice.GetScaledSize(22),
 				FontAttributes = FontAttributes.Italic
 			};
 
 			Label productPriceLabel = new Label (){ 
-				FontSize = Device.GetNamedSize(NamedSize.Micro ,typeof(Label)), 
+				FontSize = MyDevice.FontSizeMicro, 
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Start,
 				TextColor = Color.FromRgb(213,53,53),
 				Text = "AED " + product.Price.ToString(),
 				WidthRequest = MyDevice.GetScaledSize(111),
-				HeightRequest = MyDevice.GetScaledSize(20),
+				HeightRequest = MyDevice.GetScaledSize(22),
 				FontAttributes = FontAttributes.Bold
 			};
 
@@ -135,7 +137,7 @@ namespace bluemart.Common.ViewCells
 			};
 
 			mProductNumberLabel = new Label (){ 
-				FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label)),
+				FontSize = MyDevice.FontSizeMedium,
 				VerticalTextAlignment = TextAlignment.Center, 
 				HorizontalTextAlignment = TextAlignment.Center, 
 				TextColor = Color.FromRgb(117,117,117),
@@ -258,6 +260,9 @@ namespace bluemart.Common.ViewCells
 
 			if (mProduct.ProductNumberInCart > 0)
 				ActivateAddMenu ();
+
+			if (bIsFavorite)
+				ActivateFavorite ();
 
 			this.View = mainRelativeLayout;
 		}
@@ -423,7 +428,7 @@ namespace bluemart.Common.ViewCells
 					if( mParent is FavoritesPage )
 					{
 						FavoritesPage pa = mParent as FavoritesPage;
-						pa.RefreshFavoritesGrid();
+						//pa.RefreshFavoritesGrid();
 					}
 				}
 			};
@@ -454,11 +459,13 @@ namespace bluemart.Common.ViewCells
 				if (mParent is BrowseProductsPage) {
 					(mParent as BrowseProductsPage).UpdatePriceLabel ();
 					(mParent as BrowseProductsPage).UpdateProductCountLabel ();
-				}
-				else if (mParent is FavoritesPage)
+				} else if (mParent is FavoritesPage) {
 					(mParent as FavoritesPage).UpdatePriceLabel ();
-				else if (mParent is SearchPage)
+					(mParent as FavoritesPage).UpdateProductCountLabel ();
+				} else if (mParent is SearchPage) {
 					(mParent as SearchPage).UpdatePriceLabel ();
+					(mParent as SearchPage).UpdateProductCountLabel ();
+				}
 			}
 			if (mProduct.ProductNumberInCart == 0) {
 				DeactivateAddMenu ();
@@ -496,11 +503,14 @@ namespace bluemart.Common.ViewCells
 			if (mParent is BrowseProductsPage) {
 				(mParent as BrowseProductsPage).UpdatePriceLabel ();
 				(mParent as BrowseProductsPage).UpdateProductCountLabel ();
-			}
-			else if (mParent is FavoritesPage)
+			} else if (mParent is FavoritesPage) {
 				(mParent as FavoritesPage).UpdatePriceLabel ();
-			else if (mParent is SearchPage)
+				(mParent as FavoritesPage).UpdateProductCountLabel ();
+			} else if (mParent is SearchPage) {
 				(mParent as SearchPage).UpdatePriceLabel ();
+				(mParent as SearchPage).UpdateProductCountLabel ();
+			}
+				
 			
 			UpdateNumberLabel ();
 			if (mPairCell != null)

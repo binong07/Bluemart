@@ -24,6 +24,10 @@ namespace bluemart.Common.Utilities
 		public static string DeviceID = Resolver.Resolve<IDevice> ().Id;
 		public static double MenuPadding = MyDevice.ScreenWidth / 25;
 		public static double ViewPadding = MyDevice.ScreenWidth / 50;
+		public static double FontSizeMicro = ScreenWidth/36.0;
+		public static double FontSizeSmall = ScreenWidth/25.7;
+		public static double FontSizeMedium = ScreenWidth/20.0;
+		public static double FontSizeLarge = ScreenWidth/16.3;
 
 		public static string GetNetworkStatus()
 		{

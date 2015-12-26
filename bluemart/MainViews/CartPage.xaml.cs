@@ -35,7 +35,7 @@ namespace bluemart.MainViews
 
 		private void SetGrid1Properties()
 		{
-			Grid1.RowDefinitions [0].Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))*3;
+			Grid1.RowDefinitions [0].Height = MyDevice.FontSizeLarge*3;
 			Grid1.RowDefinitions [1].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.RowSpacing = MyDevice.ScreenWidth * 0.02778f;
@@ -51,8 +51,8 @@ namespace bluemart.MainViews
 			//CloseButton.HeightRequest = MyDevice.ScreenHeight / 15;
 			//CloseButton.Aspect = Aspect.AspectFit;
 			LocationLabel.TextColor = MyDevice.RedColor;
-			LocationLabel.FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label));
-			RemoveButton.FontSize = Device.GetNamedSize(NamedSize.Medium,typeof(Label));
+			LocationLabel.FontSize = MyDevice.FontSizeMedium;
+			RemoveButton.FontSize = MyDevice.FontSizeMedium;
 			RemoveButton.TextColor = MyDevice.RedColor;
 			RemoveButton.BorderColor = MyDevice.BlueColor;
 			RemoveButton.WidthRequest = MyDevice.ScreenWidth / 2.5f;
@@ -85,7 +85,7 @@ namespace bluemart.MainViews
 			orderGrid.ColumnDefinitions.Add(new ColumnDefinition(){Width = (MyDevice.ScreenWidth - 2*MyDevice.ViewPadding) / 2});
 			orderGrid.ColumnDefinitions.Add(new ColumnDefinition(){Width = (MyDevice.ScreenWidth - 2*MyDevice.ViewPadding) / 2});
 			orderGrid.ColumnDefinitions.Add(new ColumnDefinition(){Width = MyDevice.ViewPadding});
-			orderGrid.RowDefinitions.Add (new RowDefinition(){Height = Device.GetNamedSize(NamedSize.Large,typeof(Label))*3}); 
+			orderGrid.RowDefinitions.Add (new RowDefinition(){Height = MyDevice.FontSizeLarge*3}); 
 
 
 			mTotalPriceLabel = new Label () {
