@@ -49,10 +49,10 @@ namespace bluemart
 			mObject = obj;
 			mUserModel = mUserModel.GetUser ();
 			NavigationPage.SetHasNavigationBar (this, false);
-
+			InitializeLayout (obj);
 		}
 
-		private void InitializeLayout()
+		private void InitializeLayout(Object obj=null)
 		{	
 			mainRelativeLayout.BackgroundColor = Color.FromRgb (236, 240, 241);
 			mMidLayout = new RelativeLayout ();
@@ -65,13 +65,8 @@ namespace bluemart
 
 			InitializeHeaderLayout ();
 			InitializeMenuLayout ();
-			InitializeAddressLayout ();
-			InitializeReceiptLayout ();
-			/*InitializeSearchLayout ();
-			InitializeSubCategoriesLayout ();
-			InitializeBottomLayout ();
-			InitializeMenuLayout ();
-			EventHandlers ();*/
+			InitializeAddressLayout (obj);
+			InitializeReceiptLayout (obj);
 		}
 
 		private void InitializeHeaderLayout ()
@@ -235,11 +230,32 @@ namespace bluemart
 				HeightRequest = MyDevice.GetScaledSize(44)
 			};
 
+			var trackButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(512),
+				HeightRequest = MyDevice.GetScaledSize(50),
+				Padding = 0
+			};
+
+			var trackTapRecognizer = new TapGestureRecognizer ();
+			trackTapRecognizer.Tapped += (sender, e) => {
+				mParent.LoadTrackPage();
+			};
+			trackButton.GestureRecognizers.Add (trackTapRecognizer);
+
+			mMenuLayout.Children.Add (trackButton,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (trackImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(3);
+				})
+			);
+
 			var secondLine = new BoxView (){
 				HeightRequest = 1,
 				WidthRequest = MyDevice.GetScaledSize(mMenuWidth),
 				Color = Color.FromRgb(129,129,129)
 			};
+
+
 
 			var categoryNameStackLayout = new StackLayout {
 				Orientation = StackOrientation.Vertical,
@@ -516,13 +532,17 @@ namespace bluemart
 			} else {
 				if (obj is HistoryClass) {
 					HistoryClass history = obj as HistoryClass;
-					dateLabel.Text = history.Date;
+					DateTime historyDate = DateTime.Now;
+					DateTime.TryParse(history.Date,out historyDate);					
+					dateLabel.Text = historyDate.ToString("MM/dd/yyyy");
 					nameLabel.Text = history.Name + " " + history.Surname;
 					addressLabel.Text = history.Address;
 					phoneLabel.Text = history.Phone;
 				} else if (obj is StatusClass) {
 					StatusClass status = obj as StatusClass;
-					dateLabel.Text = status.Date;
+					DateTime statusDate = DateTime.Now;
+					DateTime.TryParse(status.Date,out statusDate);
+					dateLabel.Text = statusDate.ToString("MM/dd/yyyy");
 					nameLabel.Text = status.Name + " " + status.Surname;
 					addressLabel.Text = status.Address;
 					phoneLabel.Text = status.Phone;
@@ -657,6 +677,8 @@ namespace bluemart
 				FontSize = MyDevice.FontSizeSmall
 			};
 
+
+
 			var totalAmountPriceLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (117),
 				HeightRequest = MyDevice.GetScaledSize(32),
@@ -666,6 +688,16 @@ namespace bluemart
 				Text = Cart.ProductTotalPrice.ToString(),
 				FontSize = MyDevice.FontSizeSmall
 			};
+
+			if (obj == null) {
+				totalAmountPriceLabel.Text = Cart.ProductTotalPrice.ToString ();
+			} else {
+				if (obj is StatusClass) {
+					totalAmountPriceLabel.Text = (obj as StatusClass).TotalPrice.ToString ();
+				} else if (obj is HistoryClass) {
+					totalAmountPriceLabel.Text = (obj as HistoryClass).TotalPrice.ToString ();
+				}
+			}
 
 			var agreeLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (168),
@@ -678,7 +710,7 @@ namespace bluemart
 			};
 
 			var disagreeLabel = new Label () {
-				WidthRequest = MyDevice.GetScaledSize (168),
+				WidthRequest = MyDevice.GetScaledSize (173),
 				HeightRequest = MyDevice.GetScaledSize(46),
 				HorizontalTextAlignment = TextAlignment.Center,
 				VerticalTextAlignment = TextAlignment.Center,
@@ -690,7 +722,7 @@ namespace bluemart
 			if (mObject != null) {
 				agreeLabel.Text = "OK";
 				disagreeLabel.Text = "";
-				disagreeLabel.BackgroundColor = Color.FromRgb (98, 98, 98);
+				disagreeLabel.BackgroundColor = Color.White;
 			} 
 
 			var thankyouLabel = new Label () {
@@ -735,10 +767,11 @@ namespace bluemart
 				} else {
 					if (mObject is HistoryClass) {
 						//mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mCartLabel);
-						mParent.SwitchTab ("History");
+						mParent.LoadTrackPage ();
 					} else if (mObject is StatusClass) {
 						//mParent.mFooter.ChangeColorOfLabel (mParent.mFooter.mTrackLabel);
-						mParent.SwitchTab ("Track");
+						//mParent.SwitchTab ("Track");
+						mParent.LoadTrackPage ();
 					}
 				}
 			};
@@ -760,10 +793,31 @@ namespace bluemart
 				}
 			}
 			else {
-				/*if( obj is HistoryClass )
-					productCount = (obj as HistoryClass).ProductOrderList.Count;
-				else if( obj is StatusClass )
-					productCount = (obj as StatusClass).ProductOrderList.Count;*/
+				//Product product = new Product(
+				if (obj is HistoryClass) {
+					foreach (var productString in (obj as HistoryClass).ProductOrderList) {
+						string quantity = productString.Split (';') [0].Split (':') [1];
+						string name = productString.Split (';') [1].Split (':') [1];
+						string description = productString.Split (';') [2].Split (':') [1];
+						string price = productString.Split (';') [3].Split (':') [1];
+
+						var product = new Product ("", name, "", decimal.Parse (price), "", description);
+						product.ProductNumberInCart = int.Parse (quantity);
+						receiptStackLayout.Children.Add (new ReceiptCell (receiptCellCount++, product).View);
+					}
+				} else if (obj is StatusClass) {
+					foreach (var productString in (obj as StatusClass).ProductOrderList) {
+						string quantity = productString.Split (';') [0].Split (':') [1];
+						string name = productString.Split (';') [1].Split (':') [1];
+						string description = productString.Split (';') [2].Split (':') [1];
+						string price = productString.Split (';') [3].Split (':') [1];
+
+						var product = new Product ("", name, "", decimal.Parse (price), "", description);
+						product.ProductNumberInCart = int.Parse (quantity);
+						receiptStackLayout.Children.Add (new ReceiptCell (receiptCellCount++, product).View);
+					}
+				}
+					
 			}
 				
 			var receiptScrollView = new ScrollView {

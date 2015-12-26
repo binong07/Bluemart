@@ -20,83 +20,102 @@ namespace bluemart.Common.ViewCells
 			mRootPage = rootPage;
 			mHistoryClass = history;
 
-			Grid mainGrid = new Grid (){	
-				//Padding = new Thickness(1,1,1,1),
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				RowSpacing = 0,
-				RowDefinitions = 
-				{ 
-					new RowDefinition(){Height = GridLength.Auto}, 
-					new RowDefinition(){Height = GridLength.Auto}, 
-					new RowDefinition(){Height = GridLength.Auto}, 
-				},
-				ColumnDefinitions = 
-				{
-					new ColumnDefinition(){ Width = MyDevice.ScreenWidth-MyDevice.ViewPadding*2}
-				},
-				BackgroundColor = MyDevice.BlueColor
+			var mainLayout = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(600),
+				HeightRequest = MyDevice.GetScaledSize(138),
+				BackgroundColor = Color.White,
+				Padding = 0
 			};
 
-			mTotalPriceLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = MyDevice.FontSizeSmall,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
+			var backgroundImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(32),
+				HeightRequest = MyDevice.GetScaledSize(32),
+				Aspect = Aspect.Fill,
+				Source = "TrackPage_HistroyBackground"
+			};
+
+			var totalPriceLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (455),
+				HeightRequest = MyDevice.GetScaledSize(26),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Start,
+				TextColor = Color.FromRgb(98,98,98),
 				Text = "Total Price: " + history.TotalPrice + " AED",
-				BackgroundColor = Color.White
+				FontSize = MyDevice.FontSizeMicro	
 			};
 
-			mDateLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = MyDevice.FontSizeSmall,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = "Date: " + history.Date,
-				BackgroundColor = Color.White
+			DateTime historyDate = DateTime.Now;
+
+			DateTime.TryParse(history.Date,out historyDate);
+
+			var dateLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (455),
+				HeightRequest = MyDevice.GetScaledSize(26),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Start,
+				TextColor = Color.FromRgb(98,98,98),
+				Text = "Date: " + historyDate.ToString("MM/dd/yyyy") +" - Time: " + historyDate.ToString("hh:mm:ss"),
+				FontSize = MyDevice.FontSizeMicro	
 			};
 
-			mRegionLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = MyDevice.FontSizeSmall,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
+			var regionLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (455),
+				HeightRequest = MyDevice.GetScaledSize(26),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Start,
+				TextColor = Color.FromRgb(98,98,98),
 				Text = "Region: " + history.Region,
-				BackgroundColor = Color.White
+				FontSize = MyDevice.FontSizeMicro	
 			};
 
-			mainGrid.Children.Add (mTotalPriceLabel, 0, 0);
-			mainGrid.Children.Add (mDateLabel, 0, 1);
-			mainGrid.Children.Add (mRegionLabel, 0, 2);
+			var line = new BoxView () {
+				WidthRequest = MyDevice.GetScaledSize(600),
+				HeightRequest = MyDevice.GetScaledSize(1),
+				Color = Color.FromRgb(181,185,187)
+			};
+
+			mainLayout.Children.Add (backgroundImage,
+				Constraint.Constant(MyDevice.GetScaledSize(51)),
+				Constraint.Constant(MyDevice.GetScaledSize(51))
+			);
+
+			mainLayout.Children.Add (totalPriceLabel,
+				Constraint.Constant(MyDevice.GetScaledSize(140)),
+				Constraint.Constant(MyDevice.GetScaledSize(28))
+			);
+
+			mainLayout.Children.Add (dateLabel,
+				Constraint.RelativeToView (totalPriceLabel, (p, sibling) => {
+					return sibling.Bounds.Left;	
+				}),
+				Constraint.RelativeToView (totalPriceLabel, (p, sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(2);	
+				})
+			);
+
+			mainLayout.Children.Add (regionLabel,
+				Constraint.RelativeToView (dateLabel, (p, sibling) => {
+					return sibling.Bounds.Left;	
+				}),
+				Constraint.RelativeToView (dateLabel, (p, sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(2);	
+				})
+			);
+
+			mainLayout.Children.Add (line,
+				Constraint.Constant(0),
+				Constraint.Constant(MyDevice.GetScaledSize(137))
+			);
 
 			var tapGestureRecognizer = new TapGestureRecognizer ();
-			tapGestureRecognizer.Tapped += async (sender, e) => {
-
-				mainGrid.Opacity = 0.5f;
-				await Task.Delay (MyDevice.DelayTime);
-				//SwitchColor();
+			tapGestureRecognizer.Tapped +=  (sender, e) => {
 				mRootPage.mParent.LoadReceiptPage(mHistoryClass);
-				mainGrid.Opacity = 1f;
 			};
-			mainGrid.GestureRecognizers.Add (tapGestureRecognizer);
+			mainLayout.GestureRecognizers.Add (tapGestureRecognizer);
 
-			this.View = mainGrid;
-		}
+			this.View = mainLayout;
 
-		/*private void SwitchColor()
-		{
-			if (mRootPage.mActiveHistoryCell != null) {
-				mRootPage.mActiveHistoryCell.mTotalPriceLabel.BackgroundColor = Color.White;
-				mRootPage.mActiveHistoryCell.mDateLabel.BackgroundColor = Color.White;
-				mRootPage.mActiveHistoryCell.mRegionLabel.BackgroundColor = Color.White;
-			}
-
-			mRootPage.mActiveHistoryCell = this;
-
-			mTotalPriceLabel.BackgroundColor = MyDevice.RedColor;
-			mDateLabel.BackgroundColor = MyDevice.RedColor;
-			mRegionLabel.BackgroundColor = MyDevice.RedColor;
-		}*/
+		}			
 	}
 }
 

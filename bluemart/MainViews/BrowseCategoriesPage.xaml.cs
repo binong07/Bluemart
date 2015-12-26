@@ -80,9 +80,10 @@ namespace bluemart.MainViews
 
 			InitializeHeaderLayout ();
 			InitializeSearchLayout ();
+			InitializeCartLayout ();
 			InitializeBottomLayout ();
 			InitializeMenuLayout ();
-			InitializeCartLayout ();
+
 			EventHandlers ();		
 		}
 
@@ -187,6 +188,25 @@ namespace bluemart.MainViews
 				HeightRequest = MyDevice.GetScaledSize(44)
 			};
 
+			var trackButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(512),
+				HeightRequest = MyDevice.GetScaledSize(50),
+				Padding = 0
+			};
+
+			var trackTapRecognizer = new TapGestureRecognizer ();
+			trackTapRecognizer.Tapped += (sender, e) => {
+				mParent.LoadTrackPage();
+			};
+			trackButton.GestureRecognizers.Add (trackTapRecognizer);
+
+			mMenuLayout.Children.Add (trackButton,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (trackImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(3);
+				})
+			);
+
 			var secondLine = new BoxView (){
 				HeightRequest = 1,
 				WidthRequest = MyDevice.GetScaledSize(mMenuWidth),
@@ -261,6 +281,8 @@ namespace bluemart.MainViews
 				mParent.LoadSettingsPage();
 			};
 			settingsButton.GestureRecognizers.Add (settingsTapRecognizer);
+
+
 
 			mainRelativeLayout.Children.Add (mMenuLayout,
 				Constraint.Constant (MyDevice.GetScaledSize (mMenuWidth) * -1),
@@ -380,6 +402,8 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Top - MyDevice.GetScaledSize(3);
 				})
 			);
+
+
 		}
 						
 		private void InitializeHeaderLayout()

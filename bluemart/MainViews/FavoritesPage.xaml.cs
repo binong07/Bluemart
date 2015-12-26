@@ -32,7 +32,7 @@ namespace bluemart.MainViews
 		private List<Product> mProductList = new List<Product> ();
 		private List<int> mCategoryIndexList;
 		//Queues
-		private List<ProductCell> mProductCellList = new List<ProductCell> ();
+		public List<ProductCell> mProductCellList = new List<ProductCell> ();
 		private Queue<ProductCell> mTrashProductCellQueue = new Queue<ProductCell>();
 		private Queue<ProductCell> mPopulaterProductCellQueue = new Queue<ProductCell> ();
 		private Queue<ProductCell> mManagerProductCellQueue = new Queue<ProductCell> ();
@@ -120,9 +120,9 @@ namespace bluemart.MainViews
 			InitializeHeaderLayout ();
 			InitializeSearchLayout ();
 			InitializeSubCategoriesLayout ();
+			InitializeCartLayout ();
 			InitializeBottomLayout ();
 			InitializeMenuLayout ();
-			InitializeCartLayout ();
 			EventHandlers ();
 		}
 
@@ -222,6 +222,25 @@ namespace bluemart.MainViews
 				WidthRequest = MyDevice.GetScaledSize(400),
 				HeightRequest = MyDevice.GetScaledSize(44)
 			};
+
+			var trackButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(512),
+				HeightRequest = MyDevice.GetScaledSize(50),
+				Padding = 0
+			};
+
+			var trackTapRecognizer = new TapGestureRecognizer ();
+			trackTapRecognizer.Tapped += (sender, e) => {
+				mParent.LoadTrackPage();
+			};
+			trackButton.GestureRecognizers.Add (trackTapRecognizer);
+
+			mMenuLayout.Children.Add (trackButton,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (trackImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(3);
+				})
+			);
 
 			var secondLine = new BoxView (){
 				HeightRequest = 1,

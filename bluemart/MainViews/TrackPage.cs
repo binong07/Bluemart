@@ -13,14 +13,657 @@ namespace bluemart.MainViews
 	{				
 		public RootPage mParent;
 		public TrackCell mActiveTrackCell;
-		private Label mTrackLabel;
-		private Label mHistoryLabel;
+		private Label TrackLabel;
+		private Label HistoryLabel;
+		private Label mActiveLabel;
+
+		private ScrollView ScrollView1;
+		private StackLayout StackLayout1;
+
+		private RelativeLayout mTopLayout;
+		private RelativeLayout mMenuLayout;
+		private RelativeLayout mMidLayout;
+		private RelativeLayout mSwitchLayout;
+		private RelativeLayout mBottomLayout;
+		private Label categoriesLabel;
+		private Image menuIcon;
+		private bool IsMenuOpen = false;
+		private double mMenuWidth = 517.0;
+
+		private List<StatusClass> mOrderStatusList;
+		private List<HistoryClass> mOrderHistoryList;
 
 		public TrackPage (RootPage parent)
 		{						
 			InitializeComponent ();
+			mParent = parent;
+			NavigationPage.SetHasNavigationBar (this, false);
 
-			mTrackLabel = new Label () {
+			mOrderStatusList = OrderModel.GetOrdersForTracking ();
+			mOrderHistoryList = OrderModel.GetOrdersForHistory ();
+
+			InitializeLayout ();
+		}
+
+		private void ChangeActive(Label label)
+		{
+			double scrollViewHeight = 0;
+
+			if (label != mActiveLabel) {
+				if (label == TrackLabel) {
+					HistoryLabel.BackgroundColor = Color.Transparent;
+					TrackLabel.BackgroundColor = Color.FromRgb (76, 76, 76);
+
+					StackLayout1.Children.Clear ();
+					foreach (var status in mOrderStatusList) {
+						StackLayout1.Children.Add( new TrackCell(status,this ).View );
+					}
+
+					scrollViewHeight = MyDevice.GetScaledSize (180)*(StackLayout1.Children.Count) +  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
+
+
+					if (scrollViewHeight > MyDevice.GetScaledSize (916)) {
+						double cellCount = Math.Floor (MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (180));
+						scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
+					}
+
+					if (mMidLayout.Children.Contains (ScrollView1))
+						mMidLayout.Children.Remove (ScrollView1);
+
+					mMidLayout.Children.Add (ScrollView1,
+						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+							return sibling.Bounds.Left;
+						}),
+						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+							return sibling.Bounds.Top;
+						}),
+						Constraint.Constant(MyDevice.GetScaledSize(600)),
+						Constraint.Constant(scrollViewHeight)
+					);
+
+				} else if (label == HistoryLabel) {
+					TrackLabel.BackgroundColor = Color.Transparent;
+					HistoryLabel.BackgroundColor = Color.FromRgb (76, 76, 76);
+
+					StackLayout1.Children.Clear ();
+					foreach (var history in mOrderHistoryList) {
+						StackLayout1.Children.Add( new HistoryCell(history,this ).View );
+					}
+
+					scrollViewHeight = MyDevice.GetScaledSize (138)*(StackLayout1.Children.Count) +  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
+
+
+					if (scrollViewHeight > MyDevice.GetScaledSize (916)) {
+						double cellCount = Math.Floor(MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (138));
+						scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
+					}
+
+					if (mMidLayout.Children.Contains (ScrollView1))
+						mMidLayout.Children.Remove (ScrollView1);
+
+					mMidLayout.Children.Add (ScrollView1,
+						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+							return sibling.Bounds.Left;
+						}),
+						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+							return sibling.Bounds.Top;
+						}),
+						Constraint.Constant(MyDevice.GetScaledSize(600)),
+						Constraint.Constant(scrollViewHeight)
+					);
+				}
+			}	
+
+
+
+			mActiveLabel = label;
+		}
+
+		private void InitializeLayout()
+		{	
+			mainRelativeLayout.BackgroundColor = Color.FromRgb (236, 240, 241);
+			mMidLayout = new RelativeLayout ();
+
+			mainRelativeLayout.Children.Add (mMidLayout,
+				Constraint.Constant (0),
+				Constraint.Constant (0)
+			);
+
+
+			InitializeHeaderLayout ();
+			InitializeMenuLayout ();
+			InitializeSwitchLayout ();
+			InitializeBottomLayout ();
+			/*InitializeAddressLayout ();
+			InitializeReceiptLayout ();*/
+		}
+
+		private void ActivateOrDeactivateMenu()
+		{
+			Rectangle menuRectangle;
+			Rectangle midRectangle;
+
+			if (!IsMenuOpen) {
+				menuRectangle = new Rectangle (new Point (MyDevice.GetScaledSize(mMenuWidth), 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
+				midRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mMenuWidth), 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
+			} else {
+				menuRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (0), 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
+				midRectangle = new Rectangle (new Point (0, 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
+
+			}
+
+			mMenuLayout.TranslateTo (menuRectangle.X,menuRectangle.Y, 500, Easing.Linear);
+			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, 500, Easing.Linear);
+
+			IsMenuOpen = !IsMenuOpen;
+		}
+
+		private void InitializeHeaderLayout ()
+		{
+			mTopLayout = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(640),
+				HeightRequest = MyDevice.GetScaledSize(87),
+				BackgroundColor = Color.FromRgb(38,153,200)
+			};
+
+			menuIcon = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(36),
+				HeightRequest = MyDevice.GetScaledSize(37),
+				Source = "CategoriesPage_MenuIcon"
+			};
+
+			var logo = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(217),
+				HeightRequest = MyDevice.GetScaledSize(39),
+				Source = "ReceiptPage_Logo"
+			};
+
+
+
+			var menuButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(72),
+				HeightRequest = MyDevice.GetScaledSize(86)
+			};
+
+			var menuTapRecognizer= new TapGestureRecognizer ();
+			menuTapRecognizer.Tapped += (sender, e) => {				
+				ActivateOrDeactivateMenu();
+			};
+			menuButton.GestureRecognizers.Add(menuTapRecognizer);
+
+
+
+			mMidLayout.Children.Add (mTopLayout,
+				Constraint.Constant (0),
+				Constraint.Constant (0)
+			);
+
+			mMidLayout.Children.Add (menuIcon, 
+				Constraint.RelativeToParent (parent => {
+					return parent.Bounds.Left +  MyDevice.GetScaledSize(20);
+				}),
+				Constraint.RelativeToParent (parent => {
+					return parent.Bounds.Top + MyDevice.GetScaledSize(27);
+				})
+			);	
+
+			mMidLayout.Children.Add (logo,
+				Constraint.RelativeToView (menuIcon, (p, sibling) => {
+					return sibling.Bounds.Right + MyDevice.GetScaledSize (150);	
+				}),
+				Constraint.RelativeToView (menuIcon, (p, sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(5);	
+				})
+			);
+
+			mMidLayout.Children.Add (menuButton,
+				Constraint.Constant (0),
+				Constraint.Constant (0));
+
+		}
+
+		private void InitializeMenuLayout()
+		{
+			mMenuLayout = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(mMenuWidth),
+				HeightRequest = MyDevice.ScreenHeight,
+				BackgroundColor = Color.FromRgb(51,51,51)
+			};
+
+			var openImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(54),
+				HeightRequest = MyDevice.GetScaledSize(44),
+				Source = "MenuPage_Open",
+				Aspect = Aspect.Fill
+			};
+
+			categoriesLabel = new Label () {
+				Text = "Categories",
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.White,
+				FontSize = MyDevice.FontSizeMedium,
+				WidthRequest = MyDevice.GetScaledSize(400),
+				HeightRequest = MyDevice.GetScaledSize(44)
+			};
+
+			var categoriesButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(512),
+				HeightRequest = MyDevice.GetScaledSize(50)
+			};
+
+			var firstLine = new BoxView (){
+				HeightRequest = 1,
+				WidthRequest = MyDevice.GetScaledSize(mMenuWidth),
+				Color = Color.FromRgb(129,129,129)
+			};
+
+			var settingsImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(40),
+				HeightRequest = MyDevice.GetScaledSize(35),
+				Source = "MenuPage_Settings",
+				Aspect = Aspect.Fill
+			};
+
+			var settingsLabel = new Label () {
+				Text = "My Settings",
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.White,
+				FontSize = MyDevice.FontSizeMedium,
+				WidthRequest = MyDevice.GetScaledSize(400),
+				HeightRequest = MyDevice.GetScaledSize(44)
+			};
+
+			var settingsButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(512),
+				HeightRequest = MyDevice.GetScaledSize(50)
+			};
+
+			var favoritesImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(40),
+				HeightRequest = MyDevice.GetScaledSize(35),
+				Source = "MenuPage_Favorites",
+				Aspect = Aspect.Fill
+			};
+
+			var favoritesLabel = new Label () {
+				Text = "Favorites",
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.White,
+				FontSize = MyDevice.FontSizeMedium,
+				WidthRequest = MyDevice.GetScaledSize(400),
+				HeightRequest = MyDevice.GetScaledSize(44)
+			};
+
+			var favoritesButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(512),
+				HeightRequest = MyDevice.GetScaledSize(50)
+			};
+
+			var trackImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(40),
+				HeightRequest = MyDevice.GetScaledSize(35),
+				Source = "MenuPage_Track",
+				Aspect = Aspect.Fill
+			};
+
+			var trackLabel = new Label () {
+				Text = "Track Your Order",
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.White,
+				FontSize = MyDevice.FontSizeMedium,
+				WidthRequest = MyDevice.GetScaledSize(400),
+				HeightRequest = MyDevice.GetScaledSize(44)
+			};
+
+			var trackButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(512),
+				HeightRequest = MyDevice.GetScaledSize(50),
+				Padding = 0
+			};
+
+			var trackTapRecognizer = new TapGestureRecognizer ();
+			trackTapRecognizer.Tapped += (sender, e) => {
+				mParent.LoadTrackPage();
+			};
+			trackButton.GestureRecognizers.Add (trackTapRecognizer);
+
+			mMenuLayout.Children.Add (trackButton,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (trackImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(3);
+				})
+			);
+
+			var secondLine = new BoxView (){
+				HeightRequest = 1,
+				WidthRequest = MyDevice.GetScaledSize(mMenuWidth),
+				Color = Color.FromRgb(129,129,129)
+			};
+
+			var categoryNameStackLayout = new StackLayout {
+				Orientation = StackOrientation.Vertical,
+				Padding = 0,
+				Spacing = 0
+			};
+
+			for (int i = 0; i < mParent.mBrowseCategoriesPage.mCategories.Count; i++) {
+				if (!mParent.mBrowseCategoriesPage.mCategories [i].IsSubCategory) {
+					Label label = new Label () {
+						WidthRequest = MyDevice.GetScaledSize(442),	
+						HeightRequest = MyDevice.GetScaledSize(78),
+						TextColor = Color.White,
+						HorizontalTextAlignment = TextAlignment.Start,
+						VerticalTextAlignment = TextAlignment.Center,
+						Text = mParent.mBrowseCategoriesPage.mCategories [i].Name,
+						FontSize = MyDevice.FontSizeMedium
+					};
+
+					var tapRecog = new TapGestureRecognizer ();
+					tapRecog.Tapped += (sender, e) => {
+						string categoryName = (sender as Label).Text;
+						Category category = null;
+						foreach(var tempCategory in mParent.mBrowseCategoriesPage.mCategories)
+						{
+							if(tempCategory.Name == categoryName)
+							{
+								category = tempCategory;
+							}
+						}
+
+						foreach(var categoryCell in mParent.mBrowseCategoriesPage.mCategoryCellList)
+						{
+							if( category != null && categoryCell.mCategory == category )
+							{
+								IsMenuOpen = false;
+								categoryCell.LoadProductsPage(category.CategoryID,mParent);
+							}
+						}
+
+					};
+
+					label.GestureRecognizers.Add (tapRecog);
+					categoryNameStackLayout.Children.Add (label);	
+				}
+			}
+
+			var categoryNameScrollView = new ScrollView {
+				Orientation = ScrollOrientation.Vertical,
+				Content = categoryNameStackLayout
+			};
+
+			var categoriesTapRecognizer = new TapGestureRecognizer ();
+			categoriesTapRecognizer.Tapped += (sender, e) => {
+				mParent.SwitchTab("BrowseCategories");
+			};
+			categoriesButton.GestureRecognizers.Add (categoriesTapRecognizer);
+
+			var favoritesTapRecognizer = new TapGestureRecognizer ();
+			favoritesTapRecognizer.Tapped += (sender, e) => {
+				mParent.LoadFavoritesPage();
+			};
+			favoritesButton.GestureRecognizers.Add (favoritesTapRecognizer);
+
+			var settingsTapRecognizer = new TapGestureRecognizer ();
+			settingsTapRecognizer.Tapped += (sender, e) => {
+				mParent.LoadSettingsPage();
+			};
+			settingsButton.GestureRecognizers.Add (settingsTapRecognizer);
+
+			mainRelativeLayout.Children.Add (mMenuLayout,
+				Constraint.Constant (MyDevice.GetScaledSize (mMenuWidth) * -1),
+				Constraint.Constant (0)
+			);
+
+			mMenuLayout.Children.Add (openImage,				
+				Constraint.Constant(MyDevice.GetScaledSize(16)),
+				Constraint.RelativeToParent (parent => {
+					return parent.Bounds.Top + MyDevice.GetScaledSize (20.59f);
+				})
+			);
+
+			mMenuLayout.Children.Add (categoriesLabel,
+				Constraint.RelativeToView (openImage, (parent,sibling) => {
+					return sibling.Bounds.Right + MyDevice.GetScaledSize (10);
+				}),
+				Constraint.RelativeToView (openImage, (parent,sibling) => {
+					return sibling.Bounds.Top;
+				})
+			);
+
+			mMenuLayout.Children.Add (firstLine,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (openImage, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(22);
+				})
+			);
+
+			mMenuLayout.Children.Add (settingsImage,
+				Constraint.RelativeToView (openImage, (parent,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize (9);
+				}),
+				Constraint.RelativeToView (firstLine, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (25);
+				})
+			);
+
+			mMenuLayout.Children.Add (settingsLabel,
+				Constraint.RelativeToView (settingsImage, (parent,sibling) => {
+					return sibling.Bounds.Right + MyDevice.GetScaledSize (15);
+				}),
+				Constraint.RelativeToView (settingsImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(4);
+				})
+			);
+
+			mMenuLayout.Children.Add (favoritesImage,
+				Constraint.RelativeToView (openImage, (parent,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize (9);
+				}),
+				Constraint.RelativeToView (settingsImage, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (46);
+				})
+			);
+
+			mMenuLayout.Children.Add (favoritesLabel,
+				Constraint.RelativeToView (favoritesImage, (parent,sibling) => {
+					return sibling.Bounds.Right + MyDevice.GetScaledSize (15);
+				}),
+				Constraint.RelativeToView (favoritesImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(4);
+				})
+			);
+
+			mMenuLayout.Children.Add (trackImage,
+				Constraint.RelativeToView (openImage, (parent,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize (9);
+				}),
+				Constraint.RelativeToView (favoritesImage, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (46);
+				})
+			);
+
+			mMenuLayout.Children.Add (trackLabel,
+				Constraint.RelativeToView (trackImage, (parent,sibling) => {
+					return sibling.Bounds.Right + MyDevice.GetScaledSize (15);
+				}),
+				Constraint.RelativeToView (trackImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(4);
+				})
+			);
+
+			mMenuLayout.Children.Add (secondLine,
+				Constraint.Constant(MyDevice.GetScaledSize(0)),
+				Constraint.RelativeToView (trackImage, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(22);
+				})
+			);
+
+			mMenuLayout.Children.Add (categoryNameScrollView,
+				Constraint.Constant(MyDevice.GetScaledSize(76)),
+				Constraint.RelativeToView (secondLine, (parent,sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(22);
+				}),
+				Constraint.Constant(MyDevice.GetScaledSize(440)),
+				Constraint.Constant(MyDevice.ScreenHeight - MyDevice.GetScaledSize(445))
+			);
+
+			mMenuLayout.Children.Add (categoriesButton,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (openImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(3);
+				})
+			);
+
+			mMenuLayout.Children.Add (settingsButton,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (settingsImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(3);
+				})
+			);
+
+			mMenuLayout.Children.Add (favoritesButton,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (favoritesImage, (parent,sibling) => {
+					return sibling.Bounds.Top - MyDevice.GetScaledSize(3);
+				})
+			);
+		}
+
+		private void InitializeSwitchLayout ()
+		{
+			mSwitchLayout = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(640),
+				HeightRequest = MyDevice.GetScaledSize(74),
+				BackgroundColor = Color.Black
+			};
+
+			TrackLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (320),
+				HeightRequest = MyDevice.GetScaledSize (74),
+				HorizontalTextAlignment = TextAlignment.Center,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.White,
+				Text = "TRACK",
+				FontSize = MyDevice.FontSizeMedium,
+				BackgroundColor = Color.FromRgb (76, 76, 76)
+			};
+
+			HistoryLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (320),
+				HeightRequest = MyDevice.GetScaledSize (74),
+				HorizontalTextAlignment = TextAlignment.Center,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.White,
+				Text = "HISTORY",
+				FontSize = MyDevice.FontSizeMedium
+			};
+
+			var trackMaskImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(73),
+				HeightRequest = MyDevice.GetScaledSize(73),
+				Aspect = Aspect.Fill,
+				Source = "TrackPage_TrackMask"
+			};
+
+			var trackTapRecognizer = new TapGestureRecognizer ();
+			trackTapRecognizer.Tapped += (sender, e) => {
+				ChangeActive(TrackLabel);
+			};
+			TrackLabel.GestureRecognizers.Add (trackTapRecognizer);
+
+			var historyTapRecognizer = new TapGestureRecognizer ();
+			historyTapRecognizer.Tapped += (sender, e) => {
+				ChangeActive(HistoryLabel);
+			};
+			HistoryLabel.GestureRecognizers.Add (historyTapRecognizer);
+
+			mMidLayout.Children.Add (mSwitchLayout,
+				Constraint.Constant (0),
+				Constraint.Constant (MyDevice.GetScaledSize(87))
+			);
+
+			mSwitchLayout.Children.Add (TrackLabel,
+				Constraint.Constant (0),
+				Constraint.Constant (0)
+			);
+
+			mSwitchLayout.Children.Add (HistoryLabel,
+				Constraint.RelativeToView (TrackLabel, (p, sibling) => {
+					return sibling.Bounds.Right;
+				}),
+				Constraint.Constant (0)
+			);
+
+			mSwitchLayout.Children.Add (trackMaskImage,
+				Constraint.RelativeToView (TrackLabel, (p, sibling) => {
+					return sibling.Bounds.Right - MyDevice.GetScaledSize(37);
+				}),
+				Constraint.Constant (0)
+			);
+
+			mActiveLabel = TrackLabel;
+		}
+
+		private void InitializeBottomLayout()
+		{	
+			mBottomLayout = new RelativeLayout () {
+				BackgroundColor = Color.FromRgb(236,240,241),
+				WidthRequest = MyDevice.GetScaledSize(640),
+				HeightRequest = MyDevice.ScreenHeight - MyDevice.GetScaledSize(182) 
+			};
+			StackLayout1 = new StackLayout {
+				Orientation = StackOrientation.Vertical,
+				Spacing = MyDevice.GetScaledSize(20),
+
+			};
+
+			StackLayout1.Children.Clear ();
+			foreach (var status in mOrderStatusList) {
+				StackLayout1.Children.Add( new TrackCell(status,this ).View );
+			}
+
+			ScrollView1 = new ScrollView {
+				Orientation = ScrollOrientation.Vertical,
+				Content = StackLayout1
+			};
+			mMidLayout.Children.Add (mBottomLayout,
+				Constraint.RelativeToView (mSwitchLayout, (p, sibling) => {
+					return mSwitchLayout.Bounds.Left + MyDevice.GetScaledSize(20);		
+				}),
+				Constraint.RelativeToView (mSwitchLayout, (p, sibling) => {
+					return mSwitchLayout.Bounds.Bottom + MyDevice.GetScaledSize(20);		
+				})
+			);
+
+			double scrollViewHeight = MyDevice.GetScaledSize (180)*(StackLayout1.Children.Count) +  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
+
+
+			if (scrollViewHeight > MyDevice.GetScaledSize (916)) {
+				double cellCount = Math.Floor (MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (180));
+				scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
+			}
+
+			mMidLayout.Children.Add (ScrollView1,
+				Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+					return sibling.Bounds.Left;
+				}),
+				Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+					return sibling.Bounds.Top;
+				}),
+				Constraint.Constant(MyDevice.GetScaledSize(600)),
+				Constraint.Constant(scrollViewHeight)
+			);
+
+		}
+
+
+
+
+			/*mTrackLabel = new Label () {
 				HorizontalOptions = LayoutOptions.Center,
 				TextColor = Color.White,
 				Text = "TRACK",
@@ -34,9 +677,9 @@ namespace bluemart.MainViews
 				FontSize = MyDevice.FontSizeMedium
 			};
 
-			mParent = parent;
+			
 			MainStackLayout.Spacing = MyDevice.ViewPadding;
-			SetGrid1Definitions ();
+			SetGrid1Definitions ();/
 		}
 
 		public void PopulateListView()
@@ -62,7 +705,7 @@ namespace bluemart.MainViews
 			Grid1.RowDefinitions [0].Height = GridLength.Auto;
 			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
 			Grid1.BackgroundColor = MyDevice.BackgroundColor;
-		}
+		}*/
 			
 	}
 }

@@ -21,96 +21,119 @@ namespace bluemart.Common.ViewCells
 			mRootPage = rootPage;
 			mStatus = status;
 
-			Grid mainGrid = new Grid (){	
-				//Padding = new Thickness(0,0,0,0),
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				RowSpacing = 0,
-				RowDefinitions = 
-				{ 
-					new RowDefinition(){Height = GridLength.Auto}, 
-					new RowDefinition(){Height = GridLength.Auto}, 
-					new RowDefinition(){Height = GridLength.Auto},
-					new RowDefinition(){Height = GridLength.Auto},
-				},
-				ColumnDefinitions = 
-				{
-					new ColumnDefinition(){ Width = MyDevice.ScreenWidth-MyDevice.ViewPadding*2}
-				},
-				BackgroundColor = MyDevice.BlueColor
+			var mainLayout = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize (600),
+				HeightRequest = MyDevice.GetScaledSize (180),
+				BackgroundColor = Color.White,
+				Padding = 0
 			};
 
-			mTotalPriceLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = MyDevice.FontSizeSmall,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
+			var backgroundImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize (62),
+				HeightRequest = MyDevice.GetScaledSize (82),
+				Aspect = Aspect.Fill,
+				Source = "TrackPage_TrackBackground"
+			};
+
+			var totalPriceLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (455),
+				HeightRequest = MyDevice.GetScaledSize (26),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Start,
+				TextColor = Color.FromRgb (98, 98, 98),
 				Text = "Total Price: " + status.TotalPrice + " AED",
-				BackgroundColor = Color.White
+				FontSize = MyDevice.FontSizeMicro	
 			};
 
-			mDateLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = MyDevice.FontSizeSmall,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = "Date: " + status.Date,
-				BackgroundColor = Color.White
+			DateTime statusDate = DateTime.Now;
+
+			DateTime.TryParse(status.Date,out statusDate);				
+
+			var dateLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (455),
+				HeightRequest = MyDevice.GetScaledSize (26),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Start,
+				TextColor = Color.FromRgb (98, 98, 98),
+				Text = "Date: " + statusDate.ToString ("MM/dd/yyyy") + " - Time: " + statusDate.ToString ("hh:mm:ss"),
+				FontSize = MyDevice.FontSizeMicro	
 			};
 
-			mRegionLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = MyDevice.FontSizeSmall,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
+			var regionLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (455),
+				HeightRequest = MyDevice.GetScaledSize (26),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Start,
+				TextColor = Color.FromRgb (98, 98, 98),
 				Text = "Region: " + status.Region,
-				BackgroundColor = Color.White
+				FontSize = MyDevice.FontSizeMicro	
 			};
 
-			mStatusLabel = new Label (){ 
-				TextColor = MyDevice.BlueColor,
-				FontSize = MyDevice.FontSizeSmall,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
+			var statusLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (455),
+				HeightRequest = MyDevice.GetScaledSize (50),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Start,
+				TextColor = Color.FromRgb (98, 98, 98),
 				Text = status.Status,
-				BackgroundColor = Color.White
+				FontSize = MyDevice.FontSizeMicro	
 			};
 
+			var line = new BoxView () {
+				WidthRequest = MyDevice.GetScaledSize (600),
+				HeightRequest = MyDevice.GetScaledSize (1),
+				Color = Color.FromRgb (181, 185, 187)
+			};
 
-			mainGrid.Children.Add (mTotalPriceLabel, 0, 0);
-			mainGrid.Children.Add (mDateLabel, 0, 1);
-			mainGrid.Children.Add (mRegionLabel, 0, 2);
-			mainGrid.Children.Add (mStatusLabel, 0, 3);
+			mainLayout.Children.Add (backgroundImage,
+				Constraint.Constant (MyDevice.GetScaledSize (42)),
+				Constraint.Constant (MyDevice.GetScaledSize (42))
+			);
+
+			mainLayout.Children.Add (totalPriceLabel,
+				Constraint.Constant (MyDevice.GetScaledSize (140)),
+				Constraint.Constant (MyDevice.GetScaledSize (26))
+			);
+
+			mainLayout.Children.Add (dateLabel,
+				Constraint.RelativeToView (totalPriceLabel, (p, sibling) => {
+					return sibling.Bounds.Left;	
+				}),
+				Constraint.RelativeToView (totalPriceLabel, (p, sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (2);	
+				})
+			);
+
+			mainLayout.Children.Add (regionLabel,
+				Constraint.RelativeToView (dateLabel, (p, sibling) => {
+					return sibling.Bounds.Left;	
+				}),
+				Constraint.RelativeToView (dateLabel, (p, sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (2);	
+				})
+			);
+
+			mainLayout.Children.Add (statusLabel,
+				Constraint.RelativeToView (regionLabel, (p, sibling) => {
+					return sibling.Bounds.Left;	
+				}),
+				Constraint.RelativeToView (regionLabel, (p, sibling) => {
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (2);	
+				})
+			);
+
+			mainLayout.Children.Add (line,
+				Constraint.Constant (0),
+				Constraint.Constant (MyDevice.GetScaledSize (179))
+			);
 
 			var tapGestureRecognizer = new TapGestureRecognizer ();
-			tapGestureRecognizer.Tapped += async (sender, e) => {
-
-				mainGrid.Opacity = 0.5f;
-				await Task.Delay (MyDevice.DelayTime);
-				SwitchColor();
-				mRootPage.mParent.LoadReceiptPage(mStatus);
-				mainGrid.Opacity = 1f;
+			tapGestureRecognizer.Tapped += (sender, e) => {
+				mRootPage.mParent.LoadReceiptPage (mStatus);
 			};
-			mainGrid.GestureRecognizers.Add (tapGestureRecognizer);
+			mainLayout.GestureRecognizers.Add (tapGestureRecognizer);
 
-			this.View = mainGrid;
-		}
-
-		private void SwitchColor()
-		{
-			if (mRootPage.mActiveTrackCell != null) {
-				mRootPage.mActiveTrackCell.mTotalPriceLabel.BackgroundColor = Color.White;
-				mRootPage.mActiveTrackCell.mDateLabel.BackgroundColor = Color.White;
-				mRootPage.mActiveTrackCell.mRegionLabel.BackgroundColor = Color.White;
-				mRootPage.mActiveTrackCell.mStatusLabel.BackgroundColor = Color.White;
-			}
-
-			mRootPage.mActiveTrackCell = this;
-
-			mTotalPriceLabel.BackgroundColor = MyDevice.RedColor;
-			mDateLabel.BackgroundColor = MyDevice.RedColor;
-			mRegionLabel.BackgroundColor = MyDevice.RedColor;
-			mStatusLabel.BackgroundColor = MyDevice.RedColor;
+			this.View = mainLayout;
 		}
 	}
 }

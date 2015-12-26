@@ -82,7 +82,17 @@ namespace bluemart.Models.Remote
 				var orderObjects = orderQuery.FindAsync ().Result;
 
 				foreach (var order in orderObjects) {				
-					var productOrderList = order.Get<IEnumerable<object>> (ParseConstants.ORDERS_ATTRIBUTE_ORDERARRAY).Cast<string> ().ToList ();
+					List<string> productOrderList = new List<string>();
+
+					var orderString = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ORDERARRAY);
+					var orderObjectList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OrderObject>>(orderString);
+					foreach (var orderobject in orderObjectList) {
+						string orderObjectString = "Quantity:" + orderobject.Quantity + ";" + 
+							"Product:" + orderobject.Product + ";" + "Description:" + 
+							orderobject.Description + ";" + "Price:" + orderobject.Price;
+						productOrderList.Add (orderObjectString);
+					}
+
 					var region = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_REGION);
 					int status = order.Get<int> (ParseConstants.ORDERS_ATTRIBUTE_STATUS);
 					var date = order.CreatedAt.ToString ();
@@ -112,7 +122,15 @@ namespace bluemart.Models.Remote
 				var orderObjects = orderQuery.FindAsync ().Result;
 
 				foreach (var order in orderObjects) {				
-					var productOrderList = order.Get<IEnumerable<object>> (ParseConstants.ORDERS_ATTRIBUTE_ORDERARRAY).Cast<string> ().ToList ();
+					List<string> productOrderList = new List<string>();
+					var orderString = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ORDERARRAY);
+					var orderObjectList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OrderObject>>(orderString);
+					foreach (var orderobject in orderObjectList) {
+						string orderObjectString = "Quantity:" + orderobject.Quantity + ";" + 
+							"Product:" + orderobject.Product + ";" + "Description:" + 
+							orderobject.Description + ";" + "Price:" + orderobject.Price;
+						productOrderList.Add (orderObjectString);
+					}
 					var region = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_REGION);
 					var date = order.CreatedAt.ToString ();
 					var totalPrice = CalculateTotalPrice (productOrderList).ToString ();
@@ -136,7 +154,7 @@ namespace bluemart.Models.Remote
 			double totalPrice = 0.0f;
 
 			foreach (string order in productOrderList) {
-				var orderProperty = order.Split (',') [3];
+				var orderProperty = order.Split (';') [3];
 				var orderPrice = orderProperty.Split (':') [1];
 				totalPrice += Double.Parse(orderPrice);
 			}

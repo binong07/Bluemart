@@ -253,8 +253,6 @@ namespace bluemart.Common.ViewCells
 				})
 			);
 
-
-
 			AddTapRecognizers ();
 			UpdateNumberLabel ();
 
@@ -295,7 +293,7 @@ namespace bluemart.Common.ViewCells
 			);
 		}
 
-		private void DeactivateAddMenu()
+		public void DeactivateAddMenu()
 		{
 			mProductForegroundImage.Source = null;
 			mProductNumberLabel.IsVisible = false;

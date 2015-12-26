@@ -222,15 +222,28 @@ namespace bluemart.MainViews
 				mCurrentPage = pageName;
 				break;
 			case "Track":
-				mTrackPage.PopulateListView ();
-				mFooter.ChangeColorOfLabel (mFooter.mTrackLabel);
-				mFooter.ChangeImageOfButton (4);
 				SwitchContent (mTrackPage.Content);
 				mCurrentPage = pageName;
 				break;
 			default:
 				break;
 			}
+		}
+
+		public void LoadTrackPage ()
+		{
+			if (mBrowseProductPage != null) {
+				mBrowseProductPage.ClearContainers ();
+				mBrowseProductPage.Content = null;
+				mBrowseProductPage = null;
+				GC.Collect ();
+			}
+			mCurrentPage = "";
+
+			mCurrentPageParent = "BrowseCategories";
+
+			mTrackPage = new TrackPage (this);
+			SwitchContent (mTrackPage.Content);
 		}
 
 		public void LoadSettingsPage ()
