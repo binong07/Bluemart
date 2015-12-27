@@ -470,7 +470,7 @@ namespace bluemart
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "01/11/2015",
+				Text = "",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -480,7 +480,7 @@ namespace bluemart
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Omer Gurel",
+				Text = "Please Add An Adress For Order",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -490,7 +490,7 @@ namespace bluemart
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Goril apt. Gurel 7/32 Dubai Marina /AE",
+				Text = "",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -500,7 +500,7 @@ namespace bluemart
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "+25 123 456 768",
+				Text = "",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -509,7 +509,7 @@ namespace bluemart
 				HeightRequest = MyDevice.GetScaledSize(54),
 				HorizontalTextAlignment = TextAlignment.Center,
 				VerticalTextAlignment = TextAlignment.Center,
-				TextColor = Color.FromRgb(202,221,191),
+				TextColor = Color.White,
 				Text = "CHANGE ADDRESS",
 				FontSize = MyDevice.FontSizeMicro
 			};
@@ -749,18 +749,24 @@ namespace bluemart
 			agreeTapRecognizer.Tapped += async (sender, e) => {
 				if (mObject == null) {
 					if (MyDevice.GetNetworkStatus () != "NotReachable") {
-
-						bool OrderSucceeded = OrderModel.SendOrderToRemote (mUserModel).Result;
-
-						if (OrderSucceeded)
-							await DisplayAlert ("Order Sent", "Your order has been sent, please follow your order through the “Track” section.", "OK");
+						if(mAddressModel.GetActiveAddress (mUserModel.ActiveRegion)==null)
+						{
+							await DisplayAlert ("No Address", "Please Add An Address.", "OK");
+						}
 						else
-							await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
+						{
+							bool OrderSucceeded = OrderModel.SendOrderToRemote (mUserModel).Result;
 
-						mParent.mBrowseCategoriesPage.CartStackLayout.Children.Clear();
-						Cart.ProductTotalPrice = 0;
-						Cart.ProductsInCart.Clear();
-						mParent.SwitchTab ("BrowseCategories");
+							if (OrderSucceeded)
+								await DisplayAlert ("Order Sent", "Your order has been sent, please follow your order through the “Track” section.", "OK");
+							else
+								await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
+
+							mParent.mBrowseCategoriesPage.CartStackLayout.Children.Clear();
+							Cart.ProductTotalPrice = 0;
+							Cart.ProductsInCart.Clear();
+							mParent.SwitchTab ("BrowseCategories");
+						}
 					} else {
 						await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
 					}

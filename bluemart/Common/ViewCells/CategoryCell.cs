@@ -40,6 +40,14 @@ namespace bluemart.Common.ViewCells
 				Source = ImageSource.FromFile(category.CategoryImagePath)
 			};
 
+			Label shadowCategoryText = new Label (){
+				FontSize = MyDevice.FontSizeMedium, 
+				BackgroundColor = Color.Transparent, 
+				TextColor = Color.Black,
+				FontAttributes = FontAttributes.Bold,
+				Text = category.Name
+			};
+
 			Label categoryText = new Label (){
 				FontSize = MyDevice.FontSizeMedium, 
 				BackgroundColor = Color.Transparent, 
@@ -59,7 +67,14 @@ namespace bluemart.Common.ViewCells
 				Constraint.Constant (MyDevice.GetScaledSize(11)),
 				Constraint.Constant (MyDevice.GetScaledSize(11))
 			);
-
+			mainRelativeLayout.Children.Add (shadowCategoryText,
+				Constraint.RelativeToView (categoryImage, (p, sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize (12);
+				}),
+				Constraint.RelativeToView (categoryImage, (p, sibling) => {
+					return sibling.Bounds.Bottom - MyDevice.GetScaledSize (45);
+				})
+			);
 			mainRelativeLayout.Children.Add (categoryText,
 				Constraint.RelativeToView (categoryImage, (p, sibling) => {
 					return sibling.Bounds.Left + MyDevice.GetScaledSize (12);

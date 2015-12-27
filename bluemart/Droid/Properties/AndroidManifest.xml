@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.app1001.bluemart">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.app1001.bluemartV3">
 	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="23" />
 	<application android:label="bluemart" android:icon="@drawable/icon1" android:theme="@style/MyTheme">
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyDgEtPUqd6LNE5LZBNh3rEW96gGuuyEwKk" />

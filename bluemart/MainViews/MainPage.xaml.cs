@@ -150,15 +150,18 @@ namespace bluemart.MainViews
 			return true;
 			//return base.OnBackButtonPressed ();
 		}
+		public View lastSelectedRegion;
 
 		private void PopulatePopup()
 		{
 			//MainRelativeLayout.BackgroundColor = MyDevice.BlueColor;
-			MainRelativeLayout.BackgroundColor = Color.FromRgba ( MyDevice.BlueColor.R, MyDevice.BlueColor.G, MyDevice.BlueColor.B,0.5f);
+			MainRelativeLayout.BackgroundColor = Color.FromRgba ( MyDevice.GreyColor.R, MyDevice.GreyColor.G, MyDevice.GreyColor.B,0.5f);
 			mRegions.Clear ();
 			mPopupListView.WidthRequest = MyDevice.GetScaledSize(360);
 			mPopupListView.SeparatorVisibility = SeparatorVisibility.None;
 			mPopupListView.SeparatorColor = Color.Transparent;
+			mPopupListView.SelectedItem = null;
+
 			var cell = new DataTemplate (typeof(RegionCell));
 
 			foreach (var region in RegionHelper.locationList) {
@@ -167,7 +170,6 @@ namespace bluemart.MainViews
 
 			mPopupListView.ItemTemplate = cell;
 			mPopupListView.ItemsSource = mRegions;
-
 			PopulateConfirmationGrid ();
 
 			mPopupLayout = new StackLayout {
@@ -185,8 +187,9 @@ namespace bluemart.MainViews
 			{
 				string region = mUserModel.GetActiveRegionFromUser ();
 				foreach (var item in mPopupListView.ItemsSource) {
-					if ((item as RegionClass).Region == region)
+					if ((item as RegionClass).Region == region) {
 						mPopupListView.SelectedItem = item;
+					}
 				}
 			}
 
@@ -220,9 +223,9 @@ namespace bluemart.MainViews
 			mOKButton = new Button () {
 				Text = "OK",
 				BackgroundColor = Color.White,
-				TextColor = MyDevice.RedColor,
-				BorderColor = MyDevice.BlueColor,
-				BorderWidth = 2
+				TextColor = MyDevice.GreyColor,
+				BorderColor = MyDevice.GreyColor,
+				BorderWidth = 1
 			};
 
 			mOKButton.Clicked += (sender, e) => {
@@ -241,9 +244,9 @@ namespace bluemart.MainViews
 			mCancelButton = new Button () { 
 				Text = "CANCEL",
 				BackgroundColor = Color.White,
-				TextColor = MyDevice.RedColor,
-				BorderColor = MyDevice.BlueColor,
-				BorderWidth = 2
+				TextColor = MyDevice.GreyColor,
+				BorderColor = MyDevice.GreyColor,
+				BorderWidth = 1
 			};
 
 			mCancelButton.Clicked += (sender, e) => {
