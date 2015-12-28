@@ -43,6 +43,9 @@ namespace bluemart.MainViews
 		public Label subtotalPriceLabel;
 		public Label checkoutPriceLabel;
 
+		private RelativeLayout InputBlockerForSwipeMenus;
+		private TapGestureRecognizer InputBlockerForSwipeMenusTap = new TapGestureRecognizer();
+
 		public BrowseCategoriesPage (RootPage parent)
 		{		
 			InitializeComponent ();
@@ -76,6 +79,21 @@ namespace bluemart.MainViews
 				SearchEntry.Unfocus();
 			};
 			InputBlocker.GestureRecognizers.Add(inputBlockerTapRecogniser);
+
+			/*InputBlockerForSwipeMenus = new RelativeLayout () {
+				WidthRequest = MyDevice.ScreenWidth,
+				HeightRequest = MyDevice.ScreenHeight,
+				Padding = 0
+			};*/
+
+
+
+			/*InputBlockerForSwipeMenusTap.Tapped += (sender, e) => {				
+				if(IsMenuOpen)
+					ActivateOrDeactivateMenu();
+				else if(IsCartOpen)
+					ActivateOrDeactivateCart();
+			};*/
 
 
 			InitializeHeaderLayout ();
@@ -557,14 +575,21 @@ namespace bluemart.MainViews
 			if (!IsMenuOpen) {
 				menuRectangle = new Rectangle (new Point (MyDevice.GetScaledSize(mMenuWidth), 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mMenuWidth), 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
+
+				//InputBlockerForSwipeMenus.GestureRecognizers.Add(InputBlockerForSwipeMenusTap);
+
 			} else {
 				menuRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (0), 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (0, 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
 
+				//InputBlockerForSwipeMenus.GestureRecognizers.Remove(InputBlockerForSwipeMenusTap);
 			}
 				
 			mMenuLayout.TranslateTo (menuRectangle.X,menuRectangle.Y, 500, Easing.Linear);
 			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, 500, Easing.Linear);
+
+
+				
 
 			IsMenuOpen = !IsMenuOpen;
 		}
@@ -577,6 +602,7 @@ namespace bluemart.MainViews
 			if (!IsCartOpen) {
 				cartRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mCartWidth*-1), 0), new Size (mCartLayout.Bounds.Width, mCartLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mCartWidth*-1), 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
+				//mMidLayout.GestureRecognizers.Add(InputBlockerForSwipeMenusTap);
 
 				subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 				checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
@@ -591,6 +617,7 @@ namespace bluemart.MainViews
 			} else {
 				cartRectangle = new Rectangle (new Point (0, 0), new Size (mCartLayout.Bounds.Width, mCartLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (0, 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
+				//mMidLayout.GestureRecognizers.Remove(InputBlockerForSwipeMenusTap);
 			}
 
 			mCartLayout.TranslateTo (cartRectangle.X,cartRectangle.Y, 500, Easing.Linear);
@@ -758,6 +785,10 @@ namespace bluemart.MainViews
 				Constraint.Constant(MyDevice.ScreenHeight-MyDevice.GetScaledSize(87)-MyDevice.GetScaledSize(73)-MyDevice.GetScaledSize(1)-MyDevice.GetScaledSize(51))
 			);
 
+			/*mMidLayout.Children.Add (InputBlockerForSwipeMenus,
+				Constraint.Constant (0),
+				Constraint.Constant (0)
+			);*/
 		}
 
 		private void InitializeCartLayout()

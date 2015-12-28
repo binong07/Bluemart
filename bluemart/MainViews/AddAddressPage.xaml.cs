@@ -1004,6 +1004,9 @@ namespace bluemart.MainViews
 			SurNameEntry.Completed += (sender, e) => {
 				AddressEntry.Focus ();
 			};
+			SurNameEntry.Focused += (sender, e) => {
+				Translate(MyDevice.GetScaledSize(-200));
+			};
 			#endregion
 			#region AddressEntry
 			AddressEntry.TextChanged += (sender, e) => {
@@ -1015,7 +1018,7 @@ namespace bluemart.MainViews
 				AddressDescriptionEntry.Focus ();
 			};
 			AddressEntry.Focused += (sender, e) => {
-				Translate(-400);
+				Translate(MyDevice.GetScaledSize(-650));
 			};
 			#endregion
 			#region AddressDescriptionEntry
@@ -1028,7 +1031,7 @@ namespace bluemart.MainViews
 				PhoneEntry.Focus ();
 			};
 			AddressDescriptionEntry.Focused += (sender, e) => {
-				Translate(-400);
+				Translate(MyDevice.GetScaledSize(-650));
 			};
 			#endregion
 			#region PhoneEntry
@@ -1047,7 +1050,7 @@ namespace bluemart.MainViews
 				SetSubmitButton ();
 			};
 			PhoneEntry.Focused += (sender, e) => {
-				Translate(-400);
+				Translate(MyDevice.GetScaledSize(-650));
 			};
 			PhoneEntry.Completed += (sender, e) => {
 				Translate(0);

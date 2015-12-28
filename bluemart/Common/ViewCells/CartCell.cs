@@ -190,6 +190,29 @@ namespace bluemart
 			deleteButtonTapRecogniser.Tapped += (sender, e) => {
 				Cart.ProductTotalPrice -= (mProduct.ProductNumberInCart-1)*mProduct.Price;
 				mProduct.ProductNumberInCart = 1;
+
+				if (mParentPage is BrowseProductsPage) {	
+					foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
+						if (productCell.mProduct.ProductID == mProduct.ProductID) {
+							productCell.DeactivateAddMenu ();
+						}
+					}
+				}
+				else if (mParentPage is SearchPage) {	
+					foreach (var productCell in (mParentPage as SearchPage).mProductCellList) {
+						if (productCell.mProduct.ProductID == mProduct.ProductID) {
+							productCell.DeactivateAddMenu ();
+						}
+					}
+				}
+				else if (mParentPage is FavoritesPage) {				
+					foreach (var productCell in (mParentPage as FavoritesPage).mProductCellList) {
+						if (productCell.mProduct.ProductID == mProduct.ProductID) {
+							productCell.DeactivateAddMenu ();
+						}
+					}
+				}
+
 				RemoveProductFromCart();
 			};
 			deleteButton.GestureRecognizers.Add (deleteButtonTapRecogniser);
@@ -496,43 +519,51 @@ namespace bluemart
 			Cart.ProductTotalPrice -= mProduct.Price;
 			UpdatePriceLabel();
 
-			if (mParentPage is BrowseCategoriesPage) {					
+
+			if (mParentPage is BrowseCategoriesPage) {		
+				
 				(mParentPage as BrowseCategoriesPage).UpdateProductCountLabel();
 				(mParentPage as BrowseCategoriesPage).UpdatePriceLabel();
 				(mParentPage as BrowseCategoriesPage).subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 				(mParentPage as BrowseCategoriesPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 			}
-			else if (mParentPage is BrowseProductsPage) {	
+			else if (mParentPage is BrowseProductsPage) {
 				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
 					if (productCell.mProduct.ProductID == mProduct.ProductID) {
-						productCell.DeactivateAddMenu ();
+						if (mProduct.ProductNumberInCart == 0) {
+							productCell.DeactivateAddMenu ();
+						}
+						productCell.UpdateNumberLabel ();
 					}
 				}
-
 				(mParentPage as BrowseProductsPage).UpdateProductCountLabel();
 				(mParentPage as BrowseProductsPage).UpdatePriceLabel();
 				(mParentPage as BrowseProductsPage).subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 				(mParentPage as BrowseProductsPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 			}
-			else if (mParentPage is SearchPage) {	
-				foreach (var productCell in (mParentPage as SearchPage).mProductCellList) {
+			else if (mParentPage is SearchPage) {
+				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
 					if (productCell.mProduct.ProductID == mProduct.ProductID) {
-						productCell.DeactivateAddMenu ();
+						if (mProduct.ProductNumberInCart == 0) {
+							productCell.DeactivateAddMenu ();
+						}
+						productCell.UpdateNumberLabel ();
 					}
 				}
-
 				(mParentPage as SearchPage).UpdateProductCountLabel();
 				(mParentPage as SearchPage).UpdatePriceLabel();
 				(mParentPage as SearchPage).subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 				(mParentPage as SearchPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 			}
-			else if (mParentPage is FavoritesPage) {				
-				foreach (var productCell in (mParentPage as FavoritesPage).mProductCellList) {
+			else if (mParentPage is FavoritesPage) {	
+				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
 					if (productCell.mProduct.ProductID == mProduct.ProductID) {
-						productCell.DeactivateAddMenu ();
+						if (mProduct.ProductNumberInCart == 0) {
+							productCell.DeactivateAddMenu ();
+						}
+						productCell.UpdateNumberLabel ();
 					}
 				}
-
 				(mParentPage as FavoritesPage).UpdateProductCountLabel();
 				(mParentPage as FavoritesPage).UpdatePriceLabel();
 				(mParentPage as FavoritesPage).subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
@@ -561,13 +592,36 @@ namespace bluemart
 				(mParentPage as BrowseCategoriesPage).subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 				(mParentPage as BrowseCategoriesPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 			}
-			else if (mParentPage is SearchPage) {					
+			else if (mParentPage is BrowseProductsPage) {
+				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
+					if (productCell.mProduct.ProductID == mProduct.ProductID) {
+						productCell.UpdateNumberLabel ();
+					}
+				}
+				(mParentPage as BrowseProductsPage).UpdateProductCountLabel();
+				(mParentPage as BrowseProductsPage).UpdatePriceLabel();
+				(mParentPage as BrowseProductsPage).subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
+				(mParentPage as BrowseProductsPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
+			}
+			else if (mParentPage is SearchPage) {	
+				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
+					if (productCell.mProduct.ProductID == mProduct.ProductID) {
+						productCell.UpdateNumberLabel ();
+					}
+				}
+
 				(mParentPage as SearchPage).UpdateProductCountLabel();
 				(mParentPage as SearchPage).UpdatePriceLabel();
 				(mParentPage as SearchPage).subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 				(mParentPage as SearchPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 			}
-			else if (mParentPage is FavoritesPage) {					
+			else if (mParentPage is FavoritesPage) {	
+				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
+					if (productCell.mProduct.ProductID == mProduct.ProductID) {
+						productCell.UpdateNumberLabel ();
+					}
+				}
+
 				(mParentPage as FavoritesPage).UpdateProductCountLabel();
 				(mParentPage as FavoritesPage).UpdatePriceLabel();
 				(mParentPage as FavoritesPage).subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
