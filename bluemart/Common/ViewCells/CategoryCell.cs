@@ -40,7 +40,7 @@ namespace bluemart.Common.ViewCells
 				Source = ImageSource.FromFile(category.CategoryImagePath)
 			};
 
-			Label shadowCategoryText = new Label (){
+			/*Label shadowCategoryText = new Label (){
 				FontSize = MyDevice.FontSizeMedium, 
 				BackgroundColor = Color.Transparent, 
 				TextColor = Color.Black,
@@ -54,7 +54,7 @@ namespace bluemart.Common.ViewCells
 				TextColor = Color.White,
 				Text = category.Name
 			};
-
+*/
 			var tapGestureRecognizer = new TapGestureRecognizer ();
 
 			tapGestureRecognizer.Tapped += (sender, e) => {
@@ -67,7 +67,7 @@ namespace bluemart.Common.ViewCells
 				Constraint.Constant (MyDevice.GetScaledSize(11)),
 				Constraint.Constant (MyDevice.GetScaledSize(11))
 			);
-			mainRelativeLayout.Children.Add (shadowCategoryText,
+			/*mainRelativeLayout.Children.Add (shadowCategoryText,
 				Constraint.RelativeToView (categoryImage, (p, sibling) => {
 					return sibling.Bounds.Left + MyDevice.GetScaledSize (12);
 				}),
@@ -82,7 +82,7 @@ namespace bluemart.Common.ViewCells
 				Constraint.RelativeToView (categoryImage, (p, sibling) => {
 					return sibling.Bounds.Bottom - MyDevice.GetScaledSize (45);
 				})
-			);
+			);*/
 
 			this.View = mainRelativeLayout;
 		}

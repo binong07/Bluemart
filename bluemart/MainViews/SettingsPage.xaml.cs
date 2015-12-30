@@ -465,7 +465,7 @@ namespace bluemart.MainViews
 
 			var regionLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (509),
-				HeightRequest = MyDevice.GetScaledSize(25),
+				HeightRequest = MyDevice.GetScaledSize(30),
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),

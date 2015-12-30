@@ -429,7 +429,7 @@ namespace bluemart.MainViews
 			mTopLayout = new RelativeLayout () {
 				WidthRequest = MyDevice.GetScaledSize(640),
 				HeightRequest = MyDevice.GetScaledSize(87),
-				BackgroundColor = Color.FromRgb(246,182,58),
+				BackgroundColor = Color.FromRgb(7,94,173),
 				Padding = 0
 			};
 
@@ -647,7 +647,7 @@ namespace bluemart.MainViews
 			mSearchLayout = new RelativeLayout () {
 				WidthRequest = MyDevice.GetScaledSize(640),
 				HeightRequest = MyDevice.GetScaledSize(73),
-				BackgroundColor = Color.FromRgb(246,182,58),
+			BackgroundColor = Color.FromRgb(7,94,173),
 				Padding = 0
 			};
 
