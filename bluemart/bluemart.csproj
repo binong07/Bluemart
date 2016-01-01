@@ -820,5 +820,6 @@
     <EmbeddedResource Include="SavedImages\30 BEIRUT BAKERY BURGER BUN X6.jpg" />
     <EmbeddedResource Include="SavedImages\77 DANISH CINNAMON.jpg" />
     <EmbeddedResource Include="SavedImages\2 PUCK SPREADABLE CREAM CHEESE.jpg" />
+    <EmbeddedResource Include="SavedImages\ProductsPage_AddFavorites.png" />
   </ItemGroup>
 </Project>

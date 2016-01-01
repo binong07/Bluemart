@@ -16,7 +16,8 @@ namespace bluemart.Common.ViewCells
 {
 	public class ProductCell : ViewCell
 	{
-		public Image mFavoriteImage;
+		public Image mRemoveFavoriteImage;
+		public Image mAddFavoriteImage;
 		public Image mProductImage;
 		public Image mBorderImage;
 		public Image mProductForegroundImage;
@@ -30,7 +31,8 @@ namespace bluemart.Common.ViewCells
 
 		public Stream mProductImageStream;
 		public Stream mBorderStream;
-		public Stream mFavoriteStream;
+		public Stream mRemoveFavoriteStream;
+		public Stream mAddFavoriteStream;
 		public Stream mProductForegroundStream;
 
 		public bool bIsImageSet=false;
@@ -69,15 +71,18 @@ namespace bluemart.Common.ViewCells
 
 
 			mainRelativeLayout = new RelativeLayout(){
-				Padding = 0
+				Padding = 0,
+				WidthRequest = MyDevice.GetScaledSize (300),
+				HeightRequest = MyDevice.GetScaledSize (377),
+				BackgroundColor = Color.White
 			};
 
-			mBorderImage = new Image ()
+			/*mBorderImage = new Image ()
 			{
 				WidthRequest = MyDevice.GetScaledSize (300),
 				HeightRequest = MyDevice.GetScaledSize (377),
 				Aspect = Aspect.Fill
-			};					
+			};*/					
 
 			mProductImage = new Image ()
 			{
@@ -123,7 +128,16 @@ namespace bluemart.Common.ViewCells
 				HeightRequest = MyDevice.GetScaledSize(65)
 			};
 
-			mFavoriteImage = new Image()
+
+
+			mRemoveFavoriteImage = new Image()
+			{
+				WidthRequest = MyDevice.GetScaledSize(42),
+				HeightRequest = MyDevice.GetScaledSize(35),
+				Aspect = Aspect.Fill			
+			};
+
+			mAddFavoriteImage = new Image()
 			{
 				WidthRequest = MyDevice.GetScaledSize(42),
 				HeightRequest = MyDevice.GetScaledSize(35),
@@ -146,9 +160,15 @@ namespace bluemart.Common.ViewCells
 				IsVisible = false
 			};
 
-			var addButton = new RelativeLayout () {
+			var addButton = new Label () {
 				WidthRequest = MyDevice.GetScaledSize(118),
-				HeightRequest = MyDevice.GetScaledSize(64)
+				HeightRequest = MyDevice.GetScaledSize(64),
+				BackgroundColor = Color.FromRgb(213,53,53),
+				HorizontalTextAlignment = TextAlignment.Center,
+				VerticalTextAlignment = TextAlignment.Center,
+				Text = "ADD",
+				TextColor = Color.White,
+				FontSize = MyDevice.FontSizeSmall
 			};
 
 			mMinusButton = new RelativeLayout () {
@@ -171,18 +191,14 @@ namespace bluemart.Common.ViewCells
 			};		
 			addButton.GestureRecognizers.Add (addButtonTapGestureRecognizer);
 
-			mainRelativeLayout.Children.Add (mBorderImage,
+			/*mainRelativeLayout.Children.Add (mBorderImage,
 				Constraint.Constant (MyDevice.GetScaledSize(0)),
 				Constraint.Constant (MyDevice.GetScaledSize(0))
-			);
+			);*/
 
 			mainRelativeLayout.Children.Add (mProductImage,
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
-					return sibling.Bounds.Left + MyDevice.GetScaledSize(24);
-				}),
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
-					return sibling.Bounds.Top + MyDevice.GetScaledSize(52);
-				})
+				Constraint.Constant(MyDevice.GetScaledSize(24)),
+				Constraint.Constant(MyDevice.GetScaledSize(52))
 			);
 
 			mainRelativeLayout.Children.Add (productNameLabel,
@@ -212,46 +228,57 @@ namespace bluemart.Common.ViewCells
 				})
 			);
 
+			mainRelativeLayout.Children.Add (addButton,
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(159);
+				}),
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(307);
+				})
+			);
+
 			mainRelativeLayout.Children.Add (mProductForegroundImage,
 				Constraint.Constant (MyDevice.GetScaledSize(0)),
 				Constraint.Constant (MyDevice.GetScaledSize(0))
 			);
 
 			mainRelativeLayout.Children.Add (mProductNumberLabel,
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Left + MyDevice.GetScaledSize(113);
 				}),
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Top + MyDevice.GetScaledSize(162);
 				})
 			);
 
 			mainRelativeLayout.Children.Add (mFavoriteButton,
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Right - MyDevice.GetScaledSize(74);
 				}),
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Top;
 				})
 			);
 
-			mainRelativeLayout.Children.Add (mFavoriteImage,
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+			mainRelativeLayout.Children.Add (mRemoveFavoriteImage,
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Right - MyDevice.GetScaledSize(58);
 				}),
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Top + MyDevice.GetScaledSize(19);
 				})
 			);
 
-			mainRelativeLayout.Children.Add (addButton,
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
-					return sibling.Bounds.Left + MyDevice.GetScaledSize(159);
+			mainRelativeLayout.Children.Add (mAddFavoriteImage,
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Right - MyDevice.GetScaledSize(58);
 				}),
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
-					return sibling.Bounds.Top + MyDevice.GetScaledSize(307);
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(19);
 				})
 			);
+
+
 
 			AddTapRecognizers ();
 			UpdateNumberLabel ();
@@ -260,7 +287,9 @@ namespace bluemart.Common.ViewCells
 				ActivateAddMenu ();
 
 			if (bIsFavorite)
-				ActivateFavorite ();
+				ActivateRemoveFavorite ();
+			else
+				ActivateAddFavorite ();
 
 			this.View = mainRelativeLayout;
 		}
@@ -275,19 +304,19 @@ namespace bluemart.Common.ViewCells
 			mProductNumberLabel.IsVisible = true;
 
 			mainRelativeLayout.Children.Add (mMinusButton,
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Left + MyDevice.GetScaledSize(28);
 				}),
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Top + MyDevice.GetScaledSize(152);
 				})
 			);
 
 			mainRelativeLayout.Children.Add (mPlusButton,
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Left + MyDevice.GetScaledSize(209);
 				}),
-				Constraint.RelativeToView(mBorderImage, (p,sibling) => {
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
 					return sibling.Bounds.Top + MyDevice.GetScaledSize(160);
 				})
 			);
@@ -302,28 +331,42 @@ namespace bluemart.Common.ViewCells
 			mainRelativeLayout.Children.Remove (mMinusButton);
 		}
 
-		public void ActivateFavorite()
+		public void ActivateRemoveFavorite()
 		{
-			mFavoriteStream = new MemoryStream ();
+			mRemoveFavoriteStream = new MemoryStream ();
 			mRootPage.mRemoveFavoritesImage.Position = 0;
-			mRootPage.mRemoveFavoritesImage.CopyToAsync(mFavoriteStream);
-			mFavoriteStream.Position = 0;
-			mFavoriteImage.Source = StreamImageSource.FromStream (() => mFavoriteStream);
+			mRootPage.mRemoveFavoritesImage.CopyToAsync(mRemoveFavoriteStream);
+			mRemoveFavoriteStream.Position = 0;
+			mRemoveFavoriteImage.Source = StreamImageSource.FromStream (() => mRemoveFavoriteStream);
 		}
 
-		public void DeactivateFavorite()
+		public void DeactivateRemoveFavorite()
 		{
-			mFavoriteImage.Source = null;
+			mRemoveFavoriteImage.Source = null;
+		}
+
+		public void ActivateAddFavorite()
+		{
+			mAddFavoriteStream = new MemoryStream ();
+			mRootPage.mAddFavoritesImage.Position = 0;
+			mRootPage.mAddFavoritesImage.CopyToAsync(mAddFavoriteStream);
+			mAddFavoriteStream.Position = 0;
+			mAddFavoriteImage.Source = StreamImageSource.FromStream (() => mAddFavoriteStream);
+		}
+
+		public void DeactivateAddFavorite()
+		{
+			mAddFavoriteImage.Source = null;
 		}
 
 		public void ProduceStreamsAndImages()
 		{			
-			mBorderStream = new MemoryStream();
+			/*mBorderStream = new MemoryStream();
 			mRootPage.mBorderImage.Position = 0;
 			mRootPage.mBorderImage.CopyToAsync(mBorderStream);
 			mBorderStream.Position = 0;
 			
-			mBorderImage.Source = StreamImageSource.FromStream(() => mBorderStream);
+			mBorderImage.Source = StreamImageSource.FromStream(() => mBorderStream);*/
 
 			//mProductForegroundImage.Source = StreamImageSource.FromStream(() => mProductForegroundStream);
 		}
@@ -412,17 +455,26 @@ namespace bluemart.Common.ViewCells
 				{
 					bIsFavorite = true;
 					mFavoriteModel.AddProductID(mProduct.ProductID);
-					ActivateFavorite();
+					ActivateRemoveFavorite();
+					DeactivateAddFavorite();
 					if(mPairCell != null )
-						mPairCell.ActivateFavorite();
+					{
+						mPairCell.ActivateRemoveFavorite();
+						mPairCell.DeactivateAddFavorite();
+					}
 				}
 				else
 				{		
 					bIsFavorite = false;
 					mFavoriteModel.RemoveProductID(mProduct.ProductID);
-					DeactivateFavorite();
+					ActivateAddFavorite();
+					DeactivateRemoveFavorite();
 					if(mPairCell != null )
-						mPairCell.DeactivateFavorite();
+					{
+						mPairCell.DeactivateRemoveFavorite();
+						mPairCell.ActivateAddFavorite();
+					}
+						
 
 					if( mParent is FavoritesPage )
 					{

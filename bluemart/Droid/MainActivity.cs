@@ -17,7 +17,7 @@ using Android.Util;
 
 namespace bluemart.Droid
 {
-	[Activity (Label = "bluemart", Icon = "@drawable/icon1", MainLauncher = true, ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+	[Activity (Label = "Meteoroloji Hava Durumu", Icon = "@drawable/icon1", MainLauncher = true, ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
 	public class MainActivity : XFormsApplicationDroid
 	{
 		protected override void OnCreate (Bundle bundle)
@@ -28,6 +28,8 @@ namespace bluemart.Droid
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
 				Xamarin.FormsMaps.Init(this, bundle);
+
+			MR.Gestures.Android.Settings.LicenseKey = "L3YX-TGF3-T54Z-KVQT-M7UJ-PKF4-2RFM-WNKR-6UCV-LZ3L-8XCU-QJKY-K34W";
 			//Necessary IOC Code To Get Device Properties
 			var container = new SimpleContainer ();
 			container.Register<IDevice> (t => AndroidDevice.CurrentDevice);

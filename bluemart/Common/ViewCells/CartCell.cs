@@ -56,7 +56,7 @@ namespace bluemart
 				BackgroundColor = Color.FromRgb(253,59,47)
 			};
 
-			var cellLayout = new RelativeLayout () {
+			var cellLayout = new MR.Gestures.RelativeLayout () {
 				HeightRequest = MyDevice.GetScaledSize(148),
 				WidthRequest = MyDevice.GetScaledSize(535),
 				Padding = 0,
@@ -177,6 +177,7 @@ namespace bluemart
 			};
 
 			var cartTapRecogniser = new TapGestureRecognizer ();
+
 			cartTapRecogniser.Tapped += (sender, e) => {
 				if( !IsOpen )
 					cellLayout.TranslateTo( MyDevice.GetScaledSize(-164),0,300,Easing.Linear);
@@ -184,7 +185,17 @@ namespace bluemart
 					cellLayout.TranslateTo( MyDevice.GetScaledSize(0),0,300,Easing.Linear);
 				IsOpen = !IsOpen;
 			};
+
 			cellLayout.GestureRecognizers.Add (cartTapRecogniser);
+
+			cellLayout.Swiped += (object sender, MR.Gestures.SwipeEventArgs e) => 
+			{
+				if( !IsOpen && e.Direction == MR.Gestures.Direction.Left )
+					cellLayout.TranslateTo( MyDevice.GetScaledSize(-164),0,300,Easing.Linear);
+				else if( IsOpen && e.Direction == MR.Gestures.Direction.Right )
+					cellLayout.TranslateTo( MyDevice.GetScaledSize(0),0,300,Easing.Linear);
+				IsOpen = !IsOpen;	
+			};
 
 			var deleteButtonTapRecogniser = new TapGestureRecognizer ();
 			deleteButtonTapRecogniser.Tapped += (sender, e) => {

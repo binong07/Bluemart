@@ -19,11 +19,11 @@ namespace bluemart.MainViews
 		public RootPage mParent;
 		public string mCategoryID;
 
-		private int mLoadSize = 30;
+		private int mLoadSize = 50;
 		private int mLastLoadedIndex = 0;
 		private int mLastScrollIndex = 0;
 		private bool bIsImagesProduced = false;
-		private int mInitialLoadSize = 4;
+		private int mInitialLoadSize = 10;
 		//Containers
 		private Dictionary<string,List<Product>> mProductDictionary;
 		private List<Label> mButtonList;
@@ -1590,11 +1590,11 @@ namespace bluemart.MainViews
 				Grid2.RowDefinitions.Add (new RowDefinition ());
 			}*/
 			ProductGrid.Padding = new Thickness (MyDevice.GetScaledSize(12), 0, 0, 0); 
-			ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (0);
+			ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (10);
 			/*ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2});
 			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2}); */
-			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.ScreenWidth/2});
-			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.ScreenWidth/2});
+			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.GetScaledSize (300)});
+			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.GetScaledSize (300)});
 		}			
 	}
 }

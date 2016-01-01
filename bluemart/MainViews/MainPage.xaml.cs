@@ -19,8 +19,11 @@ namespace bluemart.MainViews
 	public partial class MainPage : ContentPage
 	{				
 		UserClass mUserModel = new UserClass ();
-		StackLayout mPopupLayout;
-		ListView mPopupListView = new ListView ();	
+		RelativeLayout mPopupLayout;
+		StackLayout mPopupStackLayout;
+		ScrollView mPopupScrollView;	
+		Label mActiveLabel;
+		List<Label> mLabelList = new List<Label> ();
 		List<RegionClass> mRegions = new List<RegionClass> ();
 		Grid mConfirmationGrid;
 		Button mOKButton;
@@ -143,7 +146,7 @@ namespace bluemart.MainViews
 				//return true;	
 			}
 
-			if (bIsPopuplayoutInitialized && mPopupLayout.IsVisible) {
+			if (bIsPopuplayoutInitialized && mPopupStackLayout.IsVisible) {
 				DismissPopup();
 
 			}
@@ -157,110 +160,131 @@ namespace bluemart.MainViews
 			//MainRelativeLayout.BackgroundColor = MyDevice.BlueColor;
 			MainRelativeLayout.BackgroundColor = Color.FromRgba ( MyDevice.GreyColor.R, MyDevice.GreyColor.G, MyDevice.GreyColor.B,0.5f);
 			mRegions.Clear ();
-			mPopupListView.WidthRequest = MyDevice.GetScaledSize(360);
-			mPopupListView.SeparatorVisibility = SeparatorVisibility.None;
-			mPopupListView.SeparatorColor = Color.Transparent;
-			mPopupListView.SelectedItem = null;
+			mPopupLayout = new RelativeLayout () {
+				BackgroundColor = Color.White,
+				WidthRequest = MyDevice.GetScaledSize(369),
+				HeightRequest = MyDevice.GetScaledSize(543)
+			};
 
-			var cell = new DataTemplate (typeof(RegionCell));
+			mPopupStackLayout = new StackLayout () {
+				Orientation = StackOrientation.Vertical
+			};
 
 			foreach (var region in RegionHelper.locationList) {
-				mRegions.Add (new RegionClass (region));
-			}
-
-			mPopupListView.ItemTemplate = cell;
-			mPopupListView.ItemsSource = mRegions;
-			PopulateConfirmationGrid ();
-
-			mPopupLayout = new StackLayout {
-				WidthRequest = MyDevice.GetScaledSize (360),
-				BackgroundColor = Color.White,
-				Orientation = StackOrientation.Vertical,
-				Children =
-				{
-					mPopupListView,
-					mConfirmationGrid
-				}
-			};
-			
-			if(  mUserModel.GetActiveRegionFromUser () != "" )
-			{
-				string region = mUserModel.GetActiveRegionFromUser ();
-				foreach (var item in mPopupListView.ItemsSource) {
-					if ((item as RegionClass).Region == region) {
-						mPopupListView.SelectedItem = item;
-					}
-				}
-			}
-
-			MainRelativeLayout.Children.Add (mPopupLayout,
-				Constraint.Constant (MyDevice.GetScaledSize(140)),
-				Constraint.Constant (MyDevice.GetScaledSize(100))
-			);
-			bIsPopuplayoutInitialized = true;	
-		}
-
-		private void PopulateConfirmationGrid()
-		{
-			mConfirmationGrid = new Grid()
-			{
-				Padding = new Thickness(0,0,0,MyDevice.ViewPadding/2),
-				ColumnSpacing = MyDevice.ViewPadding,
-				RowSpacing = 0,
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.Center,
-				RowDefinitions = 
-				{
-					new RowDefinition { Height = GridLength.Auto }
-				},
-				ColumnDefinitions =
-				{
-					new ColumnDefinition { Width = MyDevice.GetScaledSize(180) - MyDevice.ViewPadding},
-					new ColumnDefinition { Width = MyDevice.GetScaledSize(180) - MyDevice.ViewPadding},
-				}
+				var label = new Label () {
+					WidthRequest = MyDevice.GetScaledSize(365),
+					HeightRequest = MyDevice.GetScaledSize(50),
+					HorizontalTextAlignment = TextAlignment.Center,
+					VerticalTextAlignment = TextAlignment.Center,
+					TextColor = Color.FromRgb(77,77,77),
+					Text = region,
+					FontSize = MyDevice.FontSizeSmall
 				};
 
-			mOKButton = new Button () {
-				Text = "OK",
-				BackgroundColor = Color.White,
-				TextColor = MyDevice.GreyColor,
-				BorderColor = MyDevice.GreyColor,
-				BorderWidth = 1
-			};
-
-			mOKButton.Clicked += (sender, e) => {
-				if(mPopupListView.SelectedItem != null )
-				{
-					DismissPopup();
-					string region = (mPopupListView.SelectedItem as RegionClass).Region;
-					mUserModel.AddActiveRegionToUser (region);
-					CategoryModel.CategoryLocation = mPopupListView.SelectedItem.ToString();
-					mRootPage.ReloadStreams();
-					mRootPage.SwitchTab("BrowseCategories");
-					Navigation.PushAsync( mRootPage );
+				if (region == mUserModel.GetActiveRegionFromUser ()) {
+					mActiveLabel = label;
+					ActivateLabel (label);
 				}
+
+				var labelTapRecogniser = new TapGestureRecognizer ();
+				labelTapRecogniser.Tapped += (sender, e) => {
+					ActivateLabel(label);
+				};
+
+				label.GestureRecognizers.Add (labelTapRecogniser);
+
+				mPopupStackLayout.Children.Add (label);
+			}
+
+			mPopupScrollView = new ScrollView () {
+				Orientation = ScrollOrientation.Vertical,
+				Content = mPopupStackLayout
 			};
 
-			mCancelButton = new Button () { 
+			mCancelButton = new ExtendedButton () {
+				WidthRequest = MyDevice.GetScaledSize(124),
+				HeightRequest = MyDevice.GetScaledSize(60),
+				BorderWidth = 1,
+				HorizontalContentAlignment = TextAlignment.Center,
+				VerticalContentAlignment = TextAlignment.Center,
+				TextColor = Color.White,
+				BackgroundColor = Color.FromRgb(213,53,53),
 				Text = "CANCEL",
-				BackgroundColor = Color.White,
-				TextColor = MyDevice.GreyColor,
-				BorderColor = MyDevice.GreyColor,
-				BorderWidth = 1
+				FontSize = MyDevice.FontSizeMicro
 			};
-
 			mCancelButton.Clicked += (sender, e) => {
 				DismissPopup();
 			};
 
+			mOKButton = new ExtendedButton () {
+				WidthRequest = MyDevice.GetScaledSize(105),
+				HeightRequest = MyDevice.GetScaledSize(60),
+				BorderWidth = 1,
+				HorizontalContentAlignment = TextAlignment.Center,
+				VerticalContentAlignment = TextAlignment.Center,
+				TextColor = Color.White,
+				BackgroundColor = Color.FromRgb(132,178,98),
+				Text = "OK",
+				FontSize = MyDevice.FontSizeMicro
+			};
+			mOKButton.Clicked += (sender, e) => {
+				if(mActiveLabel != null )
+				{
+					DismissPopup();
+					string region = mActiveLabel.Text;
+					mUserModel.AddActiveRegionToUser (region);
+					CategoryModel.CategoryLocation = mActiveLabel.Text;
+					mRootPage.ReloadStreams();
+					mRootPage.SwitchTab("BrowseCategories");
+					Navigation.PushAsync( mRootPage );
+				}
+			};				
 
-			mConfirmationGrid.Children.Add (mCancelButton, 0, 0);
-			mConfirmationGrid.Children.Add (mOKButton, 1, 0);
+			MainRelativeLayout.Children.Add (mPopupLayout,
+				Constraint.Constant (MyDevice.GetScaledSize(136)),
+				Constraint.Constant (MyDevice.GetScaledSize(190))
+			);
+
+			mPopupLayout.Children.Add(mPopupScrollView,
+				Constraint.Constant (MyDevice.GetScaledSize(2)),
+				Constraint.Constant (MyDevice.GetScaledSize(60)),
+				Constraint.Constant (MyDevice.GetScaledSize(365)),
+				Constraint.Constant (MyDevice.GetScaledSize(362))
+			);
+
+			mPopupLayout.Children.Add(mCancelButton,
+				Constraint.Constant (MyDevice.GetScaledSize(37)),
+				Constraint.Constant (MyDevice.GetScaledSize(457))
+			);
+
+			mPopupLayout.Children.Add(mOKButton,
+				Constraint.RelativeToView (mCancelButton, (p,sibling) => {
+					return sibling.Bounds.Right + MyDevice.GetScaledSize(64);
+				}),
+				Constraint.RelativeToView (mCancelButton, (p,sibling) => {
+					return sibling.Bounds.Top;
+				})
+			);
+
+			bIsPopuplayoutInitialized = true;	
 		}
+
+		private void ActivateLabel(Label label)
+		{
+			if (mActiveLabel != null) {
+				mActiveLabel.TextColor = Color.FromRgb(77,77,77);
+				mActiveLabel.BackgroundColor = Color.Transparent;
+			}
+			mActiveLabel = label;
+			mActiveLabel.TextColor = Color.White;
+			mActiveLabel.BackgroundColor = Color.FromRgb (132, 178, 98);
+
+		}			
 
 		private void DismissPopup()
 		{
-			mPopupLayout.IsVisible = false;
+			MainRelativeLayout.Children.Remove (mPopupLayout);
+			//mPopupLayout.IsVisible = false;
 		}
 	}
 }

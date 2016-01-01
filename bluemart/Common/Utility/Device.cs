@@ -30,6 +30,7 @@ namespace bluemart.Common.Utilities
 		public static double FontSizeSmall = ScreenWidth/25.7;
 		public static double FontSizeMedium = ScreenWidth/20.0;
 		public static double FontSizeLarge = ScreenWidth/16.3;
+		public static double SwipeDistance = ScreenWidth / 2;
 
 		public static string GetNetworkStatus()
 		{

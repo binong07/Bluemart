@@ -8,29 +8,13 @@ namespace bluemart.Common.ViewCells
 	{		
 		public Label mLabel;
 		//public static Label selectedLabel;
-		public RegionCell ()
+		public RegionCell (string regionText)
 		{
 			mLabel = new Label ();
 			mLabel.TextColor = MyDevice.GreyColor;
-			mLabel.XAlign = TextAlignment.Center;
-			mLabel.YAlign = TextAlignment.Center;
-			mLabel.SetBinding (Label.TextProperty, "Region");
-			/*mLabel.GestureRecognizers.Add(new TapGestureRecognizer
-				{
-					Command = new Command(() =>
-						{
-							if(selectedLabel!=null)
-								selectedLabel.BackgroundColor=Color.White;
-							selectedLabel=mLabel;
-							mLabel.BackgroundColor = MyDevice.PinkColor;
-						})
-				});
-			
+			mLabel.HorizontalTextAlignment = TextAlignment.Center;
+			mLabel.VerticalTextAlignment = TextAlignment.Center;
 
-			mLabel.Unfocused += (sender, args) => {
-				mLabel.BackgroundColor = Color.White;
-			};
-			SelectedItemChangedEventArgs*/
 			this.View = mLabel;
 		}
 	}
