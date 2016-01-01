@@ -9,6 +9,7 @@ using bluemart.Models.Remote;
 using System.Linq;
 using bluemart.Models.Local;
 using System.IO;
+using FFImageLoading.Forms;
 
 namespace bluemart.Common.ViewCells
 {
@@ -32,12 +33,16 @@ namespace bluemart.Common.ViewCells
 			mProductDictionary = new Dictionary<string, List<Product>> ();
 			mUser = new UserClass ();
 
-			Image categoryImage = new Image ()
+			CachedImage categoryImage = new CachedImage ()
 			{
 				WidthRequest = MyDevice.GetScaledSize (619),
 				HeightRequest = MyDevice.GetScaledSize (202),
-				Aspect = Aspect.Fill,
-				Source = ImageSource.FromFile(category.CategoryImagePath)
+				Source = category.CategoryImagePath,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false
 			};
 
 			/*Label shadowCategoryText = new Label (){

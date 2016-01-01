@@ -13,6 +13,8 @@ using XLabs.Ioc;
 using XLabs.Platform.Services;
 using Parse;
 using Android.Util;
+using FFImageLoading.Forms.Droid;
+using FFImageLoading;
 
 
 namespace bluemart.Droid
@@ -30,6 +32,8 @@ namespace bluemart.Droid
 				Xamarin.FormsMaps.Init(this, bundle);
 
 			MR.Gestures.Android.Settings.LicenseKey = "L3YX-TGF3-T54Z-KVQT-M7UJ-PKF4-2RFM-WNKR-6UCV-LZ3L-8XCU-QJKY-K34W";
+			CachedImageRenderer.Init ();
+			//ImageService.Initialize(
 			//Necessary IOC Code To Get Device Properties
 			var container = new SimpleContainer ();
 			container.Register<IDevice> (t => AndroidDevice.CurrentDevice);

@@ -1409,7 +1409,7 @@ namespace bluemart.MainViews
 			LoadAllProducts();
 			ManageQueuesInBackground ();
 			PopulateProductCellInBackground ();
-			EraseProductCellInBackground ();
+			//EraseProductCellInBackground ();
 			CheckIfLastIndexChanged ();
 
 			//LoadInitialImages ();
@@ -1563,7 +1563,7 @@ namespace bluemart.MainViews
 
 				mProductCellList.Add (productCell);					
 
-				productCell.ProduceStreamsAndImages ();	
+				//productCell.ProduceStreamsAndImages ();	
 				ProductGrid.Children.Add (productCell.View, productIndex % 2, productIndex / 2);			
 
 

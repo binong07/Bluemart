@@ -10,17 +10,18 @@ using System.IO;
 using System.Reflection;
 using PCLStorage;
 using System.Linq;
+using FFImageLoading.Forms;
 
 
 namespace bluemart.Common.ViewCells
 {
 	public class ProductCell : ViewCell
 	{
-		public Image mRemoveFavoriteImage;
-		public Image mAddFavoriteImage;
-		public Image mProductImage;
+		public CachedImage mRemoveFavoriteImage;
+		public CachedImage mAddFavoriteImage;
+		public CachedImage mProductImage;
 		public Image mBorderImage;
-		public Image mProductForegroundImage;
+		public CachedImage mProductForegroundImage;
 
 		private Label mProductNumberLabel;
 		public Product mProduct;
@@ -44,7 +45,7 @@ namespace bluemart.Common.ViewCells
 
 		public ProductCell (Grid parentGrid, Product product, Page parent)
 		{		
-				
+
 			double width = (MyDevice.ScreenWidth-parentGrid.ColumnSpacing-MyDevice.ViewPadding)/2;
 			mParent = parent;
 			SetRootPage ();
@@ -84,12 +85,30 @@ namespace bluemart.Common.ViewCells
 				Aspect = Aspect.Fill
 			};*/					
 
-			mProductImage = new Image ()
+			mProductImage = new CachedImage ()
 			{
 				WidthRequest = MyDevice.GetScaledSize(250),
 				HeightRequest = MyDevice.GetScaledSize(198),
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				Source = mProduct.ProductImagePath,
+				FadeAnimationEnabled = false
 			};
+
+			/*var background = new CachedImage () {
+				WidthRequest = MyDevice.GetScaledSize (300),
+				HeightRequest = MyDevice.GetScaledSize (377),
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				Source = "ProductsPage_ProductCell"
+			};*/
+
 
 			Label productNameLabel = new Label (){ 
 				FontSize = MyDevice.FontSizeMicro, 
@@ -130,24 +149,44 @@ namespace bluemart.Common.ViewCells
 
 
 
-			mRemoveFavoriteImage = new Image()
+			mRemoveFavoriteImage = new CachedImage()
 			{
 				WidthRequest = MyDevice.GetScaledSize(42),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Aspect = Aspect.Fill			
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				Source = "CartPage_RemoveFavorites",
+				IsVisible = false,
+				FadeAnimationEnabled = false
 			};
 
-			mAddFavoriteImage = new Image()
+			mAddFavoriteImage = new CachedImage()
 			{
 				WidthRequest = MyDevice.GetScaledSize(42),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Aspect = Aspect.Fill			
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				Source = "CartPage_AddFavorites",
+				IsVisible = false,
+				FadeAnimationEnabled = false		
 			};
 
-			mProductForegroundImage = new Image () {
+			mProductForegroundImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize (300),
 				HeightRequest = MyDevice.GetScaledSize (377),
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				Source = "ProductsPage_ProductForeground",
+				IsVisible = false,
 			};
 
 			mProductNumberLabel = new Label (){ 
@@ -185,7 +224,7 @@ namespace bluemart.Common.ViewCells
 			addButtonTapGestureRecognizer.Tapped += (sender, e) => {
 				if( mProductNumberLabel.IsVisible )
 					return;
-				
+
 				AddProductInCart ();
 				ActivateAddMenu();
 			};		
@@ -194,6 +233,11 @@ namespace bluemart.Common.ViewCells
 			/*mainRelativeLayout.Children.Add (mBorderImage,
 				Constraint.Constant (MyDevice.GetScaledSize(0)),
 				Constraint.Constant (MyDevice.GetScaledSize(0))
+			);*/
+
+			/*mainRelativeLayout.Children.Add (background,
+			Constraint.Constant(MyDevice.GetScaledSize(0)),
+			Constraint.Constant(MyDevice.GetScaledSize(0))
 			);*/
 
 			mainRelativeLayout.Children.Add (mProductImage,
@@ -296,11 +340,11 @@ namespace bluemart.Common.ViewCells
 
 		private void ActivateAddMenu()
 		{			
-			mProductForegroundStream = new MemoryStream ();
+			/*mProductForegroundStream = new MemoryStream ();
 			mRootPage.mProductCellForeground.Position = 0;
 			mRootPage.mProductCellForeground.CopyToAsync(mProductForegroundStream);
 			mProductForegroundStream.Position = 0;
-			mProductForegroundImage.Source = StreamImageSource.FromStream(() => mProductForegroundStream);
+			mProductForegroundImage.Source = StreamImageSource.FromStream(() => mProductForegroundStream);*/
 			mProductNumberLabel.IsVisible = true;
 
 			mainRelativeLayout.Children.Add (mMinusButton,
@@ -324,7 +368,7 @@ namespace bluemart.Common.ViewCells
 
 		public void DeactivateAddMenu()
 		{
-			mProductForegroundImage.Source = null;
+			//mProductForegroundImage.Source = null;
 			mProductNumberLabel.IsVisible = false;
 
 			mainRelativeLayout.Children.Remove (mPlusButton);
@@ -333,30 +377,34 @@ namespace bluemart.Common.ViewCells
 
 		public void ActivateRemoveFavorite()
 		{
-			mRemoveFavoriteStream = new MemoryStream ();
+			mRemoveFavoriteImage.IsVisible = true;
+			/*mRemoveFavoriteStream = new MemoryStream ();
 			mRootPage.mRemoveFavoritesImage.Position = 0;
 			mRootPage.mRemoveFavoritesImage.CopyToAsync(mRemoveFavoriteStream);
 			mRemoveFavoriteStream.Position = 0;
-			mRemoveFavoriteImage.Source = StreamImageSource.FromStream (() => mRemoveFavoriteStream);
+			mRemoveFavoriteImage.Source = StreamImageSource.FromStream (() => mRemoveFavoriteStream);*/
 		}
 
 		public void DeactivateRemoveFavorite()
 		{
-			mRemoveFavoriteImage.Source = null;
+			mRemoveFavoriteImage.IsVisible = false;
+			//mRemoveFavoriteImage.Source = null;
 		}
 
 		public void ActivateAddFavorite()
 		{
-			mAddFavoriteStream = new MemoryStream ();
+			mAddFavoriteImage.IsVisible = true;
+			/*mAddFavoriteStream = new MemoryStream ();
 			mRootPage.mAddFavoritesImage.Position = 0;
 			mRootPage.mAddFavoritesImage.CopyToAsync(mAddFavoriteStream);
 			mAddFavoriteStream.Position = 0;
-			mAddFavoriteImage.Source = StreamImageSource.FromStream (() => mAddFavoriteStream);
+			mAddFavoriteImage.Source = StreamImageSource.FromStream (() => mAddFavoriteStream);*/
 		}
 
 		public void DeactivateAddFavorite()
 		{
-			mAddFavoriteImage.Source = null;
+			mAddFavoriteImage.IsVisible = false;
+			//mAddFavoriteImage.Source = null;
 		}
 
 		public void ProduceStreamsAndImages()
@@ -375,7 +423,7 @@ namespace bluemart.Common.ViewCells
 		{			
 			System.Diagnostics.Debug.WriteLine (mProduct.ProductImagePath);
 
-			var file = mRootPage.mFolder.GetFileAsync (mProduct.ProductImagePath).Result;
+			/*var file = mRootPage.mFolder.GetFileAsync (mProduct.ProductImagePath).Result;
 			Stream stream = new MemoryStream();
 			mProductImageStream = new MemoryStream ();
 			try
@@ -391,9 +439,10 @@ namespace bluemart.Common.ViewCells
 			stream.Dispose ();
 			stream = null;
 
-			mProductImageStream.Position = 0;
+			mProductImageStream.Position = 0;*/
 
-			mProductImage.Source = StreamImageSource.FromStream (()=>mProductImageStream);
+			//mProductImage.Source = StreamImageSource.FromStream (()=>mProductImageStream);
+			mProductImage.Source = mProduct.ProductImagePath;
 		}
 
 		public void ClearStreamsAndImages()
@@ -402,7 +451,7 @@ namespace bluemart.Common.ViewCells
 				mProductImageStream.Dispose ();									
 			}
 		}
-			
+
 		private void SetRootPage()
 		{
 			if( mParent is BrowseProductsPage)
@@ -425,7 +474,7 @@ namespace bluemart.Common.ViewCells
 			addButtonTapGestureRecognizer.Tapped += async (sender, e) => {
 				if( CheckIfSearchEntryIsFocused() )
 					return;
-				
+
 				AddProductInCart();
 				await Task.Delay(MyDevice.DelayTime);
 			};
@@ -443,7 +492,7 @@ namespace bluemart.Common.ViewCells
 			};
 			mMinusButton.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
 			//mInsideGrid2.Children [0].GestureRecognizers.Add (removeButtonTapGestureRecognizer);
-		//	mRemoveImage.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
+			//	mRemoveImage.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
 
 			var favoriteButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			favoriteButtonTapGestureRecognizer.Tapped += (sender, e) => {
@@ -474,7 +523,7 @@ namespace bluemart.Common.ViewCells
 						mPairCell.DeactivateRemoveFavorite();
 						mPairCell.ActivateAddFavorite();
 					}
-						
+
 
 					if( mParent is FavoritesPage )
 					{
@@ -489,7 +538,7 @@ namespace bluemart.Common.ViewCells
 
 		private void AddProductToFavorites()
 		{
-			
+
 		}
 
 		public void UpdateNumberLabel()
@@ -533,11 +582,11 @@ namespace bluemart.Common.ViewCells
 		{
 			bool bFocused = false;
 
-				
+
 
 			return bFocused;
 		}
-		 
+
 		private void AddProductInCart()
 		{
 			if (!Cart.ProductsInCart.Contains (mProduct)) 
@@ -561,8 +610,8 @@ namespace bluemart.Common.ViewCells
 				(mParent as SearchPage).UpdatePriceLabel ();
 				(mParent as SearchPage).UpdateProductCountLabel ();
 			}
-				
-			
+
+
 			UpdateNumberLabel ();
 			if (mPairCell != null)
 				mPairCell.UpdateNumberLabel ();			
