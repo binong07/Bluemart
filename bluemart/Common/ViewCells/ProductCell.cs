@@ -12,6 +12,8 @@ using PCLStorage;
 using System.Linq;
 using FFImageLoading.Forms;
 
+using XLabs.Forms.Controls;
+using TwinTechs.Extensions;
 
 namespace bluemart.Common.ViewCells
 {
