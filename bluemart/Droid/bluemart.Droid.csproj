@@ -144,6 +144,9 @@
     <Reference Include="FFImageLoading.Forms.Droid">
       <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.0.2\lib\MonoAndroid10\FFImageLoading.Forms.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.22.2.0.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bluemart.csproj">
@@ -157,6 +160,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\ExtendedMapRenderer.cs" />
     <Compile Include="FontsOverride.cs" />
+    <Compile Include="XLabs\Controls\GridView\GridViewAdapter.cs" />
+    <Compile Include="XLabs\Controls\GridView\GridViewCellContainer.cs" />
+    <Compile Include="XLabs\Controls\GridView\GridViewRenderer.cs" />
+    <Compile Include="TwinTechs\Droid\Controls\FastCellCache.cs" />
+    <Compile Include="TwinTechs\Droid\Controls\FastCellRenderer.cs" />
+    <Compile Include="TwinTechs\Droid\Controls\FastGridCellCache.cs" />
+    <Compile Include="TwinTechs\Droid\Controls\PageViewContainerRenderer.cs" />
+    <Compile Include="TwinTechs\Droid\Controls\ViewMaskExtensionProvider.cs" />
+    <Compile Include="TwinTechs\Droid\Extensions\ViewExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -171,6 +183,13 @@
     <Folder Include="Renderers\" />
     <Folder Include="Assets\fonts\" />
     <Folder Include="Resources\fonts\" />
+    <Folder Include="XLabs\" />
+    <Folder Include="XLabs\Controls\" />
+    <Folder Include="XLabs\Controls\GridView\" />
+    <Folder Include="TwinTechs\" />
+    <Folder Include="TwinTechs\Droid\" />
+    <Folder Include="TwinTechs\Droid\Controls\" />
+    <Folder Include="TwinTechs\Droid\Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
@@ -227,6 +246,10 @@
   <ItemGroup>
     <XamarinComponentReference Include="parse">
       <Version>1.6.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="xamandroidsupportv7recyclerview">
+      <Version>22.2.0.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

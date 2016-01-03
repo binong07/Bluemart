@@ -43,7 +43,7 @@ namespace bluemart.MainViews
 		List<ProductCell> mTopSellingProductCellList = new List<ProductCell> ();
 
 		ScrollView ProductScrollView;
-		Grid ProductGrid;
+		GridView2 ProductGrid;
 
 		private RelativeLayout SubcategoryLayout;
 		private ScrollView SubcategoryScrollView;
@@ -1272,7 +1272,7 @@ namespace bluemart.MainViews
 
 		private void InitializeBottomLayout()
 		{
-			ProductGrid = new Grid () {
+			/*ProductGrid = new Grid () {
 				Padding = 0
 			};
 
@@ -1281,16 +1281,40 @@ namespace bluemart.MainViews
 			ProductScrollView = new ScrollView () {
 				Orientation = ScrollOrientation.Vertical,
 				Content = ProductGrid
-			};
+			};*/
+			ProductGrid = new GridView2(){};
+			//ProductGrid.Padding = new Thickness (MyDevice.GetScaledSize(13), 0, 0, MyDevice.GetScaledSize(13)); 
+			//ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (13);
+			ProductGrid.ContentPaddingLeft = MyDevice.GetScaledSize (10);
+			ProductGrid.ContentPaddingRight = MyDevice.GetScaledSize (10);
+			ProductGrid.WidthRequest = MyDevice.ScreenWidth;
+			//ProductGrid.IsContentCentered = true;
+			ProductGrid.RowSpacing = MyDevice.GetScaledSize (10);
+			ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (10);
+			ProductGrid.ItemWidth = MyDevice.GetScaledSize (300);
+			ProductGrid.ItemHeight = MyDevice.GetScaledSize (377);
+			ProductGrid.SelectionEnabled = false;
+			ProductGrid.ItemTemplate = new DataTemplate (typeof(ProductCellNew));
 
 
+			var valueList = mProductDictionary.Values.Cast<List<Product>> ().ToList();
+			//var tempProductList = new List<Product> ();
+			foreach (var products in valueList) {
+				if (products.Count > 0) {
+					mCategoryIndexList.Add (mProductList.Count);
+					foreach (var tempProduct in products) {					
+						mProductList.Add (tempProduct);	
+					}
+				}
+			}
+			ProductGrid.ItemsSource = mProductList;
 
-			mMidLayout.Children.Add (ProductScrollView,
+			mMidLayout.Children.Add (ProductGrid,
 				Constraint.Constant(0),
 				Constraint.RelativeToView (mSearchLayout, (parent, sibling) => {
 					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(64);
 				}),
-				Constraint.Constant(MyDevice.GetScaledSize(630)),
+				Constraint.Constant(MyDevice.ScreenWidth),
 				Constraint.Constant(MyDevice.ScreenHeight-MyDevice.GetScaledSize(87)-MyDevice.GetScaledSize(73)-MyDevice.GetScaledSize(1)-MyDevice.GetScaledSize(117))
 			);
 		}
@@ -1324,7 +1348,7 @@ namespace bluemart.MainViews
 				mMidLayout.Children.Remove(InputBlocker);
 			};
 
-			ProductScrollView.Scrolled += OnScrolled;
+			//ProductScrollView.Scrolled += OnScrolled;
 		}
 
 
@@ -1393,13 +1417,13 @@ namespace bluemart.MainViews
 
 		private async Task WaitUntilCorrespondingSubCategoryLoaded(int productCellIndex)
 		{
-			mParent.mActivityIndicator.IsRunning = true;
+			/*mParent.mActivityIndicator.IsRunning = true;
 			ProductScrollView.IsVisible = false;
 			while (ProductGrid.Children.Count-2 < productCellIndex) {
 				await Task.Delay (100);
 			}
 			mParent.mActivityIndicator.IsRunning = false;
-			ProductScrollView.IsVisible = true;
+			ProductScrollView.IsVisible = true;*/
 		}
 
 		private void PopulateTopSelling()
@@ -1409,7 +1433,7 @@ namespace bluemart.MainViews
 
 		private void  OnScrolled( Object sender, ScrolledEventArgs e)
 		{
-			if (DecideIfIsUpOrDown (sender as ScrollView) == "Down") {
+			/*if (DecideIfIsUpOrDown (sender as ScrollView) == "Down") {
 				if (mActiveButtonIndex + 1 != mCategoryIndexList.Count) {
 					int productCellIndex = mCategoryIndexList [mActiveButtonIndex + 1];
 					try {
@@ -1465,7 +1489,7 @@ namespace bluemart.MainViews
 
 					mLastLoadedIndex = endIndex;
 				}
-			}					
+			}*/					
 		}				
 
 
@@ -1486,7 +1510,7 @@ namespace bluemart.MainViews
 
 		private async void FocusSelectedButton(Label selectedButton)
 		{			
-			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);			
+		/*	mActiveButtonIndex = mButtonList.IndexOf (selectedButton);			
 			int productCellIndex = mCategoryIndexList [mActiveButtonIndex];
 			ChangeSelectedButton ();
 
@@ -1506,7 +1530,7 @@ namespace bluemart.MainViews
 			}
 			catch{
 				System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");
-			}				
+			}	*/			
 		}
 
 		private void ChangeSelectedButton()
@@ -1639,7 +1663,7 @@ namespace bluemart.MainViews
 
 		private async void LoadLimitedNumberOfProducts(int count)
 		{	
-			foreach (var product in mProductList) {
+			/*foreach (var product in mProductList) {
 				int productIndex = mProductList.IndexOf (product);
 				if (productIndex == count)
 					break;
@@ -1652,7 +1676,7 @@ namespace bluemart.MainViews
 				productCell.ProduceStreamsAndImages ();
 				 
 				await Task.Delay (100);
-			}
+			}*/
 		}
 
 		private int CheckIfProductIsInTopSellingListAndReturnIndex(Product p)
@@ -1669,7 +1693,7 @@ namespace bluemart.MainViews
 
 	 	private async void LoadAllProducts()
 		{	
-			foreach (var product in mProductList) {
+			/*foreach (var product in mProductList) {
 				int productIndex = mProductList.IndexOf (product);
 				ProductCell productCell;
 
@@ -1707,7 +1731,7 @@ namespace bluemart.MainViews
 					mProductList.Clear ();
 					break; 
 				}
-			}
+			}*/
 		}
 
 		private void SetGrid2Definitions()
@@ -1718,12 +1742,14 @@ namespace bluemart.MainViews
 			{
 				Grid2.RowDefinitions.Add (new RowDefinition ());
 			}*/
+			/*
 			ProductGrid.Padding = new Thickness (MyDevice.GetScaledSize(12), 0, 0, 0); 
-			ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (10);
+			ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (10);*/
 			/*ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2});
 			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2}); */
+			/*
 			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.GetScaledSize (300)});
-			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.GetScaledSize (300)});
+			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.GetScaledSize (300)});*/
 		}			
 	}
 }
