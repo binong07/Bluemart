@@ -5,14 +5,15 @@ using bluemart.Common.Objects;
 using System.Threading.Tasks;
 using bluemart.MainViews;
 using bluemart.Models.Local;
+using FFImageLoading.Forms;
 
 namespace bluemart
 {
 	public class CartCell : ViewCell
 	{
-		private Image mAddImage;
-		private Image mRemoveImage;
-		private Image mFavoriteImage;
+		private CachedImage mAddImage;
+		private CachedImage mRemoveImage;
+		private CachedImage mFavoriteImage;
 		private Label mProductNumberLabel;
 		private Label mProductPriceLabel;
 		private Product mProduct;
@@ -63,24 +64,39 @@ namespace bluemart
 				BackgroundColor=Color.FromRgb(51,51,51)
 			};
 
-			var productImage = new Image () {
+			var productImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(126),
 				HeightRequest = MyDevice.GetScaledSize(122),
-				Aspect = Aspect.AspectFit,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = product.ProductImagePath
 			};
 
-			var imageMask = new Image () {
+			var imageMask = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(126),
 				HeightRequest = MyDevice.GetScaledSize(122),
-				Aspect = Aspect.Fill,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = "CartPage_ImageMask"
 			};
 
-			mFavoriteImage = new Image () {
+			mFavoriteImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(39),
 				HeightRequest = MyDevice.GetScaledSize(32),
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var favoriteButton = new RelativeLayout () {
@@ -126,10 +142,15 @@ namespace bluemart
 				Text = product.Quantity
 			};
 
-			mRemoveImage = new Image () {
+			mRemoveImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(27),
 				HeightRequest = MyDevice.GetScaledSize(21),
-				Aspect = Aspect.Fill,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = "CartPage_RemoveProduct"
 			};
 
@@ -152,10 +173,15 @@ namespace bluemart
 
 			UpdateNumberLabel ();
 
-			mAddImage = new Image () {
+			mAddImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(27),
 				HeightRequest = MyDevice.GetScaledSize(21),
-				Aspect = Aspect.Fill,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = "CartPage_AddProduct"
 			};
 
@@ -376,68 +402,6 @@ namespace bluemart
 
 			mainCellView.Children.Add (mainLayout, 0, 0);
 			mainCellView.Children.Add (bottomLayout, 0, 1);
-			/*double width = MyDevice.ScreenWidth - mainCellView.ColumnSpacing*6;
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = 0 } );
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width/10} );
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width*6/10 });
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width / 10});
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width / 10});
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = width / 10});
-			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = 0} );
-
-			Image productImage = new Image (){HorizontalOptions = LayoutOptions.Start};
-			productImage.Aspect = Aspect.AspectFill;
-			productImage.Source = product.ProductImagePath;
-			mainCellView.Children.Add (productImage, 1, 0);
-
-			#region InsideGrid 
-			Grid insideGrid = new Grid (){ ColumnSpacing = 0, RowSpacing = 0};
-			insideGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto } );
-			insideGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto } );
-			insideGrid.RowDefinitions.Add (new RowDefinition (){ Height = GridLength.Auto } );
-			insideGrid.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.ScreenWidth*6/10} );
-
-			Label nameLabel = new Label (){HorizontalOptions = LayoutOptions.Fill, FontSize = MyDevice.FontSizeSmall,TextColor = Color.Black};
-				nameLabel.Text = product.Name;
-				insideGrid.Children.Add (nameLabel, 0, 0);
-
-			mProductNumberLabel = new Label (){HorizontalOptions = LayoutOptions.Fill, FontSize = MyDevice.FontSizeMedium,TextColor = Color.Black};
-
-			insideGrid.Children.Add (mProductNumberLabel, 0, 1);
-
-			mProductPriceLabel = new Label (){HorizontalOptions = LayoutOptions.Fill, FontSize = MyDevice.FontSizeMedium,TextColor = Color.Black};
-			UpdatePriceLabel();
-			insideGrid.Children.Add (mProductPriceLabel, 0, 2);
-			#endregion
-
-			mainCellView.Children.Add (insideGrid, 2, 0);
-
-			mFavoriteImage = new Image();
-			if (!bIsFavorite) {
-				mFavoriteImage.Source = "bookmark_add";
-			} else {
-				mFavoriteImage.Source = "bookmark_remove";
-			}
-
-			mainCellView.Children.Add(mFavoriteImage,3,0);
-
-			#region row3insidegrid
-			mAddImage = new Image ();
-			mAddImage.Source = "plus";
-			mainCellView.Children.Add (mAddImage,4,0);
-
-			mRemoveImage = new Image ();
-			mRemoveImage.Source = "minus";
-			mainCellView.Children.Add (mRemoveImage,5,0	);
-			#endregion
-
-			UpdateNumberLabel();
-			AddTapRecognizers ();
-			//Calculate Total Price 		
-			//change PriceLabel
-			//Cart.ProductTotalPrice += product.Price * product.ProductNumberInCart / mQuantity;
-
-			Cart.ProductTotalPrice += product.Price * product.ProductNumberInCart;*/
 
 			this.View = mainCellView;
 		}

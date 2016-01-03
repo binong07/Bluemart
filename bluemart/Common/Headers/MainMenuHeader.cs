@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using bluemart.Common.Objects;
 using XLabs.Forms.Controls;
 using System.Linq;
+using FFImageLoading.Forms;
 
 namespace bluemart.Common.Headers
 {
@@ -44,9 +45,14 @@ namespace bluemart.Common.Headers
 				Padding = 0
 			};
 
-			var searchImage = new Image () {
+			var searchImage = new CachedImage () {
 				Source = "search",
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			mSearchButtonLayout.Children.Add(searchImage,

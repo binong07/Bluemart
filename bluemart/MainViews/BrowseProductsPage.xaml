@@ -3,6 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 			 xmlns:headers = "clr-namespace:bluemart.Common.Headers;assembly=bluemart"
 			 xmlns:common = "clr-namespace:bluemart.Common;assembly=bluemart"
+			 xmlns:mr="clr-namespace:MR.Gestures;assembly=MR.Gestures"		
 			 x:Class="bluemart.MainViews.BrowseProductsPage">	
 	<ContentPage.Padding>
 	        <OnPlatform x:TypeArguments="Thickness"
@@ -11,6 +12,6 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>
+		<mr:RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>     
 	</ContentPage.Content>
 </ContentPage>

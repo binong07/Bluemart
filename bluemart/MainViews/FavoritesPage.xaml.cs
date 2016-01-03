@@ -10,6 +10,7 @@ using System.Threading;
 using XLabs.Forms.Controls;
 using bluemart.Models.Local;
 using bluemart.Models.Remote;
+using FFImageLoading.Forms;
 
 namespace bluemart.MainViews
 {
@@ -77,6 +78,9 @@ namespace bluemart.MainViews
 		public Label subtotalPriceLabel;
 		public Label checkoutPriceLabel;
 
+		private RelativeLayout InputBlockerForSwipeMenu;
+		private RelativeLayout InputBlockerForSwipeCart;
+
 		public FavoritesPage (RootPage parent)
 		{					
 			InitializeComponent ();
@@ -96,9 +100,49 @@ namespace bluemart.MainViews
 		}
 
 		private void InitializeLayout()
-		{	
-			mainRelativeLayout.BackgroundColor = Color.FromRgb (236, 240, 241);
+		{				
 			mMidLayout = new RelativeLayout ();
+
+			Point totalDistance = new Point(0,0);
+
+			mainRelativeLayout.Panning += (object sender, MR.Gestures.PanEventArgs e) => {
+				totalDistance = e.TotalDistance;
+			};
+
+			mainRelativeLayout.Swiped += (object sender, MR.Gestures.SwipeEventArgs e) => {
+				if(e.Direction == MR.Gestures.Direction.Left)
+				{
+					if(!IsCartOpen&&!IsMenuOpen)
+						ActivateOrDeactivateCart();
+					else if(IsMenuOpen&&!IsCartOpen)
+						ActivateOrDeactivateMenu();					
+				}
+				else if( e.Direction == MR.Gestures.Direction.Right)
+				{
+					if(IsCartOpen&&!IsMenuOpen)
+						ActivateOrDeactivateCart();
+					else if(!IsMenuOpen&&!IsCartOpen)
+						ActivateOrDeactivateMenu();
+				}
+				else if( totalDistance.X != 0 && e.Direction == MR.Gestures.Direction.NotClear)
+				{
+					if( totalDistance.X < - MyDevice.SwipeDistance )
+					{
+						if(!IsCartOpen&&!IsMenuOpen)
+							ActivateOrDeactivateCart();
+						else if(IsMenuOpen&&!IsCartOpen)
+							ActivateOrDeactivateMenu();
+					}
+					else if( totalDistance.X > MyDevice.SwipeDistance )
+					{
+						if(IsCartOpen&&!IsMenuOpen)
+							ActivateOrDeactivateCart();
+						else if(!IsMenuOpen&&!IsCartOpen)
+							ActivateOrDeactivateMenu();
+					}
+				}
+			};
+
 			mainRelativeLayout.BackgroundColor = Color.FromRgb (236, 240, 241);
 			mainRelativeLayout.Children.Add (mMidLayout,
 				Constraint.Constant (0),
@@ -116,6 +160,17 @@ namespace bluemart.MainViews
 			};
 			InputBlocker.GestureRecognizers.Add(inputBlockerTapRecogniser);
 
+			InputBlockerForSwipeMenu = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(123),
+				HeightRequest = MyDevice.ScreenHeight,
+				Padding = 0
+			};
+
+			InputBlockerForSwipeCart = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(86),
+				HeightRequest = MyDevice.ScreenHeight,
+				Padding = 0
+			};
 
 			InitializeHeaderLayout ();
 			InitializeSearchLayout ();
@@ -134,11 +189,16 @@ namespace bluemart.MainViews
 				BackgroundColor = Color.FromRgb(51,51,51)
 			};
 
-			var openImage = new Image () {
+			var openImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(54),
 				HeightRequest = MyDevice.GetScaledSize(44),
 				Source = "MenuPage_Open",
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			categoriesLabel = new Label () {
@@ -162,11 +222,16 @@ namespace bluemart.MainViews
 				Color = Color.FromRgb(129,129,129)
 			};
 
-			var settingsImage = new Image () {
+			var settingsImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
 				Source = "MenuPage_Settings",
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var settingsLabel = new Label () {
@@ -184,11 +249,16 @@ namespace bluemart.MainViews
 				HeightRequest = MyDevice.GetScaledSize(50)
 			};
 
-			var favoritesImage = new Image () {
+			var favoritesImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
 				Source = "MenuPage_Favorites",
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var favoritesLabel = new Label () {
@@ -206,11 +276,16 @@ namespace bluemart.MainViews
 				HeightRequest = MyDevice.GetScaledSize(50)
 			};
 
-			var trackImage = new Image () {
+			var trackImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
 				Source = "MenuPage_Track",
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var trackLabel = new Label () {
@@ -472,10 +547,15 @@ namespace bluemart.MainViews
 				HeightRequest = MyDevice.GetScaledSize(85)
 			};
 
-			var profilePic = new Image () {
+			var profilePic = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(33),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Aspect = Aspect.Fill,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = "CartPage_ProfilePic"
 			};
 
@@ -689,10 +769,16 @@ namespace bluemart.MainViews
 				BackgroundColor = Color.FromRgb(27,184,105)
 			};
 
-			var menuIcon = new Image () {
+			var menuIcon = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "CategoriesPage_MenuIcon"
+				Source = "CategoriesPage_MenuIcon",
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var categoryLabel = new Label (){ 
@@ -708,17 +794,27 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Center
 			};
 
-			var verticalLine = new Image () {
+			var verticalLine = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(1),
 				HeightRequest = MyDevice.GetScaledSize(63),
-				Aspect = Aspect.Fill,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = "CategoriesPage_VerticalLine"
 			};
 
-			var cartImage = new Image () {
+			var cartImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(71),
 				HeightRequest = MyDevice.GetScaledSize(57),
-				Aspect = Aspect.Fill,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = "ProductsPage_BasketIcon"
 			};
 
@@ -834,10 +930,23 @@ namespace bluemart.MainViews
 			if (!IsMenuOpen) {
 				menuRectangle = new Rectangle (new Point (0, 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mMenuWidth), 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
+
+				mainRelativeLayout.Children.Add (InputBlockerForSwipeMenu,
+					Constraint.Constant (MyDevice.GetScaledSize (mMenuWidth)),
+					Constraint.Constant (0)
+				);
+
+				var tapRecognizer = new TapGestureRecognizer ();
+				if (InputBlockerForSwipeMenu.GestureRecognizers.Count == 0) {
+					tapRecognizer.Tapped += (sender, e) => {				 				
+						ActivateOrDeactivateMenu();				
+					};
+				}
+				InputBlockerForSwipeMenu.GestureRecognizers.Add(tapRecognizer);
 			} else {
 				menuRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mMenuWidth*-1), 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (0, 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
-
+				mainRelativeLayout.Children.Remove (InputBlockerForSwipeMenu);
 			}
 
 			mMenuLayout.LayoutTo (menuRectangle, 1000, Easing.CubicIn);
@@ -855,6 +964,19 @@ namespace bluemart.MainViews
 				cartRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mCartWidth*-1), 0), new Size (mCartLayout.Bounds.Width, mCartLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mCartWidth*-1), 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
 
+				mainRelativeLayout.Children.Add (InputBlockerForSwipeCart,
+					Constraint.Constant (0),
+					Constraint.Constant (0)
+				);
+
+				var tapRecognizer = new TapGestureRecognizer ();
+				if (InputBlockerForSwipeCart.GestureRecognizers.Count == 0) {
+					tapRecognizer.Tapped += (sender, e) => {				 				
+						ActivateOrDeactivateCart();				
+					};
+				}
+				InputBlockerForSwipeCart.GestureRecognizers.Add(tapRecognizer);
+
 				subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 				checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 
@@ -868,10 +990,11 @@ namespace bluemart.MainViews
 			} else {
 				cartRectangle = new Rectangle (new Point (0, 0), new Size (mCartLayout.Bounds.Width, mCartLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (0, 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
+				mainRelativeLayout.Children.Remove (InputBlockerForSwipeCart);
 			}
 
-			mCartLayout.TranslateTo (cartRectangle.X,cartRectangle.Y, 500, Easing.Linear);
-			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, 500, Easing.Linear);
+			mCartLayout.TranslateTo (cartRectangle.X,cartRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
+			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
 
 			IsCartOpen = !IsCartOpen;
 		}
@@ -892,10 +1015,16 @@ namespace bluemart.MainViews
 				MaxLength = 15
 			};
 
-			var searchImage = new Image () {
+			var searchImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(583),
 				HeightRequest = MyDevice.GetScaledSize(52),
-				Source = "ProductsPage_SearchBar"	
+				Source = "ProductsPage_SearchBar",
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var searchButton = new RelativeLayout () {

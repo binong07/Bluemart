@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:mr="clr-namespace:MR.Gestures;assembly=MR.Gestures"		 
 			 x:Class="bluemart.MainViews.AddAddressPage">
 	<ContentPage.Padding>
     <OnPlatform x:TypeArguments="Thickness"
@@ -9,37 +10,6 @@
                 WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>
-		<!--<ScrollView x:Name = "ScrollView1" Orientation = "Vertical"  HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" > 
-			<Grid x:Name="Grid1" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand">
-			 		<Grid.RowDefinitions>					
-						<RowDefinition/>
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition/>		
-					</Grid.ColumnDefinitions>               	       
-	               	<StackLayout Grid.Row = "0" Grid.Column = "0" x:Name = "StackLayout1" Orientation = "Vertical" VerticalOptions = "FillAndExpand">	               		
-	               		<Label x:Name = "NameLabel" Text = "First Name:"></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "NameEntry" VerticalOptions = "Fill" 
-							   TextChanged = "OnNameTextChanged" Completed = "NameEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>
-						<Label x:Name = "SurNameLabel" Text = "Last Name:"></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "SurNameEntry" VerticalOptions = "Fill" 
-							   TextChanged = "OnSurnameTextChanged" Completed = "SurNameEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>
-						<Label x:Name = "RegionLabel" Text = "Region:" ></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "RegionEntry" VerticalOptions = "Fill"
-							   TextChanged = "OnRegionTextChanged" Completed = "RegionEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused" IsEnabled = "false"></Entry>
-						<Label x:Name = "AddressLabel" Text = "Address:" ></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "AddressEntry" VerticalOptions = "Fill"
-							   TextChanged = "OnAddressTextChanged" Completed = "AddressEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>					
-						<Label x:Name = "AddressDescriptionLabel" Text = "Address Description:" ></Label>
-						<Entry TextColor = "Black" BackgroundColor = "White" x:Name = "AddressDescriptionEntry" VerticalOptions = "Fill"
-							   TextChanged = "OnAddressDescriptionTextChanged" Completed = "AddressDescriptionEntryCompleted" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>
-						<Label x:Name = "PhoneLabel" Text = "Telephone:"></Label>
-						<Entry Grid.Row = "0" Grid.Column = "1" Keyboard="Telephone" BackgroundColor = "White" x:Name = "PhoneEntry" VerticalOptions = "Fill" 
-								   TextChanged = "OnTelephoneTextChanged" Focused="OnEntryFocused" Unfocused = "OnEntryUnfocused"></Entry>					
-						<Button x:Name = "SubmitButton" HorizontalOptions = "End" Text = "Submit" Clicked = "OnSubmitClicked" BorderWidth = "2" ></Button>
-					</StackLayout>
-        	</Grid>
-    	</ScrollView>-->
+		<mr:RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>     
 	</ContentPage.Content>
 </ContentPage>

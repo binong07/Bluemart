@@ -11,6 +11,7 @@ using XLabs.Platform.Device;
 using bluemart.Models.Remote;
 using bluemart.Models.Local;
 using System.Threading;
+using FFImageLoading.Forms;
 
 namespace bluemart
 {
@@ -31,13 +32,25 @@ namespace bluemart
 			bgImage = new Image {
 				Source = "Loading_BG",
 				WidthRequest = MyDevice.GetScaledSize(640),
+				/*CacheDuration = TimeSpan.FromDays(30),
+				//DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,*/
 				Aspect = Aspect.Fill
 			};
 
-			var footerImage = new Image () {
+			var footerImage = new CachedImage () {
 				Source = "Loading_Footer",
 				WidthRequest = MyDevice.GetScaledSize(421),
-				HeightRequest = MyDevice.GetScaledSize(94)
+				HeightRequest = MyDevice.GetScaledSize(94),
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var versionText = new Label () {

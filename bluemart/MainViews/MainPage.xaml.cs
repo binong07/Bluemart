@@ -13,6 +13,7 @@ using bluemart.Models.Remote;
 using bluemart.Models.Local;
 using bluemart.Common.ViewCells;
 using System.Linq;
+using FFImageLoading.Forms;
 
 namespace bluemart.MainViews
 {
@@ -54,12 +55,24 @@ namespace bluemart.MainViews
 				Source = "MainPage_BG",
 				WidthRequest = MyDevice.GetScaledSize(640),
 				Aspect = Aspect.Fill
+				/*CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false*/
 			};
 
-			var linkButton = new Image {
+			var linkButton = new CachedImage {
 				Source = "MainPage_Footer",	
 				WidthRequest = MyDevice.GetScaledSize(471),
-				HeightRequest = MyDevice.GetScaledSize(54)
+				HeightRequest = MyDevice.GetScaledSize(54),
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var ChooseLocationButton = new RelativeLayout () {

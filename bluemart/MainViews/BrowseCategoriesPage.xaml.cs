@@ -9,6 +9,9 @@ using XLabs.Forms.Controls;
 using bluemart.Models.Local;
 using System.Threading.Tasks;
 using System.Linq;
+using FFImageLoading.Forms;
+
+
 namespace bluemart.MainViews
 {
 	public partial class BrowseCategoriesPage : ContentPage
@@ -102,15 +105,6 @@ namespace bluemart.MainViews
 							ActivateOrDeactivateMenu();
 					}
 				}
-					
-				/*if( !IsCartOpen )
-				{
-					ActivateOrDeactivateMenu(e.Direction);	
-				}
-				else if( !IsMenuOpen )
-				{
-					ActivateOrDeactivateCart(e.Direction);	
-				}*/
 			};
 
 			mainRelativeLayout.BackgroundColor = Color.FromRgb (236, 240, 241);
@@ -160,11 +154,16 @@ namespace bluemart.MainViews
 				Padding = 0
 			};
 
-			var openImage = new Image () {
+			var openImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(54),
 				HeightRequest = MyDevice.GetScaledSize(44),
 				Source = "MenuPage_Open",
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			categoriesLabel = new Label () {
@@ -189,11 +188,16 @@ namespace bluemart.MainViews
 				Color = Color.FromRgb(129,129,129)
 			};
 
-			var settingsImage = new Image () {
+			var settingsImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
 				Source = "MenuPage_Settings",
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var settingsLabel = new Label () {
@@ -212,11 +216,16 @@ namespace bluemart.MainViews
 				Padding = 0
 			};
 
-			var favoritesImage = new Image () {
+			var favoritesImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
 				Source = "MenuPage_Favorites",
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var favoritesLabel = new Label () {
@@ -235,11 +244,16 @@ namespace bluemart.MainViews
 				Padding = 0
 			};
 
-			var trackImage = new Image () {
+			var trackImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
 				Source = "MenuPage_Track",
-				Aspect = Aspect.Fill
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var trackLabel = new Label () {
@@ -479,10 +493,16 @@ namespace bluemart.MainViews
 				Padding = 0
 			};
 
-			var menuIcon = new Image () {
+			var menuIcon = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "CategoriesPage_MenuIcon"
+				Source = "CategoriesPage_MenuIcon",
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var exploreLabel = new Label (){ 
@@ -497,17 +517,27 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Center
 			};
 
-			var verticalLine = new Image () {
+			var verticalLine = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(1),
-				HeightRequest = MyDevice.GetScaledSize(63),
-				Aspect = Aspect.Fill,
-				Source = "CategoriesPage_VerticalLine"
+				HeightRequest = MyDevice.GetScaledSize(63),			
+				Source = "CategoriesPage_VerticalLine",
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
-			var cartImage = new Image () {
+			var cartImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(71),
 				HeightRequest = MyDevice.GetScaledSize(57),
-				Aspect = Aspect.Fill,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = "CategoriesPage_BasketIcon"
 			};
 
@@ -640,9 +670,9 @@ namespace bluemart.MainViews
 
 				mainRelativeLayout.Children.Remove (InputBlockerForSwipeMenu);
 			}
-				
-			mMenuLayout.TranslateTo (menuRectangle.X,menuRectangle.Y, 500, Easing.Linear);
-			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, 500, Easing.Linear);
+
+			mMenuLayout.TranslateTo (menuRectangle.X,menuRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
+			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
 									
 			IsMenuOpen = !IsMenuOpen;
 		}
@@ -684,8 +714,8 @@ namespace bluemart.MainViews
 				mainRelativeLayout.Children.Remove (InputBlockerForSwipeCart);
 			}
 
-			mCartLayout.TranslateTo (cartRectangle.X,cartRectangle.Y, 500, Easing.Linear);
-			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, 500, Easing.Linear);
+			mCartLayout.TranslateTo (cartRectangle.X,cartRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
+			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
 
 			IsCartOpen = !IsCartOpen;
 		}
@@ -722,10 +752,16 @@ namespace bluemart.MainViews
 				MaxLength = 15
 			};
 
-			var searchImage = new Image () {
+			var searchImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(530),
 				HeightRequest = MyDevice.GetScaledSize(52),
-				Source = "CategoriesPage_SearchBar"	
+				Source = "CategoriesPage_SearchBar",
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false
 			};
 
 			var searchButton = new RelativeLayout () {
@@ -885,10 +921,15 @@ namespace bluemart.MainViews
 				HeightRequest = MyDevice.GetScaledSize(85)
 			};
 
-			var profilePic = new Image () {
+			var profilePic = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(33),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Aspect = Aspect.Fill,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = "CartPage_ProfilePic"
 			};
 

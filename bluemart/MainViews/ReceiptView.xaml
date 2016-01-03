@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="bluemart.ReceiptView">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:mr="clr-namespace:MR.Gestures;assembly=MR.Gestures"	 x:Class="bluemart.ReceiptView">
 	<ContentPage.Padding>
 	        <OnPlatform x:TypeArguments="Thickness"
 	                    iOS="0, 20, 0, 0"
@@ -7,80 +7,6 @@
 	                    WinPhone="0, 0, 0, 0" />
   	</ContentPage.Padding>
 	<ContentPage.Content>
-		<RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>
-		<!--<Grid x:Name = "MainGrid" BackgroundColor = "White" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand" RowSpacing = "0" ColumnSpacing = "0" Padding = "0">
-			<Grid.RowDefinitions>
-				<RowDefinition />
-				<RowDefinition />
-				<RowDefinition />
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-			</Grid.ColumnDefinitions>
-				<Grid x:Name = "TopGrid" Grid.Row = "0" Grid.Column = "0" RowSpacing="0" ColumnSpacing = "0" Padding = "0" VerticalOptions = "Start">
-					<Grid.RowDefinitions>
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition />
-						<ColumnDefinition />
-					</Grid.ColumnDefinitions>
-					<StackLayout Orientation = "Vertical" Grid.Row = "0" Grid.Column = "0" x:Name = "DateLayout" Padding = "0">
-						<Label x:Name = "DateLabel" HorizontalOptions = "Center" Text = "Date:" TextColor = "Black" FontAttributes = "Bold"/>
-						<Label x:Name = "DateText" HorizontalOptions = "Center" Text = "11.10.2015 18:18" TextColor = "Black"/>
-					</StackLayout>
-					<StackLayout Orientation = "Vertical" Grid.Row = "1" Grid.Column = "0" x:Name = "NameLayout" Padding = "0">
-						<Label x:Name = "NameLabel" HorizontalOptions = "Center" Text = "Name:" TextColor = "Black" FontAttributes = "Bold"/>
-						<Label x:Name = "NameText" HorizontalOptions = "Center" Text = "Ahmet Uğur" TextColor = "Black"/>
-					</StackLayout>					
-					<StackLayout Orientation = "Vertical" Grid.Row = "0" Grid.Column = "1" x:Name = "AddressLayout" Padding = "0">
-						<Label x:Name = "AddressLabel" Text = "Address:" HorizontalOptions = "Center" TextColor = "Black" FontAttributes = "Bold"/>
-						<Label x:Name = "AddressText" Text = "" HorizontalOptions = "Center" TextColor = "Black"/>
-					</StackLayout>
-					<StackLayout Orientation = "Vertical" Grid.Row = "1" Grid.Column = "1" x:Name = "PhoneLayout" Padding = "0">
-						<Label x:Name = "PhoneLabel" Text = "Phone:" HorizontalOptions = "Center" TextColor = "Black" FontAttributes = "Bold"/>
-						<Label x:Name = "PhoneText" Text = "" HorizontalOptions = "Center" TextColor = "Black"/>
-					</StackLayout>
-					<Button x:Name = "ChangeAddressButton" Grid.Row = "2" Grid.Column = "0" Grid.ColumnSpan = "2" HorizontalOptions = "Center" VerticalOptions = "Fill"
-							Text = "Change Address" BorderWidth = "2" BorderColor = "Blue" BackgroundColor = "White" Clicked = "OnChangeAddressButtonClicked"/>
-				</Grid>
-				<Grid x:Name = "MiddleGrid" Grid.Row = "1" Grid.Column = "0" RowSpacing="0" ColumnSpacing = "0" Padding = "0" VerticalOptions = "StartAndExpand">
-					<Grid.RowDefinitions>
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition />
-						<ColumnDefinition />
-						<ColumnDefinition />
-						<ColumnDefinition />
-					</Grid.ColumnDefinitions>
-					<Label x:Name = "QuantityLabel" Grid.Row = "0" Grid.Column = "0" Text = "Quantity:" HorizontalOptions = "Start" TextColor = "Black" FontAttributes = "Bold"/>
-					<Label x:Name = "ProductNameLabel" Grid.Row = "0" Grid.Column = "1" Text = "Product:" HorizontalOptions = "StartAndExpand" TextColor = "Black" FontAttributes = "Bold"/>
-					<Label x:Name = "DescriptionLabel" Grid.Row = "0" Grid.Column = "2" Text = "Description:" HorizontalOptions = "StartAndExpand" TextColor = "Black" FontAttributes = "Bold"/>
-					<Label x:Name = "CostLabel" Grid.Row = "0" Grid.Column = "3" Text = "Price:" HorizontalOptions = "Center" TextColor = "Black" FontAttributes = "Bold"/>
-					<ScrollView x:Name="MiddleScrollView" Grid.Row = "1" Grid.Column = "0" Grid.ColumnSpan = "4" Orientation = "Vertical" VerticalOptions = "FillAndExpand" Padding = "0">
-						<Grid x:Name="ScrollViewGrid" VerticalOptions = "FillAndExpand">									
-						</Grid>						
-					</ScrollView>
-				</Grid>
-				<Grid x:Name = "BottomGrid" Grid.Row = "2" Grid.Column = "0" RowSpacing="0" ColumnSpacing = "0" Padding = "0" HorizontalOptions = "Center" VerticalOptions = "Center">
-					<Grid.RowDefinitions>
-						<RowDefinition />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition />
-						<ColumnDefinition />
-						<ColumnDefinition />
-						<ColumnDefinition />
-					</Grid.ColumnDefinitions>
-				 	<Button x:Name = "AgreeButton" Grid.Row = "0" Grid.Column = "1" Text = "ACCEPT" VerticalOptions = "Center" HorizontalOptions = "Start" BackgroundColor = "Green" TextColor = "White" Clicked = "AgreeClicked" />
-				 	<Button x:Name = "DisagreeButton" Grid.Row = "0" Grid.Column = "2" Text = "DON'T ACCEPT" VerticalOptions = "Center" HorizontalOptions = "End" BackgroundColor = "Red" TextColor = "White" Clicked = "DisagreeClicked" />
-				</Grid>
-		</Grid>-->
+		<mr:RelativeLayout x:Name="mainRelativeLayout" HorizontalOptions = "FillAndExpand" VerticalOptions = "FillAndExpand"/>     
 	</ContentPage.Content>
 </ContentPage>

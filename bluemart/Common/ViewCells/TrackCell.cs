@@ -4,6 +4,7 @@ using bluemart.Common.Utilities;
 using bluemart.Models.Local;
 using System.Threading.Tasks;
 using bluemart.MainViews;
+using FFImageLoading.Forms;
 
 namespace bluemart.Common.ViewCells
 {
@@ -28,10 +29,15 @@ namespace bluemart.Common.ViewCells
 				Padding = 0
 			};
 
-			var backgroundImage = new Image () {
+			var backgroundImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize (62),
 				HeightRequest = MyDevice.GetScaledSize (82),
-				Aspect = Aspect.Fill,
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 				Source = "TrackPage_TrackBackground"
 			};
 

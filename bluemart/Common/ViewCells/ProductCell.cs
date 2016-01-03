@@ -447,9 +447,9 @@ namespace bluemart.Common.ViewCells
 
 		public void ClearStreamsAndImages()
 		{		
-			if (bIsImageSet) {	
+			/*if (bIsImageSet) {	
 				mProductImageStream.Dispose ();									
-			}
+			}*/
 		}
 
 		private void SetRootPage()
