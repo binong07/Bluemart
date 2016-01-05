@@ -838,7 +838,7 @@ namespace bluemart
 							bool OrderSucceeded = OrderModel.SendOrderToRemote (mUserModel).Result;
 
 							if (OrderSucceeded)
-								await DisplayAlert ("Order Sent", "Your order has been sent, please follow your order through the “Track” section.", "OK");
+								await DisplayAlert ("Order Sent", "Please check the quality of the fresh produce you receive before you pay to the delivery boy. Your satisfaction is our top priority at all times.", "OK");
 							else
 								await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
 

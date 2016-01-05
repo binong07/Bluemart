@@ -62,8 +62,15 @@ namespace bluemart.Common.ViewCells
 */
 			var tapGestureRecognizer = new TapGestureRecognizer ();
 
-			tapGestureRecognizer.Tapped += (sender, e) => {
-				LoadProductsPage(category.CategoryID,parent);
+			tapGestureRecognizer.Tapped +=async (sender, e) => {
+				if(category.CategoryID == ReleaseConfig.TOBACCO_ID)
+				{					
+					var isOk = await mParent.DisplayAlert("Sorry","I am 18 and i know smoking is bad for my health.","OK","CANCEL");
+					if(isOk)
+						LoadProductsPage(category.CategoryID,parent);										
+				}
+				else
+					LoadProductsPage(category.CategoryID,parent);
 			};
 
 			categoryImage.GestureRecognizers.Add (tapGestureRecognizer);

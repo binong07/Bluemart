@@ -327,11 +327,20 @@ namespace bluemart.MainViews
 			};
 
 			var checkoutTapRecogniser = new TapGestureRecognizer ();
-			checkoutTapRecogniser.Tapped += (sender, e) => {
-				if( Cart.ProductTotalPrice > 0 )
-					mParent.LoadReceiptPage();
+			checkoutTapRecogniser.Tapped += async (sender, e) => {
+				if( Cart.ProductTotalPrice == 0 )
+					await DisplayAlert("Warning","Please add products in your basket","OK");
+				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
+				{					
+					await DisplayAlert("Sorry","Please Enter Your Address On Settings Page","OK");
+					mParent.SwitchTab("Settings");
+				}
+				else if( Cart.ProductTotalPrice < 50 )
+				{
+					await DisplayAlert("Sorry","Your orders must exceed 50 AED, as it is the minimum amount.","OK");
+				}
 				else
-					DisplayAlert("Warning","Please add products in your basket","OK");
+					mParent.LoadReceiptPage();
 			};
 			checkoutButton.GestureRecognizers.Add (checkoutTapRecogniser);
 

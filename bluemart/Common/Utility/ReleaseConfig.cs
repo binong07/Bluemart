@@ -11,7 +11,7 @@ namespace bluemart.Common.Utilities
 		public static DateTime LAST_UPDATEDATE;
 		//public static string FONT_PATH = "Arial-Rounded-MT-Bold";
 		public static string FONT_PATH = "monospace";
-
+		public static string TOBACCO_ID = "Omwz701hpB";
 		static ReleaseConfig()
 		{
 			DateTime.TryParse ("2015-12-30T22:56:57.003Z", out LAST_UPDATEDATE);
