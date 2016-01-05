@@ -149,8 +149,6 @@ namespace bluemart.Common.ViewCells
 				HeightRequest = MyDevice.GetScaledSize(65)
 			};
 
-
-
 			mRemoveFavoriteImage = new CachedImage()
 			{
 				WidthRequest = MyDevice.GetScaledSize(42),

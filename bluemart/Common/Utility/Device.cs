@@ -32,7 +32,7 @@ namespace bluemart.Common.Utilities
 		public static double FontSizeLarge = ScreenWidth/16.3;
 		public static double SwipeDistance = ScreenWidth / 2;
 		public static uint AnimationTimer = 300;
-
+		public static Page currentPage;
 		public static string GetNetworkStatus()
 		{
 			return Resolver.Resolve<IDevice> ().Network.InternetConnectionStatus ().ToString();

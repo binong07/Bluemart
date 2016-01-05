@@ -5,6 +5,9 @@ using Xamarin.Forms;
 using bluemart.Common.Objects;
 using FFImageLoading.Forms;
 using bluemart.Common.Utilities;
+using bluemart.Models.Local;
+using bluemart.MainViews;
+using System.Threading.Tasks;
 
 namespace bluemart
 {
@@ -18,8 +21,13 @@ namespace bluemart
 
 		private Label mProductNumberLabel;
 		public Product mProduct;
+		private FavoritesClass mFavoriteModel;
 		private bool bIsFavorite;
 		public Page mParent;
+		//private RootPage mRootPage;
+
+		public bool bIsImageSet=false;
+		public ProductCellNew mPairCell = null;
 
 		private RelativeLayout mFavoriteButton;
 		private RelativeLayout mMinusButton;
@@ -28,6 +36,7 @@ namespace bluemart
 		private Label productNameLabel ;
 		private Label productQuantityLabel;
 		private Label productPriceLabel;
+		private Label addButton;
 		public ProductCellNew ()
 		{
 		}
@@ -35,11 +44,99 @@ namespace bluemart
 		{
 			if (product != null)
 			{
-				mProductImage.Source = product.ProductImagePath;	
-				productNameLabel.Text = product.Name;
-				productQuantityLabel.Text = product.Quantity;
-				productPriceLabel.Text = "AED " + product.Price.ToString ();
+				mParent = MyDevice.currentPage;
+				//SetRootPage ();
+				if (Cart.ProductsInCart.Count != 0) {
+					foreach (Product p in Cart.ProductsInCart) {
+						if (p.ProductID == product.ProductID) {
+							mProduct = p;
+							break;
+						}
+						else
+							mProduct = product;
+					}
+				} else
+					mProduct = product;
+				mProductImage.Source = mProduct.ProductImagePath;    
+				productNameLabel.Text = mProduct.Name;
+				productQuantityLabel.Text = mProduct.Quantity;
+				productPriceLabel.Text = "AED " + mProduct.Price.ToString ();
+				mFavoriteModel = new FavoritesClass ();
+				bIsFavorite = mFavoriteModel.IsProductFavorite (mProduct.ProductID);
+
+				UpdateNumberLabel ();
+
+				if (mProduct.ProductNumberInCart > 0)
+					ActivateAddMenu ();
+				else
+					DeactivateAddMenu ();
+				if (bIsFavorite)
+					AddFavorite ();
+				else
+					RemoveFavorite ();
+
+
+
 			}
+		}
+		/*private void SetRootPage()
+		{
+			if( mParent is BrowseProductsPage)
+			{	
+				mRootPage = (mParent as BrowseProductsPage).mParent;
+			}
+			else if( mParent is FavoritesPage)
+			{
+				mRootPage = (mParent as FavoritesPage).mParent;
+			}
+			else if( mParent is SearchPage )
+			{
+				mRootPage = (mParent as SearchPage).mParent;
+			}
+		}*/
+		private void ActivateAddMenu()
+		{            
+			mProductNumberLabel.IsVisible = true;
+			mProductForegroundImage.IsVisible = true;
+			mainRelativeLayout.Children.Add (mMinusButton,
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(28);
+				}),
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(152);
+				})
+			);
+
+			mainRelativeLayout.Children.Add (mPlusButton,
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(209);
+				}),
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(160);
+				})
+			);
+		}
+
+		public void DeactivateAddMenu()
+		{
+			mProductNumberLabel.IsVisible = false;
+			mProductForegroundImage.IsVisible = false;
+			if(mainRelativeLayout.Children.Contains(mPlusButton))
+				mainRelativeLayout.Children.Remove (mPlusButton);
+			if(mainRelativeLayout.Children.Contains(mMinusButton))
+				mainRelativeLayout.Children.Remove (mMinusButton);
+		}
+
+		public void RemoveFavorite()
+		{
+			mRemoveFavoriteImage.IsVisible = false;
+			mAddFavoriteImage.IsVisible = true;
+		}
+
+		public void AddFavorite()
+		{
+			mRemoveFavoriteImage.IsVisible = true;
+			mAddFavoriteImage.IsVisible = false;
 		}
 
 		protected override void InitializeCell ()
@@ -96,8 +193,6 @@ namespace bluemart
 				HeightRequest = MyDevice.GetScaledSize(65)
 			};
 
-
-
 			mRemoveFavoriteImage = new CachedImage()
 			{
 				WidthRequest = MyDevice.GetScaledSize(42),
@@ -123,7 +218,7 @@ namespace bluemart
 				TransparencyEnabled = false,
 				Source = "CartPage_AddFavorites",
 				IsVisible = false,
-				FadeAnimationEnabled = false		
+				FadeAnimationEnabled = false        
 			};
 
 			mProductForegroundImage = new CachedImage () {
@@ -148,7 +243,7 @@ namespace bluemart
 				IsVisible = false
 			};
 
-			var addButton = new Label () {
+			addButton = new Label () {
 				WidthRequest = MyDevice.GetScaledSize(118),
 				HeightRequest = MyDevice.GetScaledSize(64),
 				BackgroundColor = Color.FromRgb(213,53,53),
@@ -251,9 +346,149 @@ namespace bluemart
 				})
 			);
 
-			//simpleLayout.Children.Add (_image, new Rectangle (0, 0, width, height - 30));
-			//simpleLayout.Children.Add (_titleLabel, new Rectangle (0, height - 30, width, 30));
+			AddTapRecognizers ();
+
 			View = mainRelativeLayout;
+		}
+		private void AddTapRecognizers()
+		{
+			var addButtonTapGestureRecognizer = new TapGestureRecognizer ();
+			addButtonTapGestureRecognizer.Tapped += async (sender, e) => {
+				if( CheckIfSearchEntryIsFocused() )
+					return;
+				AddProductInCart();
+				await Task.Delay(MyDevice.DelayTime);
+			};
+
+			mPlusButton.GestureRecognizers.Add (addButtonTapGestureRecognizer);
+
+			var removeButtonTapGestureRecognizer = new TapGestureRecognizer ();
+			removeButtonTapGestureRecognizer.Tapped += async (sender, e) => {
+				if( CheckIfSearchEntryIsFocused() )
+					return;
+
+				RemoveProductFromCart();
+				await Task.Delay(MyDevice.DelayTime);        
+			};
+			mMinusButton.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
+
+			var favoriteButtonTapGestureRecognizer = new TapGestureRecognizer ();
+			favoriteButtonTapGestureRecognizer.Tapped += (sender, e) => {
+				if( CheckIfSearchEntryIsFocused() )
+					return;
+				mFavoriteModel.AddProductID(mProduct.ProductID);
+
+				if( !bIsFavorite )
+				{
+					bIsFavorite = true;
+					mFavoriteModel.AddProductID(mProduct.ProductID);
+					AddFavorite();
+					if(mPairCell != null )
+					{
+						mPairCell.AddFavorite();
+					}
+				}
+				else
+				{        
+					bIsFavorite = false;
+					mFavoriteModel.RemoveProductID(mProduct.ProductID);
+					RemoveFavorite();
+					if(mPairCell != null )
+					{
+						mPairCell.RemoveFavorite();
+					}
+					/*if( mParent is FavoritesPage )
+					{
+						FavoritesPage pa = mParent as FavoritesPage;
+					}*/
+				}
+			};
+			mFavoriteButton.GestureRecognizers.Add (favoriteButtonTapGestureRecognizer);
+
+			var addButtonnTapGestureRecognizer = new TapGestureRecognizer ();
+			addButtonnTapGestureRecognizer.Tapped += (sender, e) => {
+				if( mProductNumberLabel.IsVisible )
+					return;
+
+				AddProductInCart ();
+				ActivateAddMenu();
+			};		
+			addButton.GestureRecognizers.Add (addButtonnTapGestureRecognizer);
+		}
+
+		private void AddProductToFavorites()
+		{
+
+		}
+
+		public void UpdateNumberLabel()
+		{
+			mProductNumberLabel.Text = mProduct.ProductNumberInCart.ToString ();
+		}
+
+		private void RemoveProductFromCart()
+		{
+			if (mProduct.ProductNumberInCart > 0) {
+				mProduct.ProductNumberInCart--;
+				Cart.ProductTotalPrice -= mProduct.Price;
+
+				if (mParent is BrowseProductsPage) {
+					(mParent as BrowseProductsPage).UpdatePriceLabel ();
+					(mParent as BrowseProductsPage).UpdateProductCountLabel ();
+				} else if (mParent is FavoritesPage) {
+					(mParent as FavoritesPage).UpdatePriceLabel ();
+					(mParent as FavoritesPage).UpdateProductCountLabel ();
+				} else if (mParent is SearchPage) {
+					(mParent as SearchPage).UpdatePriceLabel ();
+					(mParent as SearchPage).UpdateProductCountLabel ();
+				}
+			}
+			if (mProduct.ProductNumberInCart == 0) {
+				DeactivateAddMenu ();
+				Cart.ProductsInCart.Remove (mProduct);
+			}
+
+
+			UpdateNumberLabel ();
+			if (mPairCell != null)
+				mPairCell.UpdateNumberLabel ();
+		}
+
+		private bool CheckIfSearchEntryIsFocused()
+		{
+			bool bFocused = false;
+
+
+
+			return bFocused;
+		}
+
+		private void AddProductInCart()
+		{
+			if (!Cart.ProductsInCart.Contains (mProduct)) 
+			{
+				Cart.ProductsInCart.Add (mProduct);
+			}
+
+			mProduct.ProductNumberInCart++;
+
+			Cart.ProductTotalPrice += mProduct.Price;
+
+			if (mParent is BrowseProductsPage) {
+				(mParent as BrowseProductsPage).UpdatePriceLabel ();
+				(mParent as BrowseProductsPage).UpdateProductCountLabel ();
+			} else if (mParent is FavoritesPage) {
+				(mParent as FavoritesPage).UpdatePriceLabel ();
+				(mParent as FavoritesPage).UpdateProductCountLabel ();
+			} else if (mParent is SearchPage) {
+				(mParent as SearchPage).UpdatePriceLabel ();
+				(mParent as SearchPage).UpdateProductCountLabel ();
+			}
+
+
+			UpdateNumberLabel ();
+			if (mPairCell != null)
+				mPairCell.UpdateNumberLabel ();            
 		}
 
 		public Product product {
@@ -261,4 +496,3 @@ namespace bluemart
 		}
 	}
 }
-
