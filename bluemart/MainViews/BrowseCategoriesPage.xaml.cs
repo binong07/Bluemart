@@ -492,17 +492,11 @@ namespace bluemart.MainViews
 				BackgroundColor = Color.FromRgb(7,94,173),
 				Padding = 0
 			};
-
-			var menuIcon = new CachedImage () {
+					
+			var menuIcon = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "CategoriesPage_MenuIcon",
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				Source = "CategoriesPage_MenuIcon"
 			};
 
 			var exploreLabel = new Label (){ 
@@ -529,15 +523,9 @@ namespace bluemart.MainViews
 				FadeAnimationEnabled = false
 			};
 
-			var cartImage = new CachedImage () {
+			var cartImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(71),
 				HeightRequest = MyDevice.GetScaledSize(57),
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,
 				Source = "CategoriesPage_BasketIcon"
 			};
 

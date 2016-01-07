@@ -787,16 +787,10 @@ namespace bluemart.MainViews
 				BackgroundColor = Color.FromRgb(27,184,105)
 			};
 
-			var menuIcon = new CachedImage () {
+			var menuIcon = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "CategoriesPage_MenuIcon",
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				Source = "CategoriesPage_MenuIcon"
 			};
 
 			var categoryLabel = new Label (){ 
@@ -824,15 +818,9 @@ namespace bluemart.MainViews
 				Source = "CategoriesPage_VerticalLine"
 			};
 
-			var cartImage = new CachedImage () {
+			var cartImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(71),
 				HeightRequest = MyDevice.GetScaledSize(57),
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,
 				Source = "ProductsPage_BasketIcon"
 			};
 

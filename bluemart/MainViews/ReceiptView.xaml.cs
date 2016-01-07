@@ -23,12 +23,12 @@ namespace bluemart
 		private RelativeLayout mMenuLayout;
 		private RelativeLayout mMidLayout;
 		private Label categoriesLabel;
-		private CachedImage menuIcon;
+		private Image menuIcon;
 		private bool IsMenuOpen = false;
 		private double mMenuWidth = 517.0;
 
-		private CachedImage mAddressLayout;
-		private CachedImage mReceiptLayout;
+		private Image mAddressLayout;
+		private Image mReceiptLayout;
 
 		private RelativeLayout InputBlockerForSwipeMenu;
 
@@ -117,28 +117,16 @@ namespace bluemart
 				BackgroundColor = Color.White
 			};
 
-			menuIcon = new CachedImage () {
+			menuIcon = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "ReceiptPage_MenuIcon",
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				Source = "ReceiptPage_MenuIcon"
 			};
 
-			var logo = new CachedImage () {
+			var logo = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(217),
 				HeightRequest = MyDevice.GetScaledSize(39),
-				Source = "ReceiptPage_Logo",
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				Source = "ReceiptPage_Logo"
 			};
 												
 			var menuButton = new RelativeLayout () {
@@ -191,16 +179,10 @@ namespace bluemart
 				BackgroundColor = Color.FromRgb(51,51,51)
 			};
 
-			var openImage = new CachedImage () {
+			var openImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(54),
 				HeightRequest = MyDevice.GetScaledSize(44),
-				Source = "MenuPage_Open",
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				Source = "MenuPage_Open"
 			};
 
 			categoriesLabel = new Label () {
@@ -517,15 +499,9 @@ namespace bluemart
 		}
 
 		private void InitializeAddressLayout(Object obj = null){
-			mAddressLayout = new CachedImage () {
+			mAddressLayout = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(600),
 				HeightRequest = MyDevice.GetScaledSize(301),
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,
 				Source = "ReceiptPage_AddressBackground"
 			};
 
@@ -689,15 +665,9 @@ namespace bluemart
 		}
 
 		private void InitializeReceiptLayout(Object obj = null){
-			mReceiptLayout = new CachedImage () {
+			mReceiptLayout = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(600),
 				HeightRequest = MyDevice.GetScaledSize(477),
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,
 				Source = "ReceiptPage_ReceiptBackground"
 			};
 

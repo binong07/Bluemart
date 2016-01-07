@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using bluemart.MainViews;
 using bluemart.Models.Local;
 using FFImageLoading.Forms;
+using bluemart.Models.Remote;
 
 namespace bluemart
 {
@@ -72,9 +73,23 @@ namespace bluemart
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,
-				Source = product.ProductImageName
+				FadeAnimationEnabled = false
 			};
+
+			PCLStorage.IFolder folder=null;
+
+			if (mParentPage is BrowseProductsPage) {
+				folder = (mParentPage as BrowseProductsPage).mParent.mFolder;
+			} else if (mParentPage is FavoritesPage) {
+				folder = (mParentPage as FavoritesPage).mParent.mFolder;
+			} else if (mParentPage is SearchPage) {
+				folder = (mParentPage as SearchPage).mParent.mFolder;
+			}
+
+			if( folder.CheckExistsAsync(ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName).Result != PCLStorage.ExistenceCheckResult.NotFound)
+				productImage.Source = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName;
+			else
+				productImage.Source = ImageSource.FromResource("bluemart.SavedImages."+mProduct.ProductImageName);
 
 			var imageMask = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(126),
