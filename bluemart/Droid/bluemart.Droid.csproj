@@ -163,13 +163,13 @@
     <Compile Include="FontsOverride.cs" />
     <Compile Include="XLabs\Controls\GridView\GridViewAdapter.cs" />
     <Compile Include="XLabs\Controls\GridView\GridViewCellContainer.cs" />
-    <Compile Include="XLabs\Controls\GridView\GridViewRenderer.cs" />
     <Compile Include="TwinTechs\Droid\Controls\FastCellCache.cs" />
     <Compile Include="TwinTechs\Droid\Controls\FastCellRenderer.cs" />
     <Compile Include="TwinTechs\Droid\Controls\FastGridCellCache.cs" />
     <Compile Include="TwinTechs\Droid\Controls\PageViewContainerRenderer.cs" />
     <Compile Include="TwinTechs\Droid\Controls\ViewMaskExtensionProvider.cs" />
     <Compile Include="TwinTechs\Droid\Extensions\ViewExtensions.cs" />
+    <Compile Include="XLabs\Controls\GridView\GridViewRendererNew.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
