@@ -11,10 +11,10 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using Android.Widget;
 
-[assembly: ExportRenderer (typeof(LabsGridView), typeof(GridViewRenderer))]
+[assembly: ExportRenderer (typeof(LabsGridView), typeof(GridViewRendererNew))]
 namespace XLabs.Forms.Controls
 {
-	public class GridViewRenderer :  ViewRenderer<LabsGridView, RecyclerView>
+	public class GridViewRendererNew :  ViewRenderer<LabsGridView, RecyclerView> ,IGridViewProvider
 	{
 		private readonly Android.Content.Res.Orientation _orientation = Android.Content.Res.Orientation.Undefined;
 
@@ -25,11 +25,44 @@ namespace XLabs.Forms.Controls
 
 		RecyclerView.ItemDecoration _paddingDecoration;
 
-		public GridViewRenderer ()
+		public GridViewRendererNew ()
 		{
 		}
 
+		public void ScrollToItemWithIndex (int index, bool animated)
+		{
 
+			/*int cellHeight = _recyclerView.ComputeVerticalScrollRange () / (_recyclerView.ChildCount*2);
+			int y = cellHeight * index;
+			 */
+			//LinearLayoutManager linearLayoutManager = _layoutManager as LinearLayoutManager;
+			if(_recyclerView.ChildCount <= index + 2)
+				_recyclerView.SmoothScrollToPosition(index);
+			else
+				_recyclerView.SmoothScrollToPosition(index+2);
+			//linearLayoutManager
+			//linearLayoutManager.ScrollToPositionWithOffset(index, 0);
+			//_recyclerView.SmoothScrollToPosition (index);
+			/*
+			 * _recyclerView.ScrollY = y;
+			_recyclerView.ComputeScroll ();
+			*/
+			//System.Diagnostics.Debug.WriteLine ("aq" + y.ToString());
+
+			//_recyclerView.scroll
+			/*if (_gridCollectionView != null && _gridCollectionView.NumberOfItemsInSection (0) > index) {
+				var indexPath = NSIndexPath.FromRowSection (index, 0);
+				InvokeOnMainThread (() => {
+					_gridCollectionView.ScrollToItem (indexPath, UICollectionViewScrollPosition.Top, animated);
+				});
+			} else {
+				_initialIndex = index;
+			}*/
+		}
+		public void ReloadData ()
+		{
+			
+		}
 		#region overridden
 
 		protected override void OnConfigurationChanged (Configuration newConfig)
@@ -45,6 +78,7 @@ namespace XLabs.Forms.Controls
 			if (e.NewElement != null) {
 				CreateRecyclerView ();
 				base.SetNativeControl (_recyclerView);
+				e.NewElement.GridViewProvider = this;
 			}
 			//TODO unset
 			//			this.Unbind (e.OldElement);
@@ -81,6 +115,7 @@ namespace XLabs.Forms.Controls
 		void CreateRecyclerView ()
 		{
 			_recyclerView = new ScrollRecyclerView (Android.App.Application.Context);
+
 			_recyclerView.Touch += _recyclerView_Touch;
 			var scrollListener = new GridViewScrollListener (Element, _recyclerView);
 			_recyclerView.AddOnScrollListener (scrollListener);
@@ -105,6 +140,10 @@ namespace XLabs.Forms.Controls
 
 			_recyclerView.SetAdapter (_adapter);
 			UpdatePadding ();
+			scrollListener.itemCount = _layoutManager.ItemCount;
+			//_layoutManager.ItemCount
+			//System.Diagnostics.Debug.WriteLine ("{0},{1},{2}",_recyclerView.ChildCount,_layoutManager.ItemCount,_layoutManager.ChildCount);
+
 		}
 
 
@@ -159,7 +198,7 @@ namespace XLabs.Forms.Controls
 						horizontalPadding = (int)Element.ColumnSpacing;
 					}
 
-					Console.WriteLine (" width {0} items using {1} padding {2} iwdith {3} ", _recyclerView.Width, numberOfItemsToUse, horizontalPadding, Element.ItemWidth);
+					//Console.WriteLine (" width {0} items using {1} padding {2} iwdith {3} ", _recyclerView.Width, numberOfItemsToUse, horizontalPadding, Element.ItemWidth);
 				}
 			}
 
@@ -197,7 +236,7 @@ namespace XLabs.Forms.Controls
 
 		void _recyclerView_Touch (object sender, TouchEventArgs e)
 		{
-			Console.WriteLine ("ExtendedWebViewRenderer_Touch");
+			//Console.WriteLine ("ExtendedWebViewRenderer_Touch");
 			var ev = e.Event;
 			MotionEventActions action = ev.Action & MotionEventActions.Mask;
 			switch (action) {
@@ -208,8 +247,8 @@ namespace XLabs.Forms.Controls
 				//				Console.WriteLine ("START start ", _startEventY);
 				break;
 			case MotionEventActions.Move:
-				float delta = (ev.GetY () + _heightChange) - _startEventY;
-				Element.RaiseOnScroll (delta, _recyclerView.GetVerticalScrollOffset ());
+				//float delta = (ev.GetY () + _heightChange) - _startEventY;
+				//Element.RaiseOnScroll (delta, _recyclerView.GetVerticalScrollOffset ());
 
 				//				Console.WriteLine ("scrolling delta is {0}, change {1}, start {2}", delta, _heightChange, _startEventY);
 				//				Console.WriteLine ("SCROLLY  {0},", _recyclerView.GetVerticalScrollOffset ());
@@ -326,18 +365,25 @@ namespace XLabs.Forms.Controls
 		LabsGridView _gridView;
 
 		ScrollRecyclerView _recyclerView;
-
+		public int itemCount=0;
 		public GridViewScrollListener (GridView2 gridView, ScrollRecyclerView recyclerView)
 		{
 			_gridView = gridView;
 			_recyclerView = recyclerView;
 		}
-
 		public override void OnScrolled (RecyclerView recyclerView, int dx, int dy)
 		{
 			base.OnScrolled (recyclerView, dx, dy);
-			_gridView.RaiseOnScroll (dy, _recyclerView.GetVerticalScrollOffset ());
-			Console.WriteLine (">>>>>>>>> {0},{1}", dy, _recyclerView.GetVerticalScrollOffset ());
+			//_gridView.RaiseOnScroll (dy, _recyclerView.GetVerticalScrollOffset ());
+			//if(cellHeight==0)
+			int cellHeight = _recyclerView.ComputeVerticalScrollRange () /  ((int)Math.Ceiling((itemCount*1.0)/2.0));
+			int currentItemIndex = _recyclerView.GetVerticalScrollOffset () / cellHeight;
+			//Console.WriteLine (currentItemIndex.ToString());
+			_gridView.RaiseOnScroll (dy, currentItemIndex);
+			/*Console.WriteLine ("aq>>>>>>>>> {0},{1},{2},{3},{4}", recyclerView.ComputeVerticalScrollExtent ()
+				, _recyclerView.GetVerticalScrollOffset (), _recyclerView.ComputeVerticalScrollRange (),cellHeight,_recyclerView.ChildCount);
+			*/
+			
 		}
 	}
 }

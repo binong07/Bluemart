@@ -1165,18 +1165,19 @@ namespace bluemart.MainViews
 			ProductGrid = new GridView2(){};
 			//ProductGrid.Padding = new Thickness (MyDevice.GetScaledSize(13), 0, 0, MyDevice.GetScaledSize(13)); 
 			//ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (13);
-			ProductGrid.ContentPaddingLeft = MyDevice.GetScaledSize (10);
-			ProductGrid.ContentPaddingRight = MyDevice.GetScaledSize (10);
+			//ProductGrid.ContentPaddingLeft = MyDevice.GetScaledSize (10);
+			//ProductGrid.ContentPaddingRight = MyDevice.GetScaledSize (10);
 			ProductGrid.WidthRequest = MyDevice.ScreenWidth;
 			//ProductGrid.IsContentCentered = true;
 			ProductGrid.RowSpacing = MyDevice.GetScaledSize (10);
 			//ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (10);
-			ProductGrid.ItemWidth = MyDevice.GetScaledSize (300);
+			ProductGrid.ItemWidth = MyDevice.GetScaledSize (298);
 			ProductGrid.ItemHeight = MyDevice.GetScaledSize (377);
-			ProductGrid.SelectionEnabled = false;
+			ProductGrid.SelectionEnabled = true;
 			ProductGrid.ItemTemplate = new DataTemplate (typeof(ProductCellNew));
-
-
+			ProductGrid.IsScrollEnabled = true;
+			ProductGrid.MaxItemsPerRow = 2;
+			ProductGrid.CenterAsFilledRow=true;
 			var valueList = mProductDictionary.Values.Cast<List<Product>> ().ToList();
 			//var tempProductList = new List<Product> ();
 			foreach (var products in valueList) {
@@ -1311,7 +1312,10 @@ namespace bluemart.MainViews
 		}			
 		private void OnScrolled (object sender, TwinTechs.Controls.ControlScrollEventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine (e.CurrentY);
+			//System.Diagnostics.Debug.WriteLine ("aa"+e.CurrentY);
+
+			//System.Diagnostics.Debug.WriteLine ("aa" + ProductGrid._initialIndex.ToString());
+			//System.Diagnostics.Debug.WriteLine (e.CurrentY.ToString()+" "+ProductGrid.Bounds.ToString());
 			/*if (e.Delta < 0) {
 				if (mActiveButtonIndex + 1 != mCategoryIndexList.Count) {
 					int productCellIndex = mCategoryIndexList [mActiveButtonIndex + 1];
@@ -1418,12 +1422,23 @@ namespace bluemart.MainViews
 
 
 
-		private async void FocusSelectedButton(Label selectedButton)
-		{			
-			/*	mActiveButtonIndex = mButtonList.IndexOf (selectedButton);			
+		private void FocusSelectedButton(Label selectedButton)
+		{		
+					
+			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);			
 			int productCellIndex = mCategoryIndexList [mActiveButtonIndex];
 			ChangeSelectedButton ();
-
+			//System.Diagnostics.Debug.WriteLine ("aa" + ProductGrid._initialIndex.ToString());
+			//ProductGrid.GridViewProvider.ScrollToItemWithIndex (productCellIndex,true);
+			/*if(ProductGrid.GridViewProvider==null)
+			{
+				IGridViewProvider _gridViewProvider = ProductGrid;
+				System.Diagnostics.Debug.WriteLine ("aa");
+				ProductGrid.GridViewProvider = _gridViewProvider;
+				_gridViewProvider.ScrollToItemWithIndex (productCellIndex,false);
+			}*/
+			ProductGrid.ScrollToItemWithIndex (productCellIndex,false);
+			/*
 			lock (_ListLock) {
 				mManagerProductCellQueue.Clear ();
 			}
