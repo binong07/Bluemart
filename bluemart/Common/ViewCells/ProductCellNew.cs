@@ -8,6 +8,7 @@ using bluemart.Common.Utilities;
 using bluemart.Models.Local;
 using bluemart.MainViews;
 using System.Threading.Tasks;
+using bluemart.Models.Remote;
 
 namespace bluemart
 {
@@ -57,7 +58,24 @@ namespace bluemart
 					}
 				} else
 					mProduct = product;
-				mProductImage.Source = mProduct.ProductImagePath;    
+
+				PCLStorage.IFolder folder=null;
+
+				if (mParent is BrowseProductsPage) {
+					folder = (mParent as BrowseProductsPage).mParent.mFolder;
+				} else if (mParent is FavoritesPage) {
+					folder = (mParent as FavoritesPage).mParent.mFolder;
+				} else if (mParent is SearchPage) {
+					folder = (mParent as SearchPage).mParent.mFolder;
+				}
+
+				if( folder.CheckExistsAsync(ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName).Result != PCLStorage.ExistenceCheckResult.NotFound)
+					mProductImage.Source = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName;
+				else
+					mProductImage.Source = ImageSource.FromResource("bluemart.SavedImages."+mProduct.ProductImageName);
+
+
+
 				productNameLabel.Text = mProduct.Name;
 				productQuantityLabel.Text = mProduct.Quantity;
 				productPriceLabel.Text = "AED " + mProduct.Price.ToString ();

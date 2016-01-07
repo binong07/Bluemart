@@ -190,12 +190,12 @@ namespace bluemart.Models.Remote
 			CategoryList.Clear ();
 
 			foreach (string categoryID in CategoryModel.mCategoryIDList) {
-				string ImagePath = ImageModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary[categoryID] + ".jpg";
+				string ImageName = CategoryModel.mImageNameDictionary[categoryID] + ".jpg";
 				string CategoryName = CategoryModel.mCategoryNameDictionary [categoryID];
 				bool isSubCategory = CategoryModel.mIsSubCategoryDictionary [categoryID];
 				List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [categoryID];
 
-				CategoryList.Add( new Category( CategoryName,ImagePath,isSubCategory,categoryID,SubCategoryIDList) );
+				CategoryList.Add( new Category( CategoryName,ImageName,isSubCategory,categoryID,SubCategoryIDList) );
 			}
 		}
 	}

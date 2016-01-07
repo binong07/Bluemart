@@ -118,14 +118,15 @@ namespace bluemart
 			//await bgImage.LayoutTo ( newPos, 6000, Easing.Linear);
 			mUserModel.CreateUserTable ();
 			await Task.Delay (100);
-			if (ImageModel.mRootFolder.CheckExistsAsync (ParseConstants.IMAGE_FOLDER_NAME).Result.ToString () != "FolderExists") {
+
+			/*if (ImageModel.mRootFolder.CheckExistsAsync (ParseConstants.IMAGE_FOLDER_NAME).Result.ToString () != "FolderExists") {
 				ImageModel.MoveImagesToLocal (this);
 				try {
 					await Task.Delay (600000000, mFirstTokenSource.Token);
 				} catch {
 					mFirstTokenSource = new CancellationTokenSource ();
 				}
-			}
+			}*/
 			await ProgressBar1.ProgressTo (0.2f, 250, Easing.Linear);
 			ImageModel.GetImagesFromRemote (this);
 			try{

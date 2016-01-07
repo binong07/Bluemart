@@ -73,7 +73,7 @@ namespace bluemart
 				RetryDelay = 250,
 				TransparencyEnabled = false,
 				FadeAnimationEnabled = false,
-				Source = product.ProductImagePath
+				Source = product.ProductImageName
 			};
 
 			var imageMask = new CachedImage () {

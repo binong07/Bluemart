@@ -14,7 +14,7 @@ namespace bluemart.Common.Utilities
 		public static string TOBACCO_ID = "Omwz701hpB";
 		static ReleaseConfig()
 		{
-			DateTime.TryParse ("2015-12-30T22:56:57.003Z", out LAST_UPDATEDATE);
+			DateTime.TryParse ("2016-01-04T23:14:54.275Z", out LAST_UPDATEDATE);
 		}
 	}
 }

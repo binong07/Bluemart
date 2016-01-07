@@ -33,17 +33,25 @@ namespace bluemart.Common.ViewCells
 			mProductDictionary = new Dictionary<string, List<Product>> ();
 			mUser = new UserClass ();
 
+
+
 			CachedImage categoryImage = new CachedImage ()
 			{
 				WidthRequest = MyDevice.GetScaledSize (619),
 				HeightRequest = MyDevice.GetScaledSize (202),
-				Source = category.CategoryImagePath,
+				Source = category.CategoryImageName,
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false
-			};
+			};				
+
+				//
+			if( mParent.mFolder.CheckExistsAsync(ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + category.CategoryImageName).Result != PCLStorage.ExistenceCheckResult.NotFound)
+				categoryImage.Source = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + category.CategoryImageName;
+			else
+				categoryImage.Source = ImageSource.FromResource("bluemart.SavedImages."+category.CategoryImageName);
 
 			/*Label shadowCategoryText = new Label (){
 				FontSize = MyDevice.FontSizeMedium, 
@@ -136,12 +144,12 @@ namespace bluemart.Common.ViewCells
 							if (!storeNumberList.Contains (store))
 								continue;
 
-							string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+							string ImageName = ProductModel.mProductImageNameDictionary [productID] + ".jpg";
 							string ProductName = ProductModel.mProductNameDictionary [productID];
 							decimal price = ProductModel.mProductPriceDictionary [productID];
 							string quantity = ProductModel.mProductQuantityDictionary [productID];
 							string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
-							product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity));
+							product.Add (new Product (productID, ProductName, ImageName, price, parentCategory, quantity));
 						}
 						 
 					}
@@ -184,11 +192,11 @@ namespace bluemart.Common.ViewCells
 							continue;
 						
 						decimal price = ProductModel.mProductPriceDictionary [productID];
-						string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+						string ImageName = ProductModel.mProductImageNameDictionary [productID] + ".jpg";
 						string ProductName = ProductModel.mProductNameDictionary [productID];						
 						string quantity = ProductModel.mProductQuantityDictionary [productID];
 						string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
-						product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity)); 
+						product.Add (new Product (productID, ProductName, ImageName, price, parentCategory, quantity)); 
 					}
 				}
 
@@ -203,11 +211,11 @@ namespace bluemart.Common.ViewCells
 			if (CategoryModel.mSubCategoryDictionary.ContainsKey (mCategory.CategoryID) && 
 				CategoryModel.mSubCategoryDictionary[mCategory.CategoryID].Count > 0) {
 				foreach (string subCategoryID in CategoryModel.mSubCategoryDictionary[mCategory.CategoryID]) {
-					string ImagePath = ImageModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary [subCategoryID] + ".jpg";
+					string ImageName = CategoryModel.mImageNameDictionary[subCategoryID] + ".jpg";
 					string CategoryName = CategoryModel.mCategoryNameDictionary [subCategoryID];
 					List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [subCategoryID];
 
-					mCategoryList.Add (new Category (CategoryName, ImagePath, categoryID: subCategoryID));
+					mCategoryList.Add (new Category (CategoryName, ImageName, categoryID: subCategoryID));
 				}				
 			} else {
 				mCategoryList.Add (mCategory);	
