@@ -114,6 +114,7 @@ namespace bluemart.Models.Remote
 							}
 							double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, queryCount)), 10), 5), j++),new decimal(0.2f)));
 							loadingPage.ProgressBar1.Progress = scrollPos;
+							//await Task.Delay (10);
 							//await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 						}
 						mUserModel.AddImagesUpdateDateToUser (remoteUpdate);

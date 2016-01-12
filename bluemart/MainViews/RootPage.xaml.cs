@@ -144,6 +144,7 @@ namespace bluemart.MainViews
 		public void ReloadStreams()
 		{
 			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
+
 			//mCategoryBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.categoryBorder.png");
 			//mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.ProductsPage_RemoveFavorites.png");
 			//mAddFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.ProductsPage_AddFavorites.png");
@@ -207,13 +208,14 @@ namespace bluemart.MainViews
 				mBrowseCategoriesPage.UpdatePriceLabel ();
 				mBrowseCategoriesPage.UpdateProductCountLabel ();
 
-				if(mBrowseCategoriesPage.IsCartOpen)
+				if (mBrowseCategoriesPage.IsCartOpen)
 					mBrowseCategoriesPage.ActivateOrDeactivateCart ();
-				if(mBrowseCategoriesPage.IsMenuOpen)
+				if (mBrowseCategoriesPage.IsMenuOpen)
 					mBrowseCategoriesPage.ActivateOrDeactivateMenu ();
 				//mFooter.ChangeColorOfLabel (mFooter.mCategoriesLabel);
 				//mFooter.ChangeImageOfButton (0);
 				SwitchContent (mBrowseCategoriesPage.Content);
+
 				mCurrentPage = pageName;
 				break;			
 			case "History":

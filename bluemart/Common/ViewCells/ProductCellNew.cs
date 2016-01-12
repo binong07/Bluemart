@@ -291,6 +291,23 @@ namespace bluemart
 				Constraint.Constant(MyDevice.GetScaledSize(52))
 			);
 
+
+
+			mainRelativeLayout.Children.Add (addButton,
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(159);
+				}),
+				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize(307);
+				})
+			);
+
+			mainRelativeLayout.Children.Add (mProductForegroundImage,
+				Constraint.Constant (MyDevice.GetScaledSize(0)),
+				Constraint.Constant (MyDevice.GetScaledSize(0))
+			);
+
+
 			mainRelativeLayout.Children.Add (productNameLabel,
 				Constraint.RelativeToView(mProductImage, (p,sibling) => {
 					return sibling.Bounds.Left + MyDevice.GetScaledSize(5);
@@ -316,20 +333,6 @@ namespace bluemart
 				Constraint.RelativeToView(productQuantityLabel, (p,sibling) => {
 					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(5);
 				})
-			);
-
-			mainRelativeLayout.Children.Add (addButton,
-				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
-					return sibling.Bounds.Left + MyDevice.GetScaledSize(159);
-				}),
-				Constraint.RelativeToView(mProductForegroundImage, (p,sibling) => {
-					return sibling.Bounds.Top + MyDevice.GetScaledSize(307);
-				})
-			);
-
-			mainRelativeLayout.Children.Add (mProductForegroundImage,
-				Constraint.Constant (MyDevice.GetScaledSize(0)),
-				Constraint.Constant (MyDevice.GetScaledSize(0))
 			);
 
 			mainRelativeLayout.Children.Add (mProductNumberLabel,

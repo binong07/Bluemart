@@ -970,8 +970,7 @@ namespace bluemart.MainViews
 
 			var deleteButtonTapRecognizer= new TapGestureRecognizer ();
 			deleteButtonTapRecognizer.Tapped += (sender, e) => {				
-				if( SearchEntry.Text.Length > 0 )
-					SearchEntry.Text = SearchEntry.Text.Remove(SearchEntry.Text.Length - 1);
+				SearchEntry.Text = "";
 			};
 			deleteButton.GestureRecognizers.Add(deleteButtonTapRecognizer);
 

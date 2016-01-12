@@ -49,6 +49,7 @@ namespace bluemart.MainViews
 		private RelativeLayout InputBlockerForSwipeMenu;
 		private RelativeLayout InputBlockerForSwipeCart;
 
+
 		public BrowseCategoriesPage (RootPage parent)
 		{		
 			InitializeComponent ();
@@ -324,8 +325,7 @@ namespace bluemart.MainViews
 						foreach(var categoryCell in mCategoryCellList)
 						{
 							if( category != null && categoryCell.mCategory == category )
-							{
-								IsMenuOpen = false;
+							{								
 								categoryCell.LoadProductsPage(category.CategoryID,mParent);
 							}
 						}
@@ -784,8 +784,8 @@ namespace bluemart.MainViews
 
 			var deleteButtonTapRecognizer= new TapGestureRecognizer ();
 			deleteButtonTapRecognizer.Tapped += (sender, e) => {				
-				if( SearchEntry.Text.Length > 0 )
-					SearchEntry.Text = SearchEntry.Text.Remove(SearchEntry.Text.Length - 1);
+				//if( SearchEntry.Text.Length > 0 )
+				SearchEntry.Text = "";
 			};
 			deleteButton.GestureRecognizers.Add(deleteButtonTapRecognizer);
 

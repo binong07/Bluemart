@@ -27,7 +27,7 @@ namespace bluemart.MainViews
 		private RelativeLayout mSwitchLayout;
 		private RelativeLayout mBottomLayout;
 		private Label categoriesLabel;
-		private CachedImage menuIcon;
+		private Image menuIcon;
 		private bool IsMenuOpen = false;
 		private double mMenuWidth = 517.0;
 
@@ -218,28 +218,16 @@ namespace bluemart.MainViews
 				BackgroundColor = Color.FromRgb(38,153,200)
 			};
 
-			menuIcon = new CachedImage () {
+			menuIcon = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "CategoriesPage_MenuIcon",
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				Source = "CategoriesPage_MenuIcon"
 			};
 
-			var logo = new CachedImage () {
+			var logo = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(217),
 				HeightRequest = MyDevice.GetScaledSize(39),
-				Source = "ReceiptPage_Logo",
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				Source = "ReceiptPage_Logo"
 			};
 
 

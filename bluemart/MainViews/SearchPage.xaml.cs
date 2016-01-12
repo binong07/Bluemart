@@ -976,15 +976,9 @@ namespace bluemart.MainViews
 				MaxLength = 15
 			};
 
-			var searchImage = new CachedImage () {
+			var searchImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(583),
 				HeightRequest = MyDevice.GetScaledSize(52),
-				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
-				RetryCount = 10,
-				RetryDelay = 250,
-				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,
 				Source = "ProductsPage_SearchBar"	
 			};
 
@@ -1022,8 +1016,7 @@ namespace bluemart.MainViews
 
 			var deleteButtonTapRecognizer= new TapGestureRecognizer ();
 			deleteButtonTapRecognizer.Tapped += (sender, e) => {				
-				if( SearchEntry.Text.Length > 0 )
-					SearchEntry.Text = SearchEntry.Text.Remove(SearchEntry.Text.Length - 1);
+				SearchEntry.Text = "";
 			};
 			deleteButton.GestureRecognizers.Add(deleteButtonTapRecognizer);
 
@@ -1166,9 +1159,9 @@ namespace bluemart.MainViews
 
 		private void PopulateSearch(BrowseProductsPage productPage)
 		{
-			if (productPage != null)
+			/*if (productPage != null)
 				ProductModel.PopulateSearchProductListWithCategoryID (mSearchString,productPage.mCategoryID);
-			else
+			else*/
 				ProductModel.PopulateSearchProductList (mSearchString);
 
 			mRowCount = Convert.ToInt32 (Math.Ceiling (ProductModel.mSearchProductIDList.Count / 2.0f));
