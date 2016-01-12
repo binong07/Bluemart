@@ -379,7 +379,7 @@ namespace XLabs.Forms.Controls
 			int cellHeight = _recyclerView.ComputeVerticalScrollRange () /  ((int)Math.Ceiling((itemCount*1.0)/2.0));
 			int currentItemIndex = _recyclerView.GetVerticalScrollOffset () / cellHeight;
 			//Console.WriteLine (currentItemIndex.ToString());
-			_gridView.RaiseOnScroll (dy, currentItemIndex);
+			_gridView.RaiseOnScroll (dy,  _recyclerView.GetVerticalScrollOffset (),currentItemIndex);
 			/*Console.WriteLine ("aq>>>>>>>>> {0},{1},{2},{3},{4}", recyclerView.ComputeVerticalScrollExtent ()
 				, _recyclerView.GetVerticalScrollOffset (), _recyclerView.ComputeVerticalScrollRange (),cellHeight,_recyclerView.ChildCount);
 			*/

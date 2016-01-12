@@ -82,8 +82,12 @@ namespace bluemart.Models.Remote
 
 			int queryLimit = 1000;
 			int j = 0;
+			//DateTime startG = DateTime.Now;
 			for (int i = 0; i < productCount; i += queryLimit) {
+				//DateTime start = DateTime.Now;
 				var productObjects = productQuery.Limit(queryLimit).Skip(i).FindAsync ().Result;
+				//TimeSpan delta = start - DateTime.Now;
+				//System.Diagnostics.Debug.WriteLine ("delta time:" + delta.TotalMilliseconds.ToString());
 
 				List<ProductClass> tempList = new List<ProductClass> ();
 				foreach (var productObject in productObjects) {
@@ -115,12 +119,15 @@ namespace bluemart.Models.Remote
 					tempList.Add (tempProduct);
 
 					double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, productCount)), 10), 1), j++),new decimal(0.9f)));
-					await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
+					loadingPage.ProgressBar1.Progress = scrollPos;
+					//await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 				}
 
 				mProductClass.AddProduct (tempList);	
 				
 			}
+			//TimeSpan deltaG = startG - DateTime.Now;
+			//System.Diagnostics.Debug.WriteLine ("delta time in general:" + deltaG.TotalMilliseconds.ToString());
 			loadingPage.mFirstTokenSource.Cancel ();
 		}
 

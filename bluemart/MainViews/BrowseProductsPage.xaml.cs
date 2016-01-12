@@ -1312,37 +1312,27 @@ namespace bluemart.MainViews
 		}			
 		private void OnScrolled (object sender, TwinTechs.Controls.ControlScrollEventArgs e)
 		{
-			//System.Diagnostics.Debug.WriteLine ("aa"+e.CurrentY);
+			//System.Diagnostics.Debug.WriteLine ("delta:"+e.Delta.ToString()+" current:"+e.CurrentY + " curentRow:" +e.CurrentRow);
+			//System.Diagnostics.Debug.WriteLine ("mActiveButtonIndex:"+mActiveButtonIndex.ToString()+" mCategoryIndexList.Count:"+mCategoryIndexList.Count );
 
-			//System.Diagnostics.Debug.WriteLine ("aa" + ProductGrid._initialIndex.ToString());
-			//System.Diagnostics.Debug.WriteLine (e.CurrentY.ToString()+" "+ProductGrid.Bounds.ToString());
-			/*if (e.Delta < 0) {
+			if (e.Delta > 0) {
 				if (mActiveButtonIndex + 1 != mCategoryIndexList.Count) {
 					int productCellIndex = mCategoryIndexList [mActiveButtonIndex + 1];
-					try {
-						double top = ProductGrid.Children.ElementAt (productCellIndex).Bounds.Top;					
-						if (e.CurrentY > top) {
-							mActiveButtonIndex += 1;
-							ChangeSelectedButton();
-						}
-					} catch {
-						System.Diagnostics.Debug.WriteLine ("Something is wrong with Product Number in Grid");
+					if (e.CurrentRow * 2 >= productCellIndex) {
+						mActiveButtonIndex += 1;
+						ChangeSelectedButton ();
 					}
 				}
-
-
-				if ( e.CurrentY >= ProductGrid.Children.ElementAt (mLastLoadedIndex).Bounds.Bottom-50 ) {
-					int endIndex = (int)Math.Ceiling (e.CurrentY / (int)Math.Floor(ProductGrid.Children.ElementAt(0).Height-MyDevice.ViewPadding/2)) * 2 - 1;
-
-					if (endIndex >= ProductGrid.Children.Count) {
-						endIndex = ProductGrid.Children.Count - 1;
-					} 
-
-					mLastLoadedIndex = endIndex;
-
+			} else
+			{
+				if (mActiveButtonIndex  != -0) {
+					int productCellIndex = mCategoryIndexList [mActiveButtonIndex  ];
+					if (e.CurrentRow * 2 <= productCellIndex) {
+						mActiveButtonIndex -= 1;
+						ChangeSelectedButton ();
+					}
 				}
-			}else{
-			}*/
+			}
 		}
 		/*
 		private void  OnScrolled( Object sender, ScrolledEventArgs e)
@@ -1405,7 +1395,7 @@ namespace bluemart.MainViews
 				}
 			}				
 		}				
-*/	
+
 
 		private string DecideIfIsUpOrDown(ScrollView scrollView)
 		{
@@ -1420,7 +1410,7 @@ namespace bluemart.MainViews
 			return rotation;
 		}
 
-
+*/	
 
 		private void FocusSelectedButton(Label selectedButton)
 		{		
@@ -1464,7 +1454,7 @@ namespace bluemart.MainViews
 			mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
 			mEnabledBoxView.IsVisible = true;
 		}
-
+		/*
 		private void PopulateGrid()
 		{
 			SetGrid2Definitions ();
@@ -1492,7 +1482,7 @@ namespace bluemart.MainViews
 
 			//LoadInitialImages ();
 		}
-
+*/
 		private async void CheckIfLastIndexChanged(){
 
 			while (true) {

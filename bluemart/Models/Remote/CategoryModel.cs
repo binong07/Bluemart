@@ -93,7 +93,8 @@ namespace bluemart.Models.Remote
 					tempList.Add (tempCategory);
 
 					double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, categoryCount)), 10), 1), j++),new decimal(0.8f)));
-					await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
+					loadingPage.ProgressBar1.Progress = scrollPos;
+					//await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 				}
 
 				mCategoryClass.AddCategory (tempList);
@@ -190,12 +191,14 @@ namespace bluemart.Models.Remote
 			CategoryList.Clear ();
 
 			foreach (string categoryID in CategoryModel.mCategoryIDList) {
-				string ImageName = CategoryModel.mImageNameDictionary[categoryID] + ".jpg";
+				//string ImageName = CategoryModel.mImageNameDictionary[categoryID] + ".jpg";
+				string ImagePath = ImageModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary[categoryID] + ".jpg";
 				string CategoryName = CategoryModel.mCategoryNameDictionary [categoryID];
 				bool isSubCategory = CategoryModel.mIsSubCategoryDictionary [categoryID];
 				List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [categoryID];
 
-				CategoryList.Add( new Category( CategoryName,ImageName,isSubCategory,categoryID,SubCategoryIDList) );
+				//CategoryList.Add( new Category( CategoryName,ImageName,isSubCategory,categoryID,SubCategoryIDList) );
+				CategoryList.Add( new Category( CategoryName,ImagePath,isSubCategory,categoryID,SubCategoryIDList) );
 			}
 		}
 	}

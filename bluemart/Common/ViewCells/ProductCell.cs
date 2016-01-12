@@ -96,7 +96,7 @@ namespace bluemart.Common.ViewCells
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				Source = mProduct.ProductImageName,
+				Source = mProduct.ProductImagePath,
 				FadeAnimationEnabled = false
 			};
 
@@ -421,7 +421,7 @@ namespace bluemart.Common.ViewCells
 
 		public void ProduceProductImages()
 		{			
-			System.Diagnostics.Debug.WriteLine (mProduct.ProductImageName);
+			System.Diagnostics.Debug.WriteLine (mProduct.ProductImagePath);
 
 			/*var file = mRootPage.mFolder.GetFileAsync (mProduct.ProductImagePath).Result;
 			Stream stream = new MemoryStream();
@@ -442,7 +442,7 @@ namespace bluemart.Common.ViewCells
 			mProductImageStream.Position = 0;*/
 
 			//mProductImage.Source = StreamImageSource.FromStream (()=>mProductImageStream);
-			mProductImage.Source = mProduct.ProductImageName;
+			mProductImage.Source = mProduct.ProductImagePath;
 		}
 
 		public void ClearStreamsAndImages()

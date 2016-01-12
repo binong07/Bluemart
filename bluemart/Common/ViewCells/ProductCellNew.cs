@@ -8,7 +8,7 @@ using bluemart.Common.Utilities;
 using bluemart.Models.Local;
 using bluemart.MainViews;
 using System.Threading.Tasks;
-using bluemart.Models.Remote;
+//using bluemart.Models.Remote;
 
 namespace bluemart
 {
@@ -59,6 +59,9 @@ namespace bluemart
 				} else
 					mProduct = product;
 
+				mProductImage.Source = mProduct.ProductImagePath;    
+
+				/*
 				PCLStorage.IFolder folder=null;
 
 				if (mParent is BrowseProductsPage) {
@@ -73,7 +76,7 @@ namespace bluemart
 					mProductImage.Source = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName;
 				else
 					mProductImage.Source = ImageSource.FromResource("bluemart.SavedImages."+mProduct.ProductImageName);
-
+*/
 
 
 				productNameLabel.Text = mProduct.Name;
@@ -171,11 +174,12 @@ namespace bluemart
 				WidthRequest = MyDevice.GetScaledSize(250),
 				HeightRequest = MyDevice.GetScaledSize(198),
 				CacheDuration = TimeSpan.FromDays(30),
-				DownsampleToViewSize = true,
+				//DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				FadeAnimationEnabled = false,
+
 			};
 			productNameLabel = new Label (){ 
 				FontSize = MyDevice.FontSizeMicro, 

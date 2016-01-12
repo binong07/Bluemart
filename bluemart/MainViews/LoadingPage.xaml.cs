@@ -119,15 +119,23 @@ namespace bluemart
 			mUserModel.CreateUserTable ();
 			await Task.Delay (100);
 
-			/*if (ImageModel.mRootFolder.CheckExistsAsync (ParseConstants.IMAGE_FOLDER_NAME).Result.ToString () != "FolderExists") {
+			DateTime start = DateTime.Now;
+
+			if (ImageModel.mRootFolder.CheckExistsAsync (ParseConstants.IMAGE_FOLDER_NAME).Result.ToString () != "FolderExists") {
 				ImageModel.MoveImagesToLocal (this);
 				try {
 					await Task.Delay (600000000, mFirstTokenSource.Token);
 				} catch {
 					mFirstTokenSource = new CancellationTokenSource ();
 				}
-			}*/
+			}
 			await ProgressBar1.ProgressTo (0.2f, 250, Easing.Linear);
+
+			TimeSpan delta = start - DateTime.Now;
+			System.Diagnostics.Debug.WriteLine ("Move Local takes:" + delta.TotalMilliseconds.ToString());
+
+			start = DateTime.Now;
+
 			ImageModel.GetImagesFromRemote (this);
 			try{
 				await Task.Delay (600000000,mFirstTokenSource.Token);
@@ -137,6 +145,11 @@ namespace bluemart
 			}
 
 			await ProgressBar1.ProgressTo (0.8f, 250, Easing.Linear);
+
+			delta = start - DateTime.Now;
+			System.Diagnostics.Debug.WriteLine ("Get Images From Remote takes:" + delta.TotalMilliseconds.ToString());
+
+			start = DateTime.Now;
 
 			CategoryModel.FetchCategories (this);
 
@@ -150,6 +163,11 @@ namespace bluemart
 
 			await ProgressBar1.ProgressTo (0.9f, 250, Easing.Linear);
 
+			delta = start - DateTime.Now;
+			System.Diagnostics.Debug.WriteLine ("Get Categories takes:" + delta.TotalMilliseconds.ToString());
+
+			start = DateTime.Now;
+
 			ProductModel.FetchProducts (this);
 
 			try{
@@ -161,6 +179,10 @@ namespace bluemart
 			}
 
 			await ProgressBar1.ProgressTo (1f, 250, Easing.Linear);
+
+			delta = start - DateTime.Now;
+			System.Diagnostics.Debug.WriteLine ("Get Products takes:" + delta.TotalMilliseconds.ToString());
+
 			Application.Current.MainPage = new NavigationPage (new MainPage ());
 		}			
 	}

@@ -382,9 +382,9 @@ namespace XLabs.Forms.Controls
 		public event EventHandler OnStopScroll;
 		public event EventHandler<ControlScrollEventArgs> OnScroll;
 
-		public void RaiseOnScroll (float delta, float currentY)
+		public void RaiseOnScroll (float delta, float currentY, int currentRow)
 		{
-			var args = new ControlScrollEventArgs (delta, currentY);
+			var args = new ControlScrollEventArgs (delta, currentY, currentRow);
 			if (OnScroll != null) {
 				OnScroll (this, args);
 			}

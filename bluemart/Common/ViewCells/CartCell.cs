@@ -85,12 +85,12 @@ namespace bluemart
 			} else if (mParentPage is SearchPage) {
 				folder = (mParentPage as SearchPage).mParent.mFolder;
 			}
-
+			/*
 			if( folder.CheckExistsAsync(ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName).Result != PCLStorage.ExistenceCheckResult.NotFound)
 				productImage.Source = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName;
 			else
 				productImage.Source = ImageSource.FromResource("bluemart.SavedImages."+mProduct.ProductImageName);
-
+*/
 			var imageMask = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(126),
 				HeightRequest = MyDevice.GetScaledSize(122),

@@ -147,9 +147,10 @@ namespace bluemart.MainViews
 			//mCategoryBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.categoryBorder.png");
 			//mRemoveFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.ProductsPage_RemoveFavorites.png");
 			//mAddFavoritesImage = assembly.GetManifestResourceStream("bluemart.SavedImages.ProductsPage_AddFavorites.png");
-			//mBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.ProductsPage_ProductCell.png");
-			//mProductCellForeground = assembly.GetManifestResourceStream("bluemart.SavedImages.ProductsPage_ProductForeground.png");
-			mFolder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;			 
+			mBorderImage = assembly.GetManifestResourceStream("bluemart.SavedImages.ProductsPage_ProductCell.png");
+			mProductCellForeground = assembly.GetManifestResourceStream("bluemart.SavedImages.ProductsPage_ProductForeground.png");
+			mFolder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;             
+			//mFolder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;			 
 		}
 
 		private void SetGrid1Definitions()
