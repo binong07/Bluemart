@@ -36,10 +36,13 @@ namespace XLabs.Forms.Controls
 			int y = cellHeight * index;
 			 */
 			//LinearLayoutManager linearLayoutManager = _layoutManager as LinearLayoutManager;
-			if(_recyclerView.ChildCount <= index + 2)
+			/*if(_recyclerView.ChildCount <= index + 2)
 				_recyclerView.SmoothScrollToPosition(index);
 			else
-				_recyclerView.SmoothScrollToPosition(index+2);
+				_recyclerView.SmoothScrollToPosition(index+2);*/
+
+			_recyclerView.SmoothScrollToPosition(index);
+
 			//linearLayoutManager
 			//linearLayoutManager.ScrollToPositionWithOffset(index, 0);
 			//_recyclerView.SmoothScrollToPosition (index);

@@ -1454,6 +1454,7 @@ namespace bluemart.MainViews
 			mEnabledBoxView.IsVisible = false;
 			mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
 			mEnabledBoxView.IsVisible = true;
+			SubcategoryScrollView.ScrollToAsync(mEnabledBoxView,ScrollToPosition.Center,true);
 		}
 		/*
 		private void PopulateGrid()
