@@ -26,7 +26,7 @@ namespace bluemart.MainViews
 		public RootPage mParent;
 
 		ScrollView ProductScrollView;
-		Grid ProductGrid;
+		GridView2 ProductGrid;
 
 		private RelativeLayout InputBlocker;
 		private Category mCategory;
@@ -60,9 +60,10 @@ namespace bluemart.MainViews
 			InitializeComponent ();
 			mSearchString = searchString;
 			NavigationPage.SetHasNavigationBar (this, false);
-			InitializeLayout ();
+
 			//SetGrid1Definitions ();
 			PopulateSearch (mParent.mBrowseProductPage);
+			InitializeLayout ();
 		}
 
 		private void InitializeLayout()
@@ -1086,7 +1087,7 @@ namespace bluemart.MainViews
 
 		private void InitializeBottomLayout()
 		{
-			ProductGrid = new Grid () {
+			/*ProductGrid = new Grid () {
 				Padding = 0
 			};
 
@@ -1095,11 +1096,21 @@ namespace bluemart.MainViews
 			ProductScrollView = new ScrollView () {
 				Orientation = ScrollOrientation.Vertical,
 				Content = ProductGrid
-			};
+			};*/
+			ProductGrid = new GridView2(){};
+			ProductGrid.WidthRequest = MyDevice.ScreenWidth;
+			ProductGrid.RowSpacing = MyDevice.GetScaledSize (10);
+			ProductGrid.ItemWidth = MyDevice.GetScaledSize (298);
+			ProductGrid.ItemHeight = MyDevice.GetScaledSize (377);
+			ProductGrid.SelectionEnabled = true;
+			ProductGrid.ItemTemplate = new DataTemplate (typeof(ProductCellNew));
+			ProductGrid.IsScrollEnabled = true;
+			ProductGrid.MaxItemsPerRow = 2;
+			ProductGrid.CenterAsFilledRow=true;
 
+			ProductGrid.ItemsSource = mProductList;
 
-
-			mMidLayout.Children.Add (ProductScrollView,
+			mMidLayout.Children.Add (ProductGrid,
 				Constraint.Constant(0),
 				Constraint.RelativeToView (mSearchLayout, (parent, sibling) => {
 					return sibling.Bounds.Bottom;
@@ -1162,18 +1173,18 @@ namespace bluemart.MainViews
 			/*if (productPage != null)
 				ProductModel.PopulateSearchProductListWithCategoryID (mSearchString,productPage.mCategoryID);
 			else*/
-				ProductModel.PopulateSearchProductList (mSearchString);
+			ProductModel.PopulateSearchProductList (mSearchString);
 
 			mRowCount = Convert.ToInt32 (Math.Ceiling (ProductModel.mSearchProductIDList.Count / 2.0f));
 			PopulateProducts ();
-			PopulateGrid ();
+			//PopulateGrid ();
 		}
 
 		void PopulateProducts()
 		{
-			mProductCellList.Clear ();
-			mProductList.Clear ();
-			ProductGrid.Children.Clear ();
+			//mProductCellList.Clear ();
+			//mProductList.Clear ();
+		//	ProductGrid.Children.Clear ();
 			foreach (string productID in ProductModel.mSearchProductIDList ) {
 				string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
 				string ProductName = ProductModel.mProductNameDictionary [productID];
@@ -1183,7 +1194,7 @@ namespace bluemart.MainViews
 				mProductList.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity)); 
 			}
 		}
-
+		/*
 		private void PopulateGrid()
 		{
 			SetGrid2Definitions ();
@@ -1196,7 +1207,7 @@ namespace bluemart.MainViews
 					productCell.ProduceStreamsAndImages ();
 					productCell.ProduceProductImages ();
 					mProductCellList.Add (productCell);
-					ProductGrid.Children.Add (productCell.View, col, row);
+					//ProductGrid.Children.Add (productCell.View, col, row);
 
 					if ( counter == ProductModel.mSearchProductIDList.Count)
 						break;
@@ -1206,16 +1217,7 @@ namespace bluemart.MainViews
 
 		private void SetGrid2Definitions()
 		{
-			//SubCategoryStackLayout.Spacing = MyDevice.ViewPadding;
-			//SubcategoryScrollView.Padding = MyDevice.ViewPadding/2;
-			/*for (int i = 0; i < mRowCount; i++) 
-			{
-				Grid2.RowDefinitions.Add (new RowDefinition ());
-			}*/
-			ProductGrid.Padding = new Thickness (MyDevice.GetScaledSize(12), 0, 0, 0); 
-			ProductGrid.ColumnSpacing = MyDevice.GetScaledSize (0);
-			/*ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2});
-			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = (MyDevice.ScreenWidth-ProductGrid.ColumnSpacing-MyDevice.ViewPadding)/2}); */
+
 			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.ScreenWidth/2});
 			ProductGrid.ColumnDefinitions.Add (new ColumnDefinition(){Width = MyDevice.ScreenWidth/2});
 		}

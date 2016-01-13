@@ -73,7 +73,7 @@ namespace bluemart.Common.ViewCells
 			tapGestureRecognizer.Tapped +=async (sender, e) => {
 				if(category.CategoryID == ReleaseConfig.TOBACCO_ID)
 				{					
-					var isOk = await mParent.DisplayAlert("Sorry","I am 18 and i know smoking is bad for my health.","OK","CANCEL");
+					var isOk = await mParent.DisplayAlert("Warning","I am over 20 years old and I know smoking is bad for my health.","OK","CANCEL");
 					if(isOk)
 						LoadProductsPage(category.CategoryID,parent);										
 				}

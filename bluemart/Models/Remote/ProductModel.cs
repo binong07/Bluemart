@@ -101,9 +101,9 @@ namespace bluemart.Models.Remote
 					tempProduct.Quantity = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_QUANTITY);
 					tempProduct.IsTopSelling = productObject.Get<bool> (ParseConstants.PRODUCT_ATTRIBUTE_ISTOPSELLING);
 					tempProduct.Priority = productObject.Get<int> (ParseConstants.PRODUCT_ATTRIBUTE_PRIORITY);
-					if (tempList.Count > 152) {
+					/*if (tempList.Count > 152) {
 					}
-					/*if (productObject.Get<object> (ParseConstants.PRODUCT_ATTRIBUTE_PARENTCATEGORY) == null)
+					if (productObject.Get<object> (ParseConstants.PRODUCT_ATTRIBUTE_PARENTCATEGORY) == null)
 						tempProd*uct.ParentCategory = "";
 					else*/
 						tempProduct.ParentCategory = productObject.Get<string> (ParseConstants.PRODUCT_ATTRIBUTE_PARENTCATEGORY);

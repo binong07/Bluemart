@@ -76,7 +76,7 @@ namespace bluemart
 				FadeAnimationEnabled = false
 			};
 
-			PCLStorage.IFolder folder=null;
+			/*PCLStorage.IFolder folder=null;
 
 			if (mParentPage is BrowseProductsPage) {
 				folder = (mParentPage as BrowseProductsPage).mParent.mFolder;
@@ -84,13 +84,15 @@ namespace bluemart
 				folder = (mParentPage as FavoritesPage).mParent.mFolder;
 			} else if (mParentPage is SearchPage) {
 				folder = (mParentPage as SearchPage).mParent.mFolder;
-			}
+			}*/
 			/*
 			if( folder.CheckExistsAsync(ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName).Result != PCLStorage.ExistenceCheckResult.NotFound)
 				productImage.Source = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName;
 			else
 				productImage.Source = ImageSource.FromResource("bluemart.SavedImages."+mProduct.ProductImageName);
 */
+			productImage.Source = mProduct.ProductImagePath;
+
 			var imageMask = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(126),
 				HeightRequest = MyDevice.GetScaledSize(122),

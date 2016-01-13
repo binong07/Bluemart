@@ -126,7 +126,7 @@ namespace bluemart.MainViews
 
 		private void InitializeLayout()
 		{	
-			mainRelativeLayout.BackgroundColor = Color.FromRgb (236, 240, 241);
+			//mainRelativeLayout.BackgroundColor = Color.FromRgb (236, 240, 241);
 			mMidLayout = new RelativeLayout ();
 			mainRelativeLayout.BackgroundColor = Color.FromRgb (236, 240, 241);
 			mainRelativeLayout.Children.Add (mMidLayout,
@@ -1250,7 +1250,7 @@ namespace bluemart.MainViews
 			SubCategoryStackLayout.Children.Clear ();
 			mProductDictionary.Clear ();
 			mButtonList.Clear ();
-			mButtonList.Clear ();
+			//mButtonList.Clear ();
 			mCategoryIndexList.Clear ();
 			foreach (var productCell in mProductCellList) {
 				productCell.ClearStreamsAndImages ();
@@ -1415,7 +1415,9 @@ namespace bluemart.MainViews
 		{		
 					
 			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);			
-			int productCellIndex = mCategoryIndexList [mActiveButtonIndex];
+			int productCellIndex = mCategoryIndexList [mActiveButtonIndex]+2;
+			productCellIndex = productCellIndex == 2 ? 0 : productCellIndex;
+
 			ChangeSelectedButton ();
 			//System.Diagnostics.Debug.WriteLine ("aa" + ProductGrid._initialIndex.ToString());
 			//ProductGrid.GridViewProvider.ScrollToItemWithIndex (productCellIndex,true);

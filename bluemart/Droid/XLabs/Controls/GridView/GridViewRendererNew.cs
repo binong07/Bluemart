@@ -79,7 +79,9 @@ namespace XLabs.Forms.Controls
 				CreateRecyclerView ();
 				base.SetNativeControl (_recyclerView);
 				e.NewElement.GridViewProvider = this;
+				//_recyclerView.VerticalScrollBarEnabled = true;
 			}
+
 			//TODO unset
 			//			this.Unbind (e.OldElement);
 			//			this.Bind (e.NewElement);
@@ -89,6 +91,7 @@ namespace XLabs.Forms.Controls
 		protected override void OnElementPropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged (sender, e);
+			//_recyclerView.VerticalScrollBarEnabled = true;
 			if (e.PropertyName == "ItemsSource") {
 				_adapter.Items = Element.ItemsSource;
 			}
@@ -124,18 +127,29 @@ namespace XLabs.Forms.Controls
 				_layoutManager = linearLayoutManager;
 
 			} else {
-				var gridlayoutManager = new GridLayoutManager (Context, 1);
+				var gridlayoutManager = new GridLayoutManager (Context, 1,OrientationHelper.Vertical,false);
 
 				_layoutManager = gridlayoutManager;
 
 			}
 			_recyclerView.SetLayoutManager (_layoutManager);
-			_recyclerView.SetItemAnimator (null);
+			//_recyclerView.SetItemAnimator (null);
 			_recyclerView.HasFixedSize = true;
 
-			_recyclerView.HorizontalScrollBarEnabled = Element.IsHorizontal;
-			_recyclerView.VerticalScrollBarEnabled = !Element.IsHorizontal;
+			//_recyclerView.ScrollBarStyle = ScrollbarStyles.InsideInset;
 
+			_recyclerView.HorizontalScrollBarEnabled = Element.IsHorizontal;
+			_recyclerView.VerticalScrollBarEnabled = !Element.IsHorizontal;;
+			_recyclerView.ScrollbarFadingEnabled = true;
+			//_recyclerView.ScrollBarStyle = ScrollbarStyles.InsideInset;
+			//_recyclerView.VerticalScrollbarPosition = ScrollbarPosition.Right;
+			//_recyclerView.ScrollBarFadeDuration =
+			//ScrollbarFadingEnabled = true;
+			//VerticalScrollBarEnabled = true;
+			//VerticalScrollbarWidth = 30;
+			//ScrollBarStyle = ScrollbarStyles.OutsideOverlay;
+
+			//System.Diagnostics.Debug.WriteLine(_recyclerView.ScrollBarSize.ToString()+" "+_recyclerView.ScrollBarFadeDuration.ToString()+" "+_recyclerView.ScrollBarStyle.ToString());
 			_adapter = new GridViewAdapter (Element.ItemsSource, _recyclerView, Element, Resources.DisplayMetrics);
 
 			_recyclerView.SetAdapter (_adapter);
@@ -373,8 +387,11 @@ namespace XLabs.Forms.Controls
 		}
 		public override void OnScrolled (RecyclerView recyclerView, int dx, int dy)
 		{
+			_recyclerView.VerticalScrollBarEnabled = true;
+			_recyclerView.VerticalScrollbarPosition = ScrollbarPosition.Right;
+			//System.Diagnostics.Debug.WriteLine (_recyclerView.VerticalScrollBarEnabled.ToString()+" "+_recyclerView.ScrollBarSize.ToString() + " "+ _recyclerView.VerticalScrollbarWidth.ToString());
 			base.OnScrolled (recyclerView, dx, dy);
-			//_gridView.RaiseOnScroll (dy, _recyclerView.GetVerticalScrollOffset ());
+			//_gridView.RaiseOnScroll (dy, _recyclerView.GetVetricalScrollOffset ());
 			//if(cellHeight==0)
 			int cellHeight = _recyclerView.ComputeVerticalScrollRange () /  ((int)Math.Ceiling((itemCount*1.0)/2.0));
 			int currentItemIndex = _recyclerView.GetVerticalScrollOffset () / cellHeight;
