@@ -138,9 +138,9 @@ namespace XLabs.Forms.Controls
 
 			//_recyclerView.ScrollBarStyle = ScrollbarStyles.InsideInset;
 
-			_recyclerView.HorizontalScrollBarEnabled = Element.IsHorizontal;
+			/*_recyclerView.HorizontalScrollBarEnabled = Element.IsHorizontal;
 			_recyclerView.VerticalScrollBarEnabled = !Element.IsHorizontal;;
-			_recyclerView.ScrollbarFadingEnabled = true;
+			_recyclerView.ScrollbarFadingEnabled = true;*/
 			//_recyclerView.ScrollBarStyle = ScrollbarStyles.InsideInset;
 			//_recyclerView.VerticalScrollbarPosition = ScrollbarPosition.Right;
 			//_recyclerView.ScrollBarFadeDuration =

@@ -956,8 +956,8 @@ namespace bluemart.MainViews
 				mainRelativeLayout.Children.Remove (InputBlockerForSwipeMenu);
 			}
 
-			mMenuLayout.LayoutTo (menuRectangle, 1000, Easing.CubicIn);
-			mMidLayout.LayoutTo (midRectangle, 1000, Easing.CubicIn);
+			mMenuLayout.LayoutTo (menuRectangle, MyDevice.AnimationTimer, Easing.Linear);
+			mMidLayout.LayoutTo (midRectangle, MyDevice.AnimationTimer, Easing.Linear);
 
 			IsMenuOpen = !IsMenuOpen;
 		}
