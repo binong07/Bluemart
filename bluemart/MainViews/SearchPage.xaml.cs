@@ -64,6 +64,7 @@ namespace bluemart.MainViews
 			//SetGrid1Definitions ();
 			PopulateSearch (mParent.mBrowseProductPage);
 			InitializeLayout ();
+			MyDevice.currentPage = this;
 		}
 
 		private void InitializeLayout()

@@ -84,6 +84,7 @@ namespace bluemart.MainViews
 
 		public FavoritesPage (RootPage parent)
 		{					
+			MyDevice.currentPage = this;
 			InitializeComponent ();
 			mParent = parent;
 			PopulateProducts();

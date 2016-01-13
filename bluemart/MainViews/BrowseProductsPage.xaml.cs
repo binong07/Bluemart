@@ -791,14 +791,16 @@ namespace bluemart.MainViews
 			var categoryLabel = new Label (){ 
 				Text = mCategory.Name,
 				TextColor = Color.White,
-				FontSize = MyDevice.FontSizeLarge
+				FontSize = MyDevice.FontSizeLarge,
+				LineBreakMode = LineBreakMode.TailTruncation
 			};
 
 			PriceLabel = new Label () {
 				Text = "0\nAED",	
 				TextColor = Color.White,
 				FontSize = MyDevice.FontSizeSmall,
-				HorizontalTextAlignment = TextAlignment.Center
+				HorizontalTextAlignment = TextAlignment.End,
+				HorizontalOptions = LayoutOptions.End
 			};
 
 			var verticalLine = new Image () {
@@ -867,7 +869,11 @@ namespace bluemart.MainViews
 				}),
 				Constraint.RelativeToView (menuIcon, (parent, sibling) => {
 					return sibling.Bounds.Top - MyDevice.GetScaledSize (3);
-				})
+				}),
+				Constraint.RelativeToView (menuIcon, (parent, sibling) => {
+					return  MyDevice.GetScaledSize (350);
+				}),null
+
 			);
 
 			mMidLayout.Children.Add (cartImage, 

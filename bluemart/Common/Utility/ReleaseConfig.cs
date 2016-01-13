@@ -12,6 +12,7 @@ namespace bluemart.Common.Utilities
 		//public static string FONT_PATH = "Arial-Rounded-MT-Bold";
 		public static string FONT_PATH = "monospace";
 		public static string TOBACCO_ID = "Omwz701hpB";
+		public static string FRUITS_ID = "pFC3C9dhLx";
 		static ReleaseConfig()
 		{
 			DateTime.TryParse ("2016-01-13T07:29:59.275Z", out LAST_UPDATEDATE);

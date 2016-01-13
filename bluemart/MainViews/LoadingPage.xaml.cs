@@ -170,13 +170,18 @@ namespace bluemart
 
 			ProductModel.FetchProducts (this);
 
-			try{
+			//mFirstTokenSource = new CancellationTokenSource();
+			await Task.Factory.StartNew (() => ProductModel.PopulateProductDictionaries ()
+				, TaskCreationOptions.LongRunning
+			);//, mFirstTokenSource.Token); 
+
+			/*try{
 				await Task.Delay (600000000,mFirstTokenSource.Token);
 			}
 			catch {
 				ProductModel.PopulateProductDictionaries ();
 				mFirstTokenSource = new CancellationTokenSource ();
-			}
+			}*/
 
 			await ProgressBar1.ProgressTo (1f, 250, Easing.Linear);
 

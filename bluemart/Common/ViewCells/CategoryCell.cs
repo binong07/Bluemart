@@ -76,7 +76,12 @@ namespace bluemart.Common.ViewCells
 					var isOk = await mParent.DisplayAlert("Warning","I am over 20 years old and I know smoking is bad for my health.","OK","CANCEL");
 					if(isOk)
 						LoadProductsPage(category.CategoryID,parent);										
-				}
+			}else if(category.CategoryID == ReleaseConfig.FRUITS_ID)
+			{					
+				await mParent.DisplayAlert("Warning","Gram Warning.","OK");
+
+					LoadProductsPage(category.CategoryID,parent);										
+			}
 				else
 					LoadProductsPage(category.CategoryID,parent);
 			};

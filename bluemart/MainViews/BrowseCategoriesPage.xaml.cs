@@ -25,6 +25,7 @@ namespace bluemart.MainViews
 		private RelativeLayout mMenuLayout;
 		private RelativeLayout mMidLayout;
 
+		private double scrolly=0;
 		private ScrollView ScrollView1;
 		private StackLayout StackLayout1;
 		private RelativeLayout mSearchLayout;
@@ -53,12 +54,12 @@ namespace bluemart.MainViews
 		public BrowseCategoriesPage (RootPage parent)
 		{		
 			InitializeComponent ();
-
 			mParent = parent;
 			CategoryModel.PopulateCategories ();
 			mCategories = CategoryModel.CategoryList;
 			NavigationPage.SetHasNavigationBar (this, false);
 			InitializeLayout ();
+
 		}
 
 		private void InitializeLayout()
@@ -863,7 +864,7 @@ namespace bluemart.MainViews
 				Orientation = ScrollOrientation.Vertical,
 				Content = StackLayout1
 			};
-
+			ScrollView1.Scrolled+= (object sender, ScrolledEventArgs e) => {scrolly = ScrollView1.ScrollY;};
 			mMidLayout.Children.Add (ScrollView1,
 				Constraint.Constant(0),
 				Constraint.RelativeToView (mSearchLayout, (parent, sibling) => {
@@ -1171,7 +1172,12 @@ namespace bluemart.MainViews
 				userName = activeAdress.Name;
 			userNameLabel.Text = userName.Split (' ') [0];
 		}
-	
+		public void SetScrollPos()
+		{
+			MyDevice.currentPage = this;
+			System.Diagnostics.Debug.WriteLine (scrolly);
+			ScrollView1.ScrollToAsync (0,scrolly,false);
+		}
 	}
 }
 

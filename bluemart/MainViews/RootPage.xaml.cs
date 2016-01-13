@@ -217,6 +217,7 @@ namespace bluemart.MainViews
 				SwitchContent (mBrowseCategoriesPage.Content);
 
 				mCurrentPage = pageName;
+				mBrowseCategoriesPage.SetScrollPos ();
 				break;			
 			case "History":
 				mHistoryPage.PopulateListView ();
