@@ -198,9 +198,11 @@ namespace bluemart.MainViews
 					};
 				}
 				InputBlockerForSwipeMenu.GestureRecognizers.Add(tapRecognizer);
+
 			} else {
 				menuRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (0), 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (0, 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
+
 				mainRelativeLayout.Children.Remove (InputBlockerForSwipeMenu);
 			}
 

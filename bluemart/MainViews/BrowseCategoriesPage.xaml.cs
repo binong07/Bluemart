@@ -50,7 +50,6 @@ namespace bluemart.MainViews
 		private RelativeLayout InputBlockerForSwipeMenu;
 		private RelativeLayout InputBlockerForSwipeCart;
 
-
 		public BrowseCategoriesPage (RootPage parent)
 		{		
 			InitializeComponent ();

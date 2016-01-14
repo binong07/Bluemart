@@ -29,7 +29,6 @@ namespace bluemart.MainViews
 		GridView2 ProductGrid;
 
 		private RelativeLayout InputBlocker;
-		private Category mCategory;
 		private RelativeLayout mTopLayout;
 		private RelativeLayout mMenuLayout;
 		private RelativeLayout mMidLayout;
@@ -53,6 +52,9 @@ namespace bluemart.MainViews
 
 		private RelativeLayout InputBlockerForSwipeMenu;
 		private RelativeLayout InputBlockerForSwipeCart;
+
+		private Dictionary<string,List<Product>> mProductDictionary;
+		private Category mCategory;
 
 		public SearchPage (string searchString, string categoryId,RootPage parent)
 		{
@@ -936,9 +938,8 @@ namespace bluemart.MainViews
 			Rectangle midRectangle;
 
 			if (!IsMenuOpen) {
-				menuRectangle = new Rectangle (new Point (0, 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
+				menuRectangle = new Rectangle (new Point (MyDevice.GetScaledSize(mMenuWidth), 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mMenuWidth), 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
-
 				mainRelativeLayout.Children.Add (InputBlockerForSwipeMenu,
 					Constraint.Constant (MyDevice.GetScaledSize (mMenuWidth)),
 					Constraint.Constant (0)
@@ -951,14 +952,16 @@ namespace bluemart.MainViews
 					};
 				}
 				InputBlockerForSwipeMenu.GestureRecognizers.Add(tapRecognizer);
+
 			} else {
-				menuRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mMenuWidth*-1), 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
+				menuRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (0), 0), new Size (mMenuLayout.Bounds.Width, mMenuLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (0, 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
+
 				mainRelativeLayout.Children.Remove (InputBlockerForSwipeMenu);
 			}
 
-			mMenuLayout.LayoutTo (menuRectangle, MyDevice.AnimationTimer, Easing.Linear);
-			mMidLayout.LayoutTo (midRectangle, MyDevice.AnimationTimer, Easing.Linear);
+			mMenuLayout.TranslateTo (menuRectangle.X,menuRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
+			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
 
 			IsMenuOpen = !IsMenuOpen;
 		}
@@ -1023,8 +1026,9 @@ namespace bluemart.MainViews
 			deleteButton.GestureRecognizers.Add(deleteButtonTapRecognizer);
 
 			var backButtonTapRecognizer= new TapGestureRecognizer ();
-			backButtonTapRecognizer.Tapped += (sender, e) => {				
-				mParent.SwitchTab ("BrowseCategories");
+			backButtonTapRecognizer.Tapped += (sender, e) => {	
+				if( mParent.mBrowseProductPage != null )
+					mParent.LoadProductsPage(mParent.mBrowseProductPage.mProductDictionary,mParent.mBrowseProductPage.mCategory);				
 			};
 			backButton.GestureRecognizers.Add(backButtonTapRecognizer);
 
