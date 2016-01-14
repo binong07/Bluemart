@@ -387,6 +387,16 @@ namespace bluemart
 
 			mPlusButton.GestureRecognizers.Add (addButtonTapGestureRecognizer);
 
+			var mainRelativeLayoutTapGestureRecognizer = new TapGestureRecognizer ();
+			mainRelativeLayoutTapGestureRecognizer.NumberOfTapsRequired = 2;
+			mainRelativeLayoutTapGestureRecognizer.Tapped += async (sender, e) => {
+				if( CheckIfSearchEntryIsFocused() )
+					return;
+				AddProductInCart();
+				await Task.Delay(MyDevice.DelayTime);
+			};
+			mainRelativeLayout.GestureRecognizers.Add (mainRelativeLayoutTapGestureRecognizer);
+
 			var removeButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			removeButtonTapGestureRecognizer.Tapped += async (sender, e) => {
 				if( CheckIfSearchEntryIsFocused() )

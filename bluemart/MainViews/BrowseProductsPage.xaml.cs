@@ -925,9 +925,13 @@ namespace bluemart.MainViews
 			UpdateProductCountLabel ();
 			UpdatePriceLabel ();
 		}
-
+		public bool isMenuAnimationWorking = false;
 		private void ActivateOrDeactivateMenu()
 		{
+			if (isMenuAnimationWorking)
+				return;
+			else
+				isMenuAnimationWorking = true;
 			Rectangle menuRectangle;
 			Rectangle midRectangle;
 
@@ -954,7 +958,7 @@ namespace bluemart.MainViews
 				mainRelativeLayout.Children.Remove (InputBlockerForSwipeMenu);
 			}
 
-			mMenuLayout.TranslateTo (menuRectangle.X,menuRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
+			mMenuLayout.TranslateTo (menuRectangle.X,menuRectangle.Y, MyDevice.AnimationTimer, Easing.Linear).ContinueWith(antecendent => isMenuAnimationWorking=false);
 			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
 
 			IsMenuOpen = !IsMenuOpen;
@@ -962,6 +966,10 @@ namespace bluemart.MainViews
 
 		public void ActivateOrDeactivateCart()
 		{
+			if (isMenuAnimationWorking)
+				return;
+			else
+				isMenuAnimationWorking = true;
 			Rectangle cartRectangle;
 			Rectangle midRectangle;
 
@@ -998,7 +1006,7 @@ namespace bluemart.MainViews
 				mainRelativeLayout.Children.Remove (InputBlockerForSwipeCart);
 			}
 
-			mCartLayout.TranslateTo (cartRectangle.X,cartRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
+			mCartLayout.TranslateTo (cartRectangle.X,cartRectangle.Y, MyDevice.AnimationTimer, Easing.Linear).ContinueWith(antecendent => isMenuAnimationWorking=false);
 			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
 
 			IsCartOpen = !IsCartOpen;

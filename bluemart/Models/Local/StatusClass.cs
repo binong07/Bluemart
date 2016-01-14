@@ -27,7 +27,7 @@ namespace bluemart.Models.Local
 				Status += "Your order has been confirmed and being prepared.";
 				break;
 			case OrderModel.OrderStatus.IN_TRANSIT:
-				Status += "Your order has been prepared and is in transition.";
+				Status += "Your order has been prepared and it has been dispatched.";
 				break;
 			default:
 				break;

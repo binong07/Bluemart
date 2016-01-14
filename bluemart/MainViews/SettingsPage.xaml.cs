@@ -482,9 +482,13 @@ namespace bluemart.MainViews
 				})
 			);
 		}
-
+		public bool isMenuAnimationWorking = false;
 		private void ActivateOrDeactivateMenu()
 		{
+			if (isMenuAnimationWorking)
+				return;
+			else
+				isMenuAnimationWorking = true;
 			Rectangle menuRectangle;
 			Rectangle midRectangle;
 
@@ -509,7 +513,7 @@ namespace bluemart.MainViews
 				mainRelativeLayout.Children.Remove (InputBlockerForSwipeMenu);
 			}
 
-			mMenuLayout.TranslateTo (menuRectangle.X,menuRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
+			mMenuLayout.TranslateTo (menuRectangle.X,menuRectangle.Y, MyDevice.AnimationTimer, Easing.Linear).ContinueWith(antecendent => isMenuAnimationWorking=false);
 			mMidLayout.TranslateTo (midRectangle.X,midRectangle.Y, MyDevice.AnimationTimer, Easing.Linear);
 
 			IsMenuOpen = !IsMenuOpen;
@@ -544,7 +548,7 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Dubai Marina / Serviced by Bluemart",
+				Text = "JVC / Serviced by Bluemart",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -554,7 +558,7 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Location: Dubai Marina",
+				Text = "Location: JVC",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -586,7 +590,7 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Your Bluemart /\nDubai Marina Addresses:",
+				Text = "Your Bluemart /\nJVC Addresses:",
 				FontSize = MyDevice.FontSizeSmall
 			};
 

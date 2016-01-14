@@ -19,7 +19,7 @@ using FFImageLoading;
 
 namespace bluemart.Droid
 {
-	[Activity (Label = "Meteoroloji Hava Durumu", Icon = "@drawable/icon1", MainLauncher = true, ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+	[Activity (Label = "Bluemart", Icon = "@drawable/icon1", MainLauncher = true, ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
 	public class MainActivity : XFormsApplicationDroid
 	{
 		protected override void OnCreate (Bundle bundle)
@@ -31,7 +31,7 @@ namespace bluemart.Droid
 			global::Xamarin.Forms.Forms.Init (this, bundle);
 				Xamarin.FormsMaps.Init(this, bundle);
 
-			MR.Gestures.Android.Settings.LicenseKey = "L3YX-TGF3-T54Z-KVQT-M7UJ-PKF4-2RFM-WNKR-6UCV-LZ3L-8XCU-QJKY-K34W";
+			MR.Gestures.Android.Settings.LicenseKey = "6XZT-V54J-73E4-4VK8-RFAJ-ZBS8-Q8UB-Y3W7-BSGP-FETM-EYQ9-QEPP-WRTA";
 			CachedImageRenderer.Init ();
 			//ImageService.Initialize(
 			//Necessary IOC Code To Get Device Properties

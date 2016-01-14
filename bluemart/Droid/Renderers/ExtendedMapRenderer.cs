@@ -149,6 +149,17 @@ namespace bluemart.Droid
 				polygonOptions.InvokeStrokeColor (clrr.ToArgb());
 				polygon = map.AddPolygon(polygonOptions);
 				break;
+				default:
+				CircleOptions circleOptions2 = new CircleOptions ();
+				circleOptions2.InvokeCenter (new LatLng (extendedMap.pinDatas [index].lat, extendedMap.pinDatas [index].lng));
+				circleOptions2.InvokeRadius (2000);
+
+				circleOptions2.InvokeFillColor (clrb.ToArgb ());
+				circleOptions2.InvokeStrokeColor (clrr.ToArgb ());
+
+				circle = map.AddCircle (circleOptions2);
+
+				break;
 			}
 
 		}

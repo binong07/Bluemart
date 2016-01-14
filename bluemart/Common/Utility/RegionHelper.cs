@@ -19,9 +19,9 @@ namespace bluemart.Common.Utilities
 		private const string PALM_JUMEIRAH = "Palm Jumeirah";
 		private const string SPRINGS = "Springs";
 		private const string TECOM = "Tecom";
-
-		public static readonly List<string> locationList = new List<string>(){DISCOVERY_GARDENS,DUBAI_MARINA,EMIRATES_HILLS,GREENS,
-			INTERNET_CITY,JLT,KNOWLEDGE_VILLAGE,LAKES,MEADOWS,MEDIA_CITY,PALM_JUMEIRAH,SPRINGS,TECOM};
+		private const string JVC = "JVC";
+		public static readonly List<string> locationList = new List<string> (){ JVC };/*{DISCOVERY_GARDENS,DUBAI_MARINA,EMIRATES_HILLS,GREENS,
+			INTERNET_CITY,JLT,KNOWLEDGE_VILLAGE,LAKES,MEADOWS,MEDIA_CITY,PALM_JUMEIRAH,SPRINGS,TECOM};*/
 		/*
 		 * DubaiMarina(0) => jlt,dubai marina, discovery gardens
 		 * tecom(1) => tecom, media city, internet city, knowledge village, palm
@@ -34,7 +34,7 @@ namespace bluemart.Common.Utilities
 
 			switch (shopNumber) {
 			case 0:
-				shopName = "Dubai Marina";
+				shopName = "JVC";
 				break;
 			case 1:
 				shopName = "Tecom";
@@ -52,7 +52,7 @@ namespace bluemart.Common.Utilities
 		public static int DecideShopNumber( string location )
 		{
 			int shopNumber = 0;
-
+			return shopNumber;
 			switch (location) {
 			case JLT:
 			case DUBAI_MARINA:

@@ -27,7 +27,7 @@ namespace bluemart.MainViews
 			string region="";
 			switch (selectedPinIndex) {
 			case 0:
-				region = "Dubai Marina";
+				region = "JVC";
 				break;
 			case 1:
 				region = "Tecom";
@@ -58,9 +58,10 @@ namespace bluemart.MainViews
 
 			//InitalizeMemberVariables ();
 			pinDatas = new List<PinData>();
-			pinDatas.Add (new PinData(25.082742, 55.147174,"bm_pin","Dubai Marina BlueMart"));
+			/*pinDatas.Add (new PinData(25.082742, 55.147174,"bm_pin","Dubai Marina BlueMart"));
 			pinDatas.Add (new PinData(25.099536, 55.178529,"bm_pin","Tecom BlueMart"));
-			pinDatas.Add (new PinData(25.094988, 55.172659,"bm_pin","Greens BlueMart"));
+			pinDatas.Add (new PinData(25.094988, 55.172659,"bm_pin","Greens BlueMart"));*/
+			pinDatas.Add (new PinData(25.049560, 55.205282,"bm_pin","Blue Mart JVC"));
 			var map = new ExtendedMap (new Position (25.20, 55.26), 20, pinDatas,this);
 
 			/*var map = new Map(
