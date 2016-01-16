@@ -182,14 +182,23 @@ namespace bluemart.MainViews
 		}	
 		protected override bool OnBackButtonPressed ()
 		{
-			if( mCurrentPage != "BrowseCategories" )
-				SwitchTab ("BrowseCategories");		
-			else
+			switch (mCurrentPageParent) {
+			case "BrowseProducts":
+				LoadProductsPage (mBrowseProductPage.mProductDictionary, mBrowseProductPage.mCategory);
+				break;
+			case "Settings":
+				LoadSettingsPage ();
+				break;
+			case "BrowseCategories":
+				SwitchTab ("BrowseCategories");
+				break;
+			case "MainPage":
 				Navigation.PopAsync ();
-			//Check if product page is active
-			/*if( mTopNavigationBar.IsVisible == true ){					
-				SwitchTab (mCurrentPageParent);
-			}*/					
+				break;
+			default:
+				SwitchTab ("BrowseCategories");
+				break;
+			}
 								
 			return true;
 		}
@@ -217,7 +226,7 @@ namespace bluemart.MainViews
 				//mFooter.ChangeImageOfButton (0);
 				SwitchContent (mBrowseCategoriesPage.Content);
 
-				mCurrentPage = pageName;
+				mCurrentPageParent = "MainPage";
 				mBrowseCategoriesPage.SetScrollPos ();
 				break;			
 			case "History":
@@ -244,7 +253,6 @@ namespace bluemart.MainViews
 				mBrowseProductPage = null;
 				GC.Collect ();
 			}
-			mCurrentPage = "";
 
 			mCurrentPageParent = "BrowseCategories";
 			mTrackPage = new TrackPage (this);
@@ -263,8 +271,6 @@ namespace bluemart.MainViews
 				mBrowseProductPage = null;
 				GC.Collect ();
 			}
-			mCurrentPage = "";
-
 			mCurrentPageParent = "BrowseCategories";
 
 			mSettingsPage = new SettingsPage (this);
@@ -279,7 +285,6 @@ namespace bluemart.MainViews
 				mBrowseProductPage = null;
 				GC.Collect ();
 			}
-			mCurrentPage = "";
 
 			mCurrentPageParent = "BrowseCategories";
 			mFavoritesPage = new FavoritesPage (this);
@@ -288,12 +293,7 @@ namespace bluemart.MainViews
 			
 		public void LoadProductsPage( Dictionary<string, List<Product>> productDictionary, Category category )
 		{
-			mCurrentPage = "";
-
 			mCurrentPageParent = "BrowseCategories";
-
-			//mBrowseProductPage.PopulationOfNewProductPage (productDictionary, category);
-
 			mBrowseProductPage = (new BrowseProductsPage (productDictionary, category, this)); 
 			SwitchContent (mBrowseProductPage.Content);
 
@@ -301,18 +301,13 @@ namespace bluemart.MainViews
 
 		public void LoadSearchPage(string searchString,string categoryId = "")
 		{
-			mCurrentPage = "";
-
-			mCurrentPageParent = "BrowseCategories";
-
+			mCurrentPageParent = (mBrowseProductPage != null) ? "BrowseProducts" : "BrowseCategories";
 			mSearchPage = new SearchPage (searchString, categoryId, this);
 			SwitchContent (mSearchPage.Content);
 		}
 
 		public void LoadAddAddress(AddressClass address = null)
 		{
-			mCurrentPage = "";
-
 			mCurrentPageParent = "Settings";
 			mAddAddressPage = (new AddAddressPage (address,this)); 
 			SwitchContent (mAddAddressPage.Content);
@@ -331,9 +326,7 @@ namespace bluemart.MainViews
 		}
 
 		public void LoadReceiptPage(Object obj = null)
-		{
-			mCurrentPage = "";
-
+		{			
 			mCurrentPageParent = "BrowseCategories";
 
 			if (obj == null)

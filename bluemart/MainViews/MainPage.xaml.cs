@@ -147,16 +147,23 @@ namespace bluemart.MainViews
 		{
 			if (Navigation.NavigationStack.Last<Page> () is RootPage) {	
 
-				//Check if product page is active
-				//if( mRootPage.mTopNavigationBar.IsVisible == true ){	
-				if (mRootPage.mCurrentPage != "BrowseCategories")
+				switch (mRootPage.mCurrentPageParent) {
+				case "BrowseProducts":
+					mRootPage.LoadProductsPage (mRootPage.mBrowseProductPage.mProductDictionary,mRootPage.mBrowseProductPage.mCategory);
+					break;
+				case "Settings":
+					mRootPage.LoadSettingsPage ();
+					break;
+				case "BrowseCategories":
 					mRootPage.SwitchTab ("BrowseCategories");
-				else
-					//Application.Current.MainPage = new NavigationPage (new MainPage ());
-					Navigation.PopAsync ();
-				//}
-
-				//return true;	
+					break;
+				case "MainPage":
+					mRootPage.Navigation.PopAsync ();
+					break;
+				default:
+					mRootPage.SwitchTab ("BrowseCategories");
+					break;
+				}	
 			}
 
 			if (bIsPopuplayoutInitialized && mPopupStackLayout.IsVisible) {

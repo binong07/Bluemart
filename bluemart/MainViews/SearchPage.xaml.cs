@@ -25,7 +25,6 @@ namespace bluemart.MainViews
 
 		public RootPage mParent;
 
-		ScrollView ProductScrollView;
 		GridView2 ProductGrid;
 
 		private RelativeLayout InputBlocker;
@@ -52,9 +51,6 @@ namespace bluemart.MainViews
 
 		private RelativeLayout InputBlockerForSwipeMenu;
 		private RelativeLayout InputBlockerForSwipeCart;
-
-		private Dictionary<string,List<Product>> mProductDictionary;
-		private Category mCategory;
 
 		public SearchPage (string searchString, string categoryId,RootPage parent)
 		{
@@ -1036,7 +1032,9 @@ namespace bluemart.MainViews
 			var backButtonTapRecognizer= new TapGestureRecognizer ();
 			backButtonTapRecognizer.Tapped += (sender, e) => {	
 				if( mParent.mBrowseProductPage != null )
-					mParent.LoadProductsPage(mParent.mBrowseProductPage.mProductDictionary,mParent.mBrowseProductPage.mCategory);				
+					mParent.LoadProductsPage(mParent.mBrowseProductPage.mProductDictionary,mParent.mBrowseProductPage.mCategory);
+				else
+					mParent.SwitchTab("BrowseCategories");
 			};
 			backButton.GestureRecognizers.Add(backButtonTapRecognizer);
 
