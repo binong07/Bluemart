@@ -168,7 +168,11 @@ namespace bluemart
 
 			start = DateTime.Now;
 
-			ProductModel.FetchProducts (this);
+			await Task.Factory.StartNew (() => ProductModel.FetchProducts (this)
+				, TaskCreationOptions.LongRunning
+			);
+
+			//ProductModel.FetchProducts (this);
 
 			//mFirstTokenSource = new CancellationTokenSource();
 			await Task.Factory.StartNew (() => ProductModel.PopulateProductDictionaries ()

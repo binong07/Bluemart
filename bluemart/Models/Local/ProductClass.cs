@@ -35,10 +35,10 @@ namespace bluemart.Models.Local
 			if (!TableExists<ProductClass> (db,"Products")) {
 				db.CreateTable<ProductClass>();
 			}
-
-			foreach( ProductClass product in productList)
+			db.InsertAll (productList,true);
+			/*foreach( ProductClass product in productList)
 				db.InsertOrReplace (product);
-
+*/
 			db.Close ();
 		}
 
@@ -50,20 +50,24 @@ namespace bluemart.Models.Local
 		
 
 			if (!TableExists<ProductClass> (db,"Products")) {
-				return productList;			
-			}
+				return productList;		
+				//db.CreateTable<ProductClass>();
 
-			var query = from Products in  db.Table<ProductClass> ()
+			}
+			productList = db.Query<ProductClass> ("SELECT * FROM Products ORDER BY Priority, Name");
+
+			/*var query = from Products in  db.Table<ProductClass> ()
 				orderby Products.Priority,Products.Name
 				select Products;
 
 			foreach (var product in query) {
 				productList.Add (product);
 			}
-
+*/
 			db.Close ();
 
 			return productList;
+			//return query;
 		}
 	}
 }
