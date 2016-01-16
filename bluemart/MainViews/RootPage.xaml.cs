@@ -192,6 +192,9 @@ namespace bluemart.MainViews
 			case "BrowseCategories":
 				SwitchTab ("BrowseCategories");
 				break;
+			case "TrackPage":
+				LoadTrackPage ();
+				break;
 			case "MainPage":
 				Navigation.PopAsync ();
 				break;
@@ -327,12 +330,15 @@ namespace bluemart.MainViews
 
 		public void LoadReceiptPage(Object obj = null)
 		{			
-			mCurrentPageParent = "BrowseCategories";
+			
 
-			if (obj == null)
+			if (obj == null) {
 				SwitchContent ((new ReceiptView (this)).Content);
+				mCurrentPageParent = "BrowseCategories";
+			}
 			else {
 				SwitchContent ((new ReceiptView (this,obj)).Content);
+				mCurrentPageParent = "TrackPage";
 			}
 				
 		}

@@ -160,6 +160,9 @@ namespace bluemart.MainViews
 				case "MainPage":
 					mRootPage.Navigation.PopAsync ();
 					break;
+				case "TrackPage":
+					mRootPage.LoadTrackPage ();
+					break;
 				default:
 					mRootPage.SwitchTab ("BrowseCategories");
 					break;
