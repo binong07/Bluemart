@@ -12,6 +12,7 @@ using System.IO;
 using System.Reflection;
 using PCLStorage;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace bluemart.MainViews
 {
@@ -235,7 +236,7 @@ namespace bluemart.MainViews
 			}
 		}
 
-		public void LoadTrackPage ()
+		public async void LoadTrackPage ()
 		{
 			if (mBrowseProductPage != null) {
 				mBrowseProductPage.ClearContainers ();
@@ -246,9 +247,12 @@ namespace bluemart.MainViews
 			mCurrentPage = "";
 
 			mCurrentPageParent = "BrowseCategories";
-
 			mTrackPage = new TrackPage (this);
 			SwitchContent (mTrackPage.Content);
+			await Task.Factory.StartNew (() => mTrackPage.PopulateTrackPage ()
+				, TaskCreationOptions.LongRunning
+			);
+
 		}
 
 		public void LoadSettingsPage ()

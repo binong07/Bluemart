@@ -58,7 +58,7 @@ namespace bluemart.Models.Remote
 			return fileExists;		
 		}*/
 
-		public static async void GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate,LoadingPage loadingPage)
+		public static void GetCategoryAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate,LoadingPage loadingPage)
 		{							
 
 			var categoryQuery = ParseObject.GetQuery (ParseConstants.CATEGORIES_CLASS_NAME).

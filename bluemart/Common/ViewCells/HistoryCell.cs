@@ -54,6 +54,7 @@ namespace bluemart.Common.ViewCells
 			DateTime historyDate = DateTime.Now;
 
 			DateTime.TryParse(history.Date,out historyDate);
+			DateTime addedHistoryDate = historyDate.AddHours (2);
 
 			var dateLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (455),
@@ -61,7 +62,7 @@ namespace bluemart.Common.ViewCells
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Start,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Date: " + historyDate.ToString("MM/dd/yyyy") +" - Time: " + historyDate.ToString("hh:mm:ss"),
+				Text = "Date: " + addedHistoryDate.ToString("MM/dd/yyyy") +" - Time: " + addedHistoryDate.ToString("hh:mm:ss"),
 				FontSize = MyDevice.FontSizeMicro	
 			};
 

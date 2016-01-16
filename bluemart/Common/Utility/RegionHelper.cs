@@ -20,8 +20,8 @@ namespace bluemart.Common.Utilities
 		private const string SPRINGS = "Springs";
 		private const string TECOM = "Tecom";
 		private const string JVC = "JVC";
-		public static readonly List<string> locationList = new List<string> (){ JVC };/*{DISCOVERY_GARDENS,DUBAI_MARINA,EMIRATES_HILLS,GREENS,
-			INTERNET_CITY,JLT,KNOWLEDGE_VILLAGE,LAKES,MEADOWS,MEDIA_CITY,PALM_JUMEIRAH,SPRINGS,TECOM};*/
+		public static readonly List<string> locationList = new List<string> ()/*{DISCOVERY_GARDENS,DUBAI_MARINA,EMIRATES_HILLS,GREENS,
+			INTERNET_CITY,JLT,KNOWLEDGE_VILLAGE,LAKES,MEADOWS,MEDIA_CITY,PALM_JUMEIRAH,SPRINGS,TECOM};*/{ JVC };
 		/*
 		 * DubaiMarina(0) => jlt,dubai marina, discovery gardens
 		 * tecom(1) => tecom, media city, internet city, knowledge village, palm

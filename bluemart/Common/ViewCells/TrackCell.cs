@@ -54,14 +54,14 @@ namespace bluemart.Common.ViewCells
 			DateTime statusDate = DateTime.Now;
 
 			DateTime.TryParse(status.Date,out statusDate);				
-
+			DateTime addedStatusDate =statusDate.AddHours (2);
 			var dateLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (455),
 				HeightRequest = MyDevice.GetScaledSize (26),
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Start,
 				TextColor = Color.FromRgb (98, 98, 98),
-				Text = "Date: " + statusDate.ToString ("MM/dd/yyyy") + " - Time: " + statusDate.ToString ("hh:mm:ss"),
+				Text = "Date: " + addedStatusDate.ToString ("MM/dd/yyyy") + " - Time: " + addedStatusDate.ToString ("hh:mm:ss"),
 				FontSize = MyDevice.FontSizeMicro	
 			};
 

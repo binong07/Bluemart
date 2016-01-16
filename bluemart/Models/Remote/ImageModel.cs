@@ -26,7 +26,7 @@ namespace bluemart.Models.Remote
 		*/
 
 
-		public static async void MoveImagesToLocal(LoadingPage loadingPage)
+		public static void MoveImagesToLocal(LoadingPage loadingPage)
 		{
 			var assembly = typeof(ImageModel).GetTypeInfo().Assembly;
 			var projectName = assembly.GetName ().Name;

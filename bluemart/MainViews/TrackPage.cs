@@ -36,17 +36,20 @@ namespace bluemart.MainViews
 
 		private RelativeLayout InputBlockerForSwipeMenu;
 
-		public TrackPage (RootPage parent)
-		{						
+		public TrackPage(RootPage parent)
+		{
 			InitializeComponent ();
 			mParent = parent;
 			NavigationPage.SetHasNavigationBar (this, false);
-
-			mOrderStatusList = OrderModel.GetOrdersForTracking ();
-			mOrderHistoryList = OrderModel.GetOrdersForHistory ();
-
 			InitializeLayout ();
 		}
+
+		public void PopulateTrackPage()
+		{			
+			mOrderStatusList = OrderModel.GetOrdersForTracking ();
+			mOrderHistoryList = OrderModel.GetOrdersForHistory ();
+			InitializeBottomLayout ();
+		}			
 
 		private void ChangeActive(Label label)
 		{
@@ -173,7 +176,7 @@ namespace bluemart.MainViews
 			InitializeHeaderLayout ();
 			InitializeMenuLayout ();
 			InitializeSwitchLayout ();
-			InitializeBottomLayout ();
+
 			/*InitializeAddressLayout ();
 			InitializeReceiptLayout ();*/
 		}
@@ -713,14 +716,16 @@ namespace bluemart.MainViews
 				Orientation = ScrollOrientation.Vertical,
 				Content = StackLayout1
 			};
-			mMidLayout.Children.Add (mBottomLayout,
-				Constraint.RelativeToView (mSwitchLayout, (p, sibling) => {
-					return mSwitchLayout.Bounds.Left + MyDevice.GetScaledSize(20);		
-				}),
-				Constraint.RelativeToView (mSwitchLayout, (p, sibling) => {
-					return mSwitchLayout.Bounds.Bottom + MyDevice.GetScaledSize(20);		
-				})
-			);
+			Device.BeginInvokeOnMainThread(() => {
+				mMidLayout.Children.Add (mBottomLayout,
+					Constraint.RelativeToView (mSwitchLayout, (p, sibling) => {
+						return mSwitchLayout.Bounds.Left + MyDevice.GetScaledSize(20);		
+					}),
+					Constraint.RelativeToView (mSwitchLayout, (p, sibling) => {
+						return mSwitchLayout.Bounds.Bottom + MyDevice.GetScaledSize(20);		
+					})
+				);
+			});
 
 			double scrollViewHeight = MyDevice.GetScaledSize (180)*(StackLayout1.Children.Count) +  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
 
@@ -730,17 +735,17 @@ namespace bluemart.MainViews
 				scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
 			}
 
-			mMidLayout.Children.Add (ScrollView1,
-				Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-					return sibling.Bounds.Left;
-				}),
-				Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-					return sibling.Bounds.Top;
-				}),
-				Constraint.Constant(MyDevice.GetScaledSize(600)),
-				Constraint.Constant(scrollViewHeight)
-			);
-
+			Device.BeginInvokeOnMainThread(() => {
+				mMidLayout.Children.Add (ScrollView1,
+					Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+						return sibling.Bounds.Left;
+					}),
+					Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+						return sibling.Bounds.Top;
+					}),
+					Constraint.Constant(MyDevice.GetScaledSize(600)),
+					Constraint.Constant(scrollViewHeight));
+			});
 		}
 
 

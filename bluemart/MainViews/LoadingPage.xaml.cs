@@ -122,12 +122,9 @@ namespace bluemart
 			DateTime start = DateTime.Now;
 
 			if (ImageModel.mRootFolder.CheckExistsAsync (ParseConstants.IMAGE_FOLDER_NAME).Result.ToString () != "FolderExists") {
-				ImageModel.MoveImagesToLocal (this);
-				try {
-					await Task.Delay (600000000, mFirstTokenSource.Token);
-				} catch {
-					mFirstTokenSource = new CancellationTokenSource ();
-				}
+				await Task.Factory.StartNew (() => ImageModel.MoveImagesToLocal (this)
+					, TaskCreationOptions.LongRunning
+				);
 			}
 			await ProgressBar1.ProgressTo (0.2f, 250, Easing.Linear);
 
@@ -135,14 +132,9 @@ namespace bluemart
 			System.Diagnostics.Debug.WriteLine ("Move Local takes:" + delta.TotalMilliseconds.ToString());
 
 			start = DateTime.Now;
-
-			ImageModel.GetImagesFromRemote (this);
-			try{
-				await Task.Delay (600000000,mFirstTokenSource.Token);
-			}
-			catch {
-				mFirstTokenSource = new CancellationTokenSource ();
-			}
+			await Task.Factory.StartNew (() => ImageModel.GetImagesFromRemote (this)
+				, TaskCreationOptions.LongRunning
+			);
 
 			await ProgressBar1.ProgressTo (0.8f, 250, Easing.Linear);
 
@@ -151,15 +143,13 @@ namespace bluemart
 
 			start = DateTime.Now;
 
-			CategoryModel.FetchCategories (this);
+			await Task.Factory.StartNew (() => CategoryModel.FetchCategories (this)
+				, TaskCreationOptions.LongRunning
+			);
 
-			try{
-				await Task.Delay (600000000,mFirstTokenSource.Token);
-			}
-			catch {
-				CategoryModel.PopulateCategoryDictionaries ();
-				mFirstTokenSource = new CancellationTokenSource ();
-			}
+			await Task.Factory.StartNew (() => CategoryModel.PopulateCategoryDictionaries ()
+				, TaskCreationOptions.LongRunning
+			);				
 
 			await ProgressBar1.ProgressTo (0.9f, 250, Easing.Linear);
 
@@ -172,20 +162,9 @@ namespace bluemart
 				, TaskCreationOptions.LongRunning
 			);
 
-			//ProductModel.FetchProducts (this);
-
-			//mFirstTokenSource = new CancellationTokenSource();
 			await Task.Factory.StartNew (() => ProductModel.PopulateProductDictionaries ()
 				, TaskCreationOptions.LongRunning
-			);//, mFirstTokenSource.Token); 
-
-			/*try{
-				await Task.Delay (600000000,mFirstTokenSource.Token);
-			}
-			catch {
-				ProductModel.PopulateProductDictionaries ();
-				mFirstTokenSource = new CancellationTokenSource ();
-			}*/
+			);
 
 			await ProgressBar1.ProgressTo (1f, 250, Easing.Linear);
 
