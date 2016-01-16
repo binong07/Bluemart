@@ -95,6 +95,15 @@ namespace bluemart.Models.Remote
 
 					var region = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_REGION);
 					int status = order.Get<int> (ParseConstants.ORDERS_ATTRIBUTE_STATUS);
+					var deliveryStaffName = "";
+					var deliveryStaffPhone = "";
+					if (status == (int)OrderStatus.IN_TRANSIT) {
+						var deliveryStaff = GetDeliveryStaff (order.Get<string> (ParseConstants.ORDERS_DELIVERY_STAFF_ID));
+						if (deliveryStaff != null) {
+							deliveryStaffName = deliveryStaff.Get<string>(ParseConstants.DELIVERYSTAFF_NAME) + " " + deliveryStaff.Get<string>(ParseConstants.DELIVERYSTAFF_SURNAME);
+							deliveryStaffPhone = deliveryStaff.Get<string> (ParseConstants.DELIVERYSTAFF_PHONE);
+						}
+					}
 					var date = order.CreatedAt.ToString ();
 					var totalPrice = CalculateTotalPrice (productOrderList).ToString ();
 					var address = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ADDRESS);
@@ -102,11 +111,21 @@ namespace bluemart.Models.Remote
 					var name = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_USERNAME);
 					var surname = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_SURNAME);
 					var phone = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_PHONE);
-					statusClassList.Add (new StatusClass (productOrderList,address,addressDesc,name,surname,phone,totalPrice, date, region, (OrderStatus)status));
+					statusClassList.Add (new StatusClass (productOrderList,address,addressDesc,name,surname,phone,totalPrice, date, region, (OrderStatus)status,deliveryStaffName,deliveryStaffPhone));
 				}
 			}
 				
 			return statusClassList;
+		}
+
+		private static ParseObject GetDeliveryStaff(string DeliveryStaffName)
+		{
+			ParseObject deliveryStaffQuery = null;
+			if (MyDevice.GetNetworkStatus () != "NotReachable") {
+				deliveryStaffQuery = ParseObject.GetQuery (ParseConstants.DELIVERYSTAFF_CLASS_NAME).
+					WhereEqualTo (ParseConstants.DELIVERYSTAFF_NAME, DeliveryStaffName).FirstAsync().Result;
+			}
+			return deliveryStaffQuery;
 		}
 
 		public static List<HistoryClass> GetOrdersForHistory()

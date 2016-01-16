@@ -5,6 +5,7 @@ using bluemart.Models.Local;
 using System.Threading.Tasks;
 using bluemart.MainViews;
 using FFImageLoading.Forms;
+using bluemart.Models.Remote;
 
 namespace bluemart.Common.ViewCells
 {
@@ -22,12 +23,14 @@ namespace bluemart.Common.ViewCells
 			mRootPage = rootPage;
 			mStatus = status;
 
+
+
 			var mainLayout = new RelativeLayout () {
 				WidthRequest = MyDevice.GetScaledSize (600),
 				HeightRequest = MyDevice.GetScaledSize (180),
 				BackgroundColor = Color.White,
 				Padding = 0
-			};
+			};					
 
 			var backgroundImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize (62),
@@ -91,10 +94,7 @@ namespace bluemart.Common.ViewCells
 				Color = Color.FromRgb (181, 185, 187)
 			};
 
-			mainLayout.Children.Add (backgroundImage,
-				Constraint.Constant (MyDevice.GetScaledSize (42)),
-				Constraint.Constant (MyDevice.GetScaledSize (42))
-			);
+
 
 			mainLayout.Children.Add (totalPriceLabel,
 				Constraint.Constant (MyDevice.GetScaledSize (140)),
@@ -128,10 +128,82 @@ namespace bluemart.Common.ViewCells
 				})
 			);
 
-			mainLayout.Children.Add (line,
-				Constraint.Constant (0),
-				Constraint.Constant (MyDevice.GetScaledSize (179))
-			);
+			if (status.OrderStatus == OrderModel.OrderStatus.WAITING_CONFIRMATION) {
+				backgroundImage.Source = "TrackPage_TrackBackground";
+				mainLayout.Children.Add (backgroundImage,
+					Constraint.Constant (MyDevice.GetScaledSize (42)),
+					Constraint.Constant (MyDevice.GetScaledSize (42))
+				);
+
+				mainLayout.Children.Add (line,
+					Constraint.Constant (0),
+					Constraint.Constant (MyDevice.GetScaledSize (179))
+				);
+			}
+			else if(status.OrderStatus == OrderModel.OrderStatus.CONFIRMED){
+				backgroundImage.Source = "TrackPage_TrackBackground";
+				mainLayout.Children.Add (backgroundImage,
+					Constraint.Constant (MyDevice.GetScaledSize (42)),
+					Constraint.Constant (MyDevice.GetScaledSize (42))
+				);
+
+				mainLayout.Children.Add (line,
+					Constraint.Constant (0),
+					Constraint.Constant (MyDevice.GetScaledSize (179))
+				);
+			}
+			else if (status.OrderStatus == OrderModel.OrderStatus.IN_TRANSIT) {				
+				mainLayout.HeightRequest = MyDevice.GetScaledSize (232);
+				mainLayout.Children.Add (line,
+					Constraint.Constant (0),
+					Constraint.Constant (MyDevice.GetScaledSize (231))
+				);
+
+				var deliveryStaffNameLabel = new Label () {
+					WidthRequest = MyDevice.GetScaledSize (455),
+					HeightRequest = MyDevice.GetScaledSize (26),
+					HorizontalTextAlignment = TextAlignment.Start,
+					VerticalTextAlignment = TextAlignment.Start,
+					TextColor = Color.FromRgb (98, 98, 98),
+					Text = "Staff Name: " + status.DeliveryStaffName,
+					FontSize = MyDevice.FontSizeMicro	
+				};
+
+				var deliveryStaffPhoneLabel = new Label () {
+					WidthRequest = MyDevice.GetScaledSize (455),
+					HeightRequest = MyDevice.GetScaledSize (26),
+					HorizontalTextAlignment = TextAlignment.Start,
+					VerticalTextAlignment = TextAlignment.Start,
+					TextColor = Color.FromRgb (98, 98, 98),
+					Text = "Staff Phone: " + status.Phone,
+					FontSize = MyDevice.FontSizeMicro	
+				};
+
+				mainLayout.Children.Add (deliveryStaffNameLabel,
+					Constraint.RelativeToView (statusLabel, (p, sibling) => {
+						return sibling.Bounds.Left;	
+					}),
+					Constraint.RelativeToView (statusLabel, (p, sibling) => {
+						return sibling.Bounds.Bottom + MyDevice.GetScaledSize (2);	
+					})
+				);
+
+				mainLayout.Children.Add (deliveryStaffPhoneLabel,
+					Constraint.RelativeToView (deliveryStaffNameLabel, (p, sibling) => {
+						return sibling.Bounds.Left;	
+					}),
+					Constraint.RelativeToView (deliveryStaffNameLabel, (p, sibling) => {
+						return sibling.Bounds.Bottom + MyDevice.GetScaledSize (2);	
+					})
+				);
+
+				backgroundImage.Source = "TrackPage_TrackBackground";
+				mainLayout.Children.Add (backgroundImage,
+					Constraint.Constant (MyDevice.GetScaledSize (42)),
+					Constraint.Constant (MyDevice.GetScaledSize (70))
+				);
+
+			} 
 
 			var tapGestureRecognizer = new TapGestureRecognizer ();
 			tapGestureRecognizer.Tapped += (sender, e) => {
