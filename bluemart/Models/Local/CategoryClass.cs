@@ -33,9 +33,7 @@ namespace bluemart.Models.Local
 				db.CreateTable<CategoryClass>();
 			}
 
-			foreach( CategoryClass category in categoryList)
-				db.InsertOrReplace (category);
-
+			db.InsertAll (categoryList, true);
 			db.Close ();
 		}
 

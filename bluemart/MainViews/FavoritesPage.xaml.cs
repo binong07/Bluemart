@@ -62,8 +62,7 @@ namespace bluemart.MainViews
 		private RelativeLayout mMenuLayout;
 		private RelativeLayout mMidLayout;
 		private RelativeLayout mSearchLayout;
-		private ExtendedEntry SearchEntry;
-		private Label SearchLabel;
+		private Entry SearchEntry;
 		private Label ProductCountLabel;
 		private Label PriceLabel;
 		private bool IsMenuOpen = false;
@@ -795,7 +794,8 @@ namespace bluemart.MainViews
 				Text = "0\nAED",	
 				TextColor = Color.White,
 				FontSize = MyDevice.FontSizeSmall,
-				HorizontalTextAlignment = TextAlignment.Center
+				HorizontalTextAlignment = TextAlignment.End,
+				WidthRequest = MyDevice.GetScaledSize(130)
 			};
 
 			var verticalLine = new CachedImage () {
@@ -872,12 +872,8 @@ namespace bluemart.MainViews
 			);
 
 			mMidLayout.Children.Add (cartImage, 
-				Constraint.RelativeToParent (parent => {
-					return parent.Bounds.Right -  MyDevice.GetScaledSize(79);
-				}),
-				Constraint.RelativeToParent (parent => {
-					return parent.Bounds.Top + MyDevice.GetScaledSize(16);
-				})
+				Constraint.Constant( MyDevice.GetScaledSize(561) ),
+				Constraint.Constant( MyDevice.GetScaledSize(16) )
 			);
 
 			mMidLayout.Children.Add (verticalLine,
@@ -891,7 +887,7 @@ namespace bluemart.MainViews
 
 			mMidLayout.Children.Add (PriceLabel,
 				Constraint.RelativeToView (verticalLine, (parent, sibling) => {
-					return sibling.Bounds.Left - MyDevice.GetScaledSize (75);
+					return sibling.Bounds.Left - MyDevice.GetScaledSize (150);
 				}),
 				Constraint.RelativeToView (cartImage, (parent, sibling) => {
 					return sibling.Bounds.Top;
@@ -1015,11 +1011,13 @@ namespace bluemart.MainViews
 				BackgroundColor = Color.FromRgb(27,184,105)
 			};
 
-			SearchEntry = new ExtendedEntry () {
+			SearchEntry = new Entry () {
 				WidthRequest = MyDevice.GetScaledSize(640),
 				HeightRequest = MyDevice.GetScaledSize(73),
 				Text = "Search",
-				MaxLength = 15
+				TextColor = Color.White,
+				FontSize = MyDevice.FontSizeMedium,
+				HorizontalTextAlignment = TextAlignment.Start
 			};
 
 			var searchImage = new CachedImage () {
@@ -1038,16 +1036,7 @@ namespace bluemart.MainViews
 				WidthRequest = MyDevice.GetScaledSize(444),
 				HeightRequest = MyDevice.GetScaledSize(51)
 			};
-
-			SearchLabel = new Label () {
-				WidthRequest = MyDevice.GetScaledSize(444),
-				HeightRequest = MyDevice.GetScaledSize(51),
-				TextColor = Color.White,
-				FontSize = MyDevice.FontSizeMedium,
-				Text = "Search",
-				HorizontalTextAlignment = TextAlignment.Start,
-				VerticalTextAlignment = TextAlignment.Center
-			};
+					
 
 			var deleteButton = new RelativeLayout () {
 				WidthRequest = MyDevice.GetScaledSize(69),
@@ -1079,12 +1068,6 @@ namespace bluemart.MainViews
 			};
 			backButton.GestureRecognizers.Add(backButtonTapRecognizer);
 
-			mMidLayout.Children.Add (SearchEntry,
-				Constraint.Constant(0),
-				Constraint.RelativeToView (mTopLayout, (parent, sibling) => {
-					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (1);
-				})
-			);
 
 			mMidLayout.Children.Add (mSearchLayout,
 				Constraint.Constant(0),
@@ -1102,20 +1085,20 @@ namespace bluemart.MainViews
 				})
 			);
 
+			mMidLayout.Children.Add (SearchEntry,
+				Constraint.RelativeToView (mSearchLayout, (parent, sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize (136);
+				}),
+				Constraint.RelativeToView (mSearchLayout, (parent, sibling) => {
+					return sibling.Bounds.Top + MyDevice.GetScaledSize (5);
+				})
+			);
+
 			mMidLayout.Children.Add (searchButton,
 				Constraint.RelativeToView (searchImage, (parent, sibling) => {
 					return sibling.Bounds.Left;
 				}),
 				Constraint.RelativeToView (searchImage, (parent, sibling) => {
-					return sibling.Bounds.Top;
-				})
-			);
-
-			mMidLayout.Children.Add (SearchLabel,
-				Constraint.RelativeToView (searchButton, (parent, sibling) => {
-					return sibling.Bounds.Left+ MyDevice.GetScaledSize(118);
-				}),
-				Constraint.RelativeToView (searchButton, (parent, sibling) => {
 					return sibling.Bounds.Top;
 				})
 			);
@@ -1287,10 +1270,6 @@ namespace bluemart.MainViews
 
 		private void EventHandlers()
 		{
-			SearchEntry.PropertyChanged += (sender, e) => {
-				SearchLabel.Text = SearchEntry.Text;
-			};
-
 			SearchEntry.Focused += (sender, e) => {
 				SearchEntry.Text = "";
 				mMidLayout.Children.Add( InputBlocker,

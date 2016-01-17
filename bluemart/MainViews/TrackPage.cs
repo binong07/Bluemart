@@ -61,31 +61,48 @@ namespace bluemart.MainViews
 					TrackLabel.BackgroundColor = Color.FromRgb (76, 76, 76);
 
 					StackLayout1.Children.Clear ();
+					int statusTransitionCount = 0;
 					foreach (var status in mOrderStatusList) {
 						StackLayout1.Children.Add( new TrackCell(status,this ).View );
+						if (status.OrderStatus == OrderModel.OrderStatus.IN_TRANSIT)
+							statusTransitionCount++;
 					}
 
-					scrollViewHeight = MyDevice.GetScaledSize (180)*(StackLayout1.Children.Count) +  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
+					double normalHeight = 180;
+					double inTransitionHeight = 250;
 
-
-					if (scrollViewHeight > MyDevice.GetScaledSize (916)) {
+					double scrollViewNormalHeight = MyDevice.GetScaledSize (normalHeight) * (StackLayout1.Children.Count - statusTransitionCount);
+					double scrollViewInTransitionHeight = MyDevice.GetScaledSize (inTransitionHeight) * (statusTransitionCount);
+					scrollViewHeight = scrollViewNormalHeight + scrollViewInTransitionHeight  -  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
+					double screenLimit = MyDevice.GetScaledSize (800);
+					if (scrollViewHeight > screenLimit) {
 						double cellCount = Math.Floor (MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (180));
 						scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
+						Device.BeginInvokeOnMainThread(() => {
+							mMidLayout.Children.Add (ScrollView1,
+								Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+									return sibling.Bounds.Left;
+								}),
+								Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+									return sibling.Bounds.Top;
+								}),
+								Constraint.Constant(MyDevice.GetScaledSize(600)),
+								Constraint.Constant(scrollViewHeight));
+						});
+					} else {
+						Device.BeginInvokeOnMainThread(() => {
+							mMidLayout.Children.Add (ScrollView1,
+								Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+									return sibling.Bounds.Left;
+								}),
+								Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+									return sibling.Bounds.Top;
+								}),
+								Constraint.Constant(MyDevice.GetScaledSize(600))/*,
+					Constraint.Constant(scrollViewHeight)*/);
+						});
+
 					}
-
-					if (mMidLayout.Children.Contains (ScrollView1))
-						mMidLayout.Children.Remove (ScrollView1);
-
-					mMidLayout.Children.Add (ScrollView1,
-						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-							return sibling.Bounds.Left;
-						}),
-						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-							return sibling.Bounds.Top;
-						}),
-						Constraint.Constant(MyDevice.GetScaledSize(600)),
-						Constraint.Constant(scrollViewHeight)
-					);
 
 				} else if (label == HistoryLabel) {
 					TrackLabel.BackgroundColor = Color.Transparent;
@@ -708,8 +725,11 @@ namespace bluemart.MainViews
 			};
 
 			StackLayout1.Children.Clear ();
+			int statusTransitionCount = 0;
 			foreach (var status in mOrderStatusList) {
 				StackLayout1.Children.Add( new TrackCell(status,this ).View );
+				if (status.OrderStatus == OrderModel.OrderStatus.IN_TRANSIT)
+					statusTransitionCount++;
 			}
 
 			ScrollView1 = new ScrollView {
@@ -727,25 +747,45 @@ namespace bluemart.MainViews
 				);
 			});
 
-			double scrollViewHeight = MyDevice.GetScaledSize (180)*(StackLayout1.Children.Count) +  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
 
 
-			if (scrollViewHeight > MyDevice.GetScaledSize (916)) {
+			double normalHeight = 180;
+			double inTransitionHeight = 250;
+
+			double scrollViewNormalHeight = MyDevice.GetScaledSize (normalHeight) * (StackLayout1.Children.Count - statusTransitionCount);
+			double scrollViewInTransitionHeight = MyDevice.GetScaledSize (inTransitionHeight) * (statusTransitionCount);
+			double scrollViewHeight = scrollViewNormalHeight + scrollViewInTransitionHeight  -  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
+			double screenLimit = MyDevice.GetScaledSize (800);
+			if (scrollViewHeight > screenLimit) {
 				double cellCount = Math.Floor (MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (180));
 				scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
+				Device.BeginInvokeOnMainThread(() => {
+					mMidLayout.Children.Add (ScrollView1,
+						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+							return sibling.Bounds.Left;
+						}),
+						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+							return sibling.Bounds.Top;
+						}),
+						Constraint.Constant(MyDevice.GetScaledSize(600)),
+						Constraint.Constant(scrollViewHeight));
+				});
+			} else {
+				Device.BeginInvokeOnMainThread(() => {
+					mMidLayout.Children.Add (ScrollView1,
+						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+							return sibling.Bounds.Left;
+						}),
+						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+							return sibling.Bounds.Top;
+						}),
+						Constraint.Constant(MyDevice.GetScaledSize(600))/*,
+					Constraint.Constant(scrollViewHeight)*/);
+				});
+				
 			}
 
-			Device.BeginInvokeOnMainThread(() => {
-				mMidLayout.Children.Add (ScrollView1,
-					Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-						return sibling.Bounds.Left;
-					}),
-					Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-						return sibling.Bounds.Top;
-					}),
-					Constraint.Constant(MyDevice.GetScaledSize(600)),
-					Constraint.Constant(scrollViewHeight));
-			});
+
 		}
 
 

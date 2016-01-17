@@ -6,7 +6,7 @@ namespace bluemart.Models.Local
 {
 	public class StatusClass
 	{
-		public StatusClass (List<string> productOrderList,string address, string addressDesc,string name, string surname, string phone, string totalPrice, string date, string region, OrderModel.OrderStatus orderStatus)
+		public StatusClass (List<string> productOrderList,string address, string addressDesc,string name, string surname, string phone, string totalPrice, string date, string region, OrderModel.OrderStatus orderStatus,string deliveryStaffName,string deliveryStaffPhone)
 		{
 			ProductOrderList = productOrderList;
 			TotalPrice = totalPrice;
@@ -18,6 +18,9 @@ namespace bluemart.Models.Local
 			Name = name;
 			Surname = surname;
 			Phone = phone;
+			DeliveryStaffName = deliveryStaffName;
+			DeliveryStaffPhone = deliveryStaffPhone;
+			OrderStatus = orderStatus;
 
 			switch (orderStatus) {
 			case OrderModel.OrderStatus.WAITING_CONFIRMATION:
@@ -45,6 +48,9 @@ namespace bluemart.Models.Local
 		public string Name {get;set;}
 		public string Surname {get;set;}
 		public string Phone {get;set;}
+		public string DeliveryStaffName { get; set; }
+		public string DeliveryStaffPhone { get; set; }
+		public OrderModel.OrderStatus OrderStatus { get; set; }
 	}
 }
 

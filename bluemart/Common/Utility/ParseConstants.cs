@@ -10,6 +10,7 @@ namespace bluemart.Common.Utilities
 		public const string IMAGES_CLASS_NAME = "Images";
 		public const string PRODUCTS_CLASS_NAME = "Products";
 		public const string ORDERS_CLASS_NAME = "Orders";
+		public const string DELIVERYSTAFF_CLASS_NAME = "DeliveryStaff";
 		//Common Column Names
 		public const string UPDATEDATE_NAME = "updatedAt";
 		//Folder Names
@@ -46,6 +47,11 @@ namespace bluemart.Common.Utilities
 		public const string ORDERS_ATTRIBUTE_STORE = "Store";
 		public const string ORDERS_ATTRIBUTE_SURNAME = "SurName";
 		public const string ORDERS_ATTRIBUTE_USERID = "userID";
+		public const string ORDERS_DELIVERY_STAFF_ID = "DeliveryStaffID";
+		//Delivery staff Attribute Names
+		public const string DELIVERYSTAFF_PHONE = "TelNo";
+		public const string DELIVERYSTAFF_NAME = "Name";
+		public const string DELIVERYSTAFF_SURNAME = "SurName";
 	}
 }
 

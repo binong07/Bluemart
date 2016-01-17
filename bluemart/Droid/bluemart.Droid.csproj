@@ -171,6 +171,7 @@
     <Compile Include="TwinTechs\Droid\Controls\ViewMaskExtensionProvider.cs" />
     <Compile Include="TwinTechs\Droid\Extensions\ViewExtensions.cs" />
     <Compile Include="XLabs\Controls\GridView\GridViewRendererNew.cs" />
+    <Compile Include="Renderers\MyEntryRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

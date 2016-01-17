@@ -27,7 +27,7 @@ namespace bluemart.Models.Local
 			var cmd = connection.CreateCommand (cmdText, tableName);
 			return cmd.ExecuteScalar<string> () != null;
 		}
-		//string objectId, string [] Sub, bool isSubProduct, string ImageID, string Name
+
 		public void AddProduct( List<ProductClass> productList  )
 		{
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
@@ -36,9 +36,6 @@ namespace bluemart.Models.Local
 				db.CreateTable<ProductClass>();
 			}
 			db.InsertAll (productList,true);
-			/*foreach( ProductClass product in productList)
-				db.InsertOrReplace (product);
-*/
 			db.Close ();
 		}
 

@@ -70,10 +70,8 @@ namespace bluemart.Models.Remote
 			mPriorityDictionary.Clear ();
 		}
 
-		public static async void GetProductAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate,LoadingPage loadingPage)
-		{		
-			
-
+		public static void GetProductAttributesFromRemoteAndSaveToLocal(DateTime? localUpdate, DateTime? remoteUpdate,LoadingPage loadingPage)
+		{					
 			var productQuery = ParseObject.GetQuery (ParseConstants.PRODUCTS_CLASS_NAME).
 				WhereGreaterThan(ParseConstants.UPDATEDATE_NAME,localUpdate).
 				WhereLessThanOrEqualTo(ParseConstants.UPDATEDATE_NAME,remoteUpdate);
