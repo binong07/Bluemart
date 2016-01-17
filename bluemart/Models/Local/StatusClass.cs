@@ -21,13 +21,13 @@ namespace bluemart.Models.Local
 
 			switch (orderStatus) {
 			case OrderModel.OrderStatus.WAITING_CONFIRMATION:
-				Status += "Waiting for confirmation.";
+				Status += "Waiting for confirmation";
 				break;
 			case OrderModel.OrderStatus.CONFIRMED:
-				Status += "Your order has been confirmed and being prepared.";
+				Status += "Your order has been received and is being prepared";
 				break;
 			case OrderModel.OrderStatus.IN_TRANSIT:
-				Status += "Your order has been prepared and it has been dispatched.";
+				Status += "Your order has been prepared and it has been dispatched";
 				break;
 			default:
 				break;

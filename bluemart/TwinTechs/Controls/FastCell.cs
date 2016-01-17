@@ -49,7 +49,7 @@ namespace TwinTechs.Controls
 		/// <param name="isRecycled">If set to <c>true</c> is recycled.</param>
 		protected abstract void SetupCell (bool isRecycled);
 
-		internal object OriginalBindingContext;
+		public object OriginalBindingContext;
 	}
 }
 

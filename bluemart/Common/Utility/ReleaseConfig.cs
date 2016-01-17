@@ -15,7 +15,7 @@ namespace bluemart.Common.Utilities
 		public static string FRUITS_ID = "pFC3C9dhLx";
 		static ReleaseConfig()
 		{
-			DateTime.TryParse ("2016-01-14T07:29:59.275Z", out LAST_UPDATEDATE);
+			DateTime.TryParse ("2016-01-17T07:29:59.275Z", out LAST_UPDATEDATE);
 		}
 	}
 }
