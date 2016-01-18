@@ -133,6 +133,7 @@
       <DeployService-TargetDirectoryId>CommonApplicationData</DeployService-TargetDirectoryId>
     </Compile>
     <Compile Include="Models\Remote\DateModel.cs" />
+    <Compile Include="Common\Utility\Time.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -207,8 +208,8 @@
     <Reference Include="SQLite-net">
       <HintPath>packages\sqlite-net-pcl.1.1.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
     </Reference>
-    <Reference Include="Parse.iOS">
-      <HintPath>Components\parse-1.7.0\lib\ios-unified\Parse.iOS.dll</HintPath>
+    <Reference Include="Parse.Android">
+      <HintPath>Components\parse-1.7.0\lib\android\Parse.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
