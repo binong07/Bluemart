@@ -51,7 +51,7 @@ namespace bluemart.Common.Headers
 			};
 
 			var backImage = new Image () {
-				Source = "back",
+				Source = "back.png",
 				Aspect = Aspect.Fill
 			};
 
@@ -77,7 +77,7 @@ namespace bluemart.Common.Headers
 			};
 
 			var searchImage = new Image () {
-				Source = "search",
+				Source = "search.png",
 				Aspect = Aspect.Fill
 			};
 

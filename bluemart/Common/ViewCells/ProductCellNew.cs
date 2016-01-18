@@ -58,7 +58,7 @@ namespace bluemart
 					}
 				} else
 					mProduct = product;
-
+				//System.Diagnostics.Debug.WriteLine (mProduct.ProductImagePath);
 				mProductImage.Source = mProduct.ProductImagePath;    
 
 				/*
@@ -174,7 +174,7 @@ namespace bluemart
 				WidthRequest = MyDevice.GetScaledSize(250),
 				HeightRequest = MyDevice.GetScaledSize(198),
 				CacheDuration = TimeSpan.FromDays(30),
-				//DownsampleToViewSize = true,
+				DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,

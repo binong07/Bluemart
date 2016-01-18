@@ -333,7 +333,7 @@ namespace bluemart.MainViews
 			var checkoutTapRecogniser = new TapGestureRecognizer ();
 			checkoutTapRecogniser.Tapped += async (sender, e) => {
 				if( Cart.ProductTotalPrice == 0 )
-					await DisplayAlert("Warning","Please add products in your basket","OK");
+					await DisplayAlert("Sorry","Please add products in your basket","OK");
 				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
 				{					
 					await DisplayAlert("Sorry","Please Enter Your Address On Settings Page","OK");
@@ -794,7 +794,7 @@ namespace bluemart.MainViews
 			var menuIcon = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "CategoriesPage_MenuIcon"
+				Source = "CategoriesPage_MenuIcon.png"
 			};
 
 			var categoryLabel = new Label (){ 
@@ -826,7 +826,7 @@ namespace bluemart.MainViews
 			var cartImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(71),
 				HeightRequest = MyDevice.GetScaledSize(57),
-				Source = "ProductsPage_BasketIcon"
+				Source = "ProductsPage_BasketIcon.png"
 			};
 
 			ProductCountLabel = new Label () {					
@@ -987,7 +987,7 @@ namespace bluemart.MainViews
 			var searchImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(583),
 				HeightRequest = MyDevice.GetScaledSize(52),
-				Source = "ProductsPage_SearchBar"	
+				Source = "ProductsPage_SearchBar.png"	
 			};
 
 			var searchButton = new RelativeLayout () {

@@ -16,6 +16,12 @@ namespace bluemart.Common.Utilities
 		private static double ScreenHeightInches = Resolver.Resolve<IDevice> ().Display.ScreenHeightInches ();
 		public static double ScreenWidth = Resolver.Resolve<IDevice> ().Display.WidthRequestInInches (1) * Resolver.Resolve<IDevice> ().Display.ScreenWidthInches ();
 		public static double ScreenHeight = Resolver.Resolve<IDevice> ().Display.HeightRequestInInches (1) * Resolver.Resolve<IDevice> ().Display.ScreenHeightInches ();
+
+		/*#if __ANDROID__
+		public static double ScreenHeight = Resolver.Resolve<IDevice> ().Display.HeightRequestInInches (1) * Resolver.Resolve<IDevice> ().Display.ScreenHeightInches ();
+		#else
+		public static double ScreenHeight = Resolver.Resolve<IDevice> ().Display.HeightRequestInInches (1) * Resolver.Resolve<IDevice> ().Display.ScreenHeightInches ()-5;
+		#endif*/
 		public static Color BlueColor =	Color.FromRgb (12,92,169);
 		public static Color RedColor = Color.FromRgb (204,27,39);
 		public static Color BackgroundColor = Color.FromRgb (230, 230, 230);

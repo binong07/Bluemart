@@ -30,7 +30,7 @@ namespace bluemart
 			};
 
 			bgImage = new Image {
-				Source = "Loading_BG",
+				Source = "Loading_BG.jpg",
 				WidthRequest = MyDevice.GetScaledSize(640),
 				/*CacheDuration = TimeSpan.FromDays(30),
 				//DownsampleToViewSize = true,
@@ -42,7 +42,7 @@ namespace bluemart
 			};
 
 			var footerImage = new CachedImage () {
-				Source = "Loading_Footer",
+				Source = "Loading_Footer.png",
 				WidthRequest = MyDevice.GetScaledSize(421),
 				HeightRequest = MyDevice.GetScaledSize(94),
 				CacheDuration = TimeSpan.FromDays(30),
@@ -88,16 +88,27 @@ namespace bluemart
 					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (10);
 				})
 			);
-
-			relLayout1.Children.Add (ProgressBar1, 
-				Constraint.RelativeToParent (parent => {
-					return parent.Bounds.Left +  MyDevice.GetScaledSize(117);
-				}),
-				Constraint.RelativeToParent (parent => {
-					return parent.Bounds.Bottom - MyDevice.GetScaledSize(130);
-				})
-			);
+			if (Device.OS == TargetPlatform.Android) {
 				
+				relLayout1.Children.Add (ProgressBar1, 
+					Constraint.RelativeToParent (parent => {
+						return parent.Bounds.Left + MyDevice.GetScaledSize (117);
+					}),
+					Constraint.RelativeToParent (parent => {
+						return parent.Bounds.Bottom - MyDevice.GetScaledSize (130);
+					})
+				);
+			} else 
+			{
+				relLayout1.Children.Add (ProgressBar1, 
+					Constraint.RelativeToParent (parent => {
+						return parent.Bounds.Left + MyDevice.GetScaledSize (117);
+					}),
+					Constraint.RelativeToParent (parent => {
+						return parent.Bounds.Bottom - MyDevice.GetScaledSize (130) + 20;
+					})
+				);
+			}
 			Load();
 		}
 

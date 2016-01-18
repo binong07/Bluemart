@@ -100,13 +100,13 @@ namespace bluemart.MainViews
 			menuIcon = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "ReceiptPage_MenuIcon"
+				Source = "ReceiptPage_MenuIcon.png"
 			};
 
 			var logo = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(217),
 				HeightRequest = MyDevice.GetScaledSize(39),
-				Source = "ReceiptPage_Logo"
+				Source = "ReceiptPage_Logo.png"
 			};
 
 
@@ -530,7 +530,7 @@ namespace bluemart.MainViews
 				RetryDelay = 250,
 				TransparencyEnabled = false,
 				FadeAnimationEnabled = false,*/
-				Source = "SettingsPage_AddressInfoBackground"
+				Source = "SettingsPage_AddressInfoBackground.png"
 			};
 
 			var informationLabel = new Label () {

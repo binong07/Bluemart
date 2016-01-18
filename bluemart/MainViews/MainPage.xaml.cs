@@ -13,7 +13,9 @@ using bluemart.Models.Remote;
 using bluemart.Models.Local;
 using bluemart.Common.ViewCells;
 using System.Linq;
-using FFImageLoading.Forms;
+//using FFImageLoading.Forms;
+using XLabs.Ioc;
+using XLabs.Platform.Device;
 
 namespace bluemart.MainViews
 {
@@ -48,11 +50,15 @@ namespace bluemart.MainViews
 		private void InitRelativeLayout()
 		{		
 			MainRelativeLayout = new RelativeLayout () {
-				Padding = 0
+				Padding = 0,
+				WidthRequest = MyDevice.ScreenWidth,
+				HeightRequest = MyDevice.ScreenHeight
 			};
+			//System.Diagnostics.Debug.WriteLine (MyDevice.ScreenHeight);
+			//System.Diagnostics.Debug.WriteLine (Resolver.Resolve<IDevice> ().Display.HeightRequestInInches (1) * Resolver.Resolve<IDevice> ().Display.ScreenHeightInches ());
 			#region InitializeViews
 			var BackgroundImage = new Image {
-				Source = "MainPage_BG",
+				Source = "MainPage_BG.jpg",
 				WidthRequest = MyDevice.GetScaledSize(640),
 				Aspect = Aspect.Fill
 				/*CacheDuration = TimeSpan.FromDays(30),
@@ -63,16 +69,16 @@ namespace bluemart.MainViews
 				FadeAnimationEnabled = false*/
 			};
 
-			var linkButton = new CachedImage {
-				Source = "MainPage_Footer",	
+			var linkButton = new Image {
+				Source = "MainPage_Footer.png",	
 				WidthRequest = MyDevice.GetScaledSize(471),
 				HeightRequest = MyDevice.GetScaledSize(54),
-				CacheDuration = TimeSpan.FromDays(30),
+				/*CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				FadeAnimationEnabled = false*/
 			};
 
 			var ChooseLocationButton = new RelativeLayout () {
@@ -110,6 +116,9 @@ namespace bluemart.MainViews
 				Constraint.Constant (0)
 			);
 
+			//if()
+			if (Device.OS == TargetPlatform.Android) {
+				
 			MainRelativeLayout.Children.Add (linkButton,
 				Constraint.RelativeToParent (parent => {
 					return parent.Bounds.Left +  MyDevice.GetScaledSize(83);
@@ -118,6 +127,26 @@ namespace bluemart.MainViews
 					return parent.Bounds.Bottom - MyDevice.GetScaledSize(70);
 				})
 			);
+			} else
+			{
+				MainRelativeLayout.Children.Add (linkButton,
+					Constraint.RelativeToParent (parent => {
+						return parent.Bounds.Left +  MyDevice.GetScaledSize(83);
+					}),
+					Constraint.RelativeToParent (parent => {
+						return parent.Bounds.Bottom - MyDevice.GetScaledSize(70)-20;
+					})
+				);
+			}
+			/*
+			MainRelativeLayout.Children.Add(linkButton,
+				Constraint.RelativeToView( BackgroundImage, (p,sibling) => {
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(83);
+				}),
+				Constraint.RelativeToView( BackgroundImage, (p,sibling) => {
+					return sibling.Bounds.Bottom - MyDevice.GetScaledSize(300);
+				})
+			);*/
 
 			MainRelativeLayout.Children.Add (ChooseLocationButton,
 				Constraint.RelativeToParent (parent => {
@@ -257,7 +286,7 @@ namespace bluemart.MainViews
 					string region = mActiveLabel.Text;
 					mUserModel.AddActiveRegionToUser (region);
 					CategoryModel.CategoryLocation = mActiveLabel.Text;
-					mRootPage.ReloadStreams();
+					//mRootPage.ReloadStreams();
 					mRootPage.SwitchTab("BrowseCategories");
 					Navigation.PushAsync( mRootPage );
 				}

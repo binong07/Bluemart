@@ -53,7 +53,7 @@ namespace bluemart.MainViews
 		public RootPage ()
 		{
 			InitializeComponent ();
-			ReloadStreams ();
+			//ReloadStreams ();
 			mActivityIndicator = new Xamarin.Forms.ActivityIndicator();
 			NavigationPage.SetHasNavigationBar (this, false);
 
@@ -142,7 +142,7 @@ namespace bluemart.MainViews
 			);*/
 		}	
 
-		public void ReloadStreams()
+		/*public void ReloadStreams()
 		{
 			var assembly = typeof(RootPage).GetTypeInfo().Assembly;
 
@@ -153,7 +153,7 @@ namespace bluemart.MainViews
 			mProductCellForeground = assembly.GetManifestResourceStream("bluemart.SavedImages.ProductsPage_ProductForeground.png");
 			mFolder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;             
 			//mFolder = mRootFolder.CreateFolderAsync (ParseConstants.IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists).Result;			 
-		}
+		}*/
 
 		private void SetGrid1Definitions()
 		{	
@@ -168,8 +168,13 @@ namespace bluemart.MainViews
 		}
 
 		private void SwitchContent(View content)
-		{			
-			this.Content = content;
+		{	
+			if (this.Content == null)
+				System.Diagnostics.Debug.WriteLine ("aq1");
+			if (content == null)
+				System.Diagnostics.Debug.WriteLine ("aq2");
+			//this.Content = null;
+			else this.Content = content;
 			/*mGrid1Height = Grid1.Height;
 			Grid1.Children.Remove(mContentGrid);
 			mContentGrid = content;

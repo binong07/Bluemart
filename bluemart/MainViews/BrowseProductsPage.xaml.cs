@@ -26,7 +26,7 @@ namespace bluemart.MainViews
 		public Dictionary<string,List<Product>> mProductDictionary;
 		public Category mCategory;
 		private List<Label> mButtonList;
-		private List<Product> mProductList = new List<Product> ();
+		public List<Product> mProductList = new List<Product> ();
 		private List<int> mCategoryIndexList;
 		//Queues
 		public List<ProductCell> mProductCellList = new List<ProductCell> ();
@@ -219,7 +219,7 @@ namespace bluemart.MainViews
 			var openImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(54),
 				HeightRequest = MyDevice.GetScaledSize(44),
-				Source = "MenuPage_Open",
+				Source = "MenuPage_Open.png",
 				Aspect = Aspect.Fill
 			};
 
@@ -247,7 +247,7 @@ namespace bluemart.MainViews
 			var settingsImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Settings",
+				Source = "MenuPage_Settings.png",
 				Aspect = Aspect.Fill
 			};
 
@@ -269,7 +269,7 @@ namespace bluemart.MainViews
 			var favoritesImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Favorites",
+				Source = "MenuPage_Favorites.png",
 				Aspect = Aspect.Fill
 			};
 
@@ -291,7 +291,7 @@ namespace bluemart.MainViews
 			var trackImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Track",
+				Source = "MenuPage_Track.png",
 				Aspect = Aspect.Fill
 			};
 
@@ -558,7 +558,7 @@ namespace bluemart.MainViews
 				WidthRequest = MyDevice.GetScaledSize(33),
 				HeightRequest = MyDevice.GetScaledSize(37),
 				Aspect = Aspect.Fill,
-				Source = "CartPage_ProfilePic"
+				Source = "CartPage_ProfilePic.png"
 			};
 
 			var firstLine = new BoxView (){
@@ -653,7 +653,7 @@ namespace bluemart.MainViews
 			var checkoutTapRecogniser = new TapGestureRecognizer ();
 			checkoutTapRecogniser.Tapped += async (sender, e) => {
 				if( Cart.ProductTotalPrice == 0 )
-					await DisplayAlert("Warning","Please add products in your basket","OK");
+					await DisplayAlert("Sorry","Please add products to your basket","OK");
 				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
 				{					
 					await DisplayAlert("Sorry","Please Enter Your Address On Settings Page","OK");
@@ -783,7 +783,7 @@ namespace bluemart.MainViews
 			var menuIcon = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "CategoriesPage_MenuIcon"
+				Source = "CategoriesPage_MenuIcon.png"
 			};
 
 			var categoryLabel = new Label (){ 
@@ -806,14 +806,14 @@ namespace bluemart.MainViews
 				WidthRequest = MyDevice.GetScaledSize(1),
 				HeightRequest = MyDevice.GetScaledSize(63),
 				Aspect = Aspect.Fill,
-				Source = "CategoriesPage_VerticalLine"
+				Source = "CategoriesPage_VerticalLine.png"
 			};
 
 			var cartImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(71),
 				HeightRequest = MyDevice.GetScaledSize(57),
 				Aspect = Aspect.Fill,
-				Source = "ProductsPage_BasketIcon"
+				Source = "ProductsPage_BasketIcon.png"
 			};
 
 			var cartButton = new RelativeLayout () {
@@ -1027,7 +1027,7 @@ namespace bluemart.MainViews
 			var searchImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(583),
 				HeightRequest = MyDevice.GetScaledSize(52),
-				Source = "ProductsPage_SearchBar"	
+				Source = "ProductsPage_SearchBar.png"	
 			};
 
 			var searchButton = new RelativeLayout () {
@@ -1330,7 +1330,7 @@ namespace bluemart.MainViews
 			}	
 
 
-			mProductCellList.Clear ();
+			//mProductCellList.Clear ();
 
 			mProductCellList.Clear();
 			mTrashProductCellQueue.Clear();

@@ -248,6 +248,7 @@ namespace bluemart
 				if (mParentPage is BrowseProductsPage) {	
 					foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
 						if (productCell.mProduct.ProductID == mProduct.ProductID) {
+							
 							productCell.DeactivateAddMenu ();
 						}
 					}
@@ -534,7 +535,7 @@ namespace bluemart
 				(mParentPage as BrowseProductsPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 			}
 			else if (mParentPage is SearchPage) {
-				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
+				foreach (var productCell in (mParentPage as SearchPage).mProductCellList) {
 					if (productCell.mProduct.ProductID == mProduct.ProductID) {
 						if (mProduct.ProductNumberInCart == 0) {
 							productCell.DeactivateAddMenu ();
@@ -548,7 +549,7 @@ namespace bluemart
 				(mParentPage as SearchPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 			}
 			else if (mParentPage is FavoritesPage) {	
-				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
+				foreach (var productCell in (mParentPage as FavoritesPage).mProductCellList) {
 					if (productCell.mProduct.ProductID == mProduct.ProductID) {
 						if (mProduct.ProductNumberInCart == 0) {
 							productCell.DeactivateAddMenu ();

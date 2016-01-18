@@ -120,13 +120,13 @@ namespace bluemart
 			menuIcon = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "ReceiptPage_MenuIcon"
+				Source = "ReceiptPage_MenuIcon.png"
 			};
 
 			var logo = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(217),
 				HeightRequest = MyDevice.GetScaledSize(39),
-				Source = "ReceiptPage_Logo"
+				Source = "ReceiptPage_Logo.png"
 			};
 												
 			var menuButton = new RelativeLayout () {
@@ -182,7 +182,7 @@ namespace bluemart
 			var openImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(54),
 				HeightRequest = MyDevice.GetScaledSize(44),
-				Source = "MenuPage_Open"
+				Source = "MenuPage_Open.png"
 			};
 
 			categoriesLabel = new Label () {
@@ -502,7 +502,7 @@ namespace bluemart
 			mAddressLayout = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(600),
 				HeightRequest = MyDevice.GetScaledSize(301),
-				Source = "ReceiptPage_AddressBackground"
+				Source = "ReceiptPage_AddressBackground.png"
 			};
 
 			var informationLabel = new Label () {
@@ -668,7 +668,7 @@ namespace bluemart
 			mReceiptLayout = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(600),
 				HeightRequest = MyDevice.GetScaledSize(477),
-				Source = "ReceiptPage_ReceiptBackground"
+				Source = "ReceiptPage_ReceiptBackground.png"
 			};
 
 			var quantityLabel = new Label () {
@@ -765,7 +765,7 @@ namespace bluemart
 				HorizontalTextAlignment = TextAlignment.Center,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.White,
-				Text = "DISAGREE",
+				Text = "CANCEL",
 				FontSize = MyDevice.FontSizeSmall
 			};
 

@@ -100,7 +100,7 @@ namespace bluemart.Models.Remote
 				mCategoryClass.AddCategory (tempList);
 
 			}
-			loadingPage.mFirstTokenSource.Cancel ();	
+			//loadingPage.mFirstTokenSource.Cancel ();	
 		}
 
 		public static void PopulateCategoryDictionaries()
@@ -142,11 +142,11 @@ namespace bluemart.Models.Remote
 					GetCategoryAttributesFromRemoteAndSaveToLocal(localUpdate,remoteUpdate,loadingPage);
 					mUserModel.AddCategoriesUpdateDateToUser (remoteUpdate);
 				}
-				else
-					loadingPage.mFirstTokenSource.Cancel ();
+				//else
+					//loadingPage.mFirstTokenSource.Cancel ();
 			}
-			else
-				loadingPage.mFirstTokenSource.Cancel ();
+			//else
+			//	loadingPage.mFirstTokenSource.Cancel ();
 
 			PopulateCategoryDictionaries ();
 		}

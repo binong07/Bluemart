@@ -32,10 +32,11 @@ namespace bluemart.Models.Local
 		{
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
-			if (!TableExists<ProductClass> (db,"Products")) {
+			if (!TableExists<ProductClass> (db,"Products"))
+			{
 				db.CreateTable<ProductClass>();
 			}
-			db.InsertAll (productList,true);
+			db.InsertAll (productList,"OR REPLACE", true);
 			db.Close ();
 		}
 

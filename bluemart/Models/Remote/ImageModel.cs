@@ -49,7 +49,7 @@ namespace bluemart.Models.Remote
 					//to be able to get image name from full name
 				
 					if (s == null) {
-						System.Diagnostics.Debug.WriteLine ("imagename:" + imageName);
+						//System.Diagnostics.Debug.WriteLine ("imagename:" + imageName);
 						continue;
 					}
 

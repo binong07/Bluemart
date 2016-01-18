@@ -129,9 +129,6 @@
     <Reference Include="FFImageLoading.Forms.Touch">
       <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.0.2\lib\Xamarin.iOS10\FFImageLoading.Forms.Touch.dll</HintPath>
     </Reference>
-    <Reference Include="SQLite-net">
-      <HintPath>..\packages\sqlite-net-pcl.1.0.11\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
-    </Reference>
     <Reference Include="Calabash">
       <HintPath>..\packages\Xamarin.TestCloud.Agent.0.17.1\lib\Xamarin.iOS10\Calabash.dll</HintPath>
     </Reference>
@@ -140,6 +137,9 @@
     </Reference>
     <Reference Include="PCLStorage.Abstractions">
       <HintPath>..\packages\PCLStorage.1.0.2\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.1.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +207,11 @@
     <BundleResource Include="Resources\TrackPage_HistroyBackground.png" />
     <BundleResource Include="Resources\TrackPage_TrackBackground.png" />
     <BundleResource Include="Resources\TrackPage_TrackMask.png" />
+    <BundleResource Include="Resources\TrackPage_TrackBackground_Black.png" />
+    <BundleResource Include="Resources\TrackPage_TrackBackground_Blue.png" />
+    <BundleResource Include="Resources\TrackPage_TrackBackground_Green.png" />
+    <BundleResource Include="Resources\TrackPage_TrackBackground_Red.png" />
+    <BundleResource Include="Resources\refresh.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -238,7 +243,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.5\build\Xamarin.iOS10\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.5\build\Xamarin.iOS10\SQLitePCL.raw_basic.targets')" />
+  <Import Project="..\packages\SQLitePCL.raw.0.8.6\build\Xamarin.iOS10\SQLitePCL.raw.targets" Condition="Exists('..\packages\SQLitePCL.raw.0.8.6\build\Xamarin.iOS10\SQLitePCL.raw.targets')" />
   <ItemGroup>
     <XamarinComponentReference Include="parse">
       <Version>1.7.0</Version>

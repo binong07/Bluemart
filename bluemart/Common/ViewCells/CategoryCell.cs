@@ -33,7 +33,7 @@ namespace bluemart.Common.ViewCells
 			mProductDictionary = new Dictionary<string, List<Product>> ();
 			mUser = new UserClass ();
 
-
+			//System.Diagnostics.Debug.WriteLine (category.CategoryImagePath);
 
 			CachedImage categoryImage = new CachedImage ()
 			{
@@ -44,7 +44,8 @@ namespace bluemart.Common.ViewCells
 				DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
-				TransparencyEnabled = false
+				TransparencyEnabled = false,
+				FadeAnimationEnabled = false,
 			};				
 
 				/*
@@ -78,7 +79,7 @@ namespace bluemart.Common.ViewCells
 						LoadProductsPage(category.CategoryID,parent);										
 			}else if(category.CategoryID == ReleaseConfig.FRUITS_ID||category.CategoryID == ReleaseConfig.MEAT_ID)
 			{					
-				await mParent.DisplayAlert("Warning","Delivered quantity might differ from the actual ordered quantity by ± 50 grams.","OK");
+				await mParent.DisplayAlert("Please Remember","Delivered quantity might differ from the actual ordered quantity by ± 50 grams.","OK");
 
 					LoadProductsPage(category.CategoryID,parent);										
 			}
