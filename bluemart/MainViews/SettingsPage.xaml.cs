@@ -20,7 +20,7 @@ namespace bluemart.MainViews
 		private RelativeLayout mTopLayout;
 		private RelativeLayout mMenuLayout;
 		private RelativeLayout mMidLayout;
-		private CachedImage mAddressInfoLayout;
+		private /*CachedImage*/ Image mAddressInfoLayout;
 		private Label categoriesLabel;
 		private Image menuIcon;
 		private bool IsMenuOpen = false;
@@ -105,7 +105,8 @@ namespace bluemart.MainViews
 
 			var logo = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(217),
-				HeightRequest = MyDevice.GetScaledSize(39)
+				HeightRequest = MyDevice.GetScaledSize(39),
+				Source = "ReceiptPage_Logo"
 			};
 
 
@@ -520,15 +521,15 @@ namespace bluemart.MainViews
 		}
 
 		private void InitializeAddressInfoLayout(){
-			mAddressInfoLayout = new CachedImage () {
+			mAddressInfoLayout = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(600),
 				HeightRequest = MyDevice.GetScaledSize(214),
-				CacheDuration = TimeSpan.FromDays(30),
+				/*CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,
+				FadeAnimationEnabled = false,*/
 				Source = "SettingsPage_AddressInfoBackground"
 			};
 

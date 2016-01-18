@@ -58,7 +58,8 @@ namespace bluemart.Models.Remote
 					using (System.IO.Stream stream = file.OpenAsync (FileAccess.ReadAndWrite).Result) {
 						s.CopyTo (stream);
 					double scrollPos = Decimal.ToDouble (Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, imageCount)), 10), 2), i++));	
-					loadingPage.ProgressBar1.Progress = scrollPos;
+						Device.BeginInvokeOnMainThread (() =>
+							loadingPage.ProgressBar1.Progress = scrollPos);
 						//await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 					}
 				}
@@ -113,10 +114,11 @@ namespace bluemart.Models.Remote
 								stream.Write (data, 0, data.Length);
 							}
 							double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, queryCount)), 10), 5), j++),new decimal(0.2f)));
-							loadingPage.ProgressBar1.Progress = scrollPos;
+							Device.BeginInvokeOnMainThread(()=>loadingPage.ProgressBar1.Progress = scrollPos);
 							//await Task.Delay (10);
 							//await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 						}
+					
 						mUserModel.AddImagesUpdateDateToUser (remoteUpdate);
 
 					}

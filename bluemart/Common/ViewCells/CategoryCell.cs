@@ -76,7 +76,7 @@ namespace bluemart.Common.ViewCells
 					var isOk = await mParent.DisplayAlert("Warning","I am over 20 years old and I know smoking is bad for my health.","AGREE","DISAGREE");
 					if(isOk)
 						LoadProductsPage(category.CategoryID,parent);										
-			}else if(category.CategoryID == ReleaseConfig.FRUITS_ID)
+			}else if(category.CategoryID == ReleaseConfig.FRUITS_ID||category.CategoryID == ReleaseConfig.MEAT_ID)
 			{					
 				await mParent.DisplayAlert("Warning","Delivered quantity might differ from the actual ordered quantity by ± 50 grams.","OK");
 

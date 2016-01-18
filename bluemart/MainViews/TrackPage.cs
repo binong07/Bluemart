@@ -51,6 +51,92 @@ namespace bluemart.MainViews
 			InitializeBottomLayout ();
 		}			
 
+		private void Refresh()
+		{
+			mOrderStatusList = OrderModel.GetOrdersForTracking ();
+			mOrderHistoryList = OrderModel.GetOrdersForHistory ();
+			double scrollViewHeight = 0;
+			if (mActiveLabel == TrackLabel) {
+				HistoryLabel.BackgroundColor = Color.Transparent;
+				TrackLabel.BackgroundColor = Color.FromRgb (76, 76, 76);
+
+				StackLayout1.Children.Clear ();
+				int statusTransitionCount = 0;
+				foreach (var status in mOrderStatusList) {
+					StackLayout1.Children.Add( new TrackCell(status,this ).View );
+					if (status.OrderStatus == OrderModel.OrderStatus.IN_TRANSIT)
+						statusTransitionCount++;
+				}
+
+				double normalHeight = 180;
+				double inTransitionHeight = 250;
+
+				double scrollViewNormalHeight = MyDevice.GetScaledSize (normalHeight) * (StackLayout1.Children.Count - statusTransitionCount);
+				double scrollViewInTransitionHeight = MyDevice.GetScaledSize (inTransitionHeight) * (statusTransitionCount);
+				scrollViewHeight = scrollViewNormalHeight + scrollViewInTransitionHeight  -  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
+				double screenLimit = MyDevice.GetScaledSize (800);
+				if (scrollViewHeight > screenLimit) {
+					double cellCount = Math.Floor (MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (180));
+					scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
+					Device.BeginInvokeOnMainThread(() => {
+						mMidLayout.Children.Add (ScrollView1,
+							Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+								return sibling.Bounds.Left;
+							}),
+							Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+								return sibling.Bounds.Top;
+							}),
+							Constraint.Constant(MyDevice.GetScaledSize(600)),
+							Constraint.Constant(scrollViewHeight));
+					});
+				} else {
+					Device.BeginInvokeOnMainThread(() => {
+						mMidLayout.Children.Add (ScrollView1,
+							Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+								return sibling.Bounds.Left;
+							}),
+							Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+								return sibling.Bounds.Top;
+							}),
+							Constraint.Constant(MyDevice.GetScaledSize(600))/*,
+				Constraint.Constant(scrollViewHeight)*/);
+					});
+
+				}
+
+			} else if (mActiveLabel == HistoryLabel) {
+				TrackLabel.BackgroundColor = Color.Transparent;
+				HistoryLabel.BackgroundColor = Color.FromRgb (76, 76, 76);
+
+				StackLayout1.Children.Clear ();
+				foreach (var history in mOrderHistoryList) {
+					StackLayout1.Children.Add( new HistoryCell(history,this ).View );
+				}
+
+				scrollViewHeight = MyDevice.GetScaledSize (138)*(StackLayout1.Children.Count) +  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
+
+
+				if (scrollViewHeight > MyDevice.GetScaledSize (916)) {
+					double cellCount = Math.Floor(MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (138));
+					scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
+				}
+
+				if (mMidLayout.Children.Contains (ScrollView1))
+					mMidLayout.Children.Remove (ScrollView1);
+
+				mMidLayout.Children.Add (ScrollView1,
+					Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+						return sibling.Bounds.Left;
+					}),
+					Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
+						return sibling.Bounds.Top;
+					}),
+					Constraint.Constant(MyDevice.GetScaledSize(600)),
+					Constraint.Constant(scrollViewHeight)
+				);
+			}
+		}
+
 		private void ChangeActive(Label label)
 		{
 			double scrollViewHeight = 0;
@@ -241,13 +327,13 @@ namespace bluemart.MainViews
 			mTopLayout = new RelativeLayout () {
 				WidthRequest = MyDevice.GetScaledSize(640),
 				HeightRequest = MyDevice.GetScaledSize(87),
-				BackgroundColor = Color.FromRgb(38,153,200)
+				BackgroundColor = Color.White//Color.FromRgb(38,153,200)
 			};
 
 			menuIcon = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "CategoriesPage_MenuIcon"
+				Source = "ReceiptPage_MenuIcon"
 			};
 
 			var logo = new Image () {
@@ -269,6 +355,24 @@ namespace bluemart.MainViews
 			};
 			menuButton.GestureRecognizers.Add(menuTapRecognizer);
 
+			var refreshImage = new Image () {
+				WidthRequest = MyDevice.GetScaledSize(50),
+				HeightRequest = MyDevice.GetScaledSize(50),
+				Aspect = Aspect.Fill,
+				Source = "refresh"
+			};
+
+			var refreshButton = new RelativeLayout () {
+				WidthRequest = MyDevice.GetScaledSize(90),
+				HeightRequest = MyDevice.GetScaledSize(90),
+				Padding = 0,
+				//BackgroundColor = Color.Black
+			};
+			var refreshTapRecognizer= new TapGestureRecognizer ();
+			refreshTapRecognizer.Tapped += (sender, e) => {				
+				Refresh();
+			};
+			refreshButton.GestureRecognizers.Add(refreshTapRecognizer);
 
 
 			mMidLayout.Children.Add (mTopLayout,
@@ -298,6 +402,15 @@ namespace bluemart.MainViews
 				Constraint.Constant (0),
 				Constraint.Constant (0));
 
+
+			mMidLayout.Children.Add (refreshButton,
+				Constraint.Constant(MyDevice.GetScaledSize(550)),
+				Constraint.Constant (0)
+			);
+			mMidLayout.Children.Add (refreshImage, 
+				Constraint.Constant( MyDevice.GetScaledSize(570) ),
+				Constraint.Constant( MyDevice.GetScaledSize(20) )
+			);
 		}
 
 		private void InitializeMenuLayout()

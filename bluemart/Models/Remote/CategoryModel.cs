@@ -93,7 +93,7 @@ namespace bluemart.Models.Remote
 					tempList.Add (tempCategory);
 
 					double scrollPos = Decimal.ToDouble (Decimal.Add(Decimal.Multiply (Decimal.Multiply (Decimal.Divide ((Decimal.Divide (1, categoryCount)), 10), 1), j++),new decimal(0.8f)));
-					loadingPage.ProgressBar1.Progress = scrollPos;
+					Device.BeginInvokeOnMainThread (() => loadingPage.ProgressBar1.Progress = scrollPos);
 					//await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 				}
 

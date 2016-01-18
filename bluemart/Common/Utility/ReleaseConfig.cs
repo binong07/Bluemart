@@ -13,9 +13,11 @@ namespace bluemart.Common.Utilities
 		public static string FONT_PATH = "monospace";
 		public static string TOBACCO_ID = "Omwz701hpB";
 		public static string FRUITS_ID = "pFC3C9dhLx";
+
+		public static string MEAT_ID = "i4PYZZUkm9";
 		static ReleaseConfig()
 		{
-			DateTime.TryParse ("2016-01-17T07:29:59.275Z", out LAST_UPDATEDATE);
+			DateTime.TryParse ("2016-01-18T07:29:59.275Z", out LAST_UPDATEDATE);
 		}
 	}
 }

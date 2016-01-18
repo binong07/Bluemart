@@ -27,11 +27,8 @@ namespace bluemart.Models.Local
 
 		public void CreateUserTable()
 		{
-			System.Diagnostics.Debug.WriteLine ("aq2");
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
-			System.Diagnostics.Debug.WriteLine ("aq3");
 			if (!TableExists<UserClass> (db, "User")) {
-				System.Diagnostics.Debug.WriteLine ("aq4");
 				db.CreateTable<UserClass> ();	
 				var newUser = new UserClass ();
 				newUser.ActiveRegion = "";
@@ -41,7 +38,6 @@ namespace bluemart.Models.Local
 				newUser.ProductsUpdateDate = new DateTime? (DateTime.MinValue);
 				//newUser.Location = "";
 				db.InsertOrReplace (newUser); 
-				System.Diagnostics.Debug.WriteLine ("aq5");
 			}
 
 			db.Close ();
