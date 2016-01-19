@@ -133,6 +133,7 @@
       <DeployService-TargetDirectoryId>CommonApplicationData</DeployService-TargetDirectoryId>
     </Compile>
     <Compile Include="Models\Remote\DateModel.cs" />
+    <Compile Include="Common\Utility\Time.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -201,12 +202,15 @@
     <Reference Include="SQLite-net">
       <HintPath>packages\sqlite-net-pcl.1.1.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
     </Reference>
+<<<<<<< HEAD
     <Reference Include="FFImageLoading">
       <HintPath>packages\Xamarin.FFImageLoading.2.0.5\lib\portable-net45+netcore45+wpa81+wp8+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\FFImageLoading.dll</HintPath>
     </Reference>
     <Reference Include="FFImageLoading.Forms">
       <HintPath>packages\Xamarin.FFImageLoading.Forms.2.0.5\lib\portable-net45+netcore45+wpa81+wp8+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\FFImageLoading.Forms.dll</HintPath>
     </Reference>
+=======
+>>>>>>> d33ffe1d09d9f48727c23f10fa4d009a32b9d532
     <Reference Include="Parse.Android">
       <HintPath>Components\parse-1.7.0\lib\android\Parse.Android.dll</HintPath>
     </Reference>

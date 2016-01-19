@@ -1008,7 +1008,13 @@ namespace bluemart.MainViews
 
 			var checkoutTapRecogniser = new TapGestureRecognizer ();
 			checkoutTapRecogniser.Tapped += async (sender, e) => {
-				if( Cart.ProductTotalPrice == 0 )
+				var hour = Time.GetTime();
+
+				if( hour < 8 || hour > 23 ) 
+				{
+					await DisplayAlert("Sorry","Market is closed between 8 AM and 11 PM ","OK");
+				}
+				else if( Cart.ProductTotalPrice == 0 )
 					await DisplayAlert("Sorry","Please add products to your basket","OK");
 				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
 				{					

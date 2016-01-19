@@ -44,6 +44,7 @@ namespace bluemart.MainViews
 				Navigation.PushAsync( mRootPage );
 			InitRelativeLayout ();
 			InitializeComponent ();
+
 			Content = MainRelativeLayout;
 		}
 
