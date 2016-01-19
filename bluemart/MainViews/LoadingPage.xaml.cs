@@ -19,7 +19,7 @@ namespace bluemart
 	{		
 		UserClass mUserModel = new UserClass();
 		public ProgressBar ProgressBar1;
-		public CancellationTokenSource mFirstTokenSource = new CancellationTokenSource();
+		//public CancellationTokenSource mFirstTokenSource = new CancellationTokenSource();
 		Image bgImage;
 		public LoadingPage ()
 		{

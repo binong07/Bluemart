@@ -27,6 +27,7 @@ namespace bluemart.Models.Local
 
 		public void AddAddress(AddressClass address)
 		{
+			//if(MyDevice.db==nul)
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<AddressClass> (db,"AddressTable")) {

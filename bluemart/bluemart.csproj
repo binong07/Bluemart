@@ -202,17 +202,14 @@
     <Reference Include="SQLite-net">
       <HintPath>packages\sqlite-net-pcl.1.1.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
     </Reference>
-<<<<<<< HEAD
     <Reference Include="FFImageLoading">
       <HintPath>packages\Xamarin.FFImageLoading.2.0.5\lib\portable-net45+netcore45+wpa81+wp8+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\FFImageLoading.dll</HintPath>
     </Reference>
     <Reference Include="FFImageLoading.Forms">
       <HintPath>packages\Xamarin.FFImageLoading.Forms.2.0.5\lib\portable-net45+netcore45+wpa81+wp8+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\FFImageLoading.Forms.dll</HintPath>
     </Reference>
-=======
->>>>>>> d33ffe1d09d9f48727c23f10fa4d009a32b9d532
-    <Reference Include="Parse.Android">
-      <HintPath>Components\parse-1.7.0\lib\android\Parse.Android.dll</HintPath>
+    <Reference Include="Parse.iOS">
+      <HintPath>Components\parse-1.7.0\lib\ios-unified\Parse.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -1324,12 +1321,10 @@
     <EmbeddedResource Include="SavedImages\15myBaby.jpg" />
     <EmbeddedResource Include="SavedImages\16rechargeCards.jpg" />
     <EmbeddedResource Include="SavedImages\17chips.jpg" />
-    <EmbeddedResource Include="SavedImages\18nuts.jpg" />
     <EmbeddedResource Include="SavedImages\19homeBaking.jpg" />
     <EmbeddedResource Include="SavedImages\20cannedFood.jpg" />
     <EmbeddedResource Include="SavedImages\21sugar.jpg" />
     <EmbeddedResource Include="SavedImages\22biscuits.jpg" />
-    <EmbeddedResource Include="SavedImages\22medicine.jpg" />
     <EmbeddedResource Include="SavedImages\25OralCare.jpg" />
     <EmbeddedResource Include="SavedImages\26Pasta.jpg" />
     <EmbeddedResource Include="SavedImages\27camping.jpg" />
@@ -1343,12 +1338,7 @@
     <EmbeddedResource Include="SavedImages\36mexican.jpg" />
     <EmbeddedResource Include="SavedImages\37intimate.jpg" />
     <EmbeddedResource Include="SavedImages\38lips.jpg" />
-    <EmbeddedResource Include="SavedImages\40forWomen.jpg" />
-    <EmbeddedResource Include="SavedImages\41forMen.jpg" />
-    <EmbeddedResource Include="SavedImages\43AllHair.jpg" />
-    <EmbeddedResource Include="SavedImages\45cleanDishes.jpg" />
     <EmbeddedResource Include="SavedImages\46BodyPro.jpg" />
-    <EmbeddedResource Include="SavedImages\42cleanCothes.jpg" />
     <EmbeddedResource Include="SavedImages\16 WRIGLEYS 5 SUGARFREE GUM TURBULENCE WATERMELON.jpg" />
     <EmbeddedResource Include="SavedImages\1 INDOMIE CUP NOODLES CHICKEN.jpg" />
     <EmbeddedResource Include="SavedImages\2 INDOMIE CUP NOODLES CURRY.jpg" />
@@ -3187,8 +3177,6 @@
     <EmbeddedResource Include="SavedImages\79 WHISKAS OCEAN FISH NUGGETS.jpg" />
     <EmbeddedResource Include="SavedImages\80 WHISKAS CHICKEN 14KG.jpg" />
     <EmbeddedResource Include="SavedImages\81 WHISKAS JUNIOR OCEAN FISH 14KG.jpg" />
-    <EmbeddedResource Include="SavedImages\34cooking.jpg" />
-    <EmbeddedResource Include="SavedImages\46shower.jpg" />
     <EmbeddedResource Include="SavedImages\6 AL JAZIRA WHITE 6 EGGS.jpg" />
     <EmbeddedResource Include="SavedImages\1 FRESH CHICKEN BREAST.jpg" />
     <EmbeddedResource Include="SavedImages\3 FRESH CHICKEN WINGS.jpg" />
@@ -3593,5 +3581,61 @@
     <EmbeddedResource Include="SavedImages\58 WASA ORIGINAL 275 g.jpg" />
     <EmbeddedResource Include="SavedImages\61 WASA DELIKATESS 270 g.jpg" />
     <EmbeddedResource Include="SavedImages\1 volta.jpg" />
+    <EmbeddedResource Include="SavedImages\18nuts.jpg" />
+    <EmbeddedResource Include="SavedImages\22medicine.jpg" />
+    <EmbeddedResource Include="SavedImages\34cooking.jpg" />
+    <EmbeddedResource Include="SavedImages\40forWomen.jpg" />
+    <EmbeddedResource Include="SavedImages\41forMen.jpg" />
+    <EmbeddedResource Include="SavedImages\42cleanCothes.jpg" />
+    <EmbeddedResource Include="SavedImages\43AllHair.jpg" />
+    <EmbeddedResource Include="SavedImages\45cleanDishes.jpg" />
+    <EmbeddedResource Include="SavedImages\46shower.jpg" />
+    <EmbeddedResource Include="SavedImages\1 MAGGI BEEF STOCK 20 G.jpg" />
+    <EmbeddedResource Include="SavedImages\2 MAGGI CHICKEN STOCK 20 G.jpg" />
+    <EmbeddedResource Include="SavedImages\3 MAGGI CHICKEN STOCK LESS SALT 20 G.jpg" />
+    <EmbeddedResource Include="SavedImages\4 MAGGI VEG STOCK 20 G.jpg" />
+    <EmbeddedResource Include="SavedImages\5 SHAN BIRYANI MASALA 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\6 SHAN MALAY CHICKEN BIRYANI MASALA 60 GR.jpg" />
+    <EmbeddedResource Include="SavedImages\7 AMERICAN GARDEN POPCORN 94 FAT FREE.jpg" />
+    <EmbeddedResource Include="SavedImages\7 SHAN PILAU BIRYANI MASALA 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\8 SHAN SINDHI BIRYANI MASALA 60 G.jpg" />
+    <EmbeddedResource Include="SavedImages\9 SHAN SPECIAL BOMBAY BIRYANI MASALA 60 G.jpg" />
+    <EmbeddedResource Include="SavedImages\10 SHAN ACHAR GHOST 50 GR.jpg" />
+    <EmbeddedResource Include="SavedImages\11 SHAN KORMA 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\12 SHAN NIHARI 60 G.jpg" />
+    <EmbeddedResource Include="SavedImages\13 SHAN CHICKEN MASALA 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\14 SHAN KARAHI 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\15 SHAN CHAAT MASALA 100 G.jpg" />
+    <EmbeddedResource Include="SavedImages\16 SHAN FRUIT CHAAT 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\17 SHAN TIKKA SEEKH KABAB BBQ 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\18 SHAN KARACHI BEEF BIRYANI.jpg" />
+    <EmbeddedResource Include="SavedImages\19 SHAN MEMONI MUTTON BIRYANI 60 G.jpg" />
+    <EmbeddedResource Include="SavedImages\20 SHAN TANDOORI MASALA 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\21 SHAN FISH SEASONING MIX 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\22 SHAN FISH BIRYANI 50.jpg" />
+    <EmbeddedResource Include="SavedImages\23 SHAN CHANA MASALA 100 G.jpg" />
+    <EmbeddedResource Include="SavedImages\24 SHAN HALEEM MASALA 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\25 SHAN KOFTA CURRY 50 G.jpg" />
+    <EmbeddedResource Include="SavedImages\26 SHAN MEAT MASALA 100 G.jpg" />
+    <EmbeddedResource Include="SavedImages\27 SHAN KHEER MIX 150 G copy.jpg" />
+    <EmbeddedResource Include="SavedImages\28 BISTO CHEESE SAUCE MIX 300 G.jpg" />
+    <EmbeddedResource Include="SavedImages\29 BISTO PARSLEY SAUCE MIX.jpg" />
+    <EmbeddedResource Include="SavedImages\30 AJINO MOTO 70 G.jpg" />
+    <EmbeddedResource Include="SavedImages\31 AMERICAN GARDEN PLAIN BREAD CRUMBS 283 G.jpg" />
+    <EmbeddedResource Include="SavedImages\32 AMERICAN GARDEN BREAD CRUMBS HOT N SPICY.jpg" />
+    <EmbeddedResource Include="SavedImages\33 AMERICAN GARDEN BREAD CRUMBS ROASTED  GARLIC.jpg" />
+    <EmbeddedResource Include="SavedImages\34 AMERICAN GARDEN BREAD CRUMBS ROMANO CHEESE.jpg" />
+    <EmbeddedResource Include="SavedImages\35 MAGGI COCONUT MILK POWDER 300 G.jpg" />
+    <EmbeddedResource Include="SavedImages\36 EASTERN COCONUT MILK POWDER 150 G.jpg" />
+    <EmbeddedResource Include="SavedImages\37 INAPAARMANS CHILLI GARLIC SEASONING 200 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\38 INAPAARMANS FISH SPICE SEASONING 200 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\39 INAPAARMANS LEMON BLACK PEPPER SEASONING 200 ML.jpg" />
+    <EmbeddedResource Include="SavedImages\40 INAPAARMANS BRAAI GRILL SEASONING 200.jpg" />
+    <EmbeddedResource Include="SavedImages\41 INAPAARMANS POTATO SPICE SEASONING 200.jpg" />
+    <EmbeddedResource Include="SavedImages\42 INAPAARMANS ROSEMARY OLIVE SEASONING 200.jpg" />
+    <EmbeddedResource Include="SavedImages\43 INAPAARMANS GREEEN ONION SEASONING 200.jpg" />
+    <EmbeddedResource Include="SavedImages\44 INAPAARMANS CHICKEN SEASONING 200.jpg" />
+    <EmbeddedResource Include="SavedImages\45 GITS DOSAI MIX 200.jpg" />
+    <EmbeddedResource Include="SavedImages\46 GITS RICE IDLI MIX 200.jpg" />
   </ItemGroup>
 </Project>

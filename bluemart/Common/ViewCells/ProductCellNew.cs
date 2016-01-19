@@ -17,7 +17,7 @@ namespace bluemart
 	{
 		public CachedImage mRemoveFavoriteImage;
 		public CachedImage mAddFavoriteImage;
-		public CachedImage mProductImage;
+		public Image mProductImage;
 		public CachedImage mBorderImage;
 		public CachedImage mProductForegroundImage;
 
@@ -58,12 +58,12 @@ namespace bluemart
 						
 					}
 					iosImageLoadingList.Enqueue (cac);
-*/
+
 
 					if (mProductImage.IsLoading)
-						mProductImage.Cancel ();
+						mProductImage.Cancel ();*/
 
-					mProductImage.Source = null;  
+					//mProductImage.Source = null;  
 				}
 
 				  
@@ -192,16 +192,16 @@ namespace bluemart
 				BackgroundColor = Color.White
 			};
 
-			mProductImage = new CachedImage ()
+			mProductImage = new Image ()
 			{
 				WidthRequest = MyDevice.GetScaledSize(250),
 				HeightRequest = MyDevice.GetScaledSize(198),
-				CacheDuration = TimeSpan.FromDays(30),
+				/*CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,
+				FadeAnimationEnabled = false,*/
 
 			};
 			productNameLabel = new Label (){ 

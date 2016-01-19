@@ -3,6 +3,7 @@ using XLabs.Platform.Device;
 using XLabs.Ioc;
 using XLabs.Platform.Services;
 using Xamarin.Forms;
+using SQLite;
 
 namespace bluemart.Common.Utilities
 {
@@ -47,6 +48,8 @@ namespace bluemart.Common.Utilities
 		public static double GetScaledSize(double x){
 			return ScreenWidth * (x/640.0);
 		}
+
+		public static SQLiteConnection db;
 	}
 }
 
