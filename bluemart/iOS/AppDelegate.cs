@@ -25,6 +25,7 @@ namespace bluemart.iOS
 
 			MR.Gestures.iOS.Settings.LicenseKey = "6XZT-V54J-73E4-4VK8-RFAJ-ZBS8-Q8UB-Y3W7-BSGP-FETM-EYQ9-QEPP-WRTA";
 			CachedImageRenderer.Init ();
+
 			//ImageService.Initialize(
 			//Necessary IOC Code To Get Device Properties
 			var container = new SimpleContainer ();
