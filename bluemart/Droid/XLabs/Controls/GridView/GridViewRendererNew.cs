@@ -41,8 +41,8 @@ namespace XLabs.Forms.Controls
 			else
 				_recyclerView.SmoothScrollToPosition(index+2);*/
 
-			_recyclerView.SmoothScrollToPosition(index);
-
+			//_recyclerView.SmoothScrollToPosition(index);
+			_recyclerView.ScrollToPosition (index);
 			//linearLayoutManager
 			//linearLayoutManager.ScrollToPositionWithOffset(index, 0);
 			//_recyclerView.SmoothScrollToPosition (index);

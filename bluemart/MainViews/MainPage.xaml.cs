@@ -280,7 +280,7 @@ namespace bluemart.MainViews
 				Text = "OK",
 				FontSize = MyDevice.FontSizeMicro
 			};
-			mOKButton.Clicked += (sender, e) => {
+			mOKButton.Clicked +=  (sender, e) => {
 				if(mActiveLabel != null )
 				{
 					DismissPopup();
@@ -288,10 +288,11 @@ namespace bluemart.MainViews
 					mUserModel.AddActiveRegionToUser (region);
 					CategoryModel.CategoryLocation = mActiveLabel.Text;
 					//mRootPage.ReloadStreams();
-					mRootPage.SwitchTab("BrowseCategories");
+					//mRootPage.SwitchTab("BrowseCategories");
+					//Application.Current.MainPage = mRootPage;
 					Navigation.PushAsync( mRootPage );
 				}
-			};				
+			};			
 
 			MainRelativeLayout.Children.Add (mPopupLayout,
 				Constraint.Constant (MyDevice.GetScaledSize(136)),

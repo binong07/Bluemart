@@ -65,6 +65,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<AddressClass> (db,"AddressTable")) {
+				db.Close ();
 				return addressList;			
 			}
 			//Get active address
@@ -91,6 +92,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<AddressClass> (db,"AddressTable")) {
+				db.Close ();
 				return;			
 			}
 
@@ -122,6 +124,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<AddressClass> (db,"AddressTable")) {
+				db.Close ();
 				return address;			
 			}
 
@@ -143,6 +146,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<AddressClass> (db,"AddressTable")) {
+				db.Close ();
 				return address;			
 			}
 
@@ -156,7 +160,7 @@ namespace bluemart.Models.Local
 			{
 				address = query.First<AddressClass> ();
 			}
-
+			db.Close ();
 			return address;
 		}
 	}

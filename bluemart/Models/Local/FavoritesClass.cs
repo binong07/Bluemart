@@ -38,6 +38,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<FavoritesClass> (db,"Favorites")) {
+				db.Close ();
 				return;
 			} 
 
@@ -59,6 +60,7 @@ namespace bluemart.Models.Local
 
 
 			if (!TableExists<FavoritesClass> (db,"Favorites")) {
+				db.Close ();
 				return productIDList;			
 			}
 
@@ -78,6 +80,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<FavoritesClass> (db,"Favorites")) {
+				db.Close ();
 				return false;
 			}
 

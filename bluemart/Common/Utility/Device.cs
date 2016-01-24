@@ -49,7 +49,6 @@ namespace bluemart.Common.Utilities
 			return ScreenWidth * (x/640.0);
 		}
 
-		public static SQLiteConnection db;
 	}
 }
 

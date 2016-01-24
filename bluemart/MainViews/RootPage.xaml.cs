@@ -169,12 +169,12 @@ namespace bluemart.MainViews
 
 		private void SwitchContent(View content)
 		{	
-			if (this.Content == null)
+			/*if (this.Content == null)
 				System.Diagnostics.Debug.WriteLine ("aq1");
 			if (content == null)
-				System.Diagnostics.Debug.WriteLine ("aq2");
+				System.Diagnostics.Debug.WriteLine ("aq2");*/
 			//this.Content = null;
-			else this.Content = content;
+			this.Content = content;
 			/*mGrid1Height = Grid1.Height;
 			Grid1.Children.Remove(mContentGrid);
 			mContentGrid = content;

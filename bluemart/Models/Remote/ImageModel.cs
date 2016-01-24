@@ -64,7 +64,7 @@ namespace bluemart.Models.Remote
 					}
 				}
 			}
-			loadingPage.mFirstTokenSource.Cancel ();
+			//loadingPage.mFirstTokenSource.Cancel ();
 			//return imageCount;
 		}
 
@@ -126,7 +126,7 @@ namespace bluemart.Models.Remote
 
 			} 
 
-			loadingPage.mFirstTokenSource.Cancel ();
+			//loadingPage.mFirstTokenSource.Cancel ();
 		}
 	}
 

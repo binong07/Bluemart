@@ -34,7 +34,7 @@ namespace bluemart.Models.Local
 			}
 			System.Diagnostics.Debug.WriteLine (categoryList.Count);
 
-			db.InsertAll (categoryList,"OR REPLACE", true);
+			db.InsertAll (categoryList,"OR REPLACE", false);
 			db.Close ();
 		}
 
@@ -46,6 +46,7 @@ namespace bluemart.Models.Local
 		
 
 			if (!TableExists<CategoryClass> (db,"Categories")) {
+				db.Close ();
 				return categoryList;			
 			}
 

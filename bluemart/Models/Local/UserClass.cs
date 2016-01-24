@@ -49,6 +49,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<UserClass> (db, "User")) {
+				db.Close ();
 				return;	
 			}
 
@@ -79,6 +80,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<UserClass> (db, "User")) {
+				db.Close ();
 				return;	
 			}
 
@@ -109,6 +111,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<UserClass> (db, "User")) {
+				db.Close ();
 				return;	
 			}
 
@@ -139,6 +142,7 @@ namespace bluemart.Models.Local
 			var db = new SQLiteConnection (DBConstants.DB_PATH);
 
 			if (!TableExists<UserClass> (db, "User")) {
+				db.Close ();
 				return;	
 			}
 

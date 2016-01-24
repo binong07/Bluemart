@@ -17,7 +17,7 @@ namespace bluemart.Common.Utilities
 		public static string MEAT_ID = "i4PYZZUkm9";
 		static ReleaseConfig()
 		{
-			DateTime.TryParse ("2016-01-18T07:29:59.275Z", out LAST_UPDATEDATE);
+			DateTime.TryParse ("2016-01-21T07:29:59.275Z", out LAST_UPDATEDATE);
 		}
 	}
 }

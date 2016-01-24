@@ -126,12 +126,11 @@ namespace bluemart.Models.Remote
 			}
 			//TimeSpan deltaG = startG - DateTime.Now;
 			//System.Diagnostics.Debug.WriteLine ("delta time in general:" + deltaG.TotalMilliseconds.ToString());
-			loadingPage.mFirstTokenSource.Cancel ();
+		//	loadingPage.mFirstTokenSource.Cancel ();
 		}
 
 		public static void FetchProducts(LoadingPage loadingPage)
 		{
-
 			if (MyDevice.GetNetworkStatus() != "NotReachable") {
 				DateTime? localUpdate = mUserClass.GetProductsUpdatedDateFromUser ();
 				var query = ParseObject.GetQuery (ParseConstants.PRODUCTS_CLASS_NAME).OrderByDescending (ParseConstants.UPDATEDATE_NAME).Limit (1);
@@ -144,11 +143,11 @@ namespace bluemart.Models.Remote
 					GetProductAttributesFromRemoteAndSaveToLocal( localUpdate,remoteUpdate,loadingPage);
 					mUserClass.AddProductsUpdateDateToUser (remoteUpdate);
 				}
-				else
-					loadingPage.mFirstTokenSource.Cancel ();
+				/*else
+					loadingPage.mFirstTokenSource.Cancel ();*/
 			}
-			else
-				loadingPage.mFirstTokenSource.Cancel ();
+			/*else
+				loadingPage.mFirstTokenSource.Cancel ();*/
 
 			PopulateProductDictionaries ();
 
