@@ -597,7 +597,7 @@ namespace bluemart
 				(mParentPage as BrowseProductsPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 			}
 			else if (mParentPage is SearchPage) {	
-				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
+				foreach (var productCell in (mParentPage as SearchPage).mProductCellList) {
 					if (productCell.mProduct.ProductID == mProduct.ProductID) {
 						productCell.UpdateNumberLabel ();
 					}
@@ -609,7 +609,7 @@ namespace bluemart
 				(mParentPage as SearchPage).checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 			}
 			else if (mParentPage is FavoritesPage) {	
-				foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
+				foreach (var productCell in (mParentPage as FavoritesPage).mProductCellList) {
 					if (productCell.mProduct.ProductID == mProduct.ProductID) {
 						productCell.UpdateNumberLabel ();
 					}
