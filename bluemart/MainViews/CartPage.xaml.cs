@@ -109,7 +109,7 @@ namespace bluemart.MainViews
 				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
 				{					
 					await DisplayAlert("Sorry","Please Enter Your Address On Settings Page","OK");
-					mParent.SwitchTab("Settings");
+					mParent.LoadSettingsPage();
 				}
 				else if( Cart.ProductTotalPrice < 50 )
 				{

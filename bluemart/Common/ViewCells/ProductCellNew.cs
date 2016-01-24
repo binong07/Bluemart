@@ -119,8 +119,8 @@ namespace bluemart
 				else
 					RemoveFavorite ();
 
-
-
+				if( !mProduct.ProductIsInStock)
+					ActivateOutOfStock ();
 			}
 		}
 		/*private void SetRootPage()
@@ -138,8 +138,22 @@ namespace bluemart
 				mRootPage = (mParent as SearchPage).mParent;
 			}
 		}*/
+
+		private void ActivateOutOfStock()
+		{
+			mProductForegroundImage.IsVisible = true;
+		}
+
 		private void ActivateAddMenu()
-		{            
+		{    
+			if (mParent is BrowseProductsPage) {
+				(mParent as BrowseProductsPage).FlashCartButton ();
+			} else if (mParent is FavoritesPage) {				
+				(mParent as FavoritesPage).FlashCartButton ();
+			} else if (mParent is SearchPage) {				
+				(mParent as SearchPage).FlashCartButton ();
+			}
+
 			mProductNumberLabel.IsVisible = true;
 			mProductForegroundImage.IsVisible = true;
 			mainRelativeLayout.Children.Add (mMinusButton,
@@ -159,6 +173,8 @@ namespace bluemart
 					return sibling.Bounds.Top + MyDevice.GetScaledSize(160);
 				})
 			);
+
+			productQuantityLabel.TextColor = Color.Black;
 		}
 
 		public void DeactivateAddMenu()
@@ -169,6 +185,7 @@ namespace bluemart
 				mainRelativeLayout.Children.Remove (mPlusButton);
 			if(mainRelativeLayout.Children.Contains(mMinusButton))
 				mainRelativeLayout.Children.Remove (mMinusButton);
+			productQuantityLabel.TextColor = Color.FromRgb (176, 176, 176);
 		}
 
 		public void RemoveFavorite()
@@ -205,7 +222,7 @@ namespace bluemart
 
 			};
 			productNameLabel = new Label (){ 
-				FontSize = MyDevice.FontSizeMicro, 
+				FontSize = MyDevice.FontSizeMicro - MyDevice.GetScaledSize(2), 
 				TextColor = Color.FromRgb(77,77,77), 
 				HorizontalTextAlignment=TextAlignment.Start, 
 				VerticalTextAlignment = TextAlignment.Center,
@@ -336,7 +353,7 @@ namespace bluemart
 					return sibling.Bounds.Left + MyDevice.GetScaledSize(5);
 				}),
 				Constraint.RelativeToView(mProductImage, (p,sibling) => {
-					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(5);
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(0);
 				})
 			);
 

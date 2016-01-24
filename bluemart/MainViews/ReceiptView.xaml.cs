@@ -808,14 +808,18 @@ namespace bluemart
 							bool OrderSucceeded = OrderModel.SendOrderToRemote (mUserModel).Result;
 
 							if (OrderSucceeded)
+							{
 								await DisplayAlert ("Order Sent", "Please check the quality of the fresh produce you receive before you pay to the delivery boy. Your satisfaction is our top priority at all times.", "OK");
+								mParent.mBrowseCategoriesPage.CartStackLayout.Children.Clear();
+								Cart.ProductTotalPrice = 0;
+								Cart.ProductsInCart.Clear();
+								mParent.LoadTrackPage();
+							}
 							else
+							{
 								await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
-
-							mParent.mBrowseCategoriesPage.CartStackLayout.Children.Clear();
-							Cart.ProductTotalPrice = 0;
-							Cart.ProductsInCart.Clear();
-							mParent.SwitchTab ("BrowseCategories");
+								mParent.SwitchTab ("BrowseCategories");
+							}																				
 						}
 					} else {
 						await DisplayAlert ("Connection Error", "Your order couldn't be delivered. Check your internet connection and try again.", "OK");
@@ -857,7 +861,7 @@ namespace bluemart
 						string description = productString.Split (';') [2].Split (':') [1];
 						string price = productString.Split (';') [3].Split (':') [1];
 
-						var product = new Product ("", name, "", decimal.Parse (price), "", description);
+						var product = new Product ("", name, "", decimal.Parse (price), "", description,true);
 						product.ProductNumberInCart = int.Parse (quantity);
 						receiptStackLayout.Children.Add (new ReceiptCell (receiptCellCount++, product).View);
 					}
@@ -868,7 +872,7 @@ namespace bluemart
 						string description = productString.Split (';') [2].Split (':') [1];
 						string price = productString.Split (';') [3].Split (':') [1];
 
-						var product = new Product ("", name, "", decimal.Parse (price), "", description);
+						var product = new Product ("", name, "", decimal.Parse (price), "", description,true);
 						product.ProductNumberInCart = int.Parse (quantity);
 						receiptStackLayout.Children.Add (new ReceiptCell (receiptCellCount++, product).View);
 					}

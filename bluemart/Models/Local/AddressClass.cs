@@ -16,6 +16,7 @@ namespace bluemart.Models.Local
 		public int ShopNumber {get; set;}
 		public string Address {get; set;}
 		public string AddressDescription {get; set;}
+		public string AddressLine3 { get; set; }
 		public bool IsActive { get; set; }
 
 		private bool TableExists<T> (SQLiteConnection connection,string tableName)

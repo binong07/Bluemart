@@ -5,7 +5,7 @@ namespace bluemart.Models.Local
 {
 	public class HistoryClass
 	{
-		public HistoryClass (List<string> productOrderList,string address, string addressDesc,string name, string surname, string phone, string totalPrice, string date, string region)
+		public HistoryClass (List<string> productOrderList,string address, string addressDesc,string addressLine3,string name, string surname, string phone, string totalPrice, string date, string region)
 		{	
 			ProductOrderList = productOrderList;
 			TotalPrice = totalPrice;
@@ -13,6 +13,7 @@ namespace bluemart.Models.Local
 			Region = region;
 			Address = address;
 			AddressDescription = addressDesc;
+			AddressLine3 = addressLine3;
 			Name = name;
 			Surname = surname;
 			Phone = phone;
@@ -24,6 +25,7 @@ namespace bluemart.Models.Local
 		public string Region {get;set;}
 		public string Address {get;set;}
 		public string AddressDescription {get;set;}
+		public string AddressLine3 {get;set;}
 		public string Name {get;set;}
 		public string Surname {get;set;}
 		public string Phone {get;set;}

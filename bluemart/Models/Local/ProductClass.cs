@@ -20,6 +20,7 @@ namespace bluemart.Models.Local
 		public bool IsTopSelling{ get; set; }
 		public int Priority{ get; set; }
 		public string Stores { get; set; }
+		public bool IsInStock { get; set; }
 
 		private bool TableExists<T> (SQLiteConnection connection,string tableName)
 		{    

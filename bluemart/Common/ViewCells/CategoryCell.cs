@@ -155,7 +155,8 @@ namespace bluemart.Common.ViewCells
 							decimal price = ProductModel.mProductPriceDictionary [productID];
 							string quantity = ProductModel.mProductQuantityDictionary [productID];
 							string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
-						product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity));
+							bool IsInStock = ProductModel.mProductIsInStockDictionary [productID];
+						product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity,IsInStock));
 						//product.Add (new Product (productID, ProductName, ImageName, price, parentCategory, quantity));
 						}
 						 
@@ -204,7 +205,8 @@ namespace bluemart.Common.ViewCells
 						string ProductName = ProductModel.mProductNameDictionary [productID];						
 						string quantity = ProductModel.mProductQuantityDictionary [productID];
 						string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
-					product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity)); 
+					bool IsInStock = ProductModel.mProductIsInStockDictionary [productID];
+					product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity,IsInStock)); 
 					}
 				}
 
@@ -245,7 +247,7 @@ namespace bluemart.Common.ViewCells
 				decimal price = new decimal(i);
 				string quantity = "abc";
 				string parentCategory = "";
-				product.Add (new Product ("asd", ProductName, ImagePath, price, parentCategory, quantity));
+				product.Add (new Product ("asd", ProductName, ImagePath, price, parentCategory, quantity,true));
 			}
 			mProductDictionary.Add ("asd", product);
 			/*foreach( Category category in mCategoryList )

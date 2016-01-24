@@ -48,6 +48,7 @@ namespace bluemart.Models.Remote
 
 			order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESS] = address.Address;
 			order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESSDESC] = address.AddressDescription;
+			order [ParseConstants.ORDERS_ATTRIBUTE_ADDRESSLINE3] = address.AddressLine3;
 			order [ParseConstants.ORDERS_ATTRIBUTE_REGION] = user.ActiveRegion;
 			order [ParseConstants.ORDERS_ATTRIBUTE_USERNAME] = fullname[0];
 			order [ParseConstants.ORDERS_ATTRIBUTE_SURNAME] = fullname[1];
@@ -108,10 +109,11 @@ namespace bluemart.Models.Remote
 					var totalPrice = CalculateTotalPrice (productOrderList).ToString ();
 					var address = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ADDRESS);
 					var addressDesc = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ADDRESSDESC);
+					var addressLine3 = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ADDRESSLINE3);
 					var name = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_USERNAME);
 					var surname = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_SURNAME);
 					var phone = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_PHONE);
-					statusClassList.Add (new StatusClass (productOrderList,address,addressDesc,name,surname,phone,totalPrice, date, region, (OrderStatus)status,deliveryStaffName,deliveryStaffPhone));
+					statusClassList.Add (new StatusClass (productOrderList,address,addressDesc,addressLine3,name,surname,phone,totalPrice, date, region, (OrderStatus)status,deliveryStaffName,deliveryStaffPhone));
 				}
 			}
 				
@@ -155,11 +157,12 @@ namespace bluemart.Models.Remote
 					var totalPrice = CalculateTotalPrice (productOrderList).ToString ();
 					var address = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ADDRESS);
 					var addressDesc = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ADDRESSDESC);
+					var addressLine3 = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_ADDRESSLINE3);
 					var name = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_USERNAME);
 					var surname = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_SURNAME);
 					var phone = order.Get<string> (ParseConstants.ORDERS_ATTRIBUTE_PHONE);
 
-					historyClassList.Add (new HistoryClass (productOrderList,address,addressDesc,name,surname,phone,totalPrice, date, region));
+					historyClassList.Add (new HistoryClass (productOrderList,address,addressDesc,addressLine3,name,surname,phone,totalPrice, date, region));
 				}
 			}
 

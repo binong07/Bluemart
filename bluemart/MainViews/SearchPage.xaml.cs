@@ -9,6 +9,7 @@ using bluemart.Common.Objects;
 using XLabs.Forms.Controls;
 using bluemart.Models.Local;
 using FFImageLoading.Forms;
+using System.Linq;
 
 namespace bluemart.MainViews
 {
@@ -19,13 +20,24 @@ namespace bluemart.MainViews
 			set;
 		}
 
+		private Dictionary<string,List<Product>> mProductDictionary = new Dictionary<string, List<Product>>();
+		private List<Label> mButtonList;
 		private List<Product> mProductList = new List<Product>();
+		private List<int> mCategoryIndexList = new List<int> ();
 		public List<ProductCell> mProductCellList = new List<ProductCell>();
+		List<Product> mTopSellingProductList = new List<Product>();
+		List<ProductCell> mTopSellingProductCellList = new List<ProductCell> ();
 		private string mSearchString ;
-
+		private int mActiveButtonIndex = 0;
 		public RootPage mParent;
 
 		GridView2 ProductGrid;
+
+		private RelativeLayout SubcategoryLayout;
+		private ScrollView SubcategoryScrollView;
+		private StackLayout SubCategoryStackLayout;
+		private List<BoxView> mBoxViewList;
+		private BoxView mEnabledBoxView;
 
 		private RelativeLayout InputBlocker;
 		private RelativeLayout mTopLayout;
@@ -52,17 +64,42 @@ namespace bluemart.MainViews
 		private RelativeLayout InputBlockerForSwipeMenu;
 		private RelativeLayout InputBlockerForSwipeCart;
 
+		public Image mCartImage;
+		private readonly uint mCartFadeInTimer = 200;
+		private readonly int mCartFlashTimer = 2000;
+		private readonly double mCartScaleSize = 1.25f;
+		private bool bIsCartFlashing = false;
+
 		public SearchPage (string searchString, string categoryId,RootPage parent)
 		{
 			mParent = parent;
 			InitializeComponent ();
 			mSearchString = searchString;
 			NavigationPage.SetHasNavigationBar (this, false);
-
+			mBoxViewList = new List<BoxView> ();
+			mButtonList = new List<Label> ();
 			//SetGrid1Definitions ();
 			PopulateSearch (mParent.mBrowseProductPage);
 			InitializeLayout ();
 			MyDevice.currentPage = this;
+		}
+
+		public async void FlashCartButton()
+		{
+			if (!bIsCartFlashing) {
+				bIsCartFlashing = true;
+				mCartImage.Scale = mCartScaleSize;
+				//await mCartImage.ScaleTo (mCartScaleSize, 0);
+				double flashTimer = mCartFlashTimer;
+				while (flashTimer >= 0) {
+					flashTimer -= mCartFadeInTimer;
+					await mCartImage.FadeTo (0, mCartFadeInTimer, Easing.Linear);
+					flashTimer -= mCartFadeInTimer;
+					await mCartImage.FadeTo (1, mCartFadeInTimer, Easing.Linear);
+				}
+				mCartImage.Scale = 1f;
+				bIsCartFlashing = false;
+			}
 		}
 
 		private void InitializeLayout()
@@ -140,6 +177,7 @@ namespace bluemart.MainViews
 
 			InitializeHeaderLayout ();
 			InitializeSearchLayout ();
+			InitializeSubCategoriesLayout ();
 			InitializeCartLayout ();
 			InitializeBottomLayout ();
 			InitializeMenuLayout ();
@@ -343,7 +381,7 @@ namespace bluemart.MainViews
 				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
 				{					
 					await DisplayAlert("Sorry","Please Enter Your Address On Settings Page","OK");
-					mParent.SwitchTab("Settings");
+					mParent.LoadSettingsPage();
 				}
 				else if( Cart.ProductTotalPrice < 50 )
 				{
@@ -829,7 +867,7 @@ namespace bluemart.MainViews
 				Source = "CategoriesPage_VerticalLine"
 			};
 
-			var cartImage = new Image () {
+			mCartImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(71),
 				HeightRequest = MyDevice.GetScaledSize(57),
 				Source = "ProductsPage_BasketIcon.png"
@@ -890,16 +928,16 @@ namespace bluemart.MainViews
 				})
 			);
 
-			mMidLayout.Children.Add (cartImage, 
+			mMidLayout.Children.Add (mCartImage, 
 				Constraint.Constant( MyDevice.GetScaledSize(561) ),
 				Constraint.Constant( MyDevice.GetScaledSize(16) )
 			);
 
 			mMidLayout.Children.Add (verticalLine,
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Left - MyDevice.GetScaledSize (14);
 				}),
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Top - MyDevice.GetScaledSize (5);
 				})
 			);
@@ -908,16 +946,16 @@ namespace bluemart.MainViews
 				Constraint.RelativeToView (verticalLine, (parent, sibling) => {
 					return sibling.Bounds.Left - MyDevice.GetScaledSize (150);
 				}),
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Top;
 				})
 			);
 
 			mMidLayout.Children.Add (ProductCountLabel,
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Right - MyDevice.GetScaledSize (37);
 				}),
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Bottom - MyDevice.GetScaledSize (27);
 				})
 			);	
@@ -1086,6 +1124,152 @@ namespace bluemart.MainViews
 			);
 		}
 
+		private void InitializeSubCategoriesLayout()
+		{
+			SubcategoryLayout = new RelativeLayout (){ 
+				HeightRequest = MyDevice.GetScaledSize(66),
+				BackgroundColor = Color.FromRgb(27,184,105)
+			};
+
+			SubCategoryStackLayout = new StackLayout {
+				Orientation = StackOrientation.Horizontal,
+				Padding = new Thickness(MyDevice.GetScaledSize(15),0,0,0),
+				Spacing = 0
+			};
+
+			PopulateSubCategoryButtons ();
+
+			SubcategoryScrollView = new ScrollView {
+				Orientation = ScrollOrientation.Horizontal,
+				Content = SubCategoryStackLayout
+			};
+
+			mMidLayout.Children.Add (SubcategoryScrollView,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (mSearchLayout, (parent, sibling) => {
+					return sibling.Bounds.Bottom;
+				}),
+				Constraint.Constant(MyDevice.ScreenWidth)
+			);
+
+			if (mProductDictionary.Count <= 0) {
+				SubcategoryScrollView.IsEnabled = false;
+				SubcategoryScrollView.IsVisible = false;
+			}
+		}
+
+		private void PopulateSubCategoryButtons()
+		{
+			mButtonList.Clear ();
+			mBoxViewList.Clear ();
+			mTopSellingProductList.Clear ();
+			mTopSellingProductCellList.Clear ();
+
+			foreach (var productPair in mProductDictionary) {
+				if (productPair.Value.Count > 0) {
+
+					if (productPair.Key == "Top Selling") {
+						mTopSellingProductList = productPair.Value;
+					}
+
+					var buttonLayout = new RelativeLayout () {
+						BackgroundColor = Color.Transparent,
+					};
+
+					Label label = new Label () {
+						VerticalOptions = LayoutOptions.Center,
+						BackgroundColor = Color.Transparent,
+						Text = " " + CategoryModel.mCategoryNameDictionary[productPair.Key] + " ",
+						TextColor = Color.FromRgb(136,147,161),
+						FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label)),
+						HeightRequest = MyDevice.GetScaledSize(60),
+						HorizontalTextAlignment = TextAlignment.Center,
+						VerticalTextAlignment = TextAlignment.Center
+					};
+
+					BoxView boxView = new BoxView (){
+						HeightRequest = 1,
+						Color = MyDevice.RedColor,
+						IsVisible = false
+					};
+
+					mBoxViewList.Add (boxView);
+					mButtonList.Add (label);
+
+					buttonLayout.Children.Add (label,
+						Constraint.Constant (0),
+						Constraint.Constant (0)
+					);
+
+					buttonLayout.Children.Add (boxView,
+						Constraint.RelativeToView( label, (parent,sibling) =>{
+							return sibling.Bounds.Left + MyDevice.GetScaledSize(0);	
+						}),
+						Constraint.RelativeToView( label, (parent,sibling) =>{
+							return sibling.Bounds.Bottom - MyDevice.GetScaledSize(14);	
+						}),
+						Constraint.RelativeToView( label, (parent,sibling) =>{
+							return sibling.Bounds.Width - MyDevice.GetScaledSize(5);	
+						})
+					);
+
+					var tapRecognizer = new TapGestureRecognizer ();
+					tapRecognizer.Tapped += (sender, e) => {
+
+						if (mParent.mActivityIndicator.IsRunning)
+							return;
+						FocusSelectedButton (sender as Label);
+					};
+
+					label.GestureRecognizers.Add (tapRecognizer);
+
+					SubCategoryStackLayout.Children.Add (buttonLayout);
+				}
+			}
+
+			if (mButtonList.Count > 0) {
+				mEnabledBoxView = mBoxViewList [0];
+				mEnabledBoxView.IsVisible = true;
+			}
+		}
+
+		private void  OnScrolled( Object sender, TwinTechs.Controls.ControlScrollEventArgs e)
+		{
+			if (e.Delta > 0) {
+				if (mActiveButtonIndex + 1 != mCategoryIndexList.Count) {
+					int productCellIndex = mCategoryIndexList [mActiveButtonIndex + 1];
+					if (e.CurrentRow * 2 >= productCellIndex) {
+						mActiveButtonIndex += 1;
+						ChangeSelectedButton ();
+					}
+				}
+			} else
+			{
+				if (mActiveButtonIndex  != -0) {
+					int productCellIndex = mCategoryIndexList [mActiveButtonIndex  ];
+					if (e.CurrentRow * 2 <= productCellIndex) {
+						mActiveButtonIndex -= 1;
+						ChangeSelectedButton ();
+					}
+				}
+			}						
+		}	
+
+		private async void FocusSelectedButton(Label selectedButton)
+		{			
+			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);			
+			int productCellIndex = mCategoryIndexList [mActiveButtonIndex];
+			ChangeSelectedButton ();
+			ProductGrid.ScrollToItemWithIndex (productCellIndex,false);
+		}
+
+		private void ChangeSelectedButton()
+		{
+			mEnabledBoxView.IsVisible = false;
+			mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
+			mEnabledBoxView.IsVisible = true;
+		}
+
 		private void InitializeBottomLayout()
 		{
 			/*ProductGrid = new Grid () {
@@ -1114,10 +1298,10 @@ namespace bluemart.MainViews
 			mMidLayout.Children.Add (ProductGrid,
 				Constraint.Constant(0),
 				Constraint.RelativeToView (mSearchLayout, (parent, sibling) => {
-					return sibling.Bounds.Bottom;
+					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(64);
 				}),
 				Constraint.Constant(MyDevice.GetScaledSize(630)),
-				Constraint.Constant(MyDevice.ScreenHeight-MyDevice.GetScaledSize(87)-MyDevice.GetScaledSize(73)-MyDevice.GetScaledSize(1)-MyDevice.GetScaledSize(50))
+				Constraint.Constant(MyDevice.ScreenHeight-MyDevice.GetScaledSize(87)-MyDevice.GetScaledSize(73)-MyDevice.GetScaledSize(1)-MyDevice.GetScaledSize(117))
 			);
 		}
 
@@ -1146,7 +1330,7 @@ namespace bluemart.MainViews
 				mMidLayout.Children.Remove(InputBlocker);
 			};
 
-			//ProductScrollView.Scrolled += OnScrolled;
+			ProductGrid.OnScroll += OnScrolled;
 		}
 
 		public void  UpdatePriceLabel()
@@ -1187,8 +1371,27 @@ namespace bluemart.MainViews
 				string ProductName = ProductModel.mProductNameDictionary [productID];
 				decimal price = ProductModel.mProductPriceDictionary [productID];
 				string quantity = ProductModel.mProductQuantityDictionary [productID];
-				string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
-				mProductList.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity)); 
+				string parentCategoryID = ProductModel.mProductParentCategoryIDsDictionary [productID];
+				bool IsInStock = ProductModel.mProductIsInStockDictionary [productID];
+				if (mProductDictionary.ContainsKey (parentCategoryID)) {
+					mProductDictionary [parentCategoryID].Add (new Product (productID, ProductName, ImagePath, price, parentCategoryID, quantity,IsInStock));
+				} else {
+					mProductDictionary.Add (parentCategoryID, new List<Product> ());
+					mProductDictionary [parentCategoryID].Add (new Product (productID, ProductName, ImagePath, price, parentCategoryID, quantity,IsInStock));
+				}
+
+				//mProductList.Add (new Product (productID, ProductName, ImagePath, price, parentCategoryID, quantity)); 
+			}
+
+			var valueList = mProductDictionary.Values.Cast<List<Product>> ().ToList();
+			//var tempProductList = new List<Product> ();
+			foreach (var products in valueList) {
+				if (products.Count > 0) {
+					mCategoryIndexList.Add (mProductList.Count);
+					foreach (var tempProduct in products) {					
+						mProductList.Add (tempProduct);	
+					}
+				}
 			}
 		}
 		/*

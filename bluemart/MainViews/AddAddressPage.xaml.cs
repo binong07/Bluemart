@@ -19,6 +19,7 @@ namespace bluemart.MainViews
 		bool bAddressTextChanged = false;
 		bool bRegionTextChanged = false;
 		bool bAddressDescriptionTextChanged = false;
+		bool bAdressLine3TextChanged = false;
 		bool bTelephoneTextChanged = false;
 		RootPage mParent;
 
@@ -35,12 +36,14 @@ namespace bluemart.MainViews
 		Entry SurNameEntry;
 		Entry AddressEntry;
 		Entry AddressDescriptionEntry;
+		Entry AddressLine3Entry;
 		Entry PhoneEntry;
+		Entry mFocusedEntry;
 		Label RegionEntryLabel;
 		Label SubmitButton;
 		TapGestureRecognizer SubmitTapRecognizer = new TapGestureRecognizer();
 		ScrollView scroll;
-		double mScrollHeight;
+		//double mScrollHeight;
 		private RelativeLayout InputBlockerForSwipeMenu;
 
 		public AddAddressPage (AddressClass address, RootPage parent)
@@ -61,6 +64,7 @@ namespace bluemart.MainViews
 				bAddressTextChanged = true;
 				bRegionTextChanged = true;
 				bAddressDescriptionTextChanged = true;
+				bAdressLine3TextChanged = true;
 				bTelephoneTextChanged = true;
 				SetSubmitButton ();
 			}
@@ -601,7 +605,8 @@ namespace bluemart.MainViews
 			NameEntry = new Entry () {
 				WidthRequest = MyDevice.GetScaledSize(600),
 				HeightRequest = MyDevice.GetScaledSize(61),
-				BackgroundColor = Color.White
+				BackgroundColor = Color.White,
+				Keyboard = Keyboard.Create(KeyboardFlags.CapitalizeSentence)
 			};					
 
 			addressLayout.Children.Add (firstNameLabel,
@@ -637,7 +642,8 @@ namespace bluemart.MainViews
 			SurNameEntry = new Entry () {
 				WidthRequest = MyDevice.GetScaledSize(600),
 				HeightRequest = MyDevice.GetScaledSize(61),
-				BackgroundColor = Color.White
+				BackgroundColor = Color.White,
+				Keyboard = Keyboard.Create(KeyboardFlags.CapitalizeSentence)
 			};					
 
 			addressLayout.Children.Add (surNameLabel,
@@ -731,7 +737,7 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Address Line 1",
+				Text = "Area / Cluster",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -762,12 +768,12 @@ namespace bluemart.MainViews
 
 			#region AddressDescription
 			var addressDescriptionLabel = new Label () {
-				WidthRequest = MyDevice.GetScaledSize (222),
+				WidthRequest = MyDevice.GetScaledSize (422),
 				HeightRequest = MyDevice.GetScaledSize(26),
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Address Line 2",
+				Text = "Community / Building Name",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -796,6 +802,42 @@ namespace bluemart.MainViews
 			);				
 			#endregion
 
+			#region AddressLine3
+			var addressLine3 = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (422),
+				HeightRequest = MyDevice.GetScaledSize(26),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.FromRgb(98,98,98),
+				Text = "Apartment / House No",
+				FontSize = MyDevice.FontSizeSmall
+			};
+
+			AddressLine3Entry = new Entry () {
+				WidthRequest = MyDevice.GetScaledSize(600),
+				HeightRequest = MyDevice.GetScaledSize(61),
+				BackgroundColor = Color.White
+			};					
+
+			addressLayout.Children.Add (addressLine3,
+				Constraint.RelativeToView (firstNameLabel, (p, sibling) => {
+					return sibling.Bounds.Left;	
+				}),
+				Constraint.RelativeToView (AddressDescriptionEntry, (p, sibling) => {
+					return sibling.Bounds.Bottom + entryGap;	
+				})
+			);
+
+			addressLayout.Children.Add (AddressLine3Entry,
+				Constraint.RelativeToView (addressLine3, (p, sibling) => {
+					return sibling.Bounds.Left - MyDevice.GetScaledSize (7);	
+				}),
+				Constraint.RelativeToView (addressLine3, (p, sibling) => {
+					return sibling.Bounds.Bottom + labelGap;	
+				})
+			);				
+			#endregion
+
 			#region Phone
 			var phoneLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (222),
@@ -807,30 +849,54 @@ namespace bluemart.MainViews
 				FontSize = MyDevice.FontSizeSmall
 			};
 
+			var initialText = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (54),
+				HeightRequest = MyDevice.GetScaledSize(61),
+				HorizontalTextAlignment = TextAlignment.End,
+				VerticalTextAlignment = TextAlignment.Center,
+				TextColor = Color.Black,
+				Text = "05",
+				FontSize = MyDevice.FontSizeMedium + MyDevice.GetScaledSize(2),
+				BackgroundColor = Color.White
+			};
+
 			PhoneEntry = new Entry () {
-				WidthRequest = MyDevice.GetScaledSize(600),
+				WidthRequest = MyDevice.GetScaledSize(570),
 				HeightRequest = MyDevice.GetScaledSize(61),
 				BackgroundColor = Color.White,
-				Keyboard = Keyboard.Numeric
+				Keyboard = Keyboard.Numeric,
+				HorizontalTextAlignment = TextAlignment.Start
 			};					
 
 			addressLayout.Children.Add (phoneLabel,
 				Constraint.RelativeToView (firstNameLabel, (p, sibling) => {
 					return sibling.Bounds.Left;	
 				}),
-				Constraint.RelativeToView (AddressDescriptionEntry, (p, sibling) => {
+				Constraint.RelativeToView (AddressLine3Entry, (p, sibling) => {
 					return sibling.Bounds.Bottom + entryGap;	
 				})
 			);
 
 			addressLayout.Children.Add (PhoneEntry,
 				Constraint.RelativeToView (phoneLabel, (p, sibling) => {
-					return sibling.Bounds.Left - MyDevice.GetScaledSize (7);	
+					return sibling.Bounds.Left + MyDevice.GetScaledSize (30);		
 				}),
 				Constraint.RelativeToView (phoneLabel, (p, sibling) => {
 					return sibling.Bounds.Bottom + labelGap;	
 				})
-			);				
+			);
+
+			addressLayout.Children.Add (initialText,
+				Constraint.RelativeToView (phoneLabel, (p, sibling) => {
+					return sibling.Bounds.Left - MyDevice.GetScaledSize (4);	
+				}),
+				Constraint.RelativeToView (phoneLabel, (p, sibling) => {
+					return sibling.Bounds.Bottom + labelGap;	
+				})
+			);	
+
+						
+
 			#endregion
 
 		
@@ -873,19 +939,22 @@ namespace bluemart.MainViews
 
 			scroll = new ScrollView () {
 				Orientation = ScrollOrientation.Vertical,
-				Content = addressLayout
+				Content = addressLayout,
+				HeightRequest = MyDevice.ScreenHeight - MyDevice.GetScaledSize(200)
 			};
 
 			mMidLayout.Children.Add (scroll,
 				Constraint.Constant (0),
-				Constraint.Constant (MyDevice.GetScaledSize (120))
+				Constraint.Constant (MyDevice.GetScaledSize (120)),
+				Constraint.Constant (MyDevice.ScreenWidth)/*,
+				Constraint.Constant (MyDevice.ScreenHeight - MyDevice.GetScaledSize(200))*/
 			);
 					
 		}
 
 		private void ActivateScroll()
 		{
-			mScrollHeight = scroll.Height;
+			//mScrollHeight = scroll.Height;
 			scroll.HeightRequest = MyDevice.ScreenHeight * 4  / 10;
 			//mainRelativeLayout.Children.Remove (mMidLayout);
 			/*mainRelativeLayout.Children.Add (scroll,
@@ -898,21 +967,18 @@ namespace bluemart.MainViews
 
 		private void DeactivateScroll()
 		{
-			scroll.HeightRequest = mScrollHeight;
+			scroll.HeightRequest = MyDevice.ScreenHeight - MyDevice.GetScaledSize(200);
 		}
-
-
-		private void Translate(double offsetY)
-		{
-			mMidLayout.TranslateTo (0, MyDevice.GetScaledSize(offsetY), MyDevice.AnimationTimer, Easing.Linear);
-		}
-
 
 		private async void Submit()
 		{
+			if (mFocusedEntry != null)
+				mFocusedEntry.Unfocus ();
+
 			string address = AddressEntry.Text.ToString ();
 			string activeRegion = RegionEntryLabel.Text.ToString ();
 			string addressDescription = AddressDescriptionEntry.Text.ToString ();
+			string addressLine3 = AddressLine3Entry.Text.ToString ();
 			string name = NameEntry.Text.ToString () + " " + SurNameEntry.Text.ToString ();
 			string phoneNumber = PhoneEntry.Text.ToString ();
 
@@ -921,6 +987,7 @@ namespace bluemart.MainViews
 			addressClass.PhoneNumber = phoneNumber;
 			addressClass.Address = address;
 			addressClass.AddressDescription = addressDescription;
+			addressClass.AddressLine3 = addressLine3;
 			addressClass.ShopNumber = RegionHelper.DecideShopNumber (activeRegion);
 			addressClass.IsActive = false;
 
@@ -950,6 +1017,7 @@ namespace bluemart.MainViews
 				SurNameEntry.Focus ();
 			};
 			NameEntry.Focused += (sender, e) => {
+				mFocusedEntry = (sender as Entry);
 				ActivateScroll();
 			};
 			NameEntry.Unfocused += (sender, e) => {
@@ -965,6 +1033,7 @@ namespace bluemart.MainViews
 				AddressEntry.Focus ();
 			};
 			SurNameEntry.Focused += (sender, e) => {
+				mFocusedEntry = (sender as Entry);
 				ActivateScroll();
 			};
 			SurNameEntry.Unfocused += (sender, e) => {
@@ -980,6 +1049,7 @@ namespace bluemart.MainViews
 				AddressDescriptionEntry.Focus ();
 			};
 			AddressEntry.Focused += (sender, e) => {
+				mFocusedEntry = (sender as Entry);
 				ActivateScroll();
 			};
 			AddressEntry.Unfocused += (sender, e) => {
@@ -992,31 +1062,49 @@ namespace bluemart.MainViews
 				SetSubmitButton ();
 			};
 			AddressDescriptionEntry.Completed += (sender, e) => {
-				PhoneEntry.Focus ();
+				AddressLine3Entry.Focus ();
 			};
 			AddressDescriptionEntry.Focused += (sender, e) => {
+				mFocusedEntry = (sender as Entry);
 				ActivateScroll();
 			};
 			AddressDescriptionEntry.Unfocused += (sender, e) => {
 				DeactivateScroll();
 			};
 			#endregion
+			#region AddressDescriptionEntry
+			AddressLine3Entry.TextChanged += (sender, e) => {				
+				bAdressLine3TextChanged = CheckIfTextChanged (AddressLine3Entry);
+				SetSubmitButton ();
+			};
+			AddressLine3Entry.Completed += (sender, e) => {
+				PhoneEntry.Focus ();
+			};
+			AddressLine3Entry.Focused += (sender, e) => {
+				mFocusedEntry = (sender as Entry);
+				ActivateScroll();
+			};
+			AddressLine3Entry.Unfocused += (sender, e) => {
+				DeactivateScroll();
+			};
+			#endregion
 			#region PhoneEntry
-			PhoneEntry.TextChanged += (sender, e) => {				
+			PhoneEntry.TextChanged += (sender, e) => {					
 				string phoneNumber = PhoneEntry.Text.Trim ();
 
 				if (phoneNumber.Length == 11)
 					phoneNumber = phoneNumber.Remove (10);		
 
 				PhoneEntry.Text = phoneNumber;
-				if (PhoneEntry.Text.Length >= 9)
+				if (PhoneEntry.Text.Length == 10)
 					bTelephoneTextChanged = true;
 				else
 					bTelephoneTextChanged = false;
 				SetSubmitButton ();
 			};
 			PhoneEntry.Focused += (sender, e) => {
-				ActivateScroll(); 
+				mFocusedEntry = (sender as Entry);
+				ActivateScroll();
 			};
 			PhoneEntry.Completed += (sender, e) => {
 				//Translate(0);
@@ -1041,7 +1129,7 @@ namespace bluemart.MainViews
 
 		private void SetSubmitButton() 
 		{
-			if (bNameTextChanged && bSurNameTextChanged && bAddressTextChanged && bTelephoneTextChanged && bRegionTextChanged && bAddressDescriptionTextChanged) {
+			if (bNameTextChanged && bSurNameTextChanged && bAddressTextChanged && bTelephoneTextChanged && bRegionTextChanged && bAddressDescriptionTextChanged && bAdressLine3TextChanged) {
 				SubmitButton.TextColor = Color.White;
 				SubmitButton.BackgroundColor = Color.FromRgb(132,178,98);
 
@@ -1063,6 +1151,7 @@ namespace bluemart.MainViews
 			NameEntry.Text = mAddressModel.Name;
 			AddressEntry.Text = mAddressModel.Address;
 			AddressDescriptionEntry.Text = mAddressModel.AddressDescription;
+			AddressLine3Entry.Text = mAddressModel.AddressLine3;
 
 			if (mAddressModel.Name.Length > 0) {
 				NameEntry.Text = mAddressModel.Name.Split (' ') [0];

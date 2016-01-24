@@ -36,9 +36,11 @@ namespace bluemart.Common.Utilities
 		public const string PRODUCT_ATTRIBUTE_STORES = "Stores";
 		public const string PRODUCT_ATTRIBUTE_ISTOPSELLING = "IsTopSelling";
 		public const string PRODUCT_ATTRIBUTE_PRIORITY = "Priority";
+		public const string PRODUCT_ATTRIBUTE_ISINSTOCK = "IsInStock";
 		//Orders Attribute Names
 		public const string ORDERS_ATTRIBUTE_ADDRESS = "Address";
 		public const string ORDERS_ATTRIBUTE_ADDRESSDESC = "AddressDescription";
+		public const string ORDERS_ATTRIBUTE_ADDRESSLINE3 = "AddressLine3";
 		public const string ORDERS_ATTRIBUTE_USERNAME = "Name";
 		public const string ORDERS_ATTRIBUTE_ORDERARRAY = "OrderTest";
 		public const string ORDERS_ATTRIBUTE_PHONE = "Phone";

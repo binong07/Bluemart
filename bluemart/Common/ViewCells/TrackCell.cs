@@ -59,13 +59,23 @@ namespace bluemart.Common.ViewCells
 			DateTime.TryParse(status.Date,out statusDate);				
 			DateTime addedStatusDate =statusDate.AddHours (2);
 			var dateLabel = new Label () {
-				WidthRequest = MyDevice.GetScaledSize (455),
+				WidthRequest = MyDevice.GetScaledSize (220),
 				HeightRequest = MyDevice.GetScaledSize (26),
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Start,
 				TextColor = Color.FromRgb (98, 98, 98),
-				Text = "Date: " + addedStatusDate.ToString ("MM/dd/yyyy") + " - Time: " + addedStatusDate.ToString ("hh:mm:ss"),
+				Text = "Date: " + addedStatusDate.ToString ("MM/dd/yyyy") + " - Time: ",
 				FontSize = MyDevice.FontSizeMicro	
+			};
+
+			var timeLabel = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (80),
+				HeightRequest = MyDevice.GetScaledSize (26),
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalTextAlignment = TextAlignment.Start,
+				TextColor = MyDevice.RedColor,
+				Text = addedStatusDate.ToString ("hh:mm:ss"),
+				FontSize = MyDevice.FontSizeMicro
 			};
 
 			var regionLabel = new Label () {
@@ -80,7 +90,7 @@ namespace bluemart.Common.ViewCells
 
 			var statusLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (455),
-				HeightRequest = MyDevice.GetScaledSize (50),
+				HeightRequest = MyDevice.GetScaledSize (60),
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Start,
 				TextColor = Color.FromRgb (98, 98, 98),
@@ -107,6 +117,15 @@ namespace bluemart.Common.ViewCells
 				}),
 				Constraint.RelativeToView (totalPriceLabel, (p, sibling) => {
 					return sibling.Bounds.Bottom + MyDevice.GetScaledSize (2);	
+				})
+			);
+
+			mainLayout.Children.Add (timeLabel,
+				Constraint.RelativeToView (dateLabel, (p, sibling) => {
+					return sibling.Bounds.Right + MyDevice.GetScaledSize(2);	
+				}),
+				Constraint.RelativeToView (dateLabel, (p, sibling) => {
+					return sibling.Bounds.Top;	
 				})
 			);
 

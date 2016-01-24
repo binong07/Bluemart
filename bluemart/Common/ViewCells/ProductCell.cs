@@ -334,8 +334,15 @@ namespace bluemart.Common.ViewCells
 				ActivateRemoveFavorite ();
 			else
 				ActivateAddFavorite ();
+			if(!mProduct.ProductIsInStock)
+				ActivateOutOfStock ();
 
 			this.View = mainRelativeLayout;
+		}
+
+		private void ActivateOutOfStock()
+		{
+			mProductForegroundImage.IsVisible = true;
 		}
 
 		private void ActivateAddMenu()

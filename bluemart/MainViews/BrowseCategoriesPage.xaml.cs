@@ -1012,14 +1012,17 @@ namespace bluemart.MainViews
 
 				if( hour < 8 || hour > 23 ) 
 				{
-					await DisplayAlert("Sorry","Market is closed between 8 AM and 11 PM ","OK");
+					string region = mUserModel.GetUser().ActiveRegion;
+					int shopNumber = RegionHelper.DecideShopNumber (region);
+					string shopName = RegionHelper.DecideShopName (shopNumber);
+					await DisplayAlert("Sorry","Bluemart "+ shopName +" is closed between 11pm and 8am ","OK");
 				}
 				else if( Cart.ProductTotalPrice == 0 )
 					await DisplayAlert("Sorry","Please add products to your basket","OK");
 				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
 				{					
 					await DisplayAlert("Sorry","Please Enter Your Address On Settings Page","OK");
-					mParent.SwitchTab("Settings");
+					mParent.LoadSettingsPage();
 				}
 				else if( Cart.ProductTotalPrice < 50 )
 				{

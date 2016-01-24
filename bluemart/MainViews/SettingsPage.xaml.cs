@@ -583,6 +583,17 @@ namespace bluemart.MainViews
 				Text = "ADD NEW\nDELIVERY ADDRESS",
 				FontSize = MyDevice.FontSizeMicro
 			};
+
+			var continueToShop = new Label () {
+				WidthRequest = MyDevice.GetScaledSize (215),
+				HeightRequest = MyDevice.GetScaledSize(62),
+				HorizontalTextAlignment = TextAlignment.Center,
+				VerticalTextAlignment = TextAlignment.Center,
+				BackgroundColor = Color.FromRgb(132,178,98),
+				TextColor = Color.White,
+				Text = "CONTINUE\nTO SHOP",
+				FontSize = MyDevice.FontSizeMicro
+			};
 					
 
 			var browseAddressInfoLabel = new Label () {
@@ -591,7 +602,7 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Your Bluemart /\nJVC Addresses:",
+				Text = "Your Addresses:",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -615,7 +626,7 @@ namespace bluemart.MainViews
 
 			regionLabel.Text = region + " / Serviced by Bluemart";
 			locationLabel.Text = "Location: "+shopName;
-			browseAddressInfoLabel.Text = "Your Bluemart /\n" + shopName;
+			browseAddressInfoLabel.Text = "Your Addresses:";
 
 			var addressList = mAddressModel.GetAddressList (shopNumber);
 
@@ -635,6 +646,12 @@ namespace bluemart.MainViews
 				mParent.Navigation.PopAsync();
 			};
 			changeLocationHint.GestureRecognizers.Add (changeAddressTapRecognizer);
+
+			var continueToShopTapRecognizer = new TapGestureRecognizer ();
+			continueToShopTapRecognizer.Tapped += (sender, e) => {
+				mParent.SwitchTab("BrowseCategories");
+			};
+			continueToShop.GestureRecognizers.Add (continueToShopTapRecognizer);
 
 			var addressScrollView = new ScrollView {
 				Orientation = ScrollOrientation.Vertical,
@@ -689,10 +706,20 @@ namespace bluemart.MainViews
 
 			mMidLayout.Children.Add (addAddressButton,
 				Constraint.RelativeToView (mAddressInfoLayout, (p, sibling) => {
-					return sibling.Bounds.Left + MyDevice.GetScaledSize(192);	
+					return sibling.Bounds.Left + MyDevice.GetScaledSize(60);	
 				}),
 				Constraint.RelativeToView (mAddressInfoLayout, (p, sibling) => {
 					return sibling.Bounds.Bottom + MyDevice.GetScaledSize(20);	
+				})
+			);
+
+
+			mMidLayout.Children.Add (continueToShop,
+				Constraint.RelativeToView (addAddressButton, (p, sibling) => {
+					return sibling.Bounds.Right + MyDevice.GetScaledSize(60);	
+				}),
+				Constraint.RelativeToView (addAddressButton, (p, sibling) => {
+					return sibling.Bounds.Top;	
 				})
 			);
 

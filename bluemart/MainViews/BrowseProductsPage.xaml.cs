@@ -74,6 +74,12 @@ namespace bluemart.MainViews
 		private RelativeLayout InputBlockerForSwipeMenu;
 		private RelativeLayout InputBlockerForSwipeCart;
 
+		public Image mCartImage;
+		private readonly uint mCartFadeInTimer = 200;
+		private readonly int mCartFlashTimer = 2000;
+		private readonly double mCartScaleSize = 1.25f;
+		private bool bIsCartFlashing = false;
+
 		public BrowseProductsPage (Dictionary<string, List<Product>> productDictionary, Category category,RootPage parent)
 		{					
 			InitializeComponent ();
@@ -82,38 +88,26 @@ namespace bluemart.MainViews
 			PopulationOfNewProductPage (productDictionary, category);
 			CreationInitialization ();
 			MyDevice.currentPage = this;
-			//WaitBeforeInit ();
+
 		}
-
-		/*public BrowseProductsPage (RootPage parent, string SearchOrFavorites)
+			
+		public async void FlashCartButton()
 		{
-			if (SearchOrFavorites == "Favorites") {
-				InitializeComponent ();
-				mParent = parent;
-				PopulateProductsForFavoritesForFavorites();
-				CreationInitialization ();
-			}	
-		}
-
-		private void PopulateProductsForFavorites( )
-		{
-			foreach (string productID in mFavoritesModel.GetProductIDs()) {
-				string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary[productID] + ".jpg";
-				string ProductName = ProductModel.mProductNameDictionary [productID];
-				decimal price = ProductModel.mProductPriceDictionary [productID];
-				string quantity = ProductModel.mProductQuantityDictionary [productID];
-				string parentCategoryID = ProductModel.mProductParentCategoryIDsDictionary [productID];
-
-
-				if (mProductDictionary.ContainsKey (parentCategoryID)) {
-					mProductDictionary [parentCategoryID].Add (new Product (productID, ProductName, ImagePath, price, parentCategoryID, quantity));
-				} else {
-					mProductDictionary.Add (parentCategoryID, new List<Product> ());
-					mProductDictionary [parentCategoryID].Add (new Product (productID, ProductName, ImagePath, price, parentCategoryID, quantity));
+			if (!bIsCartFlashing) {
+				bIsCartFlashing = true;
+				mCartImage.Scale = mCartScaleSize;
+				//await mCartImage.ScaleTo (mCartScaleSize, 0);
+				double flashTimer = mCartFlashTimer;
+				while (flashTimer >= 0) {
+					flashTimer -= mCartFadeInTimer;
+					await mCartImage.FadeTo (0, mCartFadeInTimer, Easing.Linear);
+					flashTimer -= mCartFadeInTimer;
+					await mCartImage.FadeTo (1, mCartFadeInTimer, Easing.Linear);
 				}
-
-			}	
-		}*/
+				mCartImage.Scale = 1f;
+				bIsCartFlashing = false;
+			}
+		}
 
 		public void CreationInitialization()
 		{
@@ -663,7 +657,7 @@ namespace bluemart.MainViews
 				else if( mAddressModel.GetActiveAddress(mUserModel.GetUser().ActiveRegion) == null )
 				{					
 					await DisplayAlert("Sorry","Please Enter Your Address On Settings Page","OK");
-					mParent.SwitchTab("Settings");
+					mParent.LoadSettingsPage();
 				}
 				else if( Cart.ProductTotalPrice < 50 )
 				{
@@ -815,7 +809,7 @@ namespace bluemart.MainViews
 				Source = "CategoriesPage_VerticalLine.png"
 			};
 
-			var cartImage = new Image () {
+			mCartImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(71),
 				HeightRequest = MyDevice.GetScaledSize(57),
 				Aspect = Aspect.Fill,
@@ -881,16 +875,16 @@ namespace bluemart.MainViews
 
 			);
 
-			mMidLayout.Children.Add (cartImage, 
+			mMidLayout.Children.Add (mCartImage, 
 				Constraint.Constant( MyDevice.GetScaledSize(561) ),
 				Constraint.Constant( MyDevice.GetScaledSize(16) )
 			);
 
 			mMidLayout.Children.Add (verticalLine,
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Left - MyDevice.GetScaledSize (14);
 				}),
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Top - MyDevice.GetScaledSize (5);
 				})
 			);
@@ -899,16 +893,16 @@ namespace bluemart.MainViews
 				Constraint.RelativeToView (verticalLine, (parent, sibling) => {
 					return sibling.Bounds.Left - MyDevice.GetScaledSize (150);
 				}),
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Top;
 				})
 			);
 
 			mMidLayout.Children.Add (ProductCountLabel,
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Right - MyDevice.GetScaledSize (37);
 				}),
-				Constraint.RelativeToView (cartImage, (parent, sibling) => {
+				Constraint.RelativeToView (mCartImage, (parent, sibling) => {
 					return sibling.Bounds.Bottom - MyDevice.GetScaledSize (27);
 				})
 			);	
