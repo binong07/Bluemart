@@ -56,8 +56,8 @@ namespace bluemart.Droid
 			map.MarkerClick+= HandleMarkerClick;
 
 			// Pin tıklanınca sağalta açılan menüyü engellemek için
-			map.UiSettings.MapToolbarEnabled = false;
-
+			map.UiSettings.MapToolbarEnabled = true;
+			map.UiSettings.MyLocationButtonEnabled = true;
 
 			if (extendedMap.isOverlayNeeded) {
 				LatLng southwest = new LatLng (extendedMap.sw.Latitude, extendedMap.sw.Longitude);

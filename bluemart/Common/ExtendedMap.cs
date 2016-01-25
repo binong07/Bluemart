@@ -19,6 +19,7 @@ namespace bluemart.Common
 		//Default start position
 			: base(MapSpan.FromCenterAndRadius(c, Distance.FromKilometers(d)))
 		{
+			IsShowingUser=true;
 			this.view = view;
 			pinDatas = new List<PinData> ();
 			for (int i = 0; i < pDatas.Count; i++)
