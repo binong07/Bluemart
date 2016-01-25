@@ -769,7 +769,7 @@ namespace bluemart.MainViews
 			#region AddressDescription
 			var addressDescriptionLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (422),
-				HeightRequest = MyDevice.GetScaledSize(26),
+				HeightRequest = MyDevice.GetScaledSize(28),
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
@@ -805,7 +805,7 @@ namespace bluemart.MainViews
 			#region AddressLine3
 			var addressLine3 = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (422),
-				HeightRequest = MyDevice.GetScaledSize(26),
+				HeightRequest = MyDevice.GetScaledSize(28),
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
@@ -851,17 +851,17 @@ namespace bluemart.MainViews
 
 			var initialText = new Label () {
 				WidthRequest = MyDevice.GetScaledSize (54),
-				HeightRequest = MyDevice.GetScaledSize(61),
+				HeightRequest = MyDevice.GetScaledSize(62),
 				HorizontalTextAlignment = TextAlignment.End,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.Black,
 				Text = "05",
-				FontSize = MyDevice.FontSizeMedium + MyDevice.GetScaledSize(2),
+				FontSize = MyDevice.FontSizeMedium + MyDevice.GetScaledSize(3),
 				BackgroundColor = Color.White
 			};
 
 			PhoneEntry = new Entry () {
-				WidthRequest = MyDevice.GetScaledSize(570),
+				WidthRequest = MyDevice.GetScaledSize(565),
 				HeightRequest = MyDevice.GetScaledSize(61),
 				BackgroundColor = Color.White,
 				Keyboard = Keyboard.Numeric,
@@ -882,7 +882,7 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Left + MyDevice.GetScaledSize (30);		
 				}),
 				Constraint.RelativeToView (phoneLabel, (p, sibling) => {
-					return sibling.Bounds.Bottom + labelGap;	
+					return sibling.Bounds.Bottom + labelGap + MyDevice.GetScaledSize(2);	
 				})
 			);
 
@@ -1092,11 +1092,11 @@ namespace bluemart.MainViews
 			PhoneEntry.TextChanged += (sender, e) => {					
 				string phoneNumber = PhoneEntry.Text.Trim ();
 
-				if (phoneNumber.Length == 11)
-					phoneNumber = phoneNumber.Remove (10);		
-
+				if (phoneNumber.Length == 9)
+					phoneNumber = phoneNumber.Remove (8);		
+				
 				PhoneEntry.Text = phoneNumber;
-				if (PhoneEntry.Text.Length == 10)
+				if (PhoneEntry.Text.Length == 8)
 					bTelephoneTextChanged = true;
 				else
 					bTelephoneTextChanged = false;
