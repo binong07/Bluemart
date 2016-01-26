@@ -256,7 +256,7 @@ namespace bluemart.MainViews
 			};
 
 			var settingsLabel = new Label () {
-				Text = "My Profile",
+				Text = "My Settings",
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.White,
@@ -673,7 +673,7 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Nearest Bluemart Location",
+				Text = "Region",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -865,8 +865,7 @@ namespace bluemart.MainViews
 				HeightRequest = MyDevice.GetScaledSize(61),
 				BackgroundColor = Color.White,
 				Keyboard = Keyboard.Numeric,
-				HorizontalTextAlignment = TextAlignment.Start,
-				VerticalOptions = LayoutOptions.Center
+				HorizontalTextAlignment = TextAlignment.Start
 			};					
 
 			addressLayout.Children.Add (phoneLabel,
@@ -883,7 +882,7 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Left + MyDevice.GetScaledSize (30);		
 				}),
 				Constraint.RelativeToView (phoneLabel, (p, sibling) => {
-					return sibling.Bounds.Bottom + labelGap + MyDevice.GetScaledSize(5);	
+					return sibling.Bounds.Bottom + labelGap + MyDevice.GetScaledSize(2);	
 				})
 			);
 
@@ -1095,7 +1094,7 @@ namespace bluemart.MainViews
 
 				if (phoneNumber.Length == 9)
 					phoneNumber = phoneNumber.Remove (8);		
-
+				
 				PhoneEntry.Text = phoneNumber;
 				if (PhoneEntry.Text.Length == 8)
 					bTelephoneTextChanged = true;
