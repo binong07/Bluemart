@@ -46,7 +46,7 @@ namespace bluemart.MainViews
 			selectedPinIndex = index;
 			StartShopingButton.BorderWidth = 2;
 			StartShopingButton.BorderColor = MyDevice.BlueColor;
-			StartShopingButton.Text = "Start Shopping on " + pinDatas[index].text;
+			StartShopingButton.Text = "Start Shopping at " + pinDatas[index].text;
 			StartShopingButton.IsEnabled=true;
 		}
 		public MapView (RootPage parent, UserClass mUserModel)

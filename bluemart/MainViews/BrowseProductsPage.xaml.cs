@@ -246,7 +246,7 @@ namespace bluemart.MainViews
 			};
 
 			var settingsLabel = new Label () {
-				Text = "My Settings",
+				Text = "My Profile",
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.White,
@@ -1386,16 +1386,16 @@ namespace bluemart.MainViews
 		{
 			//System.Diagnostics.Debug.WriteLine ("delta:"+e.Delta.ToString()+" current:"+e.CurrentY + " curentRow:" +e.CurrentRow);
 			//System.Diagnostics.Debug.WriteLine ("mActiveButtonIndex:"+mActiveButtonIndex.ToString()+" mCategoryIndexList.Count:"+mCategoryIndexList.Count );
-
+			//System.Diagnostics.Debug.WriteLine (e.Delta);
 			if (e.Delta > 0) {
 				if (mActiveButtonIndex + 1 != mCategoryIndexList.Count) {
-					int productCellIndex = mCategoryIndexList [mActiveButtonIndex + 1];
+					int productCellIndex = mCategoryIndexList [mActiveButtonIndex +1];
 					if (e.CurrentRow * 2 >= productCellIndex) {
 						mActiveButtonIndex += 1;
 						ChangeSelectedButton ();
 					}
 				}
-			} else
+			} else if(e.Delta < 0)
 			{
 				if (mActiveButtonIndex  != -0) {
 					int productCellIndex = mCategoryIndexList [mActiveButtonIndex  ];
@@ -1486,11 +1486,11 @@ namespace bluemart.MainViews
 
 		private void FocusSelectedButton(Label selectedButton)
 		{		
-					
+			
 			mActiveButtonIndex = mButtonList.IndexOf (selectedButton);			
 			int productCellIndex = mCategoryIndexList [mActiveButtonIndex]+2;
 			productCellIndex = productCellIndex == 2 ? 0 : productCellIndex;
-
+			System.Diagnostics.Debug.WriteLine ("aa" + mActiveButtonIndex.ToString());
 			ChangeSelectedButton ();
 			//System.Diagnostics.Debug.WriteLine ("aa" + ProductGrid._initialIndex.ToString());
 			//ProductGrid.GridViewProvider.ScrollToItemWithIndex (productCellIndex,true);
@@ -1528,6 +1528,7 @@ namespace bluemart.MainViews
 			mEnabledBoxView = mBoxViewList [mActiveButtonIndex];
 			mEnabledBoxView.IsVisible = true;
 			SubcategoryScrollView.ScrollToAsync(mEnabledBoxView,ScrollToPosition.Center,true);
+			System.Diagnostics.Debug.WriteLine ("bb" + mActiveButtonIndex.ToString());
 		}
 		/*
 		private void PopulateGrid()

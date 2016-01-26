@@ -20,7 +20,7 @@ namespace bluemart
 		public Image mProductImage;
 		public CachedImage mBorderImage;
 		public CachedImage mProductForegroundImage;
-
+		public CachedImage mProductOutOfStockImage;
 		private Label mProductNumberLabel;
 		public Product mProduct;
 		private FavoritesClass mFavoriteModel;
@@ -103,8 +103,8 @@ namespace bluemart
 
 
 				productNameLabel.Text = mProduct.Name;
-				productQuantityLabel.Text = mProduct.Quantity;
-				productPriceLabel.Text = "AED " + mProduct.Price.ToString ();
+				productQuantityLabel.Text = mProduct.Quantity.Replace (",",".");
+				productPriceLabel.Text = "AED " + String.Format("{0:0.00}", mProduct.Price);  //mProduct.Price.ToString ();
 				mFavoriteModel = new FavoritesClass ();
 				bIsFavorite = mFavoriteModel.IsProductFavorite (mProduct.ProductID);
 
@@ -141,7 +141,8 @@ namespace bluemart
 
 		private void ActivateOutOfStock()
 		{
-			mProductForegroundImage.IsVisible = true;
+			mProductOutOfStockImage.IsVisible = true;
+			mProductOutOfStockImage.InputTransparent = false;
 		}
 
 		private void ActivateAddMenu()
@@ -237,7 +238,7 @@ namespace bluemart
 				TextColor = Color.FromRgb(176,176,176),
 				WidthRequest = MyDevice.GetScaledSize(111),
 				HeightRequest = MyDevice.GetScaledSize(22),
-				FontAttributes = FontAttributes.Italic
+				//FontAttributes = FontAttributes.Italic
 			};
 
 			productPriceLabel = new Label (){ 
@@ -295,6 +296,18 @@ namespace bluemart
 				IsVisible = false,
 			};
 
+			mProductOutOfStockImage = new CachedImage () {
+				WidthRequest = MyDevice.GetScaledSize (300),
+				HeightRequest = MyDevice.GetScaledSize (377),
+				CacheDuration = TimeSpan.FromDays(30),
+				DownsampleToViewSize = true,
+				RetryCount = 10,
+				RetryDelay = 250,
+				TransparencyEnabled = false,
+				Source = "OutOfStocks",
+				IsVisible = false,
+			};
+
 			mProductNumberLabel = new Label (){ 
 				FontSize = MyDevice.FontSizeMedium,
 				VerticalTextAlignment = TextAlignment.Center, 
@@ -347,6 +360,10 @@ namespace bluemart
 				Constraint.Constant (MyDevice.GetScaledSize(0))
 			);
 
+			mainRelativeLayout.Children.Add (mProductOutOfStockImage,
+				Constraint.Constant (MyDevice.GetScaledSize(0)),
+				Constraint.Constant (MyDevice.GetScaledSize(0))
+			);
 
 			mainRelativeLayout.Children.Add (productNameLabel,
 				Constraint.RelativeToView(mProductImage, (p,sibling) => {
@@ -419,14 +436,14 @@ namespace bluemart
 		{
 			var addButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			addButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-				if( CheckIfSearchEntryIsFocused() )
+				if( CheckIfSearchEntryIsFocused() || !mProduct.ProductIsInStock)
 					return;
 				AddProductInCart();
 				await Task.Delay(MyDevice.DelayTime);
 			};
 
 			mPlusButton.GestureRecognizers.Add (addButtonTapGestureRecognizer);
-
+			/*
 			var mainRelativeLayoutTapGestureRecognizer = new TapGestureRecognizer ();
 			mainRelativeLayoutTapGestureRecognizer.NumberOfTapsRequired = 2;
 			mainRelativeLayoutTapGestureRecognizer.Tapped += async (sender, e) => {
@@ -436,10 +453,10 @@ namespace bluemart
 				await Task.Delay(MyDevice.DelayTime);
 			};
 			mainRelativeLayout.GestureRecognizers.Add (mainRelativeLayoutTapGestureRecognizer);
-
+*/
 			var removeButtonTapGestureRecognizer = new TapGestureRecognizer ();
 			removeButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-				if( CheckIfSearchEntryIsFocused() )
+				if( CheckIfSearchEntryIsFocused() || !mProduct.ProductIsInStock)
 					return;
 
 				RemoveProductFromCart();
@@ -482,7 +499,7 @@ namespace bluemart
 
 			var addButtonnTapGestureRecognizer = new TapGestureRecognizer ();
 			addButtonnTapGestureRecognizer.Tapped += (sender, e) => {
-				if( mProductNumberLabel.IsVisible )
+				if( mProductNumberLabel.IsVisible || !mProduct.ProductIsInStock)
 					return;
 
 				AddProductInCart ();

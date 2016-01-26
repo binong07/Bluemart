@@ -201,7 +201,7 @@ namespace bluemart.MainViews
 			};
 
 			var settingsLabel = new Label () {
-				Text = "My Settings",
+				Text = "My Profile",
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.White,
