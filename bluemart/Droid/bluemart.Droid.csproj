@@ -34,6 +34,7 @@
     <AndroidSigningStorePass>fs2356</AndroidSigningStorePass>
     <AndroidSigningKeyPass>fs2356</AndroidSigningKeyPass>
     <AndroidSigningKeyAlias>Bluemart</AndroidSigningKeyAlias>
+    <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -42,13 +43,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>/Users/315Studio/Desktop/Work/RisusGames/1001App/Bluemart.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>fs2356</AndroidSigningStorePass>
     <AndroidSigningKeyPass>fs2356</AndroidSigningKeyPass>
     <AndroidSigningKeyAlias>Bluemart</AndroidSigningKeyAlias>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -156,6 +157,9 @@
     <Reference Include="FFImageLoading.Forms.Droid">
       <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.0.5\lib\MonoAndroid10\FFImageLoading.Forms.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.1.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bluemart.csproj">
@@ -258,6 +262,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\SQLitePCL.raw.0.8.6\build\MonoAndroid\SQLitePCL.raw.targets" Condition="Exists('..\packages\SQLitePCL.raw.0.8.6\build\MonoAndroid\SQLitePCL.raw.targets')" />
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv7recyclerview">
       <Version>22.2.0.0</Version>

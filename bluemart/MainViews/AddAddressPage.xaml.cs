@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -256,7 +256,7 @@ namespace bluemart.MainViews
 			};
 
 			var settingsLabel = new Label () {
-				Text = "My Settings",
+				Text = "My Profile",
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.White,
@@ -673,7 +673,7 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Region",
+				Text = "Nearest Bluemart Location",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
@@ -865,7 +865,8 @@ namespace bluemart.MainViews
 				HeightRequest = MyDevice.GetScaledSize(61),
 				BackgroundColor = Color.White,
 				Keyboard = Keyboard.Numeric,
-				HorizontalTextAlignment = TextAlignment.Start
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalOptions = LayoutOptions.Center
 			};					
 
 			addressLayout.Children.Add (phoneLabel,
@@ -882,7 +883,7 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Left + MyDevice.GetScaledSize (30);		
 				}),
 				Constraint.RelativeToView (phoneLabel, (p, sibling) => {
-					return sibling.Bounds.Bottom + labelGap + MyDevice.GetScaledSize(2);	
+					return sibling.Bounds.Bottom + labelGap + MyDevice.GetScaledSize(5);	
 				})
 			);
 
