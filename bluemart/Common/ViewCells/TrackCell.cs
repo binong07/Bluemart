@@ -41,7 +41,7 @@ namespace bluemart.Common.ViewCells
 				RetryDelay = 250,
 				TransparencyEnabled = false,
 				FadeAnimationEnabled = false,
-				Source = "TrackPage_TrackBackground_Red"
+				Source = "TrackPage_TrackBackground_Red.png"
 			};
 
 			var totalPriceLabel = new Label () {
@@ -148,7 +148,7 @@ namespace bluemart.Common.ViewCells
 			);
 
 			if (status.OrderStatus == OrderModel.OrderStatus.WAITING_CONFIRMATION) {
-				backgroundImage.Source = "TrackPage_TrackBackground_Red";
+				backgroundImage.Source = "TrackPage_TrackBackground_Red.png";
 				mainLayout.Children.Add (backgroundImage,
 					Constraint.Constant (MyDevice.GetScaledSize (42)),
 					Constraint.Constant (MyDevice.GetScaledSize (42))
@@ -160,7 +160,7 @@ namespace bluemart.Common.ViewCells
 				);
 			}
 			else if(status.OrderStatus == OrderModel.OrderStatus.CONFIRMED){
-				backgroundImage.Source = "TrackPage_TrackBackground_Blue";
+				backgroundImage.Source = "TrackPage_TrackBackground_Blue.png";
 				mainLayout.Children.Add (backgroundImage,
 					Constraint.Constant (MyDevice.GetScaledSize (42)),
 					Constraint.Constant (MyDevice.GetScaledSize (42))
@@ -216,7 +216,7 @@ namespace bluemart.Common.ViewCells
 					})
 				);
 
-				backgroundImage.Source = "TrackPage_TrackBackground_Green";
+				backgroundImage.Source = "TrackPage_TrackBackground_Green.png";
 				mainLayout.Children.Add (backgroundImage,
 					Constraint.Constant (MyDevice.GetScaledSize (42)),
 					Constraint.Constant (MyDevice.GetScaledSize (70))

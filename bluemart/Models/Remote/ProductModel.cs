@@ -84,13 +84,14 @@ namespace bluemart.Models.Remote
 			int queryLimit = 1000;
 			int j = 0;
 			//DateTime startG = DateTime.Now;
+			List<ProductClass> tempList = new List<ProductClass> ();
 			for (int i = 0; i < productCount; i += queryLimit) {
 				//DateTime start = DateTime.Now;
 				var productObjects = productQuery.Limit(queryLimit).Skip(i).FindAsync ().Result;
 				//TimeSpan delta = start - DateTime.Now;
 				//System.Diagnostics.Debug.WriteLine ("delta time:" + delta.TotalMilliseconds.ToString());
 
-				List<ProductClass> tempList = new List<ProductClass> ();
+
 				foreach (var productObject in productObjects) {
 					ProductClass tempProduct = new ProductClass ();
 					tempProduct.objectId = productObject.ObjectId;
@@ -125,9 +126,10 @@ namespace bluemart.Models.Remote
 					//await loadingPage.ProgressBar1.ProgressTo (scrollPos, 1, Easing.Linear);
 				}
 
-				mProductClass.AddProduct (tempList);	
+					
 				
 			}
+			mProductClass.AddProduct (tempList);
 			//TimeSpan deltaG = startG - DateTime.Now;
 			//System.Diagnostics.Debug.WriteLine ("delta time in general:" + deltaG.TotalMilliseconds.ToString());
 		//	loadingPage.mFirstTokenSource.Cancel ();

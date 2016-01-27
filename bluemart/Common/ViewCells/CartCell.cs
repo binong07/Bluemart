@@ -102,7 +102,7 @@ namespace bluemart
 				RetryDelay = 250,
 				TransparencyEnabled = false,
 				FadeAnimationEnabled = false,
-				Source = "CartPage_ImageMask"
+				Source = "CartPage_ImageMask.png"
 			};
 
 			mFavoriteImage = new CachedImage () {
@@ -123,9 +123,9 @@ namespace bluemart
 			};
 
 			if (!bIsFavorite) {
-				mFavoriteImage.Source = "CartPage_AddFavorites";
+				mFavoriteImage.Source = "CartPage_AddFavorites.png";
 			} else {
-				mFavoriteImage.Source = "CartPage_RemoveFavorites";
+				mFavoriteImage.Source = "CartPage_RemoveFavorites.png";
 			}
 
 			mProductPriceLabel = new Label () {
@@ -168,7 +168,7 @@ namespace bluemart
 				RetryDelay = 250,
 				TransparencyEnabled = false,
 				FadeAnimationEnabled = false,
-				Source = "CartPage_RemoveProduct"
+				Source = "CartPage_RemoveProduct.png"
 			};
 
 			var removeProductButton = new RelativeLayout () {
@@ -199,7 +199,7 @@ namespace bluemart
 				RetryDelay = 250,
 				TransparencyEnabled = false,
 				FadeAnimationEnabled = false,
-				Source = "CartPage_AddProduct"
+				Source = "CartPage_AddProduct.png"
 			};
 
 			var addProductButton = new RelativeLayout () {
@@ -289,13 +289,13 @@ namespace bluemart
 				if( !bIsFavorite )
 				{
 					mFavoriteModel.AddProductID(mProduct.ProductID);
-					mFavoriteImage.Source = "CartPage_RemoveFavorites";
+					mFavoriteImage.Source = "CartPage_RemoveFavorites.png";
 					bIsFavorite = true;
 				}
 				else
 				{					
 					mFavoriteModel.RemoveProductID(mProduct.ProductID);
-					mFavoriteImage.Source = "CartPage_AddFavorites";
+					mFavoriteImage.Source = "CartPage_AddFavorites.png";
 					bIsFavorite = false;
 				}
 			};
@@ -468,7 +468,7 @@ namespace bluemart
 					mFavoriteModel.AddProductID(mProduct.ProductID);
 					await Task.Delay(MyDevice.DelayTime);
 					mFavoriteImage.Opacity = 1f;
-					mFavoriteImage.Source = "bookmark_remove";
+					mFavoriteImage.Source = "bookmark_remove.png";
 					bIsFavorite = true;
 				}
 				else
@@ -477,7 +477,7 @@ namespace bluemart
 					mFavoriteModel.RemoveProductID(mProduct.ProductID);
 					await Task.Delay(MyDevice.DelayTime);
 					mFavoriteImage.Opacity = 1f;
-					mFavoriteImage.Source = "bookmark_add";
+					mFavoriteImage.Source = "bookmark_add.png";
 					bIsFavorite = false;
 				}
 			};

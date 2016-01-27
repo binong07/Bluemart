@@ -209,7 +209,7 @@ namespace bluemart
 			var settingsImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Settings",
+				Source = "MenuPage_Settings.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -236,7 +236,7 @@ namespace bluemart
 			var favoritesImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Favorites",
+				Source = "MenuPage_Favorites.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -263,7 +263,7 @@ namespace bluemart
 			var trackImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Track",
+				Source = "MenuPage_Track.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,

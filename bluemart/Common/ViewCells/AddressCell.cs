@@ -39,7 +39,7 @@ namespace bluemart.Common.ViewCells
 				RetryDelay = 250,
 				TransparencyEnabled = false,
 				FadeAnimationEnabled = false,
-				Source = "SettingsPage_AddressCellBackground"
+				Source = "SettingsPage_AddressCellBackground.png"
 			};
 
 			var editButton = new Label () {

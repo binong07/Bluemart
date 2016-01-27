@@ -17,7 +17,7 @@ namespace bluemart
 	{
 		public CachedImage mRemoveFavoriteImage;
 		public CachedImage mAddFavoriteImage;
-		public Image mProductImage;
+		public CachedImage mProductImage;
 		public CachedImage mBorderImage;
 		public CachedImage mProductForegroundImage;
 		public CachedImage mProductOutOfStockImage;
@@ -119,7 +119,9 @@ namespace bluemart
 				else
 					RemoveFavorite ();
 
-				if( !mProduct.ProductIsInStock)
+				if (mProduct.ProductIsInStock)
+					DeActivateOutOfStock ();
+				else
 					ActivateOutOfStock ();
 			}
 		}
@@ -138,7 +140,11 @@ namespace bluemart
 				mRootPage = (mParent as SearchPage).mParent;
 			}
 		}*/
-
+		private void DeActivateOutOfStock()
+		{
+			mProductOutOfStockImage.IsVisible = false;
+			mProductOutOfStockImage.InputTransparent = true;
+		}
 		private void ActivateOutOfStock()
 		{
 			mProductOutOfStockImage.IsVisible = true;
@@ -210,16 +216,16 @@ namespace bluemart
 				BackgroundColor = Color.White
 			};
 
-			mProductImage = new Image ()
+			mProductImage = new CachedImage ()
 			{
 				WidthRequest = MyDevice.GetScaledSize(250),
 				HeightRequest = MyDevice.GetScaledSize(198),
-				/*CacheDuration = TimeSpan.FromDays(30),
+				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,*/
+				FadeAnimationEnabled = false,
 
 			};
 			productNameLabel = new Label (){ 
@@ -265,7 +271,7 @@ namespace bluemart
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				Source = "CartPage_RemoveFavorites",
+				Source = "CartPage_RemoveFavorites.png",
 				IsVisible = false,
 				FadeAnimationEnabled = false
 			};
@@ -279,7 +285,7 @@ namespace bluemart
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				Source = "CartPage_AddFavorites",
+				Source = "CartPage_AddFavorites.png",
 				IsVisible = false,
 				FadeAnimationEnabled = false        
 			};
@@ -292,7 +298,7 @@ namespace bluemart
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				Source = "ProductsPage_ProductForeground",
+				Source = "ProductsPage_ProductForeground.png",
 				IsVisible = false,
 			};
 
@@ -304,7 +310,7 @@ namespace bluemart
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				Source = "OutOfStocks",
+				Source = "OutOfStocks.png",
 				IsVisible = false,
 			};
 

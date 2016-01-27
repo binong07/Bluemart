@@ -37,7 +37,7 @@ namespace bluemart.Models.Local
 			{
 				db.CreateTable<ProductClass>();
 			}
-			db.InsertAll (productList,"OR REPLACE", false);
+			db.InsertAll (productList,"OR REPLACE", true);
 			db.Close ();
 		}
 

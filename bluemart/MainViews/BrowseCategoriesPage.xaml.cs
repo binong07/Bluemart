@@ -157,7 +157,7 @@ namespace bluemart.MainViews
 			var openImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(54),
 				HeightRequest = MyDevice.GetScaledSize(44),
-				Source = "MenuPage_Open",
+				Source = "MenuPage_Open.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -191,7 +191,7 @@ namespace bluemart.MainViews
 			var settingsImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Settings",
+				Source = "MenuPage_Settings.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -219,7 +219,7 @@ namespace bluemart.MainViews
 			var favoritesImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Favorites",
+				Source = "MenuPage_Favorites.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -247,7 +247,7 @@ namespace bluemart.MainViews
 			var trackImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Track",
+				Source = "MenuPage_Track.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -514,7 +514,7 @@ namespace bluemart.MainViews
 			var verticalLine = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(1),
 				HeightRequest = MyDevice.GetScaledSize(63),			
-				Source = "CategoriesPage_VerticalLine",
+				Source = "CategoriesPage_VerticalLine.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -914,7 +914,7 @@ namespace bluemart.MainViews
 				RetryDelay = 250,
 				TransparencyEnabled = false,
 				FadeAnimationEnabled = false,
-				Source = "CartPage_ProfilePic"
+				Source = "CartPage_ProfilePic.png"
 			};
 
 			var firstLine = new BoxView (){
