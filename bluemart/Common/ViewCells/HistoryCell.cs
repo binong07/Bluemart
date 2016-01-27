@@ -32,7 +32,7 @@ namespace bluemart.Common.ViewCells
 				WidthRequest = MyDevice.GetScaledSize(32),
 				HeightRequest = MyDevice.GetScaledSize(32),
 				Aspect = Aspect.Fill,
-				Source = "TrackPage_HistroyBackground",
+				Source = "TrackPage_HistroyBackground.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -137,7 +137,7 @@ namespace bluemart.MainViews
 			menuIcon = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(36),
 				HeightRequest = MyDevice.GetScaledSize(37),
-				Source = "ReceiptPage_MenuIcon",
+				Source = "ReceiptPage_MenuIcon.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -149,7 +149,7 @@ namespace bluemart.MainViews
 			var logo = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(217),
 				HeightRequest = MyDevice.GetScaledSize(39),
-				Source = "ReceiptPage_Logo",
+				Source = "ReceiptPage_Logo.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -213,7 +213,7 @@ namespace bluemart.MainViews
 			var openImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(54),
 				HeightRequest = MyDevice.GetScaledSize(44),
-				Source = "MenuPage_Open",
+				Source = "MenuPage_Open.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -246,7 +246,7 @@ namespace bluemart.MainViews
 			var settingsImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Settings",
+				Source = "MenuPage_Settings.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -256,7 +256,7 @@ namespace bluemart.MainViews
 			};
 
 			var settingsLabel = new Label () {
-				Text = "My Settings",
+				Text = "My Profile",
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.White,
@@ -273,7 +273,7 @@ namespace bluemart.MainViews
 			var favoritesImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Favorites",
+				Source = "MenuPage_Favorites.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -300,7 +300,7 @@ namespace bluemart.MainViews
 			var trackImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(40),
 				HeightRequest = MyDevice.GetScaledSize(35),
-				Source = "MenuPage_Track",
+				Source = "MenuPage_Track.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -673,14 +673,14 @@ namespace bluemart.MainViews
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Center,
 				TextColor = Color.FromRgb(98,98,98),
-				Text = "Region",
+				Text = "Nearest Bluemart Location",
 				FontSize = MyDevice.FontSizeSmall
 			};
 
 			var regionImageBackground = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(600),
 				HeightRequest = MyDevice.GetScaledSize(61),
-				Source = "AddressPage_EntryBackground",
+				Source = "AddressPage_EntryBackground.png",
 				CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
@@ -865,7 +865,8 @@ namespace bluemart.MainViews
 				HeightRequest = MyDevice.GetScaledSize(61),
 				BackgroundColor = Color.White,
 				Keyboard = Keyboard.Numeric,
-				HorizontalTextAlignment = TextAlignment.Start
+				HorizontalTextAlignment = TextAlignment.Start,
+				VerticalOptions = LayoutOptions.Center
 			};					
 
 			addressLayout.Children.Add (phoneLabel,
@@ -882,7 +883,7 @@ namespace bluemart.MainViews
 					return sibling.Bounds.Left + MyDevice.GetScaledSize (30);		
 				}),
 				Constraint.RelativeToView (phoneLabel, (p, sibling) => {
-					return sibling.Bounds.Bottom + labelGap + MyDevice.GetScaledSize(2);	
+					return sibling.Bounds.Bottom + labelGap + MyDevice.GetScaledSize(5);	
 				})
 			);
 
