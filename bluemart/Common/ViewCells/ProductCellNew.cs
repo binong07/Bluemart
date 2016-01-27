@@ -49,25 +49,6 @@ namespace bluemart
 		{
 			if (product != null)
 			{
-				if (Device.OS == TargetPlatform.iOS)
-				{
-					System.Diagnostics.Debug.WriteLine ("SetupCell" + product.Name);
-					/*if (iosImageLoadingList == null)
-						iosImageLoadingList = new Queue<CachedImage> ();
-					if (iosImageLoadingList.Count > 11) {
-						
-					}
-					iosImageLoadingList.Enqueue (cac);
-
-
-					if (mProductImage.IsLoading)
-						mProductImage.Cancel ();*/
-
-					//mProductImage.Source = null;  
-				}
-
-				  
-
 				mParent = MyDevice.currentPage;
 				//SetRootPage ();
 				if (Cart.ProductsInCart.Count != 0) {

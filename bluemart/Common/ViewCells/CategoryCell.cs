@@ -47,7 +47,7 @@ namespace bluemart.Common.ViewCells
 				TransparencyEnabled = false,
 				FadeAnimationEnabled = false,
 			};				
-
+			categoryImage.Success += (object sender, CachedImageEvents.SuccessEventArgs e) => {System.Diagnostics.Debug.WriteLine("aq");};
 				/*
 			if( mParent.mFolder.CheckExistsAsync(ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + category.CategoryImageName).Result != PCLStorage.ExistenceCheckResult.NotFound)
 				categoryImage.Source = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + category.CategoryImageName;
