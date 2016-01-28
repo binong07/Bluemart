@@ -10,6 +10,7 @@ using bluemart.Models.Local;
 using System.Threading.Tasks;
 using System.Linq;
 using FFImageLoading.Forms;
+using System.Collections.ObjectModel;
 
 
 namespace bluemart.MainViews
@@ -18,7 +19,7 @@ namespace bluemart.MainViews
 	{		
 		public List<Category> mCategories;
 		RootPage mParent;
-		public List<CategoryCell> mCategoryCellList = new List<CategoryCell>();
+		//public List<CategoryCell> mCategoryCellList = new List<CategoryCell>();
 
 		private RelativeLayout InputBlocker;
 		private RelativeLayout mTopLayout;
@@ -26,8 +27,10 @@ namespace bluemart.MainViews
 		private RelativeLayout mMidLayout;
 
 		private double scrolly=0;
-		private ScrollView ScrollView1;
-		private StackLayout StackLayout1;
+		//private ScrollView ScrollView1;
+		//private StackLayout StackLayout1;
+		private ListView listView;
+		public ListView cartListView;
 		private RelativeLayout mSearchLayout;
 		private Entry SearchEntry;
 		private Label PriceLabel;
@@ -42,7 +45,7 @@ namespace bluemart.MainViews
 		AddressClass mAddressModel = new AddressClass();
 		private RelativeLayout mCartLayout;
 		private double mCartWidth = 552.0;
-		public StackLayout CartStackLayout;
+	//	public StackLayout CartStackLayout;
 		public Label subtotalPriceLabel;
 		public Label checkoutPriceLabel;
 
@@ -310,7 +313,7 @@ namespace bluemart.MainViews
 					};
 
 					var tapRecog = new TapGestureRecognizer ();
-					tapRecog.Tapped += (sender, e) => {
+					tapRecog.Tapped += async (sender, e) => {
 						string categoryName = (sender as Label).Text;
 						Category category = null;
 						foreach(var tempCategory in mCategories)
@@ -320,14 +323,26 @@ namespace bluemart.MainViews
 								category = tempCategory;
 							}
 						}
+						if(category.CategoryID == ReleaseConfig.TOBACCO_ID)
+						{					
+							var isOk = await mParent.DisplayAlert("Warning","I am over 20 years old and I know smoking is bad for my health.","AGREE","DISAGREE");
+							if(isOk)
+								MyDevice.rootPage.LoadCategory(category);										
+						}else if(category.CategoryID == ReleaseConfig.FRUITS_ID||category.CategoryID == ReleaseConfig.MEAT_ID)
+						{					
+							await mParent.DisplayAlert("Please Remember","Delivered quantity might differ from the actual ordered quantity by ± 50 grams.","OK");
 
-						foreach(var categoryCell in mCategoryCellList)
+							MyDevice.rootPage.LoadCategory(category);										
+						}
+						else
+							MyDevice.rootPage.LoadCategory(category);
+						/*foreach(var categoryCell in mCategoryCellList)
 						{
 							if( category != null && categoryCell.mCategory == category )
 							{								
 								categoryCell.LoadProductsPage(category.CategoryID,mParent);
 							}
-						}
+						}*/
 
 					};
 
@@ -678,6 +693,8 @@ namespace bluemart.MainViews
 			Rectangle cartRectangle;
 			Rectangle midRectangle;
 
+			CartCellNew.deleteIsOpenDictionary = new Dictionary<string, bool> ();
+
 			if (!IsCartOpen) {
 				cartRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mCartWidth*-1), 0), new Size (mCartLayout.Bounds.Width, mCartLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mCartWidth*-1), 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
@@ -696,14 +713,17 @@ namespace bluemart.MainViews
 
 				subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 				checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
+				//ObservableCollection<Product> obser = new ObservableCollection<Product> (Cart.ProductsInCart);
 
-				CartStackLayout.Children.Clear ();
+				cartListView.ItemsSource = Cart.ProductsInCart;
+
+				/*CartStackLayout.Children.Clear ();
 
 				foreach (Product p in Cart.ProductsInCart) {
 					var cartCell = new CartCell (p, this);
 					//mCartCellList.Add (cartCell);
 					CartStackLayout.Children.Add( cartCell.View );
-				}
+				}*/
 			} else {
 				cartRectangle = new Rectangle (new Point (0, 0), new Size (mCartLayout.Bounds.Width, mCartLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (0, 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
@@ -838,7 +858,24 @@ namespace bluemart.MainViews
 
 		private void InitializeBottomLayout()
 		{			
-
+			listView = new ListView(){RowHeight = (int)MyDevice.GetScaledSize(210)};
+			List<Category> tempCategories = new List<Category> ();
+			for (int i = 0; i < mCategories.Count; i++) {
+				if (!mCategories [i].IsSubCategory) {
+					tempCategories.Add (mCategories [i]);
+				}
+			}
+			listView.ItemTemplate = new DataTemplate (typeof(CategoryCellNew));
+			listView.ItemsSource = tempCategories;
+			mMidLayout.Children.Add (listView,
+				Constraint.Constant(0),
+				Constraint.RelativeToView (mSearchLayout, (parent, sibling) => {
+					return sibling.Bounds.Bottom;
+				}),
+				Constraint.Constant(MyDevice.GetScaledSize(630)),
+				Constraint.Constant(MyDevice.ScreenHeight-MyDevice.GetScaledSize(87)-MyDevice.GetScaledSize(73)-MyDevice.GetScaledSize(1)-MyDevice.GetScaledSize(51))
+			);
+			/*
 			StackLayout1 = new StackLayout {
 				Orientation = StackOrientation.Vertical,
 				Padding = 0,
@@ -868,7 +905,7 @@ namespace bluemart.MainViews
 				Constraint.Constant(MyDevice.GetScaledSize(630)),
 				Constraint.Constant(MyDevice.ScreenHeight-MyDevice.GetScaledSize(87)-MyDevice.GetScaledSize(73)-MyDevice.GetScaledSize(1)-MyDevice.GetScaledSize(51))
 			);
-
+*/
 			/*mMidLayout.Children.Add (InputBlockerForSwipeMenus,
 				Constraint.Constant (0),
 				Constraint.Constant (0)
@@ -923,16 +960,23 @@ namespace bluemart.MainViews
 				Color = Color.FromRgb(129,129,129)
 			};
 
-			CartStackLayout = new StackLayout {
+			/*CartStackLayout = new StackLayout {
 				Orientation = StackOrientation.Vertical,
 				Padding = 0,
 				Spacing = 0
-			};					
+			};	*/
 
+			cartListView = new ListView()
+			{
+				RowHeight = (int)MyDevice.GetScaledSize(150)
+			};
+			cartListView.ItemTemplate = new DataTemplate (typeof(CartCellNew));
+
+			/*
 			var cartScrollView = new ScrollView {
 				Orientation = ScrollOrientation.Vertical,
 				Content = CartStackLayout
-			};
+			};*/
 
 			var bottomLayout = new RelativeLayout () {
 				BackgroundColor = Color.Black,
@@ -1064,7 +1108,7 @@ namespace bluemart.MainViews
 				})
 			);
 
-			mCartLayout.Children.Add (cartScrollView,
+			mCartLayout.Children.Add (cartListView,
 				Constraint.Constant(MyDevice.GetScaledSize(0)),
 				Constraint.RelativeToView (firstLine, (parent,sibling) => {
 					return sibling.Bounds.Bottom;
@@ -1177,7 +1221,8 @@ namespace bluemart.MainViews
 		{
 			MyDevice.currentPage = this;
 			System.Diagnostics.Debug.WriteLine (scrolly);
-			ScrollView1.ScrollToAsync (0,scrolly,false);
+
+			//ScrollView1.ScrollToAsync (0,scrolly,false);
 		}
 	}
 }

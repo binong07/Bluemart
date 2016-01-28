@@ -16,11 +16,8 @@ namespace bluemart.Common.ViewCells
 {
 	public class CategoryCellNew : FastCell
 	{	
-		List<Category> mCategoryList;
-		UserClass mUser;
-		Dictionary<string, List<Product>> mProductDictionary;
 		RootPage mParent;
-		CachedImage categoryImage;
+		Image categoryImage;
 		public Category category {
 			get { return (Category)BindingContext; }
 		}
@@ -30,33 +27,31 @@ namespace bluemart.Common.ViewCells
 		protected override void SetupCell (bool isRecycled)
 		{
 			if (category != null) {
-				mParent = MyDevice.currentPage;
-				var mainRelativeLayout = new RelativeLayout(){				
-					Padding = 0
-				};
-				mCategoryList = new List<Category> ();
-				mProductDictionary = new Dictionary<string, List<Product>> ();
+				
 				categoryImage.Source = category.CategoryImagePath;
 			}
 		}
 		protected override void InitializeCell ()
 		{
-			mUser = new UserClass ();
+		//	mUser = new UserClass ();
+			mParent = MyDevice.rootPage;
 			var mainRelativeLayout = new RelativeLayout(){				
-				Padding = 0
+				Padding = 0,
+				WidthRequest = MyDevice.GetScaledSize (630),
+				HeightRequest = MyDevice.GetScaledSize (213),
 			};
-			categoryImage = new CachedImage ()
+			categoryImage = new Image ()
 			{
 				WidthRequest = MyDevice.GetScaledSize (619),
 				HeightRequest = MyDevice.GetScaledSize (202),
-				CacheDuration = TimeSpan.FromDays(30),
+				/*CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				FadeAnimationEnabled = false,
+				FadeAnimationEnabled = false,*/
 			};				
-			categoryImage.Success += (object sender, CachedImageEvents.SuccessEventArgs e) => {System.Diagnostics.Debug.WriteLine("aq");};
+			//categoryImage.Success += (object sender, CachedImageEvents.SuccessEventArgs e) => {System.Diagnostics.Debug.WriteLine(category.CategoryImagePath);};
 
 			var tapGestureRecognizer = new TapGestureRecognizer ();
 
@@ -65,15 +60,15 @@ namespace bluemart.Common.ViewCells
 				{					
 					var isOk = await mParent.DisplayAlert("Warning","I am over 20 years old and I know smoking is bad for my health.","AGREE","DISAGREE");
 					if(isOk)
-						LoadProductsPage(category.CategoryID,mParent);										
+						mParent.LoadCategory(category);										
 				}else if(category.CategoryID == ReleaseConfig.FRUITS_ID||category.CategoryID == ReleaseConfig.MEAT_ID)
 				{					
 					await mParent.DisplayAlert("Please Remember","Delivered quantity might differ from the actual ordered quantity by ± 50 grams.","OK");
 
-					LoadProductsPage(category.CategoryID,mParent);										
+					mParent.LoadCategory(category);										
 				}
 				else
-					LoadProductsPage(category.CategoryID,mParent);
+					mParent.LoadCategory(category);
 			};
 
 			categoryImage.GestureRecognizers.Add (tapGestureRecognizer);
@@ -86,30 +81,75 @@ namespace bluemart.Common.ViewCells
 			this.View = mainRelativeLayout;
 		}
 
-	public void LoadProductsPage(string categoryID,RootPage parent)
-	{						
-		PopulateProducts ();
-		//PopulateProductsTest();
-		parent.LoadProductsPage(mProductDictionary,Category);
-	}
 
-	private void PopulateProducts()
-	{
-		mProductDictionary.Clear ();
-		PopulateCategories ();
+		/*
+		public void LoadProductsPage(string categoryID,RootPage parent)
+		{						
+			PopulateProducts ();
+			//PopulateProductsTest();
+			parent.LoadProductsPage(mProductDictionary,category);
+		}
 
-		//For Top Selling
-		foreach (Category category in mCategoryList) {
-			List<Product> product = new List<Product> ();
+		private void PopulateProducts()
+		{
+			mProductDictionary.Clear ();
+			PopulateCategories ();
 
-			string location = mUser.GetActiveRegionFromUser ();
-			int store = RegionHelper.DecideShopNumber (location);
+			//For Top Selling
+			foreach (Category category in mCategoryList) {
+				List<Product> product = new List<Product> ();
 
-			if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
-				foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
-					if (ProductModel.mProductIsTopSellingDictionary [productID]) {
+				string location = mUser.GetActiveRegionFromUser ();
+				int store = RegionHelper.DecideShopNumber (location);
+
+				if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
+					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
+						if (ProductModel.mProductIsTopSellingDictionary [productID]) {
+							string storeString = ProductModel.mProductStoresDictionary [productID];
+
+							if (String.IsNullOrEmpty(storeString))
+								continue;
+
+							//Get store string list
+							var storeList = storeString.Split (',').ToList ();
+							//Convert storelist to integer list
+							var storeNumberList = storeList.Select (int.Parse).ToList ();
+
+							if (!storeNumberList.Contains (store))
+								continue;
+							string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+							//string ImageName = ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+							string ProductName = ProductModel.mProductNameDictionary [productID];
+							decimal price = ProductModel.mProductPriceDictionary [productID];
+							string quantity = ProductModel.mProductQuantityDictionary [productID];
+							string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
+							bool IsInStock = ProductModel.mProductIsInStockDictionary [productID];
+							product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity,IsInStock));
+							//product.Add (new Product (productID, ProductName, ImageName, price, parentCategory, quantity));
+						}
+
+					}
+				}
+				if (!mProductDictionary.ContainsKey ("Top Selling"))
+					mProductDictionary.Add ("Top Selling", product);
+				else {
+					List<Product> tempProduct = mProductDictionary ["Top Selling"];
+					tempProduct.Concat (product);
+					mProductDictionary.Remove ("Top Selling");
+					mProductDictionary.Add ("Top Selling", tempProduct);
+				}					
+			}
+
+			foreach( Category category in mCategoryList )
+			{
+				List<Product> product = new List<Product> ();
+
+				string location = mUser.GetActiveRegionFromUser ();
+				int store = RegionHelper.DecideShopNumber (location);
+
+				if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
+					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
 						string storeString = ProductModel.mProductStoresDictionary [productID];
-
 						if (String.IsNullOrEmpty(storeString))
 							continue;
 
@@ -120,84 +160,41 @@ namespace bluemart.Common.ViewCells
 
 						if (!storeNumberList.Contains (store))
 							continue;
+
+						decimal price = ProductModel.mProductPriceDictionary [productID];
 						string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
 						//string ImageName = ProductModel.mProductImageNameDictionary [productID] + ".jpg";
-						string ProductName = ProductModel.mProductNameDictionary [productID];
-						decimal price = ProductModel.mProductPriceDictionary [productID];
+						string ProductName = ProductModel.mProductNameDictionary [productID];						
 						string quantity = ProductModel.mProductQuantityDictionary [productID];
 						string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
 						bool IsInStock = ProductModel.mProductIsInStockDictionary [productID];
-						product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity,IsInStock));
-						//product.Add (new Product (productID, ProductName, ImageName, price, parentCategory, quantity));
+						product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity,IsInStock)); 
 					}
-
 				}
+
+				mProductDictionary.Add (category.Name, product);
 			}
-			if (!mProductDictionary.ContainsKey ("Top Selling"))
-				mProductDictionary.Add ("Top Selling", product);
-			else {
-				List<Product> tempProduct = mProductDictionary ["Top Selling"];
-				tempProduct.Concat (product);
-				mProductDictionary.Remove ("Top Selling");
-				mProductDictionary.Add ("Top Selling", tempProduct);
-			}					
 		}
 
-		foreach( Category category in mCategoryList )
+		void PopulateCategories()
 		{
-			List<Product> product = new List<Product> ();
+			mCategoryList.Clear ();
 
-			string location = mUser.GetActiveRegionFromUser ();
-			int store = RegionHelper.DecideShopNumber (location);
+			if (CategoryModel.mSubCategoryDictionary.ContainsKey (category.CategoryID) && 
+					CategoryModel.mSubCategoryDictionary[category.CategoryID].Count > 0) {
+					foreach (string subCategoryID in CategoryModel.mSubCategoryDictionary[category.CategoryID]) {
+					string ImagePath = ImageModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary [subCategoryID] + ".jpg";
 
-			if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
-				foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
-					string storeString = ProductModel.mProductStoresDictionary [productID];
-					if (String.IsNullOrEmpty(storeString))
-						continue;
+					string CategoryName = CategoryModel.mCategoryNameDictionary [subCategoryID];
+					List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [subCategoryID];
+					mCategoryList.Add (new Category (CategoryName, ImagePath, categoryID: subCategoryID));
 
-					//Get store string list
-					var storeList = storeString.Split (',').ToList ();
-					//Convert storelist to integer list
-					var storeNumberList = storeList.Select (int.Parse).ToList ();
-
-					if (!storeNumberList.Contains (store))
-						continue;
-
-					decimal price = ProductModel.mProductPriceDictionary [productID];
-					string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
-					//string ImageName = ProductModel.mProductImageNameDictionary [productID] + ".jpg";
-					string ProductName = ProductModel.mProductNameDictionary [productID];						
-					string quantity = ProductModel.mProductQuantityDictionary [productID];
-					string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
-					bool IsInStock = ProductModel.mProductIsInStockDictionary [productID];
-					product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity,IsInStock)); 
-				}
+				}				
+			} else {
+					mCategoryList.Add (category);	
 			}
-
-			mProductDictionary.Add (category.Name, product);
-		}
+		}*/
 	}
-
-	void PopulateCategories()
-	{
-		mCategoryList.Clear ();
-
-		if (CategoryModel.mSubCategoryDictionary.ContainsKey (Category.CategoryID) && 
-			CategoryModel.mSubCategoryDictionary[Category.CategoryID].Count > 0) {
-			foreach (string subCategoryID in CategoryModel.mSubCategoryDictionary[Category.CategoryID]) {
-				string ImagePath = ImageModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary [subCategoryID] + ".jpg";
-
-				string CategoryName = CategoryModel.mCategoryNameDictionary [subCategoryID];
-				List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [subCategoryID];
-				mCategoryList.Add (new Category (CategoryName, ImagePath, categoryID: subCategoryID));
-
-			}				
-		} else {
-			mCategoryList.Add (Category);	
-		}
-	}
-}
 }
 
 

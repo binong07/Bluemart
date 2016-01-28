@@ -13,6 +13,7 @@ using System.Reflection;
 using PCLStorage;
 using System.Linq;
 using System.Threading.Tasks;
+using bluemart.Models.Remote;
 
 namespace bluemart.MainViews
 {
@@ -50,9 +51,113 @@ namespace bluemart.MainViews
 		public Xamarin.Forms.Label mPriceLabel;
 		public Xamarin.Forms.ActivityIndicator mActivityIndicator;
 
+		public void LoadCategory(Category mcategory)
+		{
+			List<Category> mCategoryList = new List<Category> ();
+			UserClass mUser = new UserClass ();
+			Dictionary<string, List<Product>> mProductDictionary= new Dictionary<string, List<Product>> ();
+
+			if (CategoryModel.mSubCategoryDictionary.ContainsKey (mcategory.CategoryID) && 
+				CategoryModel.mSubCategoryDictionary[mcategory.CategoryID].Count > 0) {
+				foreach (string subCategoryID in CategoryModel.mSubCategoryDictionary[mcategory.CategoryID]) {
+					string ImagePath = ImageModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + CategoryModel.mImageNameDictionary [subCategoryID] + ".jpg";
+
+					string CategoryName = CategoryModel.mCategoryNameDictionary [subCategoryID];
+					List<string> SubCategoryIDList = CategoryModel.mSubCategoryDictionary [subCategoryID];
+					mCategoryList.Add (new Category (CategoryName, ImagePath, categoryID: subCategoryID));
+
+				}				
+			} else {
+				mCategoryList.Add (mcategory);	
+			}
+
+			//For Top Selling
+			foreach (Category category in mCategoryList) {
+				List<Product> product = new List<Product> ();
+
+				string location = mUser.GetActiveRegionFromUser ();
+				int store = RegionHelper.DecideShopNumber (location);
+
+				if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
+					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
+						if (ProductModel.mProductIsTopSellingDictionary [productID]) {
+							string storeString = ProductModel.mProductStoresDictionary [productID];
+
+							if (String.IsNullOrEmpty(storeString))
+								continue;
+
+							//Get store string list
+							var storeList = storeString.Split (',').ToList ();
+							//Convert storelist to integer list
+							var storeNumberList = storeList.Select (int.Parse).ToList ();
+
+							if (!storeNumberList.Contains (store))
+								continue;
+							string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+							//string ImageName = ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+							string ProductName = ProductModel.mProductNameDictionary [productID];
+							decimal price = ProductModel.mProductPriceDictionary [productID];
+							string quantity = ProductModel.mProductQuantityDictionary [productID];
+							string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
+							bool IsInStock = ProductModel.mProductIsInStockDictionary [productID];
+							product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity,IsInStock));
+							//product.Add (new Product (productID, ProductName, ImageName, price, parentCategory, quantity));
+						}
+
+					}
+				}
+				if (!mProductDictionary.ContainsKey ("Top Selling"))
+					mProductDictionary.Add ("Top Selling", product);
+				else {
+					List<Product> tempProduct = mProductDictionary ["Top Selling"];
+					tempProduct.Concat (product);
+					mProductDictionary.Remove ("Top Selling");
+					mProductDictionary.Add ("Top Selling", tempProduct);
+				}					
+			}
+
+			foreach( Category category in mCategoryList )
+			{
+				List<Product> product = new List<Product> ();
+
+				string location = mUser.GetActiveRegionFromUser ();
+				int store = RegionHelper.DecideShopNumber (location);
+
+				if (ProductModel.mProductCategoryIDDictionary.ContainsKey (category.CategoryID)) {
+					foreach (string productID in ProductModel.mProductCategoryIDDictionary[category.CategoryID]) {						
+						string storeString = ProductModel.mProductStoresDictionary [productID];
+						if (String.IsNullOrEmpty(storeString))
+							continue;
+
+						//Get store string list
+						var storeList = storeString.Split (',').ToList ();
+						//Convert storelist to integer list
+						var storeNumberList = storeList.Select (int.Parse).ToList ();
+
+						if (!storeNumberList.Contains (store))
+							continue;
+
+						decimal price = ProductModel.mProductPriceDictionary [productID];
+						string ImagePath = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+						//string ImageName = ProductModel.mProductImageNameDictionary [productID] + ".jpg";
+						string ProductName = ProductModel.mProductNameDictionary [productID];						
+						string quantity = ProductModel.mProductQuantityDictionary [productID];
+						string parentCategory = ProductModel.mProductParentCategoryIDsDictionary [productID];
+						bool IsInStock = ProductModel.mProductIsInStockDictionary [productID];
+						product.Add (new Product (productID, ProductName, ImagePath, price, parentCategory, quantity,IsInStock)); 
+					}
+				}
+
+				mProductDictionary.Add (category.Name, product);
+			}
+
+			LoadProductsPage(mProductDictionary,mcategory);
+		}
+
 		public RootPage ()
 		{
 			InitializeComponent ();
+			MyDevice.rootPage = this;
 			//ReloadStreams ();
 			mActivityIndicator = new Xamarin.Forms.ActivityIndicator();
 			NavigationPage.SetHasNavigationBar (this, false);
