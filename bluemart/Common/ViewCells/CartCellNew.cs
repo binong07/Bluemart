@@ -7,10 +7,12 @@ using bluemart.MainViews;
 using bluemart.Models.Local;
 using FFImageLoading.Forms;
 using bluemart.Models.Remote;
+using TwinTechs.Controls;
+using System.Collections.Generic;
 
-namespace bluemart
+namespace bluemart.Common.ViewCells
 {
-	public class CartCell : ViewCell
+	public class CartCellNew : FastCell
 	{
 		private CachedImage mAddImage;
 		private CachedImage mRemoveImage;
@@ -27,16 +29,23 @@ namespace bluemart
 
 		private FavoritesClass mFavoriteModel = new FavoritesClass();
 
-		public CartCell (Product product,Page parent)
+		private Grid mainCellView;
+		private RelativeLayout mainLayout;
+		private MR.Gestures.RelativeLayout cellLayout;
+		private Image productImage;
+		public Product product {
+			get { return (Product)BindingContext; }
+		}
+		public static Dictionary<string,bool> deleteIsOpenDictionary;
+		public CartCellNew()
 		{
-			//change PriceLabel
-			//mQuantity = Convert.ToInt32 (product.Quantity.Split (' ') [0]);
-			//mQuantityLabel = product.Quantity.Split (' ') [1];
-			mProduct = product; 
-			mParentPage = parent;
-			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
-
-			Grid mainCellView = new Grid (){
+			//System.Diagnostics.Debug.WriteLine ("CartCellNew");
+		}
+		protected override void InitializeCell ()
+		{
+			//System.Diagnostics.Debug.WriteLine ("InitializeCell");
+			mParentPage = MyDevice.currentPage;
+			mainCellView = new Grid (){
 				RowSpacing = 0, 
 				ColumnSpacing = 0, 
 				Padding = 0,
@@ -45,55 +54,35 @@ namespace bluemart
 				HeightRequest = MyDevice.GetScaledSize(150),
 				WidthRequest = MyDevice.GetScaledSize(535)
 			};
-
-			//mainCellView.BackgroundColor = Color.Red;
 			mainCellView.ColumnDefinitions.Add (new ColumnDefinition (){ Width = MyDevice.GetScaledSize(535) } );
 			mainCellView.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.GetScaledSize(148) } );
 			mainCellView.RowDefinitions.Add (new RowDefinition (){ Height = MyDevice.GetScaledSize(2) } );
 
-			var mainLayout = new RelativeLayout () {
+			mainLayout = new RelativeLayout () {
 				HeightRequest = MyDevice.GetScaledSize(148),
 				WidthRequest = MyDevice.GetScaledSize(535),
 				Padding = 0,
 				BackgroundColor = Color.FromRgb(253,59,47)
 			};
 
-			var cellLayout = new MR.Gestures.RelativeLayout () {
+			cellLayout = new MR.Gestures.RelativeLayout () {
 				HeightRequest = MyDevice.GetScaledSize(148),
 				WidthRequest = MyDevice.GetScaledSize(535),
 				Padding = 0,
 				BackgroundColor=Color.FromRgb(51,51,51)
 			};
 
-			var productImage = new CachedImage () {
+			productImage = new Image () {
 				WidthRequest = MyDevice.GetScaledSize(126),
 				HeightRequest = MyDevice.GetScaledSize(122),
-				CacheDuration = TimeSpan.FromDays(30),
+				/*CacheDuration = TimeSpan.FromDays(30),
 				DownsampleToViewSize = true,
 				RetryCount = 10,
 				RetryDelay = 250,
 				TransparencyEnabled = false,
-				FadeAnimationEnabled = false
+				FadeAnimationEnabled = false*/
 			};
-
-			/*PCLStorage.IFolder folder=null;
-
-			if (mParentPage is BrowseProductsPage) {
-				folder = (mParentPage as BrowseProductsPage).mParent.mFolder;
-			} else if (mParentPage is FavoritesPage) {
-				folder = (mParentPage as FavoritesPage).mParent.mFolder;
-			} else if (mParentPage is SearchPage) {
-				folder = (mParentPage as SearchPage).mParent.mFolder;
-			}*/
-			/*
-			if( folder.CheckExistsAsync(ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName).Result != PCLStorage.ExistenceCheckResult.NotFound)
-				productImage.Source = ProductModel.mRootFolderPath + "/" + ParseConstants.IMAGE_FOLDER_NAME + "/" + mProduct.ProductImageName;
-			else
-				productImage.Source = ImageSource.FromResource("bluemart.SavedImages."+mProduct.ProductImageName);
-*/
-			productImage.Source = mProduct.ProductImagePath;
-
-			var imageMask = new CachedImage () {
+			imageMask = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(126),
 				HeightRequest = MyDevice.GetScaledSize(122),
 				CacheDuration = TimeSpan.FromDays(30),
@@ -116,18 +105,11 @@ namespace bluemart
 				FadeAnimationEnabled = false
 			};
 
-			var favoriteButton = new RelativeLayout () {
+			favoriteButton = new RelativeLayout () {
 				WidthRequest = MyDevice.GetScaledSize(84),
 				HeightRequest = MyDevice.GetScaledSize(71),
 				BackgroundColor = Color.Transparent
 			};
-
-			if (!bIsFavorite) {
-				mFavoriteImage.Source = "CartPage_AddFavorites.png";
-			} else {
-				mFavoriteImage.Source = "CartPage_RemoveFavorites.png";
-			}
-
 			mProductPriceLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize(102),
 				HeightRequest = MyDevice.GetScaledSize(40),
@@ -136,29 +118,22 @@ namespace bluemart
 				TextColor = Color.White,
 				FontSize = MyDevice.FontSizeMedium
 			};
-
-			UpdatePriceLabel();
-
-			var productNameLabel = new Label () {
+			productNameLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize(225),
 				HeightRequest = MyDevice.GetScaledSize(40),
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Start,
 				TextColor = Color.White,
 				FontSize = MyDevice.FontSizeMicro,
-				Text = product.Name
 			};
-
-			var productQuantityLabel = new Label () {
+			productQuantityLabel = new Label () {
 				WidthRequest = MyDevice.GetScaledSize(225),
 				HeightRequest = MyDevice.GetScaledSize(26),
 				HorizontalTextAlignment = TextAlignment.Start,
 				VerticalTextAlignment = TextAlignment.Start,
 				TextColor = Color.FromRgb(152,152,152),
-				FontSize = MyDevice.FontSizeMicro,
-				Text = product.Quantity
+				FontSize = MyDevice.FontSizeMicro
 			};
-
 			mRemoveImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(27),
 				HeightRequest = MyDevice.GetScaledSize(21),
@@ -186,10 +161,6 @@ namespace bluemart
 				TextColor = Color.FromRgb(51,51,51),
 				FontSize = MyDevice.FontSizeSmall
 			};
-					
-
-			UpdateNumberLabel ();
-
 			mAddImage = new CachedImage () {
 				WidthRequest = MyDevice.GetScaledSize(27),
 				HeightRequest = MyDevice.GetScaledSize(21),
@@ -222,22 +193,34 @@ namespace bluemart
 			var cartTapRecogniser = new TapGestureRecognizer ();
 
 			cartTapRecogniser.Tapped += (sender, e) => {
-				if( !IsOpen )
+				if( !deleteIsOpenDictionary.ContainsKey(product.ProductID) || !deleteIsOpenDictionary[product.ProductID])
+				{
+					deleteIsOpenDictionary[product.ProductID] = true;
 					cellLayout.TranslateTo( MyDevice.GetScaledSize(-164),0,300,Easing.Linear);
+				}
 				else
+				{
+					deleteIsOpenDictionary[product.ProductID] = false;
 					cellLayout.TranslateTo( MyDevice.GetScaledSize(0),0,300,Easing.Linear);
-				IsOpen = !IsOpen;
+				}
+				//IsOpen = !IsOpen;
 			};
 
 			cellLayout.GestureRecognizers.Add (cartTapRecogniser);
 
 			cellLayout.Swiped += (object sender, MR.Gestures.SwipeEventArgs e) => 
 			{
-				if( !IsOpen && e.Direction == MR.Gestures.Direction.Left )
+				if( ( !deleteIsOpenDictionary.ContainsKey(product.ProductID) || !deleteIsOpenDictionary[product.ProductID]) && e.Direction == MR.Gestures.Direction.Left )
+				{
+					deleteIsOpenDictionary[product.ProductID] = true;
 					cellLayout.TranslateTo( MyDevice.GetScaledSize(-164),0,300,Easing.Linear);
-				else if( IsOpen && e.Direction == MR.Gestures.Direction.Right )
+				}
+				else if( deleteIsOpenDictionary.ContainsKey(product.ProductID) && deleteIsOpenDictionary[product.ProductID] && e.Direction == MR.Gestures.Direction.Right )
+				{
+					deleteIsOpenDictionary[product.ProductID] = false;
 					cellLayout.TranslateTo( MyDevice.GetScaledSize(0),0,300,Easing.Linear);
-				IsOpen = !IsOpen;	
+				}
+				//IsOpen = !IsOpen;	
 			};
 
 			var deleteButtonTapRecogniser = new TapGestureRecognizer ();
@@ -248,7 +231,7 @@ namespace bluemart
 				if (mParentPage is BrowseProductsPage) {	
 					foreach (var productCell in (mParentPage as BrowseProductsPage).mProductCellList) {
 						if (productCell.mProduct.ProductID == mProduct.ProductID) {
-							
+
 							productCell.DeactivateAddMenu ();
 						}
 					}
@@ -311,7 +294,7 @@ namespace bluemart
 				Constraint.Constant (0),
 				Constraint.Constant (0)
 			);
-											
+
 			cellLayout.Children.Add (productImage,
 				Constraint.Constant (MyDevice.GetScaledSize(12)),
 				Constraint.Constant (MyDevice.GetScaledSize(12))
@@ -423,6 +406,44 @@ namespace bluemart
 
 			this.View = mainCellView;
 		}
+		private CachedImage imageMask;
+		private RelativeLayout favoriteButton;
+		private Label productNameLabel;
+		private Label productQuantityLabel;
+		protected override void SetupCell (bool isRecycled)
+		{
+			//System.Diagnostics.Debug.WriteLine ("SetupCell");
+
+			if (product == null)
+				return;
+			mProduct = product; 
+
+			bIsFavorite = mFavoriteModel.IsProductFavorite (product.ProductID);
+
+			productImage.Source = mProduct.ProductImagePath;
+
+			if (!bIsFavorite) {
+				mFavoriteImage.Source = "CartPage_AddFavorites.png";
+			} else {
+				mFavoriteImage.Source = "CartPage_RemoveFavorites.png";
+			}
+
+			if( ( !deleteIsOpenDictionary.ContainsKey(product.ProductID) || !deleteIsOpenDictionary[product.ProductID]))
+			{
+				cellLayout.TranslationX = 0;
+			}
+			else if( deleteIsOpenDictionary.ContainsKey(product.ProductID) && deleteIsOpenDictionary[product.ProductID])
+			{
+				cellLayout.TranslationX = MyDevice.GetScaledSize (-164);
+			}
+
+			UpdatePriceLabel();
+			productNameLabel.Text = product.Name;
+			productQuantityLabel.Text = product.Quantity;
+			UpdateNumberLabel ();
+
+
+		}
 
 		private void UpdateNumberLabel()
 		{
@@ -438,73 +459,15 @@ namespace bluemart
 			//mProductPriceLabel.Text = "DH " + (mProduct.Price * mProduct.ProductNumberInCart/mQuantity).ToString();
 		}
 
-		private void AddTapRecognizers()
-		{
-			var addButtonTapGestureRecognizer = new TapGestureRecognizer ();
-			addButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-
-				mAddImage.Opacity = 0.5f;
-				AddProductInCart();
-				await Task.Delay(MyDevice.DelayTime);
-				mAddImage.Opacity = 1f;
-			};
-			mAddImage.GestureRecognizers.Add (addButtonTapGestureRecognizer);
-
-			var removeButtonTapGestureRecognizer = new TapGestureRecognizer ();
-			removeButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-
-				mRemoveImage.Opacity = 0.5f;
-				RemoveProductFromCart();
-				await Task.Delay(MyDevice.DelayTime);
-				mRemoveImage.Opacity = 1f;
-			};
-			mRemoveImage.GestureRecognizers.Add (removeButtonTapGestureRecognizer);
-
-			var favoriteButtonTapGestureRecognizer = new TapGestureRecognizer ();
-			favoriteButtonTapGestureRecognizer.Tapped += async (sender, e) => {
-				if( !bIsFavorite )
-				{
-					mFavoriteImage.Opacity = 0.5f;
-					mFavoriteModel.AddProductID(mProduct.ProductID);
-					await Task.Delay(MyDevice.DelayTime);
-					mFavoriteImage.Opacity = 1f;
-					mFavoriteImage.Source = "bookmark_remove.png";
-					bIsFavorite = true;
-				}
-				else
-				{					
-					mFavoriteImage.Opacity = 0.5f;
-					mFavoriteModel.RemoveProductID(mProduct.ProductID);
-					await Task.Delay(MyDevice.DelayTime);
-					mFavoriteImage.Opacity = 1f;
-					mFavoriteImage.Source = "bookmark_add.png";
-					bIsFavorite = false;
-				}
-			};
-
-			mFavoriteImage.GestureRecognizers.Add (favoriteButtonTapGestureRecognizer);
-		}
 
 		private void RemoveProductFromCart()
 		{
 			if (mProduct.ProductNumberInCart > 0)
 				mProduct.ProductNumberInCart--;
-				//change PriceLabel
-				//mProduct.ProductNumberInCart -= Convert.ToInt32 (mProduct.Quantity.Split (' ') [0]);
+			//change PriceLabel
+			//mProduct.ProductNumberInCart -= Convert.ToInt32 (mProduct.Quantity.Split (' ') [0]);
+
 			if (mProduct.ProductNumberInCart == 0) {
-				//mParentPage.RemoveProductFromCart (this.View);
-				/*if (mParentPage is BrowseCategoriesPage) {					
-					(mParentPage as BrowseCategoriesPage).CartStackLayout.Children.Remove (this.View);
-				}
-				else if (mParentPage is BrowseProductsPage) {					
-					(mParentPage as BrowseProductsPage).CartStackLayout.Children.Remove (this.View);
-				}
-				else if (mParentPage is SearchPage) {					
-					(mParentPage as SearchPage).CartStackLayout.Children.Remove (this.View);
-				}
-				else if (mParentPage is FavoritesPage) {					
-					(mParentPage as FavoritesPage).CartStackLayout.Children.Remove (this.View);
-				}*/
 				Cart.ProductsInCart.Remove (mProduct);
 			}
 
@@ -514,7 +477,7 @@ namespace bluemart
 
 
 			if (mParentPage is BrowseCategoriesPage) {		
-				
+
 				(mParentPage as BrowseCategoriesPage).UpdateProductCountLabel();
 				(mParentPage as BrowseCategoriesPage).UpdatePriceLabel();
 				(mParentPage as BrowseCategoriesPage).subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();

@@ -363,7 +363,7 @@ namespace bluemart.MainViews
 					};
 
 					var tapRecog = new TapGestureRecognizer ();
-					tapRecog.Tapped += (sender, e) => {
+					tapRecog.Tapped += async (sender, e) => {
 						string categoryName = (sender as Label).Text;
 						Category category = null;
 						foreach(var tempCategory in mParent.mBrowseCategoriesPage.mCategories)
@@ -373,15 +373,33 @@ namespace bluemart.MainViews
 								category = tempCategory;
 							}
 						}
-
-						foreach(var categoryCell in mParent.mBrowseCategoriesPage.mCategoryCellList)
+						if(category.CategoryID == ReleaseConfig.TOBACCO_ID)
+						{					
+							var isOk = await mParent.DisplayAlert("Warning","I am over 20 years old and I know smoking is bad for my health.","AGREE","DISAGREE");
+							if(isOk)
+							{
+								IsMenuOpen = false;
+								MyDevice.rootPage.LoadCategory(category);
+							}										
+						}else if(category.CategoryID == ReleaseConfig.FRUITS_ID||category.CategoryID == ReleaseConfig.MEAT_ID)
+						{					
+							await mParent.DisplayAlert("Please Remember","Delivered quantity might differ from the actual ordered quantity by ± 50 grams.","OK");
+							IsMenuOpen = false;
+							MyDevice.rootPage.LoadCategory(category);										
+						}
+						else
+						{
+							IsMenuOpen = false;
+							MyDevice.rootPage.LoadCategory(category);
+						}
+						/*foreach(var categoryCell in mParent.mBrowseCategoriesPage.mCategoryCellList)
 						{
 							if( category != null && categoryCell.mCategory == category )
 							{
 								IsMenuOpen = false;
 								categoryCell.LoadProductsPage(category.CategoryID,mParent);
 							}
-						}
+						}*/
 
 					};
 

@@ -67,7 +67,9 @@ namespace bluemart.MainViews
 		AddressClass mAddressModel = new AddressClass();
 		private RelativeLayout mCartLayout;
 		private double mCartWidth = 552.0;
-		public StackLayout CartStackLayout;
+		//public StackLayout CartStackLayout;
+		public ListView cartListView;
+
 		public Label subtotalPriceLabel;
 		public Label checkoutPriceLabel;
 
@@ -343,7 +345,7 @@ namespace bluemart.MainViews
 					};
 
 					var tapRecog = new TapGestureRecognizer ();
-					tapRecog.Tapped += (sender, e) => {
+					tapRecog.Tapped += async (sender, e) => {
 						string categoryName = (sender as Label).Text;
 						Category category = null;
 						foreach(var tempCategory in mParent.mBrowseCategoriesPage.mCategories)
@@ -353,7 +355,26 @@ namespace bluemart.MainViews
 								category = tempCategory;
 							}
 						}
-
+						if(category.CategoryID == ReleaseConfig.TOBACCO_ID)
+						{					
+							var isOk = await mParent.DisplayAlert("Warning","I am over 20 years old and I know smoking is bad for my health.","AGREE","DISAGREE");
+							if(isOk)
+							{
+								IsMenuOpen = false;
+								MyDevice.rootPage.LoadCategory(category);
+							}										
+						}else if(category.CategoryID == ReleaseConfig.FRUITS_ID||category.CategoryID == ReleaseConfig.MEAT_ID)
+						{					
+							await mParent.DisplayAlert("Please Remember","Delivered quantity might differ from the actual ordered quantity by ± 50 grams.","OK");
+							IsMenuOpen = false;
+							MyDevice.rootPage.LoadCategory(category);										
+						}
+						else
+						{
+							IsMenuOpen = false;
+							MyDevice.rootPage.LoadCategory(category);
+						}
+						/*
 						foreach(var categoryCell in mParent.mBrowseCategoriesPage.mCategoryCellList)
 						{
 							if( category != null && categoryCell.mCategory == category )
@@ -361,7 +382,7 @@ namespace bluemart.MainViews
 								IsMenuOpen = false;
 								categoryCell.LoadProductsPage(category.CategoryID,mParent);
 							}
-						}
+						}*/
 
 					};
 
@@ -561,16 +582,22 @@ namespace bluemart.MainViews
 				Color = Color.FromRgb(129,129,129)
 			};
 
-			CartStackLayout = new StackLayout {
+			/*CartStackLayout = new StackLayout {
 				Orientation = StackOrientation.Vertical,
 				Padding = 0,
 				Spacing = 0
-			};					
+			};	*/				
 
-			var cartScrollView = new ScrollView {
+			cartListView = new ListView()
+			{
+				RowHeight = (int)MyDevice.GetScaledSize(150)
+			};
+			cartListView.ItemTemplate = new DataTemplate (typeof(CartCellNew));
+
+			/*var cartScrollView = new ScrollView {
 				Orientation = ScrollOrientation.Vertical,
 				Content = CartStackLayout
-			};
+			};*/
 
 			var bottomLayout = new RelativeLayout () {
 				BackgroundColor = Color.Black,
@@ -699,7 +726,7 @@ namespace bluemart.MainViews
 				})
 			);
 
-			mCartLayout.Children.Add (cartScrollView,
+			mCartLayout.Children.Add (cartListView,
 				Constraint.Constant(MyDevice.GetScaledSize(0)),
 				Constraint.RelativeToView (firstLine, (parent,sibling) => {
 					return sibling.Bounds.Bottom;
@@ -967,6 +994,8 @@ namespace bluemart.MainViews
 			Rectangle cartRectangle;
 			Rectangle midRectangle;
 
+			CartCellNew.deleteIsOpenDictionary = new Dictionary<string, bool> ();
+
 			if (!IsCartOpen) {
 				cartRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mCartWidth*-1), 0), new Size (mCartLayout.Bounds.Width, mCartLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (MyDevice.GetScaledSize (mCartWidth*-1), 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
@@ -987,13 +1016,15 @@ namespace bluemart.MainViews
 				subtotalPriceLabel.Text = Cart.ProductTotalPrice.ToString();
 				checkoutPriceLabel.Text = "AED " + Cart.ProductTotalPrice.ToString ();
 
-				CartStackLayout.Children.Clear ();
+				cartListView.ItemsSource = Cart.ProductsInCart;
+
+				/*CartStackLayout.Children.Clear ();
 
 				foreach (Product p in Cart.ProductsInCart) {
 					var cartCell = new CartCell (p, this);
 					//mCartCellList.Add (cartCell);
 					CartStackLayout.Children.Add( cartCell.View );
-				}
+				}*/
 			} else {
 				cartRectangle = new Rectangle (new Point (0, 0), new Size (mCartLayout.Bounds.Width, mCartLayout.Bounds.Height));
 				midRectangle = new Rectangle (new Point (0, 0), new Size (mMidLayout.Bounds.Width, mMidLayout.Bounds.Height));
