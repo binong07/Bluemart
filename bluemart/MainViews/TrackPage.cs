@@ -51,15 +51,32 @@ namespace bluemart.MainViews
 			mOrderStatusList = OrderModel.GetOrdersForTracking ();
 			mOrderHistoryList = OrderModel.GetOrdersForHistory ();
 			InitializeBottomLayout ();
-		}			
+		}		
 
-		private void Refresh()
-		{				
-			mOrderStatusList = OrderModel.GetOrdersForTracking ();
-			mOrderHistoryList = OrderModel.GetOrdersForHistory ();
+		public Task BeginInvokeOnMainThreadAsync(Action action)
+		{
+			TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+			Device.BeginInvokeOnMainThread(() =>
+				{
+					try
+					{
+						action();
+						tcs.SetResult(null);
+					}
+					catch (Exception ex)
+					{
+						tcs.SetException(ex);
+					}
+				});
+			return tcs.Task;
+		}
+
+		private async void Refresh()
+		{							
 			double scrollViewHeight = 0;
 			if (mActiveLabel == TrackLabel) {
-				Device.BeginInvokeOnMainThread (() => {
+				mOrderStatusList = OrderModel.GetOrdersForTracking ();
+				await BeginInvokeOnMainThreadAsync (() => {
 					HistoryLabel.BackgroundColor = Color.Transparent;
 					TrackLabel.BackgroundColor = Color.FromRgb (76, 76, 76);
 
@@ -82,7 +99,7 @@ namespace bluemart.MainViews
 				if (scrollViewHeight > screenLimit) {
 					double cellCount = Math.Floor (MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (180));
 					scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
-					Device.BeginInvokeOnMainThread(() => {
+					await BeginInvokeOnMainThreadAsync(() => {
 						mMidLayout.Children.Add (ScrollView1,
 							Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
 								return sibling.Bounds.Left;
@@ -94,7 +111,7 @@ namespace bluemart.MainViews
 							Constraint.Constant(scrollViewHeight));
 					});
 				} else {
-					Device.BeginInvokeOnMainThread(() => {
+					await BeginInvokeOnMainThreadAsync(() => {
 						mMidLayout.Children.Add (ScrollView1,
 							Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
 								return sibling.Bounds.Left;
@@ -109,7 +126,8 @@ namespace bluemart.MainViews
 				}
 
 			} else if (mActiveLabel == HistoryLabel) {
-				Device.BeginInvokeOnMainThread (() => {
+				mOrderHistoryList = OrderModel.GetOrdersForHistory ();
+				await BeginInvokeOnMainThreadAsync (() => {
 					TrackLabel.BackgroundColor = Color.Transparent;
 					HistoryLabel.BackgroundColor = Color.FromRgb (76, 76, 76);
 					StackLayout1.Children.Clear ();
@@ -127,7 +145,7 @@ namespace bluemart.MainViews
 					double cellCount = Math.Floor(MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (138));
 					scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
 				}
-				Device.BeginInvokeOnMainThread (() => {
+				await BeginInvokeOnMainThreadAsync (() => {
 					if (mMidLayout.Children.Contains (ScrollView1))
 						mMidLayout.Children.Remove (ScrollView1);
 
@@ -143,101 +161,7 @@ namespace bluemart.MainViews
 					);
 				});
 			}		
-		}
-
-		private void ChangeActive(Label label)
-		{
-			double scrollViewHeight = 0;
-
-			if (label != mActiveLabel) {
-				if (label == TrackLabel) {
-					Device.BeginInvokeOnMainThread (() => {
-						HistoryLabel.BackgroundColor = Color.Transparent;
-						TrackLabel.BackgroundColor = Color.FromRgb (76, 76, 76);
-						StackLayout1.Children.Clear ();
-					});
-					int statusTransitionCount = 0;
-					foreach (var status in mOrderStatusList) {
-						StackLayout1.Children.Add( new TrackCell(status,this ).View );
-						if (status.OrderStatus == OrderModel.OrderStatus.IN_TRANSIT)
-							statusTransitionCount++;
-					}
-
-					double normalHeight = 180;
-					double inTransitionHeight = 250;
-
-					double scrollViewNormalHeight = MyDevice.GetScaledSize (normalHeight) * (StackLayout1.Children.Count - statusTransitionCount);
-					double scrollViewInTransitionHeight = MyDevice.GetScaledSize (inTransitionHeight) * (statusTransitionCount);
-					scrollViewHeight = scrollViewNormalHeight + scrollViewInTransitionHeight  -  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
-					double screenLimit = MyDevice.GetScaledSize (800);
-					if (scrollViewHeight > screenLimit) {
-						double cellCount = Math.Floor (MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (180));
-						scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
-						Device.BeginInvokeOnMainThread(() => {
-							mMidLayout.Children.Add (ScrollView1,
-								Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-									return sibling.Bounds.Left;
-								}),
-								Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-									return sibling.Bounds.Top;
-								}),
-								Constraint.Constant(MyDevice.GetScaledSize(600)),
-								Constraint.Constant(scrollViewHeight));
-						});
-					} else {
-						Device.BeginInvokeOnMainThread(() => {
-							mMidLayout.Children.Add (ScrollView1,
-								Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-									return sibling.Bounds.Left;
-								}),
-								Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-									return sibling.Bounds.Top;
-								}),
-								Constraint.Constant(MyDevice.GetScaledSize(600))/*,
-					Constraint.Constant(scrollViewHeight)*/);
-						});
-
-					}
-
-				} else if (label == HistoryLabel) {
-					Device.BeginInvokeOnMainThread (() => {
-						TrackLabel.BackgroundColor = Color.Transparent;
-						HistoryLabel.BackgroundColor = Color.FromRgb (76, 76, 76);
-
-						StackLayout1.Children.Clear ();
-						foreach (var history in mOrderHistoryList) {
-							StackLayout1.Children.Add (new HistoryCell (history, this).View);
-						}
-					});
-					scrollViewHeight = MyDevice.GetScaledSize (138)*(StackLayout1.Children.Count) +  StackLayout1.Spacing*(StackLayout1.Children.Count - 1);
-
-
-					if (scrollViewHeight > MyDevice.GetScaledSize (916)) {
-						double cellCount = Math.Floor(MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (138));
-						scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
-					}
-					Device.BeginInvokeOnMainThread (() => {
-						if (mMidLayout.Children.Contains (ScrollView1))
-							mMidLayout.Children.Remove (ScrollView1);
-					
-						mMidLayout.Children.Add (ScrollView1,
-							Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-								return sibling.Bounds.Left;
-							}),
-							Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
-								return sibling.Bounds.Top;
-							}),
-							Constraint.Constant (MyDevice.GetScaledSize (600)),
-							Constraint.Constant (scrollViewHeight)
-						);
-					});
-				}
-			}	
-
-
-
-			mActiveLabel = label;
-		}
+		}			
 
 		private void InitializeLayout()
 		{	
@@ -824,10 +748,10 @@ namespace bluemart.MainViews
 
 			var trackTapRecognizer = new TapGestureRecognizer ();
 			trackTapRecognizer.Tapped +=async (sender, e) => {
-				if(IsRefreshing)
+				if(IsRefreshing || mActiveLabel == TrackLabel)
 					return;
-				IsRefreshing = true;
-				await Task.Factory.StartNew (() => ChangeActive(TrackLabel)
+				mActiveLabel = TrackLabel;
+				await Task.Factory.StartNew (() => Refresh()
 					, TaskCreationOptions.None
 				);
 				IsRefreshing = false;
@@ -836,12 +760,13 @@ namespace bluemart.MainViews
 
 			var historyTapRecognizer = new TapGestureRecognizer ();
 			historyTapRecognizer.Tapped +=async (sender, e) => {
-				if(IsRefreshing)
+				if(IsRefreshing || mActiveLabel == HistoryLabel)
 					return;
 				IsRefreshing = true;
-				await Task.Factory.StartNew (() => ChangeActive(HistoryLabel)
+				mActiveLabel = HistoryLabel;
+				await Task.Factory.StartNew (() => Refresh()
 					, TaskCreationOptions.None
-				);
+				);			
 				IsRefreshing = false;
 			};
 			HistoryLabel.GestureRecognizers.Add (historyTapRecognizer);
@@ -873,7 +798,7 @@ namespace bluemart.MainViews
 			mActiveLabel = TrackLabel;
 		}
 
-		private void InitializeBottomLayout()
+		private async void InitializeBottomLayout()
 		{	
 			mBottomLayout = new RelativeLayout () {
 				BackgroundColor = Color.FromRgb(236,240,241),
@@ -898,7 +823,7 @@ namespace bluemart.MainViews
 				Orientation = ScrollOrientation.Vertical,
 				Content = StackLayout1
 			};
-			Device.BeginInvokeOnMainThread(() => {
+			await BeginInvokeOnMainThreadAsync(() => {
 				mMidLayout.Children.Add (mBottomLayout,
 					Constraint.RelativeToView (mSwitchLayout, (p, sibling) => {
 						return mSwitchLayout.Bounds.Left + MyDevice.GetScaledSize(20);		
@@ -921,7 +846,7 @@ namespace bluemart.MainViews
 			if (scrollViewHeight > screenLimit) {
 				double cellCount = Math.Floor (MyDevice.GetScaledSize (916) / MyDevice.GetScaledSize (180));
 				scrollViewHeight = MyDevice.ScreenHeight - MyDevice.GetScaledSize (181) - StackLayout1.Spacing * (cellCount - 1);
-				Device.BeginInvokeOnMainThread(() => {
+				await BeginInvokeOnMainThreadAsync(() => {
 					mMidLayout.Children.Add (ScrollView1,
 						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
 							return sibling.Bounds.Left;
@@ -933,7 +858,7 @@ namespace bluemart.MainViews
 						Constraint.Constant(scrollViewHeight));
 				});
 			} else {
-				Device.BeginInvokeOnMainThread(() => {
+				await BeginInvokeOnMainThreadAsync(() => {
 					mMidLayout.Children.Add (ScrollView1,
 						Constraint.RelativeToView (mBottomLayout, (parent, sibling) => {
 							return sibling.Bounds.Left;
@@ -945,57 +870,8 @@ namespace bluemart.MainViews
 					Constraint.Constant(scrollViewHeight)*/);
 				});
 				
-			}
-
-
+			}				
 		}
-
-
-
-
-			/*mTrackLabel = new Label () {
-				HorizontalOptions = LayoutOptions.Center,
-				TextColor = Color.White,
-				Text = "TRACK",
-				FontSize = MyDevice.FontSizeMedium
-			};
-
-			mHistoryLabel = new Label () {
-				HorizontalOptions = LayoutOptions.Center,
-				TextColor = Color.White,
-				Text = "HISTORY",
-				FontSize = MyDevice.FontSizeMedium
-			};
-
-			
-			MainStackLayout.Spacing = MyDevice.ViewPadding;
-			SetGrid1Definitions ();/
-		}
-
-		public void PopulateListView()
-		{						
-			MainStackLayout.Children.Clear ();
-
-			MainStackLayout.Children.Add (mTrackLabel);
-			var orderStatusList = OrderModel.GetOrdersForTracking ();
-			foreach (var status in orderStatusList) {
-				MainStackLayout.Children.Add( new TrackCell(status,this ).View );
-			}
-
-			MainStackLayout.Children.Add (mHistoryLabel);
-
-			var orderHistoryList = OrderModel.GetOrdersForHistory ();
-			foreach (var history in orderHistoryList) {
-				MainStackLayout.Children.Add( new HistoryCell(history,this ).View );
-			}
-		}
-
-		private void SetGrid1Definitions()
-		{
-			Grid1.RowDefinitions [0].Height = GridLength.Auto;
-			Grid1.ColumnDefinitions [0].Width = MyDevice.ScreenWidth;
-			Grid1.BackgroundColor = MyDevice.BackgroundColor;
-		}*/
 			
 	}
 }
