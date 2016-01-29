@@ -49,6 +49,7 @@
     <AndroidSigningKeyPass>fs2356</AndroidSigningKeyPass>
     <AndroidSigningKeyAlias>Bluemart</AndroidSigningKeyAlias>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <EnableProguard>true</EnableProguard>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -215,11 +216,8 @@
     <AndroidResource Include="Resources\values\Styles.xml" />
     <AndroidResource Include="Resources\drawable\ActiveAddress.png" />
     <AndroidResource Include="Resources\drawable\bm_pin.png" />
-    <AndroidResource Include="Resources\drawable\loadingBackground.jpg" />
     <AndroidResource Include="Resources\drawable\Track_S.png" />
-    <AndroidResource Include="Resources\drawable\Screen1_BG.png" />
     <AndroidResource Include="Resources\drawable\Screen1_BMLogo.png" />
-    <AndroidResource Include="Resources\drawable\Screen1_BG_.png" />
     <AndroidResource Include="Resources\drawable\Loading_BG.jpg" />
     <AndroidResource Include="Resources\drawable\Loading_Footer.png" />
     <AndroidResource Include="Resources\drawable\MainPage_BG.jpg" />
