@@ -3,7 +3,6 @@ using bluemart.Common.Utilities;
 using SQLite;
 using System.Collections.Generic;
 
-
 namespace bluemart.Models.Local
 {
 	[Table("User")]
